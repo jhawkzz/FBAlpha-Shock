@@ -1,7 +1,7 @@
 #ifndef COMMON
 #define COMMON
 
-#include <cstdint>
+#include <stdint.h> // JHM: Pre c++ 11 header
 
 #ifdef __GNUC__
 #define ALIGN_DECL(n)   __attribute__ ((aligned (n)))

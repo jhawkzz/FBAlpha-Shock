@@ -500,10 +500,10 @@ void konami_set_irq_line(int irqline, int state)
 }
 
 /* includes the static function prototypes and the master opcode table */
-#include "konamtbl.c"
+#include "konamtbl.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /* includes the actual opcode implementations */
-#include "konamops.c"
+#include "konamops.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /* execute instructions on this CPU until icount expires */
 int konamiRun(int cycles)

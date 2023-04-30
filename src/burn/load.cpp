@@ -1,6 +1,10 @@
 // Burn - Rom Loading module
 #include "burnint.h"
 
+// JHM: Implementing so this compiles
+bool bDoIpsPatch = false;
+void IpsApplyPatches(UINT8 *, char *) {}
+
 // Load a rom and separate out the bytes by nGap
 // Dest is the memory block to insert the rom into
 INT32 BurnLoadRomExt(UINT8 *Dest, INT32 i, INT32 nGap, INT32 nFlags)

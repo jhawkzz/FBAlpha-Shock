@@ -78,7 +78,7 @@ static void add_timer(v25_state_t *nec_state, int timer, double tmp, int param, 
 	nec_state->timer_cycles_until_trigger[timer]	= (int)cycles;
 }
 
-#include "v25sfr.c"
+#include "v25sfr.cc" // JHM: Changed to .cc so makefile won't compile it
 
 static v25_state_t sChips[4]; // 4 cpus should be plenty!
 static v25_state_t *sChipsPtr;
@@ -380,8 +380,8 @@ static void external_int(v25_state_t *nec_state)
 /*                             OPCODES                                      */
 /****************************************************************************/
 
-#include "necinstr.c"
-#include "v25instr.c"
+#include "necinstr.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "v25instr.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /*****************************************************************************/
 

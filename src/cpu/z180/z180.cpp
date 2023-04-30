@@ -831,12 +831,12 @@ static void z180_dma1(void);
 #include "z180ops.h"
 #include "z180tbl.h"
 
-#include "z180cb.c"
-#include "z180xy.c"
-#include "z180dd.c"
-#include "z180fd.c"
-#include "z180ed.c"
-#include "z180op.c"
+#include "z180cb.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "z180xy.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "z180dd.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "z180fd.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "z180ed.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "z180op.cc" // JHM: Changed to .cc so makefile won't compile it
 
 static UINT8 z180_readcontrol(UINT32 port)
 {

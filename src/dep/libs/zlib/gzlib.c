@@ -4,6 +4,7 @@
  */
 
 #include "gzguts.h"
+#include <unistd.h> //JHM: Fix implicit declaration warnings
 
 #if defined(_WIN32) && !defined(__BORLANDC__) && !defined(__MINGW32__)
 #  define LSEEK _lseeki64

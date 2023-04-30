@@ -310,8 +310,9 @@ void BurnSampleReset()
 }
 
 INT32 __cdecl ZipLoadOneFile(char* arcName, const char* fileName, void** Dest, INT32* pnWrote);
-char* TCHARToANSI(const TCHAR* pszInString, char* pszOutString, INT32 nOutSize);
-#define _TtoA(a)	TCHARToANSI(a, NULL, 0)
+// JHM: Not supporting wide chars
+//char* TCHARToANSI(const TCHAR* pszInString, char* pszOutString, INT32 nOutSize);
+//#define _TtoA(a)	TCHARToANSI(a, NULL, 0)
 
 void BurnSampleInit(INT32 bAdd /*add samples to stream?*/)
 {
@@ -330,7 +331,10 @@ void BurnSampleInit(INT32 bAdd /*add samples to stream?*/)
 	char setname[128];
 	void *destination = NULL;
 	char szTempPath[MAX_PATH];
-	sprintf(szTempPath, _TtoA(SAMPLE_DIRECTORY));
+    // JHM: Not supporting wide chars
+	//sprintf(szTempPath, _TtoA(SAMPLE_DIRECTORY));
+    sprintf(szTempPath, SAMPLE_DIRECTORY);
+    
 
 	// test to see if file exists
 	INT32 nEnableSamples = 0;
@@ -360,7 +364,7 @@ void BurnSampleInit(INT32 bAdd /*add samples to stream?*/)
 		fclose(test);
 	}
 #endif
-	
+    
 	if (!nEnableSamples) return;
 
 	struct BurnSampleInfo si;
@@ -451,7 +455,9 @@ void BurnSampleInitOne(INT32 sample)
 	char setname[128];
 	void *destination = NULL;
 	char szTempPath[MAX_PATH];
-	sprintf(szTempPath, _TtoA(SAMPLE_DIRECTORY));
+    // JHM: Not supporting wide chars
+    //sprintf(szTempPath, _TtoA(SAMPLE_DIRECTORY));
+	sprintf(szTempPath, SAMPLE_DIRECTORY);
 
 	strcpy(setname, BurnDrvGetTextA(DRV_SAMPLENAME));
 	sprintf(path, "%s%s.zip", szTempPath, setname);

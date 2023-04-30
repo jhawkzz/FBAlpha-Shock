@@ -504,10 +504,10 @@ static void check_timer_event(void)
 }
 
 /* include the opcode prototypes and function pointer tables */
-#include "6800tbl.c"
+#include "6800tbl.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /* include the opcode functions */
-#include "6800ops.c"
+#include "6800ops.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /****************************************************************************
  * Reset registers to their initial values

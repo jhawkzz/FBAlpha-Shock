@@ -1,0 +1,37 @@
+
+// See License.md for license
+
+#ifndef SHOCKUI_H_
+#define SHOCKUI_H_
+
+#define BG_HEADER_WIDTH  (1280)
+#define BG_HEADER_HEIGHT (179)
+
+class ShockUI
+{
+public:
+    static void Create( );
+    static void Destroy( );
+    
+    static void Activate( int enterLoadState );
+    static int  Update( );
+    
+private:
+    static void ChangeState( UIState newState );
+    static int  UpdateState( );
+
+private:
+    static UIState               mUIState;
+    static StateMainMenu         mState_MainMenu;
+    static StateButtonConfig     mState_ButtonConfig;
+    static StateGameSettings     mState_GameSettings;
+    static StateDisplaySettings  mState_DisplaySettings;
+    static StateEmulatorSettings mState_EmulatorSettings;
+    static StateCredits          mState_Credits;
+    static StateLoading          mState_Loading;
+    static UIBaseState          *mpStateList[ UIState_Count ];
+    static UINT16                mBackgroundImage[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
+    static long                  mFrameTimeMS;
+};
+
+#endif

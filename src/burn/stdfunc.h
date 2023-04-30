@@ -39,6 +39,8 @@ static INT32 Name##RomInfo(struct BurnRomInfo* pri, UINT32 i)			\
 		pri->nLen = por->nLen;											\
 		pri->nCrc = por->nCrc;											\
 		pri->nType = por->nType;										\
+		/* JHM: This was missing!*/                                     \
+        memcpy(pri->szName, por->szName, sizeof(pri->szName) - 1);  	\
 	}																	\
 	return 0;															\
 }																		\

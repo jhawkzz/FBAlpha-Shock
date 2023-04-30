@@ -82,7 +82,7 @@ void DecoCpu7SetDecode(UINT8 (*write)(UINT16,UINT8))
 /***************************************************************
  * include the opcode macros, functions and tables
  ***************************************************************/
-#include "t6502.c"
+#include "t6502.cc" // JHM: Changed to .cc so makefile won't compile it
 
 #if (HAS_M6510)
 //#include "t6510.c"
@@ -92,21 +92,21 @@ void DecoCpu7SetDecode(UINT8 (*write)(UINT16,UINT8))
 #include "opsn2a03.h"
 
 #if (HAS_N2A03)
-#include "tn2a03.c"
+#include "tn2a03.cc" // JHM: Changed to .cc so makefile won't compile it
 #endif
 
 #include "opsc02.h"
 
 #if (HAS_M65C02)
-#include "t65c02.c"
+#include "t65c02.cc" // JHM: Changed to .cc so makefile won't compile it
 #endif
 
 #if (HAS_M65SC02)
-#include "t65sc02.c"
+#include "t65sc02.cc" // JHM: Changed to .cc so makefile won't compile it
 #endif
 
 #if (HAS_DECO16)
-#include "tdeco16.c"
+#include "tdeco16.cc" // JHM: Changed to .cc so makefile won't compile it
 #endif
 
 /*****************************************************************************

@@ -137,7 +137,7 @@ void h6280_set_irq_line(INT32 irqline, INT32 state);
 #include "h6280ops.h"
 
 /* include the opcode macros, functions and function pointer tables */
-#include "tblh6280.c"
+#include "tblh6280.cc" // JHM: Changed to .cc so makefile won't compile it
 
 #if 0
 /*****************************************************************************/

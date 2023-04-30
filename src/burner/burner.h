@@ -16,16 +16,19 @@
 #define MAKE_STRING_2(s) #s
 #define MAKE_STRING(s) MAKE_STRING_2(s)
 
-#define BZIP_MAX (20)								// Maximum zip files to search through
+// JHM: Not Supporting
+//#define BZIP_MAX (20)                               // Maximum zip files to search through
 #if defined (BUILD_QT)
  #define DIRS_MAX (4)								// Maximum number of directories to search
 #else
  #define DIRS_MAX (20)								// Maximum number of directories to search
 #endif
 
-#include "title.h"
+//#include "title.h" //JHM: Not Needed
 #include "burn.h"
 
+// JHM: Not supporting
+/*
 // ---------------------------------------------------------------------------
 // OS dependent functionality
 typedef struct tagIMAGE {
@@ -53,6 +56,7 @@ typedef struct tagIMAGE {
 #if defined (INCLUDE_LIB_PNGH)
  #include "png.h"
 #endif
+*/
 
 // ---------------------------------------------------------------------------
 // OS independent functionality
@@ -61,6 +65,8 @@ typedef struct tagIMAGE {
 #include "interface.h"
 #endif
 
+// JHM: Not Supporting
+/*
 #define IMG_FREE		(1 << 0)
 
 // Macros for parsing text
@@ -178,6 +184,7 @@ INT32 create_datfile(TCHAR* szFilename, INT32 bType);
 // sshot.cpp
 INT32 MakeScreenShot();
 
+
 // state.cpp
 INT32 BurnStateLoadEmbed(FILE* fp, INT32 nOffset, INT32 bAll, INT32 (*pLoadGame)());
 INT32 BurnStateLoad(TCHAR* szName, INT32 bAll, INT32 (*pLoadGame)());
@@ -188,6 +195,7 @@ INT32 BurnStateUNDO(TCHAR* szName);
 // statec.cpp
 INT32 BurnStateCompress(UINT8** pDef, INT32* pnDefLen, INT32 bAll);
 INT32 BurnStateDecompress(UINT8* Def, INT32 nDefLen, INT32 bAll);
+*/
 
 // zipfn.cpp
 struct ZipEntry { char* szName;	UINT32 nLen; UINT32 nCrc; };
@@ -199,7 +207,8 @@ INT32 ZipLoadFile(UINT8* Dest, INT32 nLen, INT32* pnWrote, INT32 nEntry);
 INT32 __cdecl ZipLoadOneFile(char* arcName, const char* fileName, void** Dest, INT32* pnWrote);
 
 // bzip.cpp
-
+// JHM: Not supporting
+/*
 #define BZIP_STATUS_OK		(0)
 #define BZIP_STATUS_BADDATA	(1)
 #define BZIP_STATUS_ERROR	(2)
@@ -209,9 +218,11 @@ INT32 BzipClose();
 INT32 BzipInit();
 INT32 BzipExit();
 INT32 BzipStatus();
+*/
 
+// JHM: Not supporting
 // support_paths.cpp
-extern TCHAR szAppPreviewsPath[MAX_PATH];
+/*extern TCHAR szAppPreviewsPath[MAX_PATH];
 extern TCHAR szAppTitlesPath[MAX_PATH];
 extern TCHAR szAppCheatsPath[MAX_PATH];
 extern TCHAR szAppIpsPath[MAX_PATH];
@@ -227,4 +238,4 @@ extern TCHAR szAppMarqueesPath[MAX_PATH];
 extern TCHAR szAppControlsPath[MAX_PATH];
 extern TCHAR szAppCabinetsPath[MAX_PATH];
 extern TCHAR szAppPCBsPath[MAX_PATH];
-extern TCHAR szAppHistoryPath[MAX_PATH];
+extern TCHAR szAppHistoryPath[MAX_PATH];*/

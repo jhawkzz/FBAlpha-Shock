@@ -29,7 +29,8 @@ static UINT32 __cdecl HighCol15(INT32 r, INT32 g, INT32 b, INT32  /* i */)
 	return t;
 }
 
-static UINT32 __cdecl HighCol16(INT32 r, INT32 g, INT32 b, INT32 /* i */)
+// JHM: Removing static to remove internal linkage, so we can forward declare in shockgame.cpp
+/*static*/ UINT32 __cdecl HighCol16(INT32 r, INT32 g, INT32 b, INT32 /* i */)
 {
 	UINT32 t;
 	t =(r<<8)&0xf800; // rrrr r000 0000 0000
@@ -78,6 +79,8 @@ static UINT32 __cdecl HighCol24Gamma(INT32 r, INT32 g, INT32 b, INT32  /* i */)
 	return t;
 }
 
+// JHM: Not using
+/*
 INT32 SetBurnHighCol(INT32 nDepth)
 {
 	VidRecalcPal();
@@ -108,7 +111,7 @@ INT32 SetBurnHighCol(INT32 nDepth)
 	}
 
 	return 0;
-}
+}*/
 
 // ---------------------------------------------------------------------------
 
@@ -327,7 +330,8 @@ TCHAR* DecorateGenreInfo()
 
 // ---------------------------------------------------------------------------
 // config file parsing
-
+// JHM: Not Using
+/*
 TCHAR* LabelCheck(TCHAR* s, TCHAR* pszLabel)
 {
 	INT32 nLen;
@@ -383,7 +387,7 @@ INT32 QuoteRead(TCHAR** ppszQuote, TCHAR** ppszEnd, TCHAR* pszSrc)	// Read a (qu
 	}
 
 	return 0;
-}
+}*/
 
 TCHAR* ExtractFilename(TCHAR* fullname)
 {
@@ -413,6 +417,8 @@ TCHAR* DriverToName(UINT32 nDrv)
 	return szName;
 }
 
+// JHM: Can't use, we don't support wide char
+/*
 UINT32 NameToDriver(TCHAR* szName)
 {
 	UINT32 nOldDrv = nBurnDrvActive;
@@ -432,3 +438,4 @@ UINT32 NameToDriver(TCHAR* szName)
 
 	return nDrv;
 }
+ * */

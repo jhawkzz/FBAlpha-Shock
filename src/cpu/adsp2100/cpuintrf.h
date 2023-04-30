@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 
-#define INLINE inline
+// JHM: Defined in the makefile instead (as static inline)
+//#define INLINE inline
 
 #define logerror(...)
 #define fatalerror(...)

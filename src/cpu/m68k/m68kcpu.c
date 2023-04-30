@@ -40,7 +40,7 @@ extern void m68040_fpu_op1(void);
 
 #include "m68kops.h"
 #include "m68kcpu.h"
-#include "m68kfpu.c"
+#include "m68kfpu.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /* ======================================================================== */
 /* ================================= DATA ================================= */

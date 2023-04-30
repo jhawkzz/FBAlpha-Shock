@@ -1,0 +1,12 @@
+.DS_Store
+fbaconfig.dat
+*.zip
+
+build/
+build_x86/
+build_x86_debug/
+src/.clang/
+src/.codelite/
+blend/
+eeprom/
+hiscore/

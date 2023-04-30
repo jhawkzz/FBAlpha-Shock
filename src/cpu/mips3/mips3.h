@@ -10,7 +10,7 @@
 #include "mips3_common.h"
 
 #include <string>
-#include <unordered_set>
+//#include <unordered_set> // JHM: Not Needed
 
 namespace mips
 {

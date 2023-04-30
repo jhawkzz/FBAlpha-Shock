@@ -5,12 +5,12 @@
 #ifndef TMS34010_H
 #define TMS34010_H
 
-#include <cstdint>
+#include <stdint.h>  // JHM: Pre c++ 11 header
 #include <string>
 #include <list>
-#include <fstream>
-#include <array>
-#include <cmath>
+//#include <fstream> // JHM: Not Needed
+//#include <array>   // JHM: Not Needed
+#include <math.h>    // JHM: Pre c++ 11 header
 
 
 namespace tms

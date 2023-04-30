@@ -510,10 +510,10 @@ void m6809_set_irq_line(int irqline, int state)
 }
 
 /* includes the static function prototypes and the master opcode table */
-#include "6809tbl.c"
+#include "6809tbl.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /* includes the actual opcode implementations */
-#include "6809ops.c"
+#include "6809ops.cc" // JHM: Changed to .cc so makefile won't compile it
 
 UINT16 m6809_get_pc()
 {

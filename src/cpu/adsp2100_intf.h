@@ -1,6 +1,6 @@
 #ifndef ADSP2100_INTF
 #define ADSP2100_INTF
-#include <cstdint>
+#include <stdint.h> // JHM: Pre c++ 11 header
 
 #include "adsp2100/adsp2100_defs.h"
 

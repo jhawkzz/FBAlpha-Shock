@@ -294,7 +294,7 @@ static void external_int(nec_state_t *nec_state)
 /*                             OPCODES                                      */
 /****************************************************************************/
 
-#include "necinstr.c"
+#include "necinstr.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /*****************************************************************************/
 

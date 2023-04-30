@@ -149,7 +149,7 @@ void Arm7NewFrame()
 }
 
 /* include the arm7 core */
-#include "arm7core.c"
+#include "arm7core.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /***************************************************************************
  * CPU SPECIFIC IMPLEMENTATIONS
@@ -183,7 +183,7 @@ int Arm7Run(int cycles)
 #endif
 
 /* include the arm7 core execute code */
-#include "arm7exec.c"
+#include "arm7exec.cc" // JHM: Changed to .cc so makefile won't compile it
 }
 
 void arm7_set_irq_line(int irqline, int state)

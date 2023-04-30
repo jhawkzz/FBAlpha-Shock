@@ -1652,8 +1652,8 @@ static void upd7810_timers(int cycles)
 	}
 }
 
-#include "7810tbl.c"
-#include "7810ops.c"
+#include "7810tbl.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "7810ops.cc" // JHM: Changed to .cc so makefile won't compile it
 
 static UINT8 fake_an_func()
 {

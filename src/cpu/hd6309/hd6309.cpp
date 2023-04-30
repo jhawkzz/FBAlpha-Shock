@@ -315,7 +315,7 @@ static UINT8 const *index_cycle;
 #define EXTLONG(lng) {EXTENDED;lng.w.h=RM16(EAD);lng.w.l=RM16(EAD+2);}
 
 /* includes the static function prototypes and other tables */
-#include "6309tbl.c"
+#include "6309tbl.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /* macros for branch instructions */
 #define BRANCH(f) { 					\
@@ -620,7 +620,7 @@ void hd6309_set_irq_line(int irqline, int state)
 }
 
 /* includes the actual opcode implementations */
-#include "6309ops.c"
+#include "6309ops.cc" // JHM: Changed to .cc so makefile won't compile it
 
 /* execute instructions on this CPU until icount expires */
 int hd6309_execute(int cycles)	/* NS 970908 */

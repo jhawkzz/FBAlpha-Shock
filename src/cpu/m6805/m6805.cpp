@@ -462,7 +462,7 @@ void m6805SetIrqLine(int , int state)
 }
 
 
-#include "6805ops.c"
+#include "6805ops.cc" // JHM: Changed to .cc so makefile won't compile it
 
 
 /* execute instructions on this CPU until icount expires */

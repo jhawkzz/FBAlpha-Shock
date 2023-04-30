@@ -4,10 +4,13 @@
 #endif
 #include <vector>
 
+// JHM: Not Using
+/*
 // GameInp structure
 #include "gameinp.h"
 // Key codes
 #include "inp_keys.h"
+*/
 
 // Interface info (used for all modules)
 struct InterfaceInfo {
@@ -79,6 +82,8 @@ extern UINT32 nCDEmuSelect;
 
 extern CDEmuStatusValue CDEmuStatus;
 
+// JHM: Not Using
+/*
 // Profiling plugin
 struct ProfileDo {
 	INT32    (*ProfileExit)();
@@ -253,3 +258,4 @@ extern TCHAR EditText[MAX_CHAT_SIZE + 1];
 extern TCHAR OSDMsg[MAX_PATH];
 extern UINT32 nOSDTimer;
 void VidSKillOSDMsg();
+*/

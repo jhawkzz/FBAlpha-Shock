@@ -72,11 +72,10 @@ void LowPass2::Filter(INT16 *Buff, INT32 Tam)
       o2b = o1b;
       o1b = Tmp2;
 
-     // Buff[a] = (short)SATURATE(-32768, 32767, Tmp + Tmp2);
-      Buff[a] = (INT16)SATURATE(-32768, 32767, Tmp + Tmp2)*(1-bRunPause);
+      Buff[a] = (short)SATURATE(-32768, 32767, Tmp + Tmp2);
+      //Buff[a] = (INT16)SATURATE(-32768, 32767, Tmp + Tmp2)*(1-bRunPause); JHM: Not Supporting (This is for replays)
     }
 }
-
 
 
 void LowPass2::SetParam(double Freq, double SampleRate, double Q, double Gain,

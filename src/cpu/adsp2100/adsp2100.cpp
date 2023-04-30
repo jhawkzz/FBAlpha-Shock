@@ -325,7 +325,7 @@ INLINE void WWORD_PGM(adsp2100_state *adsp, UINT32 addr, UINT32 data)
     IMPORT CORE UTILITIES
 ***************************************************************************/
 
-#include "2100ops.c"
+#include "2100ops.cc" // JHM: Changed to .cc so makefile won't compile it
 
 
 

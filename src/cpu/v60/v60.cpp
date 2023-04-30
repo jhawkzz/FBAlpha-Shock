@@ -461,7 +461,7 @@ static int v60_ICount;
 
 
 // memory accessors
-#include "v60mem.c"
+#include "v60mem.cc" // JHM: Changed to .cc so makefile won't compile it
 
 
 // macros stolen from MAME for flags calc
@@ -705,16 +705,16 @@ INLINE UINT32 v60_update_psw_for_exception(int is_interrupt, int target_level)
 
 
 // Addressing mode decoding functions
-#include "am.c"
+#include "am.cc" // JHM: Changed to .cc so makefile won't compile it
 
 // Opcode functions
-#include "op12.c"
-#include "op2.c"
-#include "op3.c"
-#include "op4.c"
-#include "op5.c"
-#include "op6.c"
-#include "op7a.c"
+#include "op12.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "op2.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "op3.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "op4.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "op5.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "op6.cc" // JHM: Changed to .cc so makefile won't compile it
+#include "op7a.cc" // JHM: Changed to .cc so makefile won't compile it
 
 static UINT32 opUNHANDLED(void)
 {
@@ -723,7 +723,7 @@ static UINT32 opUNHANDLED(void)
 }
 
 // Opcode jump table
-#include "optable.c"
+#include "optable.cc" // JHM: Changed to .cc so makefile won't compile it
 
 static int v60_default_irq_cb(int )
 {

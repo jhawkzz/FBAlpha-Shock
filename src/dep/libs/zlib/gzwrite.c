@@ -4,6 +4,7 @@
  */
 
 #include "gzguts.h"
+#include <unistd.h> //JHM: Fix implicit declaration warnings
 
 /* Local functions */
 local int gz_init OF((gz_statep));

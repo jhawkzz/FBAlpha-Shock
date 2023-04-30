@@ -12,7 +12,7 @@
 
 //#include <QDebug>
 #include <iostream>
-#include <cstdint>
+#include <stdint.h> // JHM: Pre c++ 11 header
 #include "mips3.h"
 #include "mipsdef.h"
 #include "mips3_memory.h"

@@ -2,9 +2,10 @@
  * Copyright (c) 2015, Marcos Medeiros
  * Licensed under BSD 3-clause.
  */
-#include <iostream>
-#include <cstdint>
-#include <cmath>
+//#include <iostream> // JHM: Not needed
+#include <stdint.h>   // JHM: Pre c++ 11 header
+#include <stdlib.h>   // JHM: Adding for abs()
+#include <math.h>     // JHM: Pre c++ 11 header
 #include "mips3.h"
 #include "mipsdef.h"
 #include "mips3_memory.h"

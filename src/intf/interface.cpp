@@ -93,4 +93,3 @@ INT32 IntInfoAddStringModule(InterfaceInfo* pInfo, TCHAR* szString)
 
 	return 0;
 }
-

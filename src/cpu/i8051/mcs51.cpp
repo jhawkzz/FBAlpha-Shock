@@ -1320,7 +1320,7 @@ static INLINE void	update_irq_prio(UINT8 ipl, UINT8 iph)
 
 #define OPHANDLER( _name ) static INLINE void _name (UINT8 r)
 
-#include "mcs51ops.c"
+#include "mcs51ops.cc" // JHM: Changed to .cc so makefile won't compile it
 
 
 static void execute_op(UINT8 op)
