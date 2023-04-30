@@ -1,5 +1,5 @@
 #Setup toolchain paths
-BINPATH := ../toolchain_mvsx/arm-2011.09/bin
+BINPATH := ../toolchain-mvsx/arm-2011.09/bin
 
 CC          := ${BINPATH}/arm-none-linux-gnueabi-gcc
 CXX       := ${BINPATH}/arm-none-linux-gnueabi-g++
