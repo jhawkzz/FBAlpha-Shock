@@ -10,7 +10,8 @@ Because there have been additional changes since that release, this repo is not 
 
 
 ## Development
-This can be compiled using x86 Lubuntu with the toolchain in this repo. It also compiles and runs on x86 Lubuntu for local development and testing using the toolchain included with Lubuntu.
+This can be compiled using x86 Lubuntu with the arm-2011.09 toolchain. Specifically arm-none-linux-gnueabi *no hardfloat* 
+It also compiles and runs on x86 Lubuntu for local development and testing using the toolchain included with Lubuntu.
 
 ## License
 See the included license.md for license. Final Burn Alpha 100 Mega Shock Edition is subject to the terms of the Final Burn Alpha license available here: [https://www.fbalpha.com/license/]
