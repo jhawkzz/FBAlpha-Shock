@@ -2,7 +2,7 @@
 Final Burn Alpha 100 Mega Shock Edition. A port of Final Burn Alpha for the Unico MVSX
 
 ## Overview 
-This is a port of Final Burn Alpha's last official release, 0.2.97.43 (28 April 2018) to the Unico MVSX and Arcade Stick Pro.
+This is a port of Final Burn Alpha's last official release, 0.2.97.43 (28 April 2018) to the Unico MVSX.
 
 The source code from which this is derived can be found here: [https://static.fbalpha.com/files/fba_src_029743.7z]
 
