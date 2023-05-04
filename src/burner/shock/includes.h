@@ -8,6 +8,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <io.h>
+#define INLINE inline
 #else
 #include <unistd.h> //JHM: Fix implicit declaration warnings
 #endif
@@ -51,27 +52,15 @@
 #endif
 
 #ifdef X86
-#include "shock/core/x86/framebuffer.h"
-#elif MVSX
-#include "shock/core/mvsx/framebuffer.h"
-#elif _WIN32
-#include "shock/core/windows/framebuffer.h"
-#endif
-
-#ifdef X86
 #include <alsa/asoundlib.h>
-#include "shock/core/x86/x86audio.h"
-#elif MVSX
-#include "shock/core/mvsx/mvsxaudio.h"
 #endif
 
-#ifdef X86
-#include "shock/core/x86/input.h"
-#elif MVSX
-#include "shock/core/mvsx/input.h"
-#elif _WIN32
-#include "shock/core/windows/input.h"
-#endif
+#include "audio.h"
+#include "framebuffer.h"
+#include "input.h"
+
+#include "shock/core/platform.h"
+#include "shock/core/thread.h"
 
 #include "shock/shockrenderer.h"
 #include "shock/shockaudio.h"

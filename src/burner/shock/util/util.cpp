@@ -12,6 +12,7 @@ void flushPrintf( const char *pStr, ... )
 	va_end( argptr );
 }
 
+#ifndef _WIN32
 char *strlwr(char *str)
 {
   unsigned char *p = (unsigned char *)str;
@@ -66,3 +67,4 @@ int getExeDirectory( char *pFilePath, int size )
         return -1;
     }
 }
+#endif

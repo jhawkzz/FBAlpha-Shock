@@ -1,4 +1,5 @@
 // Burn - Arcade emulator library - internal code
+#pragma once
 
 // Standard headers
 #include <stdarg.h>

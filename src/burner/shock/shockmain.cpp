@@ -85,15 +85,15 @@ int ShockMain::BeginLoad( char *pRomset )
         
     strncpy( mRomsetName, pRomset, sizeof( mRomsetName ) );
     
-    pthread_t t;
-    int result = pthread_create( &t, NULL, ShockMain::LoadThread, mRomsetName );
+    ShockThread t;
+    int result = ShockThreadCreate( &t, ShockMain::LoadThread, mRomsetName );
     if( result != 0 )
     {
         flushPrintf( "ShockMain::BeginLoad() pthread_create failed with error: %d\r\n", result );
         return -1;
     }
     
-    pthread_detach( t );
+    ShockThreadDetach( &t );
     
     return 0;
 }

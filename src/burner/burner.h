@@ -25,7 +25,7 @@
 #endif
 
 //#include "title.h" //JHM: Not Needed
-#include "burn.h"
+#include "burnint.h"
 
 // JHM: Not supporting
 /*

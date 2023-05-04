@@ -22,6 +22,8 @@ int ShockBurnInput::Create( )
     GameInpInit( );
     
     InpDIPSWResetDIPs( );
+
+    return 0;
 }
 
 void ShockBurnInput::ToggleDiagnosticMode( int diagIndex, UINT8 val )
@@ -121,6 +123,8 @@ int ShockBurnInput::GameInpInit( )
             break;
         }
     }
+
+    return 0;
 }
 
 void ShockBurnInput::SetPlayerInput( int playerIndex, GameInp *pGameInpInfo, BurnInputInfo *pBurnInputInfo )

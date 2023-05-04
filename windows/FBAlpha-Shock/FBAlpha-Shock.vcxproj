@@ -101,21 +101,35 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\..\src\burn\;$(MSBuildProjectDirectory)\..\..\src\burn\devices;$(MSBuildProjectDirectory)\..\..\src\burn\drv\sega\;$(MSBuildProjectDirectory)\..\..\src\burn\drv\dataeast\;$(MSBuildProjectDirectory)\..\..\src\burn\drv\konami\;$(MSBuildProjectDirectory)\..\..\src\burn\snd\;$(MSBuildProjectDirectory)\..\..\src\burn\drv\taito\;$(MSBuildProjectDirectory)\..\..\src\burner\;$(MSBuildProjectDirectory)\..\..\src\burner\shock\core\windows\;$(MSBuildProjectDirectory)\..\..\src\cpu\;$(MSBuildProjectDirectory)\..\..\src\cpu\i8039\;$(MSBuildProjectDirectory)\..\..\src\cpu\i8051\;$(MSBuildProjectDirectory)\..\..\src\cpu\i8x41\;$(MSBuildProjectDirectory)\..\..\src\cpu\m6805\;$(MSBuildProjectDirectory)\..\..\src\cpu\tms32010\;$(MSBuildProjectDirectory)\..\..\src\cpu\upd7725\;$(MSBuildProjectDirectory)\..\..\src\cpu\upd7810\;$(MSBuildProjectDirectory)\..\..\src\cpu\v60\;$(MSBuildProjectDirectory)\..\..\src\cpu\z180\;$(MSBuildProjectDirectory)\..\..\src\dep\generated\;$(MSBuildProjectDirectory)\..\..\src\dep\libs\zlib\;$(MSBuildProjectDirectory)\..\..\src\intf\;$(MSBuildProjectDirectory)\..\..\src\intf\audio\;$(MSBuildProjectDirectory)\..\..\src\intf\cd\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>LSB_FIRST</PreprocessorDefinitions>
+      <AdditionalHeaderUnitDependencies>
+      </AdditionalHeaderUnitDependencies>
+      <ForcedIncludeFiles>$(MSBuildProjectDirectory)\..\..\src\burner\shock\includes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\..\src\burn\;$(MSBuildProjectDirectory)\..\..\src\burn\devices;$(MSBuildProjectDirectory)\..\..\src\burn\drv\sega\;$(MSBuildProjectDirectory)\..\..\src\burn\drv\dataeast\;$(MSBuildProjectDirectory)\..\..\src\burn\drv\konami\;$(MSBuildProjectDirectory)\..\..\src\burn\snd\;$(MSBuildProjectDirectory)\..\..\src\burn\drv\taito\;$(MSBuildProjectDirectory)\..\..\src\burner\;$(MSBuildProjectDirectory)\..\..\src\burner\shock\core\windows\;$(MSBuildProjectDirectory)\..\..\src\cpu\;$(MSBuildProjectDirectory)\..\..\src\cpu\i8039\;$(MSBuildProjectDirectory)\..\..\src\cpu\i8051\;$(MSBuildProjectDirectory)\..\..\src\cpu\i8x41\;$(MSBuildProjectDirectory)\..\..\src\cpu\m6805\;$(MSBuildProjectDirectory)\..\..\src\cpu\tms32010\;$(MSBuildProjectDirectory)\..\..\src\cpu\upd7725\;$(MSBuildProjectDirectory)\..\..\src\cpu\upd7810\;$(MSBuildProjectDirectory)\..\..\src\cpu\v60\;$(MSBuildProjectDirectory)\..\..\src\cpu\z180\;$(MSBuildProjectDirectory)\..\..\src\dep\generated\;$(MSBuildProjectDirectory)\..\..\src\dep\libs\zlib\;$(MSBuildProjectDirectory)\..\..\src\intf\;$(MSBuildProjectDirectory)\..\..\src\intf\audio\;$(MSBuildProjectDirectory)\..\..\src\intf\cd\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>LSB_FIRST</PreprocessorDefinitions>
+      <AdditionalHeaderUnitDependencies>
+      </AdditionalHeaderUnitDependencies>
+      <ForcedIncludeFiles>$(MSBuildProjectDirectory)\..\..\src\burner\shock\includes.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\burner\ioapi.c" />
     <ClCompile Include="..\..\src\burner\main.cpp" />
     <ClCompile Include="..\..\src\burner\misc.cpp" />
+    <ClCompile Include="..\..\src\burner\shock\core\windows\audio.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\framebuffer.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\input.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\ostimer.cpp" />
+    <ClCompile Include="..\..\src\burner\shock\core\windows\thread_core.cpp" />
     <ClCompile Include="..\..\src\burner\shock\font\font.cpp" />
     <ClCompile Include="..\..\src\burner\shock\input\shockburninput.cpp" />
     <ClCompile Include="..\..\src\burner\shock\input\shockinput.cpp" />
@@ -848,49 +862,32 @@
     <ClCompile Include="..\..\src\burn\timer.cpp" />
     <ClCompile Include="..\..\src\burn\vector.cpp" />
     <ClCompile Include="..\..\src\cpu\a68k\fba_make68k.c" />
-    <ClCompile Include="..\..\src\cpu\adsp2100\2100dasm.cxx" />
-    <ClCompile Include="..\..\src\cpu\adsp2100\2100ops.cc" />
     <ClCompile Include="..\..\src\cpu\adsp2100\adsp2100.cpp" />
     <ClCompile Include="..\..\src\cpu\adsp2100_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\arm7\arm7.cpp" />
-    <ClCompile Include="..\..\src\cpu\arm7\arm7core.cc" />
-    <ClCompile Include="..\..\src\cpu\arm7\arm7exec.cc" />
     <ClCompile Include="..\..\src\cpu\arm7_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\arm\arm.cpp" />
     <ClCompile Include="..\..\src\cpu\arm_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\h6280\h6280.cpp" />
-    <ClCompile Include="..\..\src\cpu\h6280\tblh6280.cc" />
     <ClCompile Include="..\..\src\cpu\h6280_intf.cpp" />
-    <ClCompile Include="..\..\src\cpu\hd6309\6309ops.cc" />
-    <ClCompile Include="..\..\src\cpu\hd6309\6309tbl.cc" />
     <ClCompile Include="..\..\src\cpu\hd6309\hd6309.cpp" />
     <ClCompile Include="..\..\src\cpu\hd6309_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\i8039\i8039.cpp" />
     <ClCompile Include="..\..\src\cpu\i8051\mcs51.cpp" />
     <ClCompile Include="..\..\src\cpu\i8051\mcs51ops.cc" />
-    <ClCompile Include="..\..\src\cpu\i8x41\8x41dasm.cc" />
     <ClCompile Include="..\..\src\cpu\i8x41\i8x41.cpp" />
     <ClCompile Include="..\..\src\cpu\konami\konami.cpp" />
     <ClCompile Include="..\..\src\cpu\konami\konamops.cc" />
     <ClCompile Include="..\..\src\cpu\konami\konamtbl.cc" />
     <ClCompile Include="..\..\src\cpu\konami_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\m6502\m6502.cpp" />
-    <ClCompile Include="..\..\src\cpu\m6502\t6502.cc" />
-    <ClCompile Include="..\..\src\cpu\m6502\t65c02.cc" />
-    <ClCompile Include="..\..\src\cpu\m6502\t65sc02.cc" />
     <ClCompile Include="..\..\src\cpu\m6502\tdeco16.cc" />
-    <ClCompile Include="..\..\src\cpu\m6502\tn2a03.cc" />
     <ClCompile Include="..\..\src\cpu\m6502_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\m68000_intf.cpp" />
-    <ClCompile Include="..\..\src\cpu\m6800\6800ops.cc" />
-    <ClCompile Include="..\..\src\cpu\m6800\6800tbl.cc" />
     <ClCompile Include="..\..\src\cpu\m6800\m6800.cpp" />
     <ClCompile Include="..\..\src\cpu\m6800_intf.cpp" />
-    <ClCompile Include="..\..\src\cpu\m6805\6805ops.cc" />
     <ClCompile Include="..\..\src\cpu\m6805\m6805.cpp" />
     <ClCompile Include="..\..\src\cpu\m6805_intf.cpp" />
-    <ClCompile Include="..\..\src\cpu\m6809\6809ops.cc" />
-    <ClCompile Include="..\..\src\cpu\m6809\6809tbl.cc" />
     <ClCompile Include="..\..\src\cpu\m6809\m6809.cpp" />
     <ClCompile Include="..\..\src\cpu\m6809_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\m68k\m68kcpu.c" />
@@ -905,8 +902,6 @@
     <ClCompile Include="..\..\src\cpu\nec\nec.cpp" />
     <ClCompile Include="..\..\src\cpu\nec\necinstr.cc" />
     <ClCompile Include="..\..\src\cpu\nec\v25.cpp" />
-    <ClCompile Include="..\..\src\cpu\nec\v25instr.cc" />
-    <ClCompile Include="..\..\src\cpu\nec\v25sfr.cc" />
     <ClCompile Include="..\..\src\cpu\nec_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\pic16c5x\pic16c5x.cpp" />
     <ClCompile Include="..\..\src\cpu\pic16c5x_intf.cpp" />
@@ -922,14 +917,7 @@
     <ClCompile Include="..\..\src\cpu\tms34010\tms34010_optable.cpp" />
     <ClCompile Include="..\..\src\cpu\tms34010_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\upd7725\upd7725.cpp" />
-    <ClCompile Include="..\..\src\cpu\upd7810\7810dasm.cc" />
-    <ClCompile Include="..\..\src\cpu\upd7810\7810ops.cc" />
-    <ClCompile Include="..\..\src\cpu\upd7810\7810tbl.cc" />
     <ClCompile Include="..\..\src\cpu\upd7810\upd7810.cpp" />
-    <ClCompile Include="..\..\src\cpu\v60\am.cc" />
-    <ClCompile Include="..\..\src\cpu\v60\am1.cc" />
-    <ClCompile Include="..\..\src\cpu\v60\am2.cc" />
-    <ClCompile Include="..\..\src\cpu\v60\am3.cc" />
     <ClCompile Include="..\..\src\cpu\v60\op12.cc" />
     <ClCompile Include="..\..\src\cpu\v60\op2.cc" />
     <ClCompile Include="..\..\src\cpu\v60\op3.cc" />
@@ -939,15 +927,7 @@
     <ClCompile Include="..\..\src\cpu\v60\op7a.cc" />
     <ClCompile Include="..\..\src\cpu\v60\optable.cc" />
     <ClCompile Include="..\..\src\cpu\v60\v60.cpp" />
-    <ClCompile Include="..\..\src\cpu\v60\v60d.cc" />
-    <ClCompile Include="..\..\src\cpu\v60\v60mem.cc" />
     <ClCompile Include="..\..\src\cpu\z180\z180.cpp" />
-    <ClCompile Include="..\..\src\cpu\z180\z180cb.cc" />
-    <ClCompile Include="..\..\src\cpu\z180\z180dd.cc" />
-    <ClCompile Include="..\..\src\cpu\z180\z180ed.cc" />
-    <ClCompile Include="..\..\src\cpu\z180\z180fd.cc" />
-    <ClCompile Include="..\..\src\cpu\z180\z180op.cc" />
-    <ClCompile Include="..\..\src\cpu\z180\z180xy.cc" />
     <ClCompile Include="..\..\src\cpu\z180_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\z80\z80.cpp" />
     <ClCompile Include="..\..\src\cpu\z80\z80daisy.cpp" />
