@@ -1,0 +1,6 @@
+compiling
+organize files
+remove platform specific hacks
+add platform specific code
+test on windows
+test on lubuntu

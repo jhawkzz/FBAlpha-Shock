@@ -4,29 +4,38 @@
 #ifndef INCLUDES_H_
 #define INCLUDES_H_
 
+#if defined(_WIN32)
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <io.h>
+#else
+#include <unistd.h> //JHM: Fix implicit declaration warnings
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-#include <sys/mman.h>
-#include <sys/wait.h>
+
+//#include <sys/ioctl.h>
+//#include <sys/mman.h>
+//#include <sys/wait.h>
+
 #include <errno.h>
 #include <signal.h>
-#include <pthread.h>
-#include <linux/soundcard.h>
+//#include <pthread.h>
+//#include <linux/soundcard.h>
 #include <string.h>
-#include <linux/input.h>
-#include <poll.h>
-#include <sys/mount.h>
-#include <sys/reboot.h>
-#include <dirent.h>
-#include <linux/fb.h>
+//#include <linux/input.h>
+//#include <poll.h>
+//#include <sys/mount.h>
+//#include <sys/reboot.h>
+//#include <dirent.h>
+//#include <linux/fb.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <libgen.h>
+//#include <libgen.h>
 
 // FBA Includes
 #include "burner.h"
@@ -42,9 +51,11 @@
 #endif
 
 #ifdef X86
-#include "shock/core/x86/x86framebuffer.h"
+#include "shock/core/x86/framebuffer.h"
 #elif MVSX
-#include "shock/core/mvsx/mvsxframebuffer.h"
+#include "shock/core/mvsx/framebuffer.h"
+#elif _WIN32
+#include "shock/core/windows/framebuffer.h"
 #endif
 
 #ifdef X86
@@ -55,9 +66,11 @@
 #endif
 
 #ifdef X86
-#include "shock/core/x86/x86input.h"
+#include "shock/core/x86/input.h"
 #elif MVSX
-#include "shock/core/mvsx/mvsxinput.h"
+#include "shock/core/mvsx/input.h"
+#elif _WIN32
+#include "shock/core/windows/input.h"
 #endif
 
 #include "shock/shockrenderer.h"

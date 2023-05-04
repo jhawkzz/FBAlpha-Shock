@@ -4,6 +4,17 @@
 #ifndef SHOCKUI_H_
 #define SHOCKUI_H_
 
+<<<<<<< HEAD
+=======
+#define BG_HEADER_WIDTH  (1280)
+#define BG_HEADER_HEIGHT (179)
+
+#ifdef _WIN32
+   #define PLATFORM_LCD_WIDTH 256
+   #define PLATFORM_LCD_HEIGHT 256
+#endif
+
+>>>>>>> d9c6a6c (wip)
 class ShockUI
 {
 public:

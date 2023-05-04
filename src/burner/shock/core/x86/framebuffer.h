@@ -1,17 +1,19 @@
 
 // See License.md for license
 
-#ifndef X86FRAMEBUFFER_H_
-#define X86FRAMEBUFFER_H_
+#ifndef FRAMEBUFFER_H_
+#define FRAMEBUFFER_H_
 
 //The path to the frame buffer out on x86 Lubuntu
 #define FB_DEVICE "/dev/fb0"
 
-class X86FrameBuffer
+class FrameBuffer
 {
 public:
-		static int  Create( );
-		static void Destroy( );
+        static int  Create( );
+        static void Destroy( );
+        static void ClearFrameBuffer( );
+        static short *GetBackBuffer( );
 		
         static void Flip( UINT16 *pBackBuffer, int width, int height );
         
@@ -23,10 +25,12 @@ private:
 private:
         static int  mFrameBufferHandle;
         static int  mFrameBufferBytes;
-        
+
         static char             *mpFrameBuffer;
         static fb_var_screeninfo mVScreenInfo;
         static fb_fix_screeninfo mFixedScreenInfo;
+
+         char mScaleBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH ];
 };
 
 #endif

@@ -3,89 +3,47 @@
 
 #include "../../includes.h"
 
-int   MVSXFrameBuffer::mFrameBufferHandle;
-int   MVSXFrameBuffer::mFrameBufferBytes;
-char *MVSXFrameBuffer::mpFrameBuffer;
-char *MVSXFrameBuffer::mpBackBuffer;
-fb_var_screeninfo MVSXFrameBuffer::mVScreenInfo;
+int               FrameBuffer::mFrameBufferHandle;
+int               FrameBuffer::mFrameBufferBytes;
+char             *FrameBuffer::mpFrameBuffer;
+fb_var_screeninfo FrameBuffer::mVScreenInfo;
+fb_fix_screeninfo FrameBuffer::mFixedScreenInfo;
 
-int MVSXFrameBuffer::Create( )
-{
-    int hcdResult = MVSXEnableHCD( );
-    if ( hcdResult == -1 )
-    {
-        flushPrintf( "WARNING: MVSXFrameBuffer::Create() call to MVSXEnableHCD() failed. Not fatal? Will continue.\r\n" );
-    }
-    
+char FrameBuffer::mScaleBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH ];
+
+int FrameBuffer::Create( )
+{    
 	mFrameBufferHandle = open( FB_DEVICE, O_RDWR );
 	if( mFrameBufferHandle < 0 )
 	{
-		flushPrintf( "MVSXFrameBuffer::Create() Failed to open framebuffer\r\n" );
+		flushPrintf( "FrameBuffer::Create() Failed to open framebuffer\r\n" );
         
         Destroy( );
 		return -1;
 	}
 
     // figure out what the device and driver support
-    fb_fix_screeninfo fixedScreenInfo;
-	int result = ioctl( mFrameBufferHandle, FBIOGET_FSCREENINFO, &fixedScreenInfo );
+	int result = ioctl( mFrameBufferHandle, FBIOGET_FSCREENINFO, &mFixedScreenInfo );
 	if( result == -1 )
     {
-		flushPrintf( "MVSXFrameBuffer::Create() Error reading screen info for device and driver\r\n" );
+		flushPrintf( "FrameBuffer::Create() Error reading screen info for device and driver\r\n" );
         
         Destroy( );
 		return -1;
 	}
     
-    // this returns as 10485760 (10 megs)
-    // exactly enough for two 32bit buffers, allowing double buffering.
-	mFrameBufferBytes = fixedScreenInfo.smem_len;
-	
     // read the variable screen info so we can configure our preferred color and res
 	result = ioctl( mFrameBufferHandle, FBIOGET_VSCREENINFO, &mVScreenInfo );
 	if ( result == -1 )
     {
-		flushPrintf( "MVSXFrameBuffer::Create() Error reading variable screen info\r\n" );
+		flushPrintf( "FrameBuffer::Create() Error reading variable screen info\r\n" );
         
         Destroy( );
 		return -1;
 	}
     
-    // set initial values
-    mVScreenInfo.xoffset = 0;
-    mVScreenInfo.yoffset = 0;
+	mFrameBufferBytes = mFixedScreenInfo.smem_len;
     
-    // For bit depth, Looks like we can do 16 or 32 bit, but 
-    // I'd imagine the emulator is 16 bit, so we'll stick to that.
-	mVScreenInfo.xres           = PLATFORM_LCD_WIDTH;
-	mVScreenInfo.yres           = PLATFORM_LCD_HEIGHT;
-	mVScreenInfo.bits_per_pixel = PLATFORM_SCREEN_BPP;
-    
-    // for ref, 32bit is ARGB 8888
-	
-	// for 16 bit, the format is RGB 565
-    mVScreenInfo.red.offset    = 11;
-    mVScreenInfo.red.length    = 5;
-    
-    mVScreenInfo.green.offset  = 5;
-    mVScreenInfo.green.length  = 6;
-    
-    mVScreenInfo.blue.offset   = 0;
-    mVScreenInfo.blue.length   = 5;
-    
-    mVScreenInfo.transp.offset = 0;
-    mVScreenInfo.transp.length = 0;
-	
-    // write our values so we update the display
-	result = ioctl( mFrameBufferHandle, FBIOPUT_VSCREENINFO, &mVScreenInfo );
-	if ( result == -1 )
-    {
-		flushPrintf( "MVSXFrameBuffer::Create() Error writing variable screen info\r\n" );
-        
-        Destroy( );
-		return -1;
-	}
-	
     // finally map virtual memory to the device so we can write to it.
 	mpFrameBuffer = (char *)mmap( NULL, 
                                   mFrameBufferBytes, 
@@ -96,34 +54,19 @@ int MVSXFrameBuffer::Create( )
                           
 	if ( mpFrameBuffer == MAP_FAILED ) 
 	{
-		flushPrintf( "MVSXFrameBuffer::Create() Failed to map framebuffer to memory\r\n" );
+		flushPrintf( "FrameBuffer::Create() Failed to map framebuffer to memory\r\n" );
         
         Destroy( );
 		return -1;
 	}
     
     // clear the full buffer
-    ClearFrameBuffer( );
+    memset( mpFrameBuffer, 0x0, mFrameBufferBytes );
     
-    // ensure the display is showing the "top" half of the buffer
-    mVScreenInfo.yoffset = 0;
-    mVScreenInfo.xoffset = 0;
-    result = ioctl( mFrameBufferHandle, FBIOPAN_DISPLAY, &mVScreenInfo );
-    if ( result < 0 )
-    {
-        flushPrintf( "MVSXFrameBuffer::Create() Failed to pan display: %d errno: %d\r\n", result, errno );
-        
-        Destroy( );
-        return -1;
-    }
-    
-    // and setup our back buffer for the "bottom" half
-    mpBackBuffer = mpFrameBuffer + FB_DOUBLE_BUFFER_OFFSET_BYTES;
-	
 	return 0;
 }
 
-void MVSXFrameBuffer::Destroy( )
+void FrameBuffer::Destroy( )
 {
 	if( mpFrameBuffer != NULL )
 	{
@@ -136,75 +79,49 @@ void MVSXFrameBuffer::Destroy( )
 		close( mFrameBufferHandle );
 		mFrameBufferHandle = -1;
 	}
+
 }
 
-void MVSXFrameBuffer::ClearFrameBuffer( )
+void FrameBuffer::ClearFrameBuffer()
 {
-    memset( mpFrameBuffer, 0x0, mFrameBufferBytes ); 
+    memset( mScaleBuffer, 0, PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH );
 }
 
-short *MVSXFrameBuffer::GetBackBuffer( )
+short *FrameBuffer::GetBackBuffer( )
 {
-    return (short *)mpBackBuffer;
+   return (UINT16 *)mScaleBuffer;
 }
 
-void MVSXFrameBuffer::Flip( )
+void FrameBuffer::Flip( UINT16 *pBackBuffer, int width, int height )
 {
-    // This treats the frame buffer as a double buffer.
-    // The hardware screen is panned to one half of the buffer.
-    // We render to the "other" half, and then pan the screen to it.
-    // So if the buffer is
-    // [ ]
-    // [ ]
-    // Then frame one goes:
-    // [ ] <--This is being displayed
-    // [X] <--we render here, then call ioctl PAN
-    // Next frame:
-    // [X] <--we now render here, then call ioctl PAN
-    // [ ] <--This one is being displayed.
+    int *pFrameBuffer = (int *) mpFrameBuffer;
     
-    // if we're _currently_ presenting the "top" half of the buffer,
-    // make the "top" half the new back buffer and
-    // pan to bottom
-    if ( mVScreenInfo.yoffset == 0 )
+    for( int y = 0; y < height; y++ )
     {
-        mpBackBuffer = mpFrameBuffer;
-        mVScreenInfo.yoffset = mVScreenInfo.yres;
-    }
-    // if we're _currently_ presenting the "bottom" half of the buffer,
-    // make the "bottom" half the new back buffer and
-    // pan to the top
-    else
-    {
-        mpBackBuffer = mpFrameBuffer + FB_DOUBLE_BUFFER_OFFSET_BYTES;
-        mVScreenInfo.yoffset = 0;
-    }
-    
-    int result = ioctl( mFrameBufferHandle, FBIOPAN_DISPLAY, &mVScreenInfo );
-    if ( result < 0 )
-    {
-        flushPrintf( "MVSXFrameBuffer::Flip() Pan error: %d errno: %d\r\n", result, errno );
+        for( int x = 0; x < width; x++ )
+        {
+            short pixelData = pBackBuffer[ x ];
+
+            // break out the components
+            short r = (pixelData >> 11) & 0x1F;
+            short g = (pixelData >> 5) & 0x3F;
+            short b = pixelData & 0x1F;
+            
+            // taken from https://stackoverflow.com/questions/8579353/convert-16bit-colour-to-32bit
+            int r32 = (r << 3) | (r >> 2);
+            int g32 = (g << 2) | (g >> 4); //6bit g
+            int b32 = (b << 3) | (b >> 2);
+            
+            // its ARGB
+            pFrameBuffer[ x ] = 0xFF << 24 | r32 << 16 | g32 << 8 | b32;
+        }
+        
+        pFrameBuffer += mFixedScreenInfo.line_length / 4;
+        pBackBuffer  += width;
     }
 }
 
-int MVSXFrameBuffer::MVSXEnableHCD( )
-{
-    // I have no idea what this is doing - my best guess is
-    // ensuring the owl driver is enabled
-    FILE *pFile = fopen( "/proc/acts_hcd" , "w" );
-	if( pFile == NULL )
-    {
-        return -1;
-    }
-	
-    fputc( 'c', pFile );
-    fclose( pFile );
-    pFile = NULL;
-    
-    return 0;
-}
-
-void MVSXFrameBuffer::PrintMode( fb_var_screeninfo *pVScreenInfo )
+void FrameBuffer::PrintMode( fb_var_screeninfo *pVScreenInfo )
 {
     // taken from https://github.com/brgl/busybox/blob/master/util-linux/fbset.c
 	double drate = 0, hrate = 0, vrate = 0;
@@ -240,7 +157,7 @@ void MVSXFrameBuffer::PrintMode( fb_var_screeninfo *pVScreenInfo )
             pVScreenInfo->blue.length, pVScreenInfo->blue.offset, pVScreenInfo->transp.length, pVScreenInfo->transp.offset);
 }
 
-void MVSXFrameBuffer::PrintVScreenInfo( fb_var_screeninfo *pVScreenInfo )
+void FrameBuffer::PrintVScreenInfo( fb_var_screeninfo *pVScreenInfo )
 {
     flushPrintf( "Variable screen info:\r\n"
                     "xres: %d\r\n"
@@ -297,7 +214,7 @@ void MVSXFrameBuffer::PrintVScreenInfo( fb_var_screeninfo *pVScreenInfo )
                             pVScreenInfo->vmode );
 }
 
-void MVSXFrameBuffer::PrintFixedScreenInfo( fb_fix_screeninfo *pFixedScreenInfo )
+void FrameBuffer::PrintFixedScreenInfo( fb_fix_screeninfo *pFixedScreenInfo )
 {
     flushPrintf("Fixed screen info:\r\n"
                     "id: %s\r\n"

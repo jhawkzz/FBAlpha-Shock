@@ -23,7 +23,10 @@
 
 #define _stricmp(x, y) strcasecmp(x,y)
 
+#ifndef _WIN32
 typedef struct { int x, y, width, height; } RECT;
+#endif
+
 #undef __cdecl
 #define __cdecl
 

@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef MVSXFRAMEBUFFER_H_
-#define MVSXFRAMEBUFFER_H_
+#ifndef FRAMEBUFFER_H_
+#define FRAMEBUFFER_H_
 
 // the amount of bytes from the base frame buffer for the start of the double buffer
 #define FB_DOUBLE_BUFFER_OFFSET_BYTES (PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH)
@@ -10,7 +10,7 @@
 //The path to the frame buffer out on the MVSX Linux OS
 #define FB_DEVICE "/dev/graphics/fb0"
 
-class MVSXFrameBuffer
+class FrameBuffer
 {
 public:
 		static int    Create( );

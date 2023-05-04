@@ -3,19 +3,11 @@
 
 #include "includes.h"
 
-#ifdef X86
-char ShockRenderer::mScaleBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH ];
-#endif
-
 UINT16 ShockRenderer::mRotateBuffer[ ROTATE_BUFFER_WIDTH * ROTATE_BUFFER_HEIGHT ];
 
 int ShockRenderer::Create( )
 {
-#ifdef X86
-    int result = X86FrameBuffer::Create( );
-#elif MVSX
-    int result = MVSXFrameBuffer::Create( );
-#endif
+    int result = FrameBuffer::Create( );
 
     if( result == -1 )
     {
@@ -28,29 +20,17 @@ int ShockRenderer::Create( )
 
 void ShockRenderer::Destroy( )
 {
-#ifdef X86
-    X86FrameBuffer::Destroy( );
-#elif MVSX
-    MVSXFrameBuffer::Destroy( );
-#endif
+    FrameBuffer::Destroy( );
 }
 
 UINT16 *ShockRenderer::GetBackBuffer( )
 {
-#ifdef X86 
-    return (UINT16 *)mScaleBuffer;
-#elif MVSX 
-    return (UINT16 *)MVSXFrameBuffer::GetBackBuffer( );
-#endif
+    return (UINT16 *)FrameBuffer::GetBackBuffer( );
 }
 
 void ShockRenderer::ClearBackBuffer( )
 {
-#ifdef X86 
-    memset( mScaleBuffer, 0, PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH );
-#elif MVSX
-    MVSXFrameBuffer::ClearFrameBuffer( );
-#endif
+    FrameBuffer::ClearFrameBuffer( );
 }
 
 void ShockRenderer::RenderFBA( UINT16 *pBuffer, 

@@ -1,7 +1,7 @@
 
 // See License.md for license
 
-#include "../includes.h"
+#include "../ostimer.h"
 
 OSTimer::OSTimer( )
 {

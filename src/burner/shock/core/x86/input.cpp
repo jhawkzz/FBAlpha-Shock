@@ -3,11 +3,11 @@
 
 #include "../../includes.h"
 
-ButtonState X86Input::mButtonState[ Button_Count ];
-int         X86Input::mInputFileHandle;
-int         X86Input::mThreadRunning;
+ButtonState Input::mButtonState[ Button_Count ];
+int         Input::mInputFileHandle;
+int         Input::mThreadRunning;
 
-int X86Input::Create( )
+int Input::Create( )
 {
 	mInputFileHandle = open( KB_LOCAL_DEVICE, O_RDONLY );
 	if( mInputFileHandle < 0 )
@@ -42,7 +42,7 @@ int X86Input::Create( )
     return 0;
 }
 
-void X86Input::Destroy( )
+void Input::Destroy( )
 {
     for( int i = 0; i < Button_Count; i++ )
     {
@@ -65,7 +65,7 @@ void X86Input::Destroy( )
     mThreadRunning = 0;
 }
 
-void *X86Input::PollInput_ThreadProc(void *data)
+void *Input::PollInput_ThreadProc(void *data)
 {
     mThreadRunning = 1;
 	
@@ -91,7 +91,7 @@ void *X86Input::PollInput_ThreadProc(void *data)
     return NULL;
 }
 
-void X86Input::ReadInputs( )
+void Input::ReadInputs( )
 {
 	input_event input;
 	int ret = read( mInputFileHandle, &input, sizeof( input_event ) );
@@ -116,7 +116,7 @@ void X86Input::ReadInputs( )
     }
 }
 
-int X86Input::GetValueForInput( InputCodeToButtonMapping input )
+int Input::GetValueForInput( InputCodeToButtonMapping input )
 {
     // quickly lock around the value and copy it out
     int inputVal = 0;
