@@ -36,10 +36,10 @@ UIState UIBaseState::HandleBackButton( )
     }
 }
 
-void UIBaseState::RenderBackOption( )
+void UIBaseState::RenderBackOption( const char *pNavVerb)
 {
     char textStr[ MAX_PATH ] = { 0 };
-    snprintf( textStr, sizeof( textStr ), "Press Options/Back to Return" );
+    snprintf( textStr, sizeof( textStr ), "Press Options/Back to %s", pNavVerb );
     int xPos = GetCenteredXPos( textStr );
     UIRenderer::DrawText( textStr, xPos, PLATFORM_LCD_HEIGHT - 50, 0xFFFF );
 }

@@ -24,8 +24,6 @@ private:
     
 private:
     int mRomLoadResult;
-    int mDisplayFatalError;
-    
     int mExitEmulator;
     int mExitUI;
 };

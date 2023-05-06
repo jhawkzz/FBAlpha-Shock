@@ -174,9 +174,7 @@ int ShockMain::UpdateState_Loading( )
         {
             // everything loaded, but were there warnings in the rom loader?
             if( ShockRomLoader::GetLoadResult() != LOAD_SUCCESS 
-            // TODO: AND does the user care? (check CRC setting)
-            
-              )
+                && ShockConfig::GetShowLoadWarnings( ) == 1 )
             {
                 // goto the load error state, where they can continue on.
                 ShockUI::SetState_LoadError( );

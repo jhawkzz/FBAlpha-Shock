@@ -21,7 +21,10 @@ void StateGameSettings::Create( )
     
     if ( mNumMenuItems > MAX_MENU_ITEMS )
     {
-        flushPrintf( "StateGameSettings::Create() ERROR!!! mNumMenuItems too large at %d. MAX_MENU_ITEMS is only: %d\r\n", mNumMenuItems, MAX_MENU_ITEMS );
+        flushPrintf( "StateGameSettings::Create() ERROR!!! mNumMenuItems too large at %d." 
+                     "MAX_MENU_ITEMS is only: %d\r\n", 
+                     mNumMenuItems, 
+                     MAX_MENU_ITEMS );
         exit( 0 );
     }
 }
@@ -144,5 +147,5 @@ void StateGameSettings::DrawMenu( )
                         mMenuItemList[ mMenuSelection ].GetYPos( ),
                         UI_COLOR_ENABLED );
                         
-    UIBaseState::RenderBackOption( );
+    UIBaseState::RenderBackOption( "Return" );
 }

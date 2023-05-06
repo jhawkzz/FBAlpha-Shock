@@ -77,6 +77,9 @@ void StateMainMenu::EnterState( UIState oldState )
 void StateMainMenu::ExitState( UIState newState )
 {
     UIBaseState::ExitState( newState );
+    
+    mExitEmulator = 0;
+    mExitUI       = 0;
 }
     
 UIState StateMainMenu::Update( )
@@ -139,7 +142,7 @@ void StateMainMenu::DrawMenu( )
                         mMenuItemGameState[ mMenuSelection ].menuItem.GetYPos( ),
                         UI_COLOR_ENABLED );
                         
-    UIBaseState::RenderBackOption( );
+    UIBaseState::RenderBackOption( "Return" );
 }
 
 int StateMainMenu::ShouldExitUI( )

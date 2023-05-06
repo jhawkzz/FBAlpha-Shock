@@ -177,16 +177,19 @@ int ShockUI::UpdateState( )
     if( mState_MainMenu.ShouldExitUI( )
      || mState_LoadError.ShouldExitUI( ) )
     {
+        // put the state back to main menu for when we return
+        ChangeState( UIState_MainMenu );
         return 0;
     }
     
     if( mState_MainMenu.ShouldExitEmulator( )
      || mState_LoadError.ShouldExitEmulator( ) )
     {
+        // put the state back to main menu for when we return 
+        // (tho it doesnt matter since we'll be exiting the app)
+        ChangeState( UIState_MainMenu );
         return -1;
     }
-    
-    // special quit checks for load error state
     
     return 1;
 }

@@ -11,10 +11,10 @@ void StateEmulatorSettings::Create( )
     
     int xPos = UI_X_POS_MENU;
     int yPos = UI_Y_POS_MENU;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Display FPS Counter", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Display FPS Counter: ", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Display CRC Warning", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Display Load Warnings: ", xPos, yPos, 0xFFFF );
     
     memset( mResultStr, 0, sizeof( mResultStr ) );
     
@@ -22,7 +22,10 @@ void StateEmulatorSettings::Create( )
     
     if ( mNumMenuItems > MAX_MENU_ITEMS )
     {
-        flushPrintf( "StateEmulatorSettings::Create() ERROR!!! mNumMenuItems too large at %d. MAX_MENU_ITEMS is only: %d\r\n", mNumMenuItems, MAX_MENU_ITEMS );
+        flushPrintf( "StateEmulatorSettings::Create() ERROR!!! mNumMenuItems too large at %d." 
+                     "MAX_MENU_ITEMS is only: %d\r\n", 
+                     mNumMenuItems, 
+                     MAX_MENU_ITEMS );
         exit( 0 );
     }
 }
@@ -74,6 +77,7 @@ UIState StateEmulatorSettings::Update( )
         }
         else if ( mMenuSelection == 1 )
         {
+            ShockConfig::SetShowLoadWarnings( !ShockConfig::GetShowLoadWarnings( ) );
         }
     }    
     
@@ -83,20 +87,46 @@ UIState StateEmulatorSettings::Update( )
 
 void StateEmulatorSettings::DrawMenu( )
 {
-    short textColor = ShockConfig::GetShowFPS( ) == 1 ? textColor = UI_COLOR_ENABLED : 0xFFFF;
-    mMenuItemList[0].SetColor( textColor );
-    mMenuItemList[0].Draw( );
+    char settingStr[ MAX_PATH ] = { 0 };
+    short textColor = 0;
+    int menuItemLen = 0;
     
+    // FPS
+    mMenuItemList[ 0 ].Draw( );
+    if ( ShockConfig::GetShowFPS( ) == 1 )
+    {
+        strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
+        textColor = UI_COLOR_ENABLED;
+    }
+    else
+    {
+        strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
+        textColor = 0xFFFF;
+    }
     
-    textColor = 0xFFFF;//ShockConfig::GetDisplayMode() == 1 ? textColor = 0x87e0 : 0xFFFF;
-    mMenuItemList[1].SetColor( textColor );
-    mMenuItemList[1].Draw( );
+    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 0 ].GetText( ) );
+    UIRenderer::DrawText( settingStr, mMenuItemList[ 0 ].GetXPos( ) + menuItemLen, mMenuItemList[ 0 ].GetYPos( ), textColor );
     
+    // Load Warnings
+    mMenuItemList[ 1 ].Draw( );
+    if ( ShockConfig::GetShowLoadWarnings( ) == 1 )
+    {
+        strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
+        textColor = UI_COLOR_ENABLED;
+    }
+    else
+    {
+        strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
+        textColor = 0xFFFF;
+    }
+    
+    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 1 ].GetText( ) );
+    UIRenderer::DrawText( settingStr, mMenuItemList[ 1 ].GetXPos( ) + menuItemLen, mMenuItemList[ 1 ].GetYPos( ), textColor );
     
     UIRenderer::DrawText( "X", 
                         mMenuItemList[ mMenuSelection ].GetXPos( ) - UI_CURSOR_X_OFFSET, 
                         mMenuItemList[ mMenuSelection ].GetYPos( ),
                         UI_COLOR_ENABLED );
     
-    UIBaseState::RenderBackOption( );
+    UIBaseState::RenderBackOption( "Return" );
 }

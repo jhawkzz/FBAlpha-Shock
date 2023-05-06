@@ -20,7 +20,7 @@ void StateDisplaySettings::Create( )
     mMenuItemList[ mNumMenuItems++ ].Create( "Full Screen", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT * 3;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Scanlines", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Scanlines: ", xPos, yPos, 0xFFFF );
     
     memset( mResultStr, 0, sizeof( mResultStr ) );
     
@@ -122,14 +122,31 @@ void StateDisplaySettings::DrawMenu( )
                           305, // centers it on screen
                           mMenuItemList[ 3 ].GetYPos() - UI_ROW_HEIGHT, 
                           0xFFFF );
-    textColor = ShockConfig::GetScanLinesEnabled() == 1 ? textColor = UI_COLOR_ENABLED : 0xFFFF;
-    mMenuItemList[3].SetColor( textColor );
-    mMenuItemList[3].Draw( );
+                          
+    // Scanlines
+    char settingStr[ MAX_PATH ] = { 0 };
+    int menuItemLen = 0;
     
+    mMenuItemList[ 3 ].Draw( );
+    if ( ShockConfig::GetScanLinesEnabled( ) == 1 )
+    {
+        strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
+        textColor = UI_COLOR_ENABLED;
+    }
+    else
+    {
+        strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
+        textColor = 0xFFFF;
+    }
+    
+    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 3 ].GetText( ) );
+    UIRenderer::DrawText( settingStr, mMenuItemList[ 3 ].GetXPos( ) + menuItemLen, mMenuItemList[ 3 ].GetYPos( ), textColor );
+    
+    // Cursor
     UIRenderer::DrawText( "X", 
                         mMenuItemList[ mMenuSelection ].GetXPos( ) - UI_CURSOR_X_OFFSET, 
                         mMenuItemList[ mMenuSelection ].GetYPos( ),
                         UI_COLOR_ENABLED );
     
-    UIBaseState::RenderBackOption( );
+    UIBaseState::RenderBackOption( "Return" );
 }

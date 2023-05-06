@@ -56,7 +56,7 @@ void StateButtonConfig::EnterState( UIState oldState )
     memset( mButtonInputList    , 0, sizeof( mButtonInputList ) );
     
     int xPos = UI_X_POS_MENU;
-    int yPos = UI_Y_POS_MENU;
+    int yPos = UI_Y_POS_MENU + 20; // button graphics are too large to start at the normal offset
     
     int numPlayers = ShockBurnInput::GetNumPlayers();
     int i;
@@ -195,7 +195,7 @@ void StateButtonConfig::DrawMenu( )
                         mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetYPos( ),
                         UI_COLOR_ENABLED );
                         
-    UIBaseState::RenderBackOption( );
+    UIBaseState::RenderBackOption( "Return" );
 }
 
 int StateButtonConfig::GetPrevButtonInput( InputCodeToButtonMapping buttonIndex )
