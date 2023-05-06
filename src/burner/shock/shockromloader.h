@@ -18,6 +18,7 @@
 #define LOAD_FATAL_MISSING_ROM (0x1 << 3) 
 #define LOAD_WARNING_CRC       (0x1 << 4) //if this is set, there were crc issues (but they can be ignored)
 #define LOAD_WARNING_LEN       (0x1 << 5) //if this is set, there were size issues (but they can be ignored)
+#define LOAD_WARNING_MASK      (LOAD_WARNING_CRC | LOAD_WARNING_LEN)
 
 // Represents an individual rom within a Romset.
 // Really worth reading this: https://docs.mamedev.org/usingmame/aboutromsets.html

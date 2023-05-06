@@ -173,7 +173,7 @@ int ShockMain::UpdateState_Loading( )
         case LoadResult_Success:
         {
             // everything loaded, but were there warnings in the rom loader?
-            if( ShockRomLoader::GetLoadResult() != LOAD_SUCCESS 
+            if( (ShockRomLoader::GetLoadResult() & LOAD_WARNING_MASK) != 0
                 && ShockConfig::GetShowLoadWarnings( ) == 1 )
             {
                 // goto the load error state, where they can continue on.
