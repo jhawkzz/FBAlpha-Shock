@@ -4,7 +4,7 @@
 #ifndef DEFINES_H_
 #define DEFINES_H_
 
-#define VERSION "0.1.0"
+#define SHOCK_VERSION "0.1.0"
 
 // Before a game is loaded, we sometimes need to provide certain systems
 // with an FPS to start with. Use 60.

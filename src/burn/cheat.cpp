@@ -203,7 +203,7 @@ INT32 CheatEnable(INT32 nCheat, INT32 nOption) // -1 / 0 - disable, -2 disable &
 }
 
 #if defined (BUILD_WIN32)
-extern INT32 VidSNewTinyMsg(const TCHAR* pText, INT32 nRGB = 0, INT32 nDuration = 0, INT32 nPriority = 5);
+extern INT32 VidSNewTinyMsg(const wchar_t* pText, INT32 nRGB = 0, INT32 nDuration = 0, INT32 nPriority = 5);
 #endif
 
 INT32 CheatApply()

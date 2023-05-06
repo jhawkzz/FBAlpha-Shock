@@ -21,12 +21,12 @@ enum
 };
 
 
-enum {
-    CLEAR_LINE = 0,				/* clear (a fired, held or pulsed) line */
-    ASSERT_LINE,				/* assert an interrupt immediately */
-    HOLD_LINE,					/* hold interrupt line until acknowledged */
-    PULSE_LINE,					/* pulse interrupt line for one instruction */
-};
+//enum {
+//    CLEAR_LINE = 0,				/* clear (a fired, held or pulsed) line */
+//    ASSERT_LINE,				/* assert an interrupt immediately */
+//    HOLD_LINE,					/* hold interrupt line until acknowledged */
+//    PULSE_LINE,					/* pulse interrupt line for one instruction */
+//};
 
 
 typedef int (*cpu_irq_callback)(int state);

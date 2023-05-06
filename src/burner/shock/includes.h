@@ -8,6 +8,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <io.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
 #define INLINE inline
 #else
 #include <unistd.h> //JHM: Fix implicit declaration warnings

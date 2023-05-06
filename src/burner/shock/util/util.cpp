@@ -58,7 +58,7 @@ int getExeDirectory( char *pFilePath, int size )
     if ( count != -1 ) 
     {
         dirname( result );
-        
+
         snprintf( pFilePath, size, "%s", result );
         return 0;
     }
@@ -67,4 +67,17 @@ int getExeDirectory( char *pFilePath, int size )
         return -1;
     }
 }
+
+#else
+int getExeDirectory( char *pFilePath, int size )
+{
+    if (GetModuleFileName(NULL, pFilePath, size) == ERROR_INSUFFICIENT_BUFFER)
+        return -1;
+
+    char* slash = strrchr(pFilePath, '\\');
+    if (slash) *slash = 0;
+
+    return 0;
+}
+
 #endif

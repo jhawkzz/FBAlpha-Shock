@@ -193,7 +193,7 @@ TCHAR* DecorateGenreInfo()
 	_stprintf(szDecoratedGenre, _T(""));
 	_stprintf(szFamily, _T(""));
 	
-#ifdef BUILD_WIN32 
+#if 0//BUILD_WIN32 
 //TODO: Translations are not working in non-win32 builds. This needs to be fixed
 
 	if (nGenre) {

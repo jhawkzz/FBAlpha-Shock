@@ -135,7 +135,10 @@ static NEC_INLINE void write_port_word(unsigned int a, unsigned short d)
 typedef UINT8 BOOLEAN;
 typedef UINT8 BYTE;
 typedef UINT16 WORD;
+
+#ifndef _WIN32
 typedef UINT32 DWORD;
+#endif
 
 #include "nec.h"
 #include "necpriv.h"

@@ -78,6 +78,7 @@ __extension__ typedef unsigned long long	UINT64;
 __extension__ typedef long long				INT64;
 #endif
 
+#include "driver.h"
 #include "state.h"
 #include "cheat.h"
 #include "hiscore.h"
