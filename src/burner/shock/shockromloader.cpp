@@ -34,8 +34,7 @@ int ShockRomLoader::LoadRomset( const char *pFilepath )
     result = ShockRomLoader::BurnGetDriverIndexByRomsetName( ShockRomLoader::mLoadedRomset_Name );
     if( result == -1 )
     {
-        mRomsetLoadResult = LOAD_FATAL_UNSUPPORTED;
-        
+        mRomsetLoadResult = LOAD_FATAL_UNSUPPORTED;   
         flushPrintf( "ShockRomLoader::LoadRomset() - BurnGetDriverIndexByRomsetName reports romset not found." 
                      "Verify this is a supported romset. Romset: %s\r\n", 
                      ShockRomLoader::mLoadedRomset_Name );
@@ -46,7 +45,6 @@ int ShockRomLoader::LoadRomset( const char *pFilepath )
     if( result == -1 )
     {
         mRomsetLoadResult = LOAD_FATAL_GENERIC;
-        
         flushPrintf( "ShockRomLoader::LoadRomset() - LoadRomInfoForActiveDriver failed\r\n" );
         return -1;
     }
@@ -55,7 +53,6 @@ int ShockRomLoader::LoadRomset( const char *pFilepath )
     if( result == -1 )
     {
         mRomsetLoadResult = LOAD_FATAL_GENERIC;
-        
         flushPrintf( "ShockRomLoader::LoadRomset() - LoadZipNamesForActiveDriver failed\r\n" );
         return -1;
     }
