@@ -12,6 +12,13 @@
 #define ROMCHECK_TOO_SMALL     (0x1 << 2)
 #define ROMCHECK_NAME_MISMATCH (0x1 << 3)
 
+#define LOAD_SUCCESS           (0x1)      //if this is set, we can move forward and the fatal bits will *NOT* be set.
+#define LOAD_FATAL_GENERIC     (0x1 << 1) //if this is set, its an error we cant recover from and the SUCCESS bit will *NOT* be set.
+#define LOAD_FATAL_UNSUPPORTED (0x1 << 2) //if this is set, its an error we cant recover from and the SUCCESS bit will *NOT* be set.
+#define LOAD_FATAL_MISSING_ROM (0x1 << 3) 
+#define LOAD_WARNING_CRC       (0x1 << 4) //if this is set, there were crc issues (but they can be ignored)
+#define LOAD_WARNING_LEN       (0x1 << 5) //if this is set, there were size issues (but they can be ignored)
+
 // Represents an individual rom within a Romset.
 // Really worth reading this: https://docs.mamedev.org/usingmame/aboutromsets.html
 // A romset can be structured as follows:
@@ -59,11 +66,24 @@ struct RomsetZipArchive
     int  zipExists;
 };
 
+struct ValidationResult
+{
+    int crcError;
+    int lenError;
+    int missingRomError;
+};
+
 class ShockRomLoader
 {
 public:
-    static int         LoadRomset( const char *pFilepath, int ignoreCrcErrors, int ignoreLenErrors );
+    static int         LoadRomset( const char *pFilepath );
     static const char *GetRomsetName( );
+    static int         GetLoadResult( );
+    
+    // These should only be used for rendering errors regarding missing 
+    static RomsetZipArchive *ErrorHandling_GetLoadedRomset_ZipArchives( int *pCount );
+    static RomInfo          *ErrorHandling_GetLoadedRoms( int *pCount );
+    static int               ErrorHandling_RomRequired( RomInfo *pRom );
     
 private:
     static int  ParseRomsetStrings( const char *pFilepath );
@@ -72,7 +92,7 @@ private:
     static int  LoadZipNamesForActiveDriver( );
     static void MapRomsToZipArchives( );
     static int  SearchZipArchiveForRom( RomInfo *pRomInfo, int zipArchiveIndex );
-    static int  ValidateAllRoms( int ignoreCrcErrors, int ignoreLenErrors );
+    static void ValidateAllRoms( ValidationResult *pValidationResult );
     
     static int  BurnCallbackFunc_LoadRom( uint8_t *pDest, int *pWrote, int romIndex );
 
@@ -86,8 +106,9 @@ private:
     static char             mLoadedRomset_Path[ MAX_PATH ];
     static char             mLoadedRomset_FileName[ MAX_PATH ];
     static char             mLoadedRomset_Name[ MAX_PATH ];
-    static int              mRomsetLoaded;
     
+    static int              mRomsetLoaded;
+    static int              mRomsetLoadResult;
 };
 
 #endif

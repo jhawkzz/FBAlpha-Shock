@@ -1339,6 +1339,8 @@
           <File Name="burner/shock/ui/states/stateemulatorsettings.h"/>
           <File Name="burner/shock/ui/states/stateloading.cpp"/>
           <File Name="burner/shock/ui/states/stateloading.h"/>
+          <File Name="burner/shock/ui/states/stateloaderror.cpp"/>
+          <File Name="burner/shock/ui/states/stateloaderror.h"/>
         </VirtualDirectory>
         <VirtualDirectory Name="render">
           <File Name="burner/shock/ui/render/drawlistobject.cpp"/>

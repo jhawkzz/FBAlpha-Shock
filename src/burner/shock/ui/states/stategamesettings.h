@@ -18,7 +18,8 @@ public:
     
 private:
     void      DrawMenu( );
-    
+
+private:
     MenuItem  mMenuItemList[ MAX_MENU_ITEMS ];
     int       mNumMenuItems;
     int       mMenuSelection;

@@ -81,7 +81,7 @@ int ShockMain::BeginLoad( char *pRomset )
     mLoadResult = LoadResult_Pending;
     
     // show the UI in the load state
-    ShockUI::Activate( 1 );
+    ShockUI::SetState_Load( );
         
     strncpy( mRomsetName, pRomset, sizeof( mRomsetName ) );
     
@@ -110,15 +110,21 @@ int ShockMain::Update( )
             break;
         }
         
-        case ShockState_Emulator:
+        case ShockState_LoadError:
         {
-            result = UpdateState_Emulator( );
+            result = UpdateState_LoadError( );
             break;
         }
         
         case ShockState_FrontEnd:
         {
             result = UpdateState_FrontEnd( );
+            break;
+        }
+        
+        case ShockState_Emulator:
+        {
+            result = UpdateState_Emulator( );
             break;
         }
     }
@@ -128,18 +134,32 @@ int ShockMain::Update( )
 
 void *ShockMain::LoadThread( void *pArg )
 {
-    int result = ShockGame::LoadGame( (char *)pArg );
-    if ( result == -1 )
+    LoadGameResult result = ShockGame::LoadGame( (char *)pArg );
+    switch( result )
     {
-        flushPrintf( "ShockMain::LoadThread() Error, ShockGame::LoadGame for romset %s failed!\r\n", (char *)pArg );
+        case LoadGameResult_Success:
+        {
+            mLoadResult = LoadResult_Success;
+            break;
+        }
         
-        mLoadResult = LoadResult_Failed;
-        return NULL;
+        case LoadGameResult_Failed_Load:
+        {
+            mLoadResult = LoadResult_Failed_Load;
+            break;
+        }
+        
+        case LoadGameResult_Failed_Other:
+        default:
+        {
+            mLoadResult = LoadResult_Failed_Other;
+            
+            flushPrintf( "ShockMain::LoadThread() Error, ShockGame::LoadGame for romset %s failed!" 
+                         "(Not due to ShockRomLoader)\r\n", 
+                         (char *)pArg );
+            break;
+        }
     }
-    
-    mLoadResult = LoadResult_Success;
-
-    return NULL;
 }
 
 int ShockMain::UpdateState_Loading( )
@@ -147,21 +167,78 @@ int ShockMain::UpdateState_Loading( )
     int result = 0;
     
     ShockUI::Update( );
+    
+    switch( mLoadResult )
+    {
+        case LoadResult_Success:
+        {
+            // everything loaded, but were there warnings in the rom loader?
+            if( ShockRomLoader::GetLoadResult() != LOAD_SUCCESS 
+            // TODO: AND does the user care? (check CRC setting)
             
-    if( mLoadResult == LoadResult_Success )
+              )
+            {
+                // goto the load error state, where they can continue on.
+                ShockUI::SetState_LoadError( );
+            
+                mLoadResult = LoadResult_Count;
+                mState = ShockState_LoadError;
+            }
+            // no issues whatsoever, launch the emulator
+            else
+            {
+                ShockGame::ResetFBATimer( );
+            
+                ShockRenderer::ClearBackBuffer( );
+                
+                mLoadResult = LoadResult_Count;
+                mState = ShockState_Emulator;
+            }
+            break;
+        }
+        
+        case LoadResult_Failed_Load:
+        {
+            ShockUI::SetState_LoadError( );
+            
+            mLoadResult = LoadResult_Count;
+            mState = ShockState_LoadError;
+            break;
+        }
+        
+        case LoadResult_Failed_Other:
+        {
+            mState = ShockState_Idle;
+            mLoadResult = LoadResult_Count;
+            
+            // just return -1 so we exit gracefully
+            result = -1;
+            break;
+        }
+    }
+    
+    return result;
+}
+
+int ShockMain::UpdateState_LoadError( )
+{
+    // a return of 1 means stay in the frontend load error screen
+    // a return of 0 means continue to the emulator
+    // a return of -1 means quit
+    int result = ShockUI::Update( );
+
+    if( result == 0 )
     {
         ShockGame::ResetFBATimer( );
-    
-        // print some game states cause all systems are GO!
-        ShockGame::PrintGameInfo( );
         
         ShockRenderer::ClearBackBuffer( );
         
+        mLoadResult = LoadResult_Count;
         mState = ShockState_Emulator;
     }
-    else if ( mLoadResult == LoadResult_Failed )
+    else if ( result == -1 )
     {
-        result = -1;
+        mState = ShockState_Idle;
     }
     
     return result;
@@ -199,7 +276,7 @@ int ShockMain::UpdateState_Emulator( )
     {
         mState = ShockState_FrontEnd;
         
-        ShockUI::Activate( 0 );
+        ShockUI::SetState_MainMenu( );
         ShockGame::Pause( 1 );
     }
     

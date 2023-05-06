@@ -42,7 +42,7 @@ UINT32 __cdecl HighCol16(INT32 r, INT32 g, INT32 b, INT32 /* i */);
 extern UINT8 *pBurnDraw;
 //***End Burn required implementations
 
-int ShockGame::LoadGame( const char *pRomset )
+LoadGameResult ShockGame::LoadGame( const char *pRomset )
 {
     // Grab the config file (we need it early, it controls CRC enforcement)
     ShockConfig::Create( );
@@ -57,11 +57,11 @@ int ShockGame::LoadGame( const char *pRomset )
     BurnLibInit( );
     
     // load the romset
-    int result = ShockRomLoader::LoadRomset( pRomset, 1, 1 );
+    int result = ShockRomLoader::LoadRomset( pRomset );
     if ( result == -1 )
     {
         flushPrintf( "ShockGame::LoadGame() - Romset %s not valid. Cannot continue.\r\n", ShockRomLoader::GetRomsetName( ) );
-        return -1;
+        return LoadGameResult_Failed_Load;
     }
     
     // FBA needs  a few things set PRIOR to initializing the driver,
@@ -97,14 +97,14 @@ int ShockGame::LoadGame( const char *pRomset )
     if( result == -1 )
     {
         flushPrintf( "ShockGame::LoadGame() - Failed to prepare rendering!\r\n" );
-        return -1;
+        return LoadGameResult_Failed_Other;
     }
     
     result = PrepareAudio( );
     if( result == -1 )
     {
         flushPrintf( "ShockGame::LoadGame() - Failed to prepare audio!\r\n" );
-        return -1;
+        return LoadGameResult_Failed_Other;
     }
     
     // everything is now setup - perform wrap up tasks now that we know what game we're playing
@@ -124,7 +124,7 @@ int ShockGame::LoadGame( const char *pRomset )
     
     mGameLoaded = 1;
    
-    return 0;
+    return LoadGameResult_Success;
 }
 
 void ShockGame::UnloadGame( )

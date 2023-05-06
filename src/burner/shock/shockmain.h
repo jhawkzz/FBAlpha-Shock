@@ -10,6 +10,7 @@ enum ShockState
 {
     ShockState_Idle,
     ShockState_Loading,
+    ShockState_LoadError,
     ShockState_FrontEnd,
     ShockState_Emulator,
     ShockState_Count
@@ -20,7 +21,8 @@ enum LoadResult
     LoadResult_None,
     LoadResult_Pending,
     LoadResult_Success,
-    LoadResult_Failed,
+    LoadResult_Failed_Load,
+    LoadResult_Failed_Other,
     LoadResult_Count
 };
 
@@ -36,6 +38,7 @@ private:
     static void *LoadThread( void *pArg );
     
     static int   UpdateState_Loading( );
+    static int   UpdateState_LoadError( );
     static int   UpdateState_FrontEnd( );
     static int   UpdateState_Emulator( );
 

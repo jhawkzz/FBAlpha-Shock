@@ -11,6 +11,7 @@ StateDisplaySettings  ShockUI::mState_DisplaySettings;
 StateEmulatorSettings ShockUI::mState_EmulatorSettings;
 StateCredits          ShockUI::mState_Credits;
 StateLoading          ShockUI::mState_Loading;
+StateLoadError        ShockUI::mState_LoadError;
 UIBaseState          *ShockUI::mpStateList[ UIState_Count ];
 UINT16                ShockUI::mBackgroundImage[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
 long                  ShockUI::mFrameTimeMS;
@@ -60,6 +61,7 @@ void ShockUI::Create( )
     mpStateList[ UIState_GameSettings ]     = &mState_GameSettings;
     mpStateList[ UIState_Credits ]          = &mState_Credits;
     mpStateList[ UIState_Loading ]          = &mState_Loading;
+    mpStateList[ UIState_LoadError ]        = &mState_LoadError;
     
     // initialize our gamestates
     for( int i = 0; i < UIState_Count; i++ )
@@ -86,18 +88,22 @@ void ShockUI::Destroy( )
     UIRenderer::Destroy( );
 }
 
-void ShockUI::Activate( int enterLoadState )
+void ShockUI::SetState_Load( )
 {
-    mFrameTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds();
-    
-    if ( enterLoadState == 1 )
-    {
-        ChangeState( UIState_Loading );
-    }
-    else
-    {
-        ChangeState( UIState_MainMenu );
-    }
+    mFrameTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds( );
+    ChangeState( UIState_Loading );
+}
+
+void ShockUI::SetState_LoadError( )
+{
+    mFrameTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds( );
+    ChangeState( UIState_LoadError );
+}
+
+void ShockUI::SetState_MainMenu( )
+{
+    mFrameTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds( );
+    ChangeState( UIState_MainMenu );
 }
 
 int ShockUI::Update( )
@@ -166,16 +172,21 @@ int ShockUI::UpdateState( )
         }
     }    
     
-    // special quit checks
-    if( mState_MainMenu.ShouldExitUI( ) )
+    // special quit checks for the two states that can control
+    // full app state
+    if( mState_MainMenu.ShouldExitUI( )
+     || mState_LoadError.ShouldExitUI( ) )
     {
         return 0;
     }
     
-    if( mState_MainMenu.ShouldExitEmulator( ) )
+    if( mState_MainMenu.ShouldExitEmulator( )
+     || mState_LoadError.ShouldExitEmulator( ) )
     {
         return -1;
     }
+    
+    // special quit checks for load error state
     
     return 1;
 }

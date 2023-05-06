@@ -15,6 +15,7 @@ enum UIState
     UIState_EmulatorSettings,
     UIState_Credits,
     UIState_Loading,
+    UIState_LoadError,
     UIState_Count
 };
 
@@ -40,10 +41,11 @@ public:
 protected:
     UIState HandleBackButton( );
     void    RenderBackOption( );
+    
+    int     GetCenteredXPos( const char *pText );
 
 protected:
-    UIState   mLastState;
-    int       mDrawBGImage;
+    UIState mLastState;
 };
 
 #endif

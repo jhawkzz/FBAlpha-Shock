@@ -79,6 +79,7 @@
 #include "shock/ui/imagebinaries.h"
 #include "shock/ui/states/uibasestate.h"
 #include "shock/ui/states/stateloading.h"
+#include "shock/ui/states/stateloaderror.h"
 #include "shock/ui/states/statecredits.h"
 #include "shock/ui/states/statemainmenu.h"
 #include "shock/ui/states/stategamesettings.h"

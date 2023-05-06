@@ -19,11 +19,18 @@ enum GameInputSwitchState
     GameInputSwitchState_PendingOn  =  1
 };
 
+enum LoadGameResult
+{
+    LoadGameResult_Success,
+    LoadGameResult_Failed_Load,
+    LoadGameResult_Failed_Other
+};
+
 class ShockGame
 {
 public:
-    static int  LoadGame( const char *pRomset );
-    static void UnloadGame( );
+    static LoadGameResult LoadGame( const char *pRomset );
+    static void           UnloadGame( );
     
     static void ResetFBATimer( );
     static void Update( );

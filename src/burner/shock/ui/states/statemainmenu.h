@@ -27,6 +27,7 @@ public:
 private:
             void              DrawMenu( );
 
+private:
             int               mMenuSelection;
             int               mNumMenuItems;
             MenuItemUIState   mMenuItemGameState[ MAX_MENU_ITEMS ];

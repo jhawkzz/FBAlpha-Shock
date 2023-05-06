@@ -5,14 +5,15 @@
 
 RomsetZipArchive ShockRomLoader::mLoadedRomset_ZipArchives[ MAX_ROMSET_ZIPS ];
 int              ShockRomLoader::mLoadedRomset_ZipArchivesCount;
+RomInfo          ShockRomLoader::mLoadedRoms[ MAX_ROMS ];
+int              ShockRomLoader::mLoadedRomsCount;
 char             ShockRomLoader::mLoadedRomset_Path[ MAX_PATH ];
 char             ShockRomLoader::mLoadedRomset_FileName[ MAX_PATH ];
 char             ShockRomLoader::mLoadedRomset_Name[ MAX_PATH ];
 int              ShockRomLoader::mRomsetLoaded;
-RomInfo          ShockRomLoader::mLoadedRoms[ MAX_ROMS ];
-int              ShockRomLoader::mLoadedRomsCount;
+int              ShockRomLoader::mRomsetLoadResult;
 
-int ShockRomLoader::LoadRomset( const char *pFilepath, int ignoreCrcErrors, int ignoreLenErrors )
+int ShockRomLoader::LoadRomset( const char *pFilepath )
 {
     if( mRomsetLoaded == 1 )
     {
@@ -20,9 +21,12 @@ int ShockRomLoader::LoadRomset( const char *pFilepath, int ignoreCrcErrors, int 
         return -1;
     }
     
+    mRomsetLoadResult = 0;
+    
     int result = ShockRomLoader::ParseRomsetStrings( pFilepath );
     if( result == -1 )
     {
+        mRomsetLoadResult = LOAD_FATAL_GENERIC;
         flushPrintf( "ShockRomLoader::LoadRomset() - ParseRomsetStrings failed for romset: %s\r\n", pFilepath );
         return -1;
     }
@@ -30,6 +34,8 @@ int ShockRomLoader::LoadRomset( const char *pFilepath, int ignoreCrcErrors, int 
     result = ShockRomLoader::BurnGetDriverIndexByRomsetName( ShockRomLoader::mLoadedRomset_Name );
     if( result == -1 )
     {
+        mRomsetLoadResult = LOAD_FATAL_UNSUPPORTED;
+        
         flushPrintf( "ShockRomLoader::LoadRomset() - BurnGetDriverIndexByRomsetName reports romset not found." 
                      "Verify this is a supported romset. Romset: %s\r\n", 
                      ShockRomLoader::mLoadedRomset_Name );
@@ -39,6 +45,8 @@ int ShockRomLoader::LoadRomset( const char *pFilepath, int ignoreCrcErrors, int 
     result = ShockRomLoader::LoadRomInfoForActiveDriver( );
     if( result == -1 )
     {
+        mRomsetLoadResult = LOAD_FATAL_GENERIC;
+        
         flushPrintf( "ShockRomLoader::LoadRomset() - LoadRomInfoForActiveDriver failed\r\n" );
         return -1;
     }
@@ -46,18 +54,35 @@ int ShockRomLoader::LoadRomset( const char *pFilepath, int ignoreCrcErrors, int 
     result = ShockRomLoader::LoadZipNamesForActiveDriver( );
     if( result == -1 )
     {
+        mRomsetLoadResult = LOAD_FATAL_GENERIC;
+        
         flushPrintf( "ShockRomLoader::LoadRomset() - LoadZipNamesForActiveDriver failed\r\n" );
         return -1;
     }
     
     ShockRomLoader::MapRomsToZipArchives( );
     
-    result = ShockRomLoader::ValidateAllRoms( ignoreCrcErrors, ignoreLenErrors );
-    if( result == -1 )
+    ValidationResult validationResult = { 0 };
+    ShockRomLoader::ValidateAllRoms( &validationResult );
+    
+    // check the results from validation
+    if( validationResult.missingRomError == 1 )
     {
-        flushPrintf( "ShockRomLoader::LoadRomset() - ValidateAllRoms failed\r\n" );
+        mRomsetLoadResult = LOAD_FATAL_MISSING_ROM;
         return -1;
     }
+    
+    if( validationResult.crcError == 1 )
+    {
+        mRomsetLoadResult |= LOAD_WARNING_CRC;
+    }
+    
+    if( validationResult.lenError == 1 )
+    {
+        mRomsetLoadResult |= LOAD_WARNING_LEN;
+    }
+    
+    mRomsetLoadResult |= LOAD_SUCCESS;
     
     BurnExtLoadRom = ShockRomLoader::BurnCallbackFunc_LoadRom;
     
@@ -69,6 +94,35 @@ int ShockRomLoader::LoadRomset( const char *pFilepath, int ignoreCrcErrors, int 
 const char *ShockRomLoader::GetRomsetName( )
 {
     return mLoadedRomset_Name;
+}
+
+int ShockRomLoader::GetLoadResult( )
+{
+    return mRomsetLoadResult;
+}
+
+RomsetZipArchive *ShockRomLoader::ErrorHandling_GetLoadedRomset_ZipArchives( int *pCount )
+{
+    *pCount = mLoadedRomset_ZipArchivesCount;
+    return mLoadedRomset_ZipArchives;
+}
+
+RomInfo *ShockRomLoader::ErrorHandling_GetLoadedRoms( int *pCount )
+{
+    *pCount = mLoadedRomsCount;
+    return mLoadedRoms;
+}
+
+int ShockRomLoader::ErrorHandling_RomRequired( RomInfo *pRom )
+{
+    if( pRom->burnRomInfo.nType != 0
+        && (pRom->burnRomInfo.nType & BRF_OPT) == 0
+        && (pRom->burnRomInfo.nType & BRF_NODUMP) == 0 )
+    {
+        return 1;
+    }
+    
+    return 0;
 }
 
 int ShockRomLoader::ParseRomsetStrings( const char *pFilepath )
@@ -331,10 +385,8 @@ int ShockRomLoader::SearchZipArchiveForRom( RomInfo *pRomInfo, int zipArchiveInd
     return -1;
 }
 
-int ShockRomLoader::ValidateAllRoms( int ignoreCrcErrors, int ignoreLenErrors )
+void ShockRomLoader::ValidateAllRoms( ValidationResult *pValidationResult )
 {
-    int success = 0;
-    
     // this acts like a final check to see if we're good to go.
     int i = 0;
     for( i = 0; i < mLoadedRomsCount; i++ )
@@ -350,7 +402,7 @@ int ShockRomLoader::ValidateAllRoms( int ignoreCrcErrors, int ignoreLenErrors )
             if( (mLoadedRoms[ i ].burnRomInfo.nType & BRF_OPT) == 0 &&
                 (mLoadedRoms[ i ].burnRomInfo.nType & BRF_NODUMP) == 0 )
             {
-                success = -1;
+                pValidationResult->missingRomError = 1;
                 flushPrintf( "%s - Error, required rom was not found.\r\n", mLoadedRoms[ i ].burnRomInfo.szName );
             }
             else if ( (mLoadedRoms[ i ].burnRomInfo.nType & BRF_OPT) != 0 )
@@ -369,16 +421,9 @@ int ShockRomLoader::ValidateAllRoms( int ignoreCrcErrors, int ignoreLenErrors )
                 flushPrintf( "%s - CRC did not match. Expected: 0x%x, Found: 0x%x\r\n", mLoadedRoms[ i ].burnRomInfo.szName,
                                                                                         mLoadedRoms[ i ].burnRomInfo.nCrc,
                                                                                         mLoadedRoms[ i ].foundCrc );
-                // if they chose not to ignore crc errors, we'll finish checking roms,
-                // but we will report failure
-                if( ignoreCrcErrors == 0 )
-                {
-                    success = -1;
-                }
-                else
-                {
-                    flushPrintf( "Ignoring CRC error. Maybe this is a romhack.\r\n" );
-                }
+                
+                // Note the error, but continue, because depending on settings it isnt fatal.
+                pValidationResult->crcError = 1;
             }
             
             if( mLoadedRoms[ i ].romCheck & ROMCHECK_NAME_MISMATCH )
@@ -392,17 +437,8 @@ int ShockRomLoader::ValidateAllRoms( int ignoreCrcErrors, int ignoreLenErrors )
                 flushPrintf( "%s - Length did not match. Too large. Expected: %d, Found: %d\r\n", mLoadedRoms[ i ].burnRomInfo.szName,
                                                                                                   mLoadedRoms[ i ].burnRomInfo.nLen,
                                                                                                   mLoadedRoms[ i ].foundLen );
-                                                                                                  
-                // if they chose not to ignore length errors, we'll finish checking roms,
-                // but we will report failure
-                if( ignoreLenErrors == 0 )
-                {
-                    success = -1;
-                }
-                else
-                {
-                    flushPrintf( "Ignoring Length error. Maybe this is a romhack.\r\n" );
-                }
+                // Note the error, but continue, because depending on settings it isnt fatal.
+                pValidationResult->lenError = 1;
             }
             else if( mLoadedRoms[ i ].romCheck & ROMCHECK_TOO_SMALL )
             {
@@ -410,26 +446,16 @@ int ShockRomLoader::ValidateAllRoms( int ignoreCrcErrors, int ignoreLenErrors )
                                                                                                   mLoadedRoms[ i ].burnRomInfo.nLen,
                                                                                                   mLoadedRoms[ i ].foundLen );
                                                                                                   
-                // if they chose not to ignore length errors, we'll finish checking roms,
-                // but we will report failure
-                if( ignoreLenErrors == 0 )
-                {
-                    success = -1;
-                }
-                else
-                {
-                    flushPrintf( "Ignoring Length error. Maybe this is a romhack.\r\n" );
-                }
+                // Note the error, but continue, because depending on settings it isnt fatal.
+                pValidationResult->lenError = 1;
             }
         }
-        else
+        /*else
         {
-            //flushPrintf( "%s - Valid! Exists in %s\r\n", mLoadedRoms[ i ].burnRomInfo.szName, 
-              //                                           mLoadedRomset_ZipArchives[ mLoadedRoms[ i ].zipArchiveIndex ].zipArchiveName );
-        }
+            flushPrintf( "%s - Valid! Exists in %s\r\n", mLoadedRoms[ i ].burnRomInfo.szName, 
+                                                         mLoadedRomset_ZipArchives[ mLoadedRoms[ i ].zipArchiveIndex ].zipArchiveName );
+        }*/
     }
-    
-    return success;
 }
 
 int ShockRomLoader::BurnCallbackFunc_LoadRom( uint8_t *pDest, int *pWrote, int romIndex )
