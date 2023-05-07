@@ -275,8 +275,8 @@ int ShockMain::Loop()
     {
         result = ShockMain::Update();
 
-        if (result)
-            return result;
+        if (result == -1)
+            break;
 
         switch (mState)
         {
