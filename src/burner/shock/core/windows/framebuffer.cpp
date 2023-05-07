@@ -21,6 +21,6 @@ short *FrameBuffer::GetBackBuffer( )
    return NULL;
 }
 
-void FrameBuffer::Flip( UINT16 *pBackBuffer, int width, int height )
+void FrameBuffer::Flip( )
 {
 }

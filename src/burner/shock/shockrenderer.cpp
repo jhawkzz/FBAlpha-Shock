@@ -39,10 +39,10 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
                                int driverFlags, 
                                int framesPerSec )
 {
-    RenderImage( pBuffer, width, height, (UINT16 *)MVSXFrameBuffer::GetBackBuffer(), PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, driverFlags );
+    RenderImage( pBuffer, width, height, (UINT16 *)FrameBuffer::GetBackBuffer(), PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, driverFlags );
     if( ShockConfig::GetShowFPS( ) )
     {
-        RenderFPS( (UINT16 *)MVSXFrameBuffer::GetBackBuffer(), framesPerSec );
+        RenderFPS( (UINT16 *)FrameBuffer::GetBackBuffer(), framesPerSec );
     }
 }
 
