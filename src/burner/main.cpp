@@ -22,7 +22,7 @@ int main( int argc, char **argv )
         return 0;
     }
     
-    gGlobalTimer.Reset( );
+    //gGlobalTimer.Reset( );
     
     return ShockMain::Run( argv[ 1 ] );
 

@@ -127,7 +127,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\burner\ioapi.c" />
-    <ClCompile Include="..\..\src\burner\main.cpp" />
     <ClCompile Include="..\..\src\burner\misc.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\audio.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\framebuffer.cpp" />
