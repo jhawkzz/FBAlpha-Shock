@@ -15,7 +15,7 @@ public:
         static void ClearFrameBuffer( );
         static short *GetBackBuffer( );
 		
-        static void Flip( UINT16 *pBackBuffer, int width, int height );
+        static void Flip( );
         
 private:
         static void PrintMode( fb_var_screeninfo *pfbVScreenInfo );

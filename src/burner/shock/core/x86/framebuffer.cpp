@@ -92,15 +92,15 @@ short *FrameBuffer::GetBackBuffer( )
    return (UINT16 *)mScaleBuffer;
 }
 
-void FrameBuffer::Flip( UINT16 *pBackBuffer, int width, int height )
+void FrameBuffer::Flip( )
 {
     int *pFrameBuffer = (int *) mpFrameBuffer;
     
-    for( int y = 0; y < height; y++ )
+    for( int y = 0; y < PLATFORM_LCD_HEIGHT; y++ )
     {
-        for( int x = 0; x < width; x++ )
+        for( int x = 0; x < PLATFORM_LCD_WIDTH; x++ )
         {
-            short pixelData = pBackBuffer[ x ];
+            short pixelData = mScaleBuffer[ x ];
 
             // break out the components
             short r = (pixelData >> 11) & 0x1F;
@@ -117,7 +117,7 @@ void FrameBuffer::Flip( UINT16 *pBackBuffer, int width, int height )
         }
         
         pFrameBuffer += mFixedScreenInfo.line_length / 4;
-        pBackBuffer  += width;
+        mScaleBuffer  += PLATFORM_LCD_WIDTH;
     }
 }
 
