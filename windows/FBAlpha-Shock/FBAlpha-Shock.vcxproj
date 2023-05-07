@@ -132,7 +132,7 @@
     <ClCompile Include="..\..\src\burner\shock\core\windows\audio.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\framebuffer.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\input.cpp" />
-    <ClCompile Include="..\..\src\burner\shock\core\windows\ostimer.cpp" />
+    <ClCompile Include="..\..\src\burner\shock\core\windows\ostimer_core.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\thread_core.cpp" />
     <ClCompile Include="..\..\src\burner\shock\font\font.cpp" />
     <ClCompile Include="..\..\src\burner\shock\input\shockburninput.cpp" />
