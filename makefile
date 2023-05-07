@@ -111,6 +111,7 @@ FBA_DEFINES := -DUSE_SPEEDHACKS \
 
 INCDIRS := \
 	-I$(FBA_BURNER_DIR) \
+	-I$(FBA_BURNER_DIR)/shock/core/mvsx \
 	-I$(FBA_BURN_DIR) \
 	-I$(FBA_BURN_DIR)/snd \
 	-I$(FBA_BURN_DIR)/devices \
