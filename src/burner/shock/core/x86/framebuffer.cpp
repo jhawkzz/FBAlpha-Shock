@@ -89,7 +89,7 @@ void FrameBuffer::ClearFrameBuffer()
 
 short *FrameBuffer::GetBackBuffer( )
 {
-   return (short *)mScaleBuffer;
+   return (short *)mpFrameBuffer;
 }
 
 void FrameBuffer::Flip( )
