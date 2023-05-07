@@ -3,29 +3,17 @@
 
 #include "../../includes.h"
 
-ButtonState Input::mButtonState[ Button_Count ];
-int         Input::mInputFileHandle;
-int         Input::mThreadRunning;
-
 int Input::Create( )
 {
-    return -1;
+    return 0;
 }
 
 void Input::Destroy( )
 {
 }
 
-void *Input::PollInput_ThreadProc(void *data)
-{
-    return NULL;
-}
-
-void Input::ReadInputs( )
-{
-}
-
 int Input::GetValueForInput( InputCodeToButtonMapping input )
 {
-    return 0;
+    SHORT s = GetKeyState(input);
+    return s & 8000 ? 1 : 0;
 }

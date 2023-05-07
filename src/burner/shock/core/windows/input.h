@@ -56,14 +56,6 @@ public:
     static int  Create( );
     static void Destroy( );
     static int  GetValueForInput( InputCodeToButtonMapping input );
-    
-private:
-    static void *PollInput_ThreadProc( void *);
-    static void  ReadInputs( );
-
-    static ButtonState mButtonState[ Button_Count ];
-    static int         mInputFileHandle;
-    static int         mThreadRunning; // No need for a mutex, we just use it to kill the thread
 };
 
 #endif
