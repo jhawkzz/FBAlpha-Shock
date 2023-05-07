@@ -949,6 +949,8 @@
     <ClInclude Include="..\..\src\burner\shock\core\mvsx\mvsxinput.h" />
     <ClInclude Include="..\..\src\burner\shock\core\mvsx\mvsxled.h" />
     <ClInclude Include="..\..\src\burner\shock\core\ostimer.h" />
+    <ClInclude Include="..\..\src\burner\shock\core\thread.h" />
+    <ClInclude Include="..\..\src\burner\shock\core\windows\thread_core.h" />
     <ClInclude Include="..\..\src\burner\shock\core\x86\x86audio.h" />
     <ClInclude Include="..\..\src\burner\shock\core\x86\x86framebuffer.h" />
     <ClInclude Include="..\..\src\burner\shock\core\x86\x86input.h" />

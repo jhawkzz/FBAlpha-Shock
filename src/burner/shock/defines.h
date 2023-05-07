@@ -23,7 +23,7 @@
 // Graphics
 #ifdef X86
 #define PLATFORM_LCD_WIDTH	  (800)
-#define PLATFORM_LCD_HEIGHT	  (600)
+#define PLATFORM_LCD_HEIGHT	  (600) 
 #elif MVSX
 #define PLATFORM_LCD_WIDTH	  (1280)
 #define PLATFORM_LCD_HEIGHT	  (1024)

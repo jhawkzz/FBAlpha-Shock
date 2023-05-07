@@ -4,7 +4,7 @@
 class ShockThreadCore
 {
 public:
-   pthread_t t;
+   pthread_t m_thread;
 };
 
 #endif

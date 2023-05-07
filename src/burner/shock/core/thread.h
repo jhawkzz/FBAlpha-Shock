@@ -3,9 +3,12 @@
 
 #include "thread_core.h"
 
-class ShockThread : public ShockThreadCore {};
+class ShockThread : public ShockThreadCore
+{
+public:
+   ~ShockThread();
 
-int ShockThreadCreate(ShockThread* p, void *(*start_routine)(void *), void* restrict);
-void ShockThreadDetach(ShockThread* p);
+   int Create(ShockThreadProc, void* param);
+};
 
 #endif
