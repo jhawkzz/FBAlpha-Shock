@@ -3,7 +3,7 @@
 
 #include "shock/includes.h"
 
-OSTimer gGlobalTimer;
+//OSTimer gGlobalTimer;
 
 /* NOTE
  * If running on x86 Lubuntu, this renders directly to the frame buffer. 
@@ -22,25 +22,20 @@ int main( int argc, char **argv )
         return 0;
     }
     
-    gGlobalTimer.Reset( );
-    
-    int result = ShockMain::Create( );
-    if( result == -1 )
-    {
-        return 0;
-    }
+    //gGlobalTimer.Reset( );
     
     // start loading the rom
-    ShockMain::BeginLoad( argv[ 1 ] );
     
-    while( 1 )
-    {
-        int result = ShockMain::Update( );
-        if( result == -1 )
-        {
-            break;
-        }
-    }
+    return ShockMain::Run( argv[ 1 ] );
+
+    //while( 1 )
+    //{
+    //    int result = ShockMain::Update( );
+    //    if( result == -1 )
+    //    {
+    //        break;
+    //    }
+    //}
     
-    ShockMain::Destroy( );
+    //ShockMain::Destroy( );
 }

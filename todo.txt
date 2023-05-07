@@ -1,10 +1,7 @@
-compiling
 organize files
-maybe add system prefix back to core file class declarations?
 remove platform specific hacks
-add platform specific code
+get framebuffer working
 test on windows
-test on lubuntu
 
 
 git token

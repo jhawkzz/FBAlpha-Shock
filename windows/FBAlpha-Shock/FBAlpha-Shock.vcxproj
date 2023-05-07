@@ -133,6 +133,7 @@
     <ClCompile Include="..\..\src\burner\shock\core\windows\framebuffer.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\input.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\ostimer_core.cpp" />
+    <ClCompile Include="..\..\src\burner\shock\core\windows\shockmain_core.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\windows\thread_core.cpp" />
     <ClCompile Include="..\..\src\burner\shock\font\font.cpp" />
     <ClCompile Include="..\..\src\burner\shock\input\shockburninput.cpp" />
@@ -952,6 +953,7 @@
     <ClInclude Include="..\..\src\burner\shock\core\thread.h" />
     <ClInclude Include="..\..\src\burner\shock\core\windows\input.h" />
     <ClInclude Include="..\..\src\burner\shock\core\windows\ostimer_core.h" />
+    <ClInclude Include="..\..\src\burner\shock\core\windows\shockmain_core.h" />
     <ClInclude Include="..\..\src\burner\shock\core\windows\thread_core.h" />
     <ClInclude Include="..\..\src\burner\shock\core\x86\x86audio.h" />
     <ClInclude Include="..\..\src\burner\shock\core\x86\x86framebuffer.h" />
