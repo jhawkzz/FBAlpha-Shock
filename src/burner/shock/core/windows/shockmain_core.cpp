@@ -3,6 +3,13 @@
 
 #include "../../includes.h"
 
+HWND ShockMainCore::m_hwnd;
+
+void ShockMainCore::SetWindow(HWND hwnd)
+{
+    m_hwnd = hwnd;
+}
+
 int ShockMainCore::Update()
 {
     MSG msg;

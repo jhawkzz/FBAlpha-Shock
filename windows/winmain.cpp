@@ -80,25 +80,27 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     hAppInst = hInstance;  // save instance handle 
 
-    return ShockMain::Run( "" );
-
     // Create the main window. 
 
-    //hwndMain = CreateWindow("MainWndClass", "Sample", 
-    //    WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
-    //    CW_USEDEFAULT, CW_USEDEFAULT, (HWND) NULL, 
-    //    (HMENU) NULL, hAppInst, (LPVOID) NULL); 
+    hwndMain = CreateWindow("MainWndClass", "Sample", 
+        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
+        CW_USEDEFAULT, CW_USEDEFAULT, (HWND) NULL, 
+        (HMENU) NULL, hAppInst, (LPVOID) NULL); 
 
-    //// If the main window cannot be created, terminate 
-    //// the application. 
+    // If the main window cannot be created, terminate 
+    // the application. 
 
-    //if (!hwndMain) 
-    //    return FALSE; 
+    if (!hwndMain) 
+        return FALSE; 
 
-    //// Show the window and paint its contents. 
+    // Show the window and paint its contents. 
 
-    //ShowWindow(hwndMain, nCmdShow); 
-    //UpdateWindow(hwndMain); 
+    ShowWindow(hwndMain, nCmdShow); 
+    UpdateWindow(hwndMain); 
+
+    ShockMain::SetWindow(hwndMain);
+
+    return ShockMain::Run( "" );
 
     //// Start the message loop. 
 
