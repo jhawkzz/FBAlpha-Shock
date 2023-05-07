@@ -63,6 +63,8 @@ int FrameBuffer::Create( )
     // clear the full buffer
     memset( mpFrameBuffer, 0x0, mFrameBufferBytes );
     
+    PrintVScreenInfo( &mVScreenInfo );    
+    
 	return 0;
 }
 
@@ -84,18 +86,18 @@ void FrameBuffer::Destroy( )
 
 void FrameBuffer::ClearFrameBuffer()
 {
-    memset( mScaleBuffer, 0, PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH );
+    memset( mScaleBuffer, 0, PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH );
 }
 
 short *FrameBuffer::GetBackBuffer( )
 {
-   return (short *)mpFrameBuffer;
+   return (short *) mScaleBuffer;
 }
 
 void FrameBuffer::Flip( )
 {
     int *pFrameBuffer = (int *) mpFrameBuffer;
-    int *pScaleBuffer = (int *) mScaleBuffer;
+    short *pScaleBuffer = (short *) mScaleBuffer;
     
     for( int y = 0; y < PLATFORM_LCD_HEIGHT; y++ )
     {

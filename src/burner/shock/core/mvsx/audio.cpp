@@ -45,7 +45,7 @@ int Audio::Create( )
     int prefBufferSize = 11; //11 Maps to 2048
     int fragBufferHint = (numFragments << 16)  | prefBufferSize;
     
-	int result = ioctl(mDspHandle, SNDCTL_DSP_SETFRAGMENT, &fragBufferHint );
+	result = ioctl(mDspHandle, SNDCTL_DSP_SETFRAGMENT, &fragBufferHint );
     if( result < 0 )
     {
         flushPrintf( "Audio::Create() SNDCTL_DSP_SETFRAGMENT failed. Errno: %d\r\n", errno );

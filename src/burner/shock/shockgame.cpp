@@ -354,16 +354,7 @@ int ShockGame::PrepareAudio( )
         flushPrintf( "ShockGame::PrepareAudio() - Failed to caculate burn sound length.\r\n" );
         return -1;
     }
-    
-#ifdef MVSX
-    result = MVSXAudio::SetBufferLength( nBurnSoundLen );
-    if( result < 0 )
-    {
-        flushPrintf( "ShockGame::PrepareAudio() - Failed to set MVSX buffer length.\r\n" );
-        return -1;
-    }
-#endif
-    
+
     return 0;   
 }
 
