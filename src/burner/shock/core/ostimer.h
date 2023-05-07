@@ -5,7 +5,7 @@
 #define OSTIMER_H_
 
 #include "../includes.h"
-#include "windows/ostimer_core.h"
+#include "ostimer_core.h"
 
 class OSTimer : public OSTimerCore
 {
