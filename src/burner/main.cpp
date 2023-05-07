@@ -22,12 +22,19 @@ int main( int argc, char **argv )
         return 0;
     }
     
-    //gGlobalTimer.Reset( );
-    
-    // start loading the rom
+    gGlobalTimer.Reset( );
     
     return ShockMain::Run( argv[ 1 ] );
 
+    //int result = ShockMain::Create( );
+    //if( result == -1 )
+    //{
+    //    return 0;
+    //}
+    //
+    //// start loading the rom
+    //ShockMain::BeginLoad( argv[ 1 ] );
+    //
     //while( 1 )
     //{
     //    int result = ShockMain::Update( );
@@ -36,6 +43,6 @@ int main( int argc, char **argv )
     //        break;
     //    }
     //}
-    
+    //
     //ShockMain::Destroy( );
 }

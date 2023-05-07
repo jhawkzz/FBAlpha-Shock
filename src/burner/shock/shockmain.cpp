@@ -273,7 +273,7 @@ int ShockMain::Loop()
 
     while (true);
     {
-        result = ShockMainCore::Update();
+        result = ShockMain::Update();
 
         if (result)
             return result;
