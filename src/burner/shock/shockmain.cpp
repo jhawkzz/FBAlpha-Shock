@@ -271,7 +271,7 @@ int ShockMain::Loop()
 {
     int result;
 
-    while (true);
+    while (true)
     {
         result = ShockMain::Update();
 

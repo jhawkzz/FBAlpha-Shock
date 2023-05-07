@@ -10,5 +10,5 @@ ShockThread::~ShockThread()
 
 int ShockThread::Create(ShockThreadProc proc, void* param)
 {
-   return pthread_create( &m_thread, NULL, start_routine, restrict );
+   return pthread_create( &m_thread, NULL, proc, param );
 }

@@ -1299,8 +1299,6 @@
           <File Name="burner/shock/core/x86/input.h"/>
           <File Name="burner/shock/core/x86/ostimer_core.cpp"/>
           <File Name="burner/shock/core/x86/ostimer_core.h"/>
-          <File Name="burner/shock/core/x86/thread_core.cpp"/>
-          <File Name="burner/shock/core/x86/thread_core.h"/>
         </VirtualDirectory>
         <VirtualDirectory Name="mvsx">
           <File Name="burner/shock/core/mvsx/mvsxled.cpp"/>
@@ -1313,12 +1311,14 @@
           <File Name="burner/shock/core/mvsx/input.h"/>
           <File Name="burner/shock/core/mvsx/ostimer_core.cpp"/>
           <File Name="burner/shock/core/mvsx/ostimer_core.h"/>
-          <File Name="burner/shock/core/mvsx/thread_core.cpp"/>
-          <File Name="burner/shock/core/mvsx/thread_core.h"/>
         </VirtualDirectory>
         <File Name="burner/shock/core/ostimer.h"/>
         <File Name="burner/shock/core/platform.h"/>
         <File Name="burner/shock/core/thread.h"/>
+        <VirtualDirectory Name="posix">
+          <File Name="burner/shock/core/posix/thread_core.cpp"/>
+          <File Name="burner/shock/core/posix/thread_core.h"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="util">
         <File Name="burner/shock/util/util.cpp"/>
