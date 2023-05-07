@@ -23,7 +23,7 @@ UINT32 OSTimer::GetElapsedTimeMicroseconds( )
     return delta.tv_sec * SEC_TO_MICROSECONDS + (delta.tv_nsec / NANO_TO_MICROSECONDS);
 }
 
-timespec OSTimer::Diff( timespec start, timespec end )
+timespec OSTimerCore::Diff( timespec start, timespec end )
 {
     timespec temp;
     if ( (end.tv_nsec-start.tv_nsec) < 0 ) 
