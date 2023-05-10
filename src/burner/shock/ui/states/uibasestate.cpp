@@ -36,7 +36,16 @@ UIState UIBaseState::HandleBackButton( )
     }
 }
 
-void UIBaseState::RenderBackOption( )
+void UIBaseState::RenderBackOption( const char *pNavVerb)
 {
-    UIRenderer::DrawText( "Press Options/Back to Return", UI_X_POS_MENU, PLATFORM_LCD_HEIGHT - 50, 0xFFFF );
+    char textStr[ MAX_PATH ] = { 0 };
+    snprintf( textStr, sizeof( textStr ), "Press Options/Back to %s", pNavVerb );
+    int xPos = GetCenteredXPos( textStr );
+    UIRenderer::DrawText( textStr, xPos, PLATFORM_LCD_HEIGHT - 50, 0xFFFF );
+}
+
+int UIBaseState::GetCenteredXPos( const char *pText )
+{
+    int width = Font::MeasureStringWidth( pText );
+    return (PLATFORM_LCD_WIDTH - width) / 2;
 }

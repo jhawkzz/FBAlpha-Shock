@@ -101,9 +101,10 @@ void ShockConfig::RestoreDefaults( )
     // due to corruption
     memset( &mConfigSettings, 0, sizeof( mConfigSettings ) );
     
-    mConfigSettings.displayMode = ShockDisplayMode_FullScreen;
-    mConfigSettings.scanLines   = 0;
-    mConfigSettings.showFPS     = 0;
+    mConfigSettings.displayMode      = ShockDisplayMode_FullScreen;
+    mConfigSettings.scanLines        = 0;
+    mConfigSettings.showFPS          = 0;
+    mConfigSettings.showLoadWarnings = 0;
 }
 
 int ShockConfig::GetDisplayMode( )
@@ -134,6 +135,16 @@ int ShockConfig::GetShowFPS( )
 void ShockConfig::SetShowFPS( int enabled )
 {
     mConfigSettings.showFPS = enabled;
+}
+
+int ShockConfig::GetShowLoadWarnings( )
+{
+    return mConfigSettings.showLoadWarnings;
+}
+
+void ShockConfig::SetShowLoadWarnings( int enabled )
+{
+    mConfigSettings.showLoadWarnings = enabled;
 }
 
 SavedFireInput *ShockConfig::LoadFireInputs( const char *pRomsetName )

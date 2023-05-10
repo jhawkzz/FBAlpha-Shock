@@ -85,7 +85,7 @@ void StateCredits::RenderCredits( )
         case 6: RenderPage6( ); break;
     }
     
-    UIBaseState::RenderBackOption( );
+    UIBaseState::RenderBackOption( "Return" );
     
     int prevTextColor = 0xFFFF;
     int nextTextColor = 0xFFFF;
@@ -115,7 +115,7 @@ void StateCredits::RenderPage0( )
     char text[ MAX_PATH ] = { 0 };
     
     int xPos = UI_X_POS_MENU;
-    int yPos = 181;
+    int yPos = UI_Y_POS_MENU;
     
     snprintf( text, sizeof( text ) - 1, "Version: %s", VERSION );
     UIRenderer::DrawText( text, xPos, yPos, 0xFFFF );
@@ -168,7 +168,7 @@ void StateCredits::RenderPage0( )
 void StateCredits::RenderPage1( )
 {
     int xPos = UI_X_POS_MENU;
-    int yPos = 181;
+    int yPos = UI_Y_POS_MENU;
     UIRenderer::DrawText( "(see below for a list of libraries with differing licenses,", xPos, yPos, 0xFFFF );
     yPos += UI_ROW_HEIGHT / 2;
     UIRenderer::DrawText( "please consult their respective documentation for more information):", xPos, yPos, 0xFFFF );
@@ -211,7 +211,7 @@ void StateCredits::RenderPage1( )
 void StateCredits::RenderPage2( )
 {
     int xPos = UI_X_POS_MENU;
-    int yPos = 181;
+    int yPos = UI_Y_POS_MENU;
     UIRenderer::DrawText( "FB Alpha would not exist without a lot of code from the MAME project.", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT / 2;
@@ -276,7 +276,7 @@ void StateCredits::RenderPage2( )
 void StateCredits::RenderPage3( )
 {
     int xPos = UI_X_POS_MENU;
-    int yPos = 181;
+    int yPos = UI_Y_POS_MENU;
     UIRenderer::DrawText( "M6809 CPU core by John Bulter (http://www.mamedev.org).", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT / 2;
@@ -354,7 +354,7 @@ void StateCredits::RenderPage3( )
 void StateCredits::RenderPage4()
 {
     int xPos = UI_X_POS_MENU;
-    int yPos = 181;
+    int yPos = UI_Y_POS_MENU;
     UIRenderer::DrawText( "UPD7759 sound core by Juergen Buchmueller, Mike Balfour,", xPos, yPos, 0xFFFF );
     yPos += UI_ROW_HEIGHT / 2;
     UIRenderer::DrawText( "Howie Cohen, Olivier Galibert, Aaron Giles (http://www.mamedev.org).", xPos, yPos, 0xFFFF );
@@ -407,7 +407,7 @@ void StateCredits::RenderPage4()
 void StateCredits::RenderPage5()
 {
     int xPos = UI_X_POS_MENU;
-    int yPos = 181;
+    int yPos = UI_Y_POS_MENU;
     UIRenderer::DrawText( "Some graphics effects provided by the Scale2x, 2xPM, Eagle Graphics,", xPos, yPos, 0xFFFF );
     yPos += UI_ROW_HEIGHT / 2;
     UIRenderer::DrawText( "2xSaI, hq2x/hq3x/hq4x, hq2xS/hq3xS/SuperEagle/2xSaI (VBA),", xPos, yPos, 0xFFFF );
@@ -457,7 +457,7 @@ void StateCredits::RenderPage5()
 void StateCredits::RenderPage6()
 {
     int xPos = UI_X_POS_MENU;
-    int yPos = 181;
+    int yPos = UI_Y_POS_MENU;
     UIRenderer::DrawText( "The following information and license conditions accompanied", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT / 2;

@@ -13,7 +13,10 @@ public:
     static void Create( );
     static void Destroy( );
     
-    static void Activate( int enterLoadState );
+    static void SetState_Load( );
+    static void SetState_LoadError( );
+    static void SetState_MainMenu( );
+    
     static int  Update( );
     
 private:
@@ -29,6 +32,7 @@ private:
     static StateEmulatorSettings mState_EmulatorSettings;
     static StateCredits          mState_Credits;
     static StateLoading          mState_Loading;
+    static StateLoadError        mState_LoadError;
     static UIBaseState          *mpStateList[ UIState_Count ];
     static UINT16                mBackgroundImage[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
     static long                  mFrameTimeMS;

@@ -15,10 +15,11 @@ enum UIState
     UIState_EmulatorSettings,
     UIState_Credits,
     UIState_Loading,
+    UIState_LoadError,
     UIState_Count
 };
 
-#define UI_Y_POS_MENU      (200) //The start y position for menu items
+#define UI_Y_POS_MENU      (181) //The start y position for menu items
 #define UI_X_POS_MENU      (90)  //The start x position for menu items
 #define UI_ROW_HEIGHT      (56)  //The amount to increment Y by when rendering another line
 #define UI_CURSOR_X_OFFSET (52)  //The amount of pixels to decrement by when rendering the selection cursor
@@ -39,11 +40,12 @@ public:
     
 protected:
     UIState HandleBackButton( );
-    void    RenderBackOption( );
+    void    RenderBackOption( const char *pNavVerb);
+    
+    int     GetCenteredXPos( const char *pText );
 
 protected:
-    UIState   mLastState;
-    int       mDrawBGImage;
+    UIState mLastState;
 };
 
 #endif

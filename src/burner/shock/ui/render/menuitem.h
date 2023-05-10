@@ -9,12 +9,16 @@ class MenuItem
 public:
     void Create( const char *pText, int xPos, int yPos, short textColor );
     
-    void SetColor( short textColor );
+    void        SetText( const char *pText );
+    const char *GetText( );
+    
+    void  SetColor( short textColor );
+    short GetColor( );
     
     void Draw( );
     
-    int  GetXPos( ) { return mXPos; }
-    int  GetYPos( ) { return mYPos; }
+    int GetXPos( ) { return mXPos; }
+    int GetYPos( ) { return mYPos; }
     
 private:
     int   mXPos;

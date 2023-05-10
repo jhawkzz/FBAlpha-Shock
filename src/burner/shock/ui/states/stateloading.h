@@ -18,6 +18,7 @@ public:
 private:
     void      DrawMenu( );
     
+private:
     int       mLoadingColorLetterIndex;
     int       mLoadingTimerMS;
 };
