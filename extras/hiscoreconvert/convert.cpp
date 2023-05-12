@@ -30,7 +30,7 @@ int main( int argc, char **argv )
     FILE *pOutFile = fopen( outFile, "wb" );
     //
     
-    fprintf( pOutFile, "const char hiscoreDat = \r\n" );
+    fprintf( pOutFile, "const char hiscoreDat[] = \r\n" );
     
     fseek( pInFile, 0, SEEK_END );
     size_t len = ftell( pInFile );
@@ -44,6 +44,10 @@ int main( int argc, char **argv )
     {
         if ( pBuffer[ i ] == '\r' )
         {
+            fputc( '\\', pOutFile );
+            fputc( 'r', pOutFile );
+            fputc( '\\', pOutFile );
+            fputc( 'n', pOutFile );
             fputc( '\"', pOutFile );
             fputc( '\r', pOutFile );
             fputc( '\n', pOutFile );
@@ -52,6 +56,13 @@ int main( int argc, char **argv )
         }
         else
         {
+            // escape special chars
+            if( pBuffer[ i ] == '\"' 
+             || pBuffer[ i ] == '?'
+             || pBuffer[ i ] == '\\' )
+            {
+                    fputc(  '\\', pOutFile );
+            }
             fputc(  pBuffer[ i ], pOutFile );
         }
     }
@@ -59,17 +70,6 @@ int main( int argc, char **argv )
     fprintf( pOutFile, "\";" );
     
     fclose( pOutFile );
-    
-    //todo: test writing it back OUT and make sure its binary identical to hiscore.dat
-    
-    //TODO: Make this a command arg
-    /*snprintf( outFile, MAX_PATH, "%s-test.bmp", pFilename );
-    pOutFile = fopen( outFile, "wb" );
-    fwrite( &bmp.fileHeader, 1, sizeof( bmp.fileHeader ), pOutFile );
-    fwrite( &bmp.infoHeader, 1, sizeof( bmp.infoHeader ), pOutFile );
-    fwrite( bmp.pPixelData, 1, imageBytes, pOutFile );
-    fclose( pOutFile );*/
-    //
     
     return 0;
 }

@@ -51,7 +51,7 @@ LoadGameResult ShockGame::LoadGame( const char *pRomset )
     // Provide FBA with the paths for file i/o
     ConfigurePaths( );
     
-    EnableHiscores = 1;
+    InitHiscoreSupport( );
     
     // initialize FBA's core lib (figures out what games are available)
     BurnLibInit( );
@@ -510,7 +510,6 @@ void ShockGame::ConfigurePaths( )
         }
     }
     
-    // JHM - Todo: figure out how to deploy hiscore.dat
     // Hiscore
     snprintf( szAppHiscorePath, sizeof( szAppHiscorePath ), "%s/" HISCORE_PATH, path );
     if ( stat( szAppHiscorePath, &st ) == -1 ) 
@@ -533,4 +532,44 @@ void ShockGame::ConfigurePaths( )
             flushPrintf( "ShockGame::ConfigurePaths() - WARNING, Unable to create BLEND_PATH: %s\r\n", szAppBlendPath );   
         }
     }
+}
+
+void ShockGame::InitHiscoreSupport( )
+{
+    // FBA depends on a file called "hiscore.dat", a text file that
+    // contains per-game memory mappings for hiscores. For portability,
+    // we bundle it in hiscoredat.h and write it out if it doesn't exist on the
+    // system.
+    
+    char path[ MAX_PATH ] = { 0 };
+    int result = getExeDirectory( path, MAX_PATH );
+    if( result == -1 )
+    {
+        flushPrintf( "ShockGame::InitHiscoreSupport() - ERROR, Unable to get exe path\r\n" );
+        return;
+    }
+        
+    // does the hiscore.dat file exist?
+    char hiscoreDatFilePath[ MAX_PATH ] = { 0 };
+    snprintf( hiscoreDatFilePath, sizeof( hiscoreDatFilePath ), "%s" HISCORE_DAT_FILENAME, szAppHiscorePath );
+    
+    FILE *pFile = fopen( hiscoreDatFilePath, "r" );
+    if( pFile == NULL )
+    {
+        // write ours out
+        pFile = fopen( hiscoreDatFilePath, "w" );
+        if( pFile != NULL )
+        {
+            fprintf( pFile, "%s", hiscoreDat );
+            fclose( pFile );
+        }
+        else
+        {
+            flushPrintf( "ShockGame::InitHiscoreSupport() - WARNING, Unable to create %s\r\n", hiscoreDatFilePath );
+            return;
+        }
+    }
+    
+    // made it to the end; enable hiscore support
+    EnableHiscores = 1;
 }

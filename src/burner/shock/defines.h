@@ -15,9 +15,10 @@
 #define MAX_MVSX_PLAYERS (2)
 
 // IO for FBA to write game files
-#define EEPROM_PATH  "eeprom/" 
-#define HISCORE_PATH "hiscore/"
-#define BLEND_PATH   "blend/"
+#define EEPROM_PATH          "eeprom/" 
+#define BLEND_PATH           "blend/"
+#define HISCORE_PATH         "hiscore/"
+#define HISCORE_DAT_FILENAME "hiscore.dat"
 
 // Graphics
 #ifdef X86

@@ -1373,6 +1373,7 @@
       <File Name="burner/shock/shockmain.cpp"/>
       <File Name="burner/shock/shockmain.h"/>
       <File Name="burner/shock/tchar.h"/>
+      <File Name="burner/shock/hiscoredat.h"/>
     </VirtualDirectory>
     <File Name="burner/misc.cpp"/>
     <File Name="burner/neocdlist.h"/>

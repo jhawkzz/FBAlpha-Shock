@@ -87,6 +87,8 @@
 #include "shock/ui/states/statedisplaysettings.h"
 #include "shock/ui/states/statebuttonconfig.h"
 
+#include "shock/hiscoredat.h"
+
 #include "shock/ui/shockui.h"
 #include "shock/shockgame.h"
 #include "shock/shockmain.h"
