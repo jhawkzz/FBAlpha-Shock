@@ -81,9 +81,12 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     hAppInst = hInstance;  // save instance handle 
 
+    RECT rect = { 0, 0, PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT };
+    AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
+
     hwndMain = CreateWindow("ShockCls", "Shock", 
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
-        PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, (HWND) NULL,
+        rect.right - rect.left, rect.bottom - rect.top, (HWND) NULL,
         (HMENU) NULL, hAppInst, (LPVOID) NULL); 
 
     if (!hwndMain) 
