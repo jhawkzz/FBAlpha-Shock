@@ -86,12 +86,12 @@ void ShockRenderer::Flip( )
 void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
 {
     // render a background behind the font so its legible
-    int fontWidth = FONT_LETTER_WIDTH * 2 + FONT_SPACING;
+    int fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
     
     char fpsStr[ MAX_PATH ];
     snprintf( fpsStr, sizeof( fpsStr ), "%d", framesPerSec );
     
-    for( int y = PLATFORM_LCD_HEIGHT - FONT_LETTER_HEIGHT; y < PLATFORM_LCD_HEIGHT; y++ )
+    for( int y = PLATFORM_LCD_HEIGHT - MET_FONT_LETTER_HEIGHT; y < PLATFORM_LCD_HEIGHT; y++ )
     {
         for( int x = PLATFORM_LCD_WIDTH - fontWidth; x < PLATFORM_LCD_WIDTH; x++ )
         {
@@ -99,7 +99,7 @@ void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
         }
     }
     
-    Font::Print( pBackBuffer, fpsStr, PLATFORM_LCD_WIDTH - fontWidth, PLATFORM_LCD_HEIGHT - FONT_LETTER_HEIGHT, 0xFFFF );
+    Font::Print( pBackBuffer, fpsStr, PLATFORM_LCD_WIDTH - fontWidth, PLATFORM_LCD_HEIGHT - MET_FONT_LETTER_HEIGHT, 0xFFFF );
 }
 
 void ShockRenderer::RenderImage( UINT16 *pBackBuffer, 

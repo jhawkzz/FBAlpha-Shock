@@ -104,10 +104,7 @@ void StateCredits::RenderCredits( )
     mMenuItemList[ 1 ].SetColor( nextTextColor );
     mMenuItemList[ 1 ].Draw( );
     
-    UIRenderer::DrawText( "X", 
-                        mMenuItemList[ mMenuSelection ].GetXPos( ) - FONT_LETTER_FULL_WIDTH - 5, 
-                        mMenuItemList[ mMenuSelection ].GetYPos( ),
-                        UI_COLOR_ENABLED );
+    UIBaseState::RenderMenuCursor( mMenuItemList[ mMenuSelection ].GetXPos( ), mMenuItemList[ mMenuSelection ].GetYPos( ) );
 }
 
 void StateCredits::RenderPage0( )

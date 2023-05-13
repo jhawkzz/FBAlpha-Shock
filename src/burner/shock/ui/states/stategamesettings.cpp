@@ -142,10 +142,8 @@ void StateGameSettings::DrawMenu( )
                         mMenuItemList[ 1 ].GetYPos( ) + UI_ROW_HEIGHT * 2, 
                         0xFFFF );
     
-    UIRenderer::DrawText( "X", 
-                        mMenuItemList[ mMenuSelection ].GetXPos( ) - UI_CURSOR_X_OFFSET, 
-                        mMenuItemList[ mMenuSelection ].GetYPos( ),
-                        UI_COLOR_ENABLED );
+    UIBaseState::RenderMenuCursor( mMenuItemList[ mMenuSelection ].GetXPos( ), 
+                                   mMenuItemList[ mMenuSelection ].GetYPos( ) );
                         
     UIBaseState::RenderBackOption( "Return" );
 }

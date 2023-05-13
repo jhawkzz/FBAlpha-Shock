@@ -40,7 +40,8 @@ public:
     
 protected:
     UIState HandleBackButton( );
-    void    RenderBackOption( const char *pNavVerb);
+    void    RenderBackOption( const char *pNavVerb );
+    void    RenderMenuCursor( int menuX, int menuY );
     
     int     GetCenteredXPos( const char *pText );
 

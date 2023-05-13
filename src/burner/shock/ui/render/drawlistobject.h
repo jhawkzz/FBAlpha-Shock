@@ -25,6 +25,7 @@ private:
     UINT16       *mpImageSurface;
     char          mText[ MAX_PATH ];
     short         mTextColor;
+    FontType      mFontType;
     const UINT16 *mpSpriteBuffer;
     int           mSpriteWidth;
     int           mSpriteHeight;

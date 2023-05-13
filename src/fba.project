@@ -1366,7 +1366,8 @@
       <VirtualDirectory Name="font">
         <File Name="burner/shock/font/font.cpp"/>
         <File Name="burner/shock/font/font.h"/>
-        <File Name="burner/shock/font/fontbinary.h"/>
+        <File Name="burner/shock/font/upheavalfontbinary.h"/>
+        <File Name="burner/shock/font/metfontbinary.h"/>
       </VirtualDirectory>
       <File Name="burner/shock/shockconfig.cpp"/>
       <File Name="burner/shock/shockconfig.h"/>

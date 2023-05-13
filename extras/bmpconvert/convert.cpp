@@ -56,14 +56,16 @@ int main( int argc, char **argv )
     
     fclose( pOutFile );
     
-    //TODO: Make this a command arg
-    /*snprintf( outFile, MAX_PATH, "%s-test.bmp", pFilename );
-    pOutFile = fopen( outFile, "wb" );
-    fwrite( &bmp.fileHeader, 1, sizeof( bmp.fileHeader ), pOutFile );
-    fwrite( &bmp.infoHeader, 1, sizeof( bmp.infoHeader ), pOutFile );
-    fwrite( bmp.pPixelData, 1, imageBytes, pOutFile );
-    fclose( pOutFile );*/
-    //
+    // take ANY 3rd argument as confirmation to dump it.
+    if( argc > 2 )
+    {
+        snprintf( outFile, MAX_PATH, "%s-test.bmp", pFilename );
+        pOutFile = fopen( outFile, "wb" );
+        fwrite( &bmp.fileHeader, 1, sizeof( bmp.fileHeader ), pOutFile );
+        fwrite( &bmp.infoHeader, 1, sizeof( bmp.infoHeader ), pOutFile );
+        fwrite( bmp.pPixelData, 1, imageBytes, pOutFile );
+        fclose( pOutFile );
+    }
     
     return 0;
 }

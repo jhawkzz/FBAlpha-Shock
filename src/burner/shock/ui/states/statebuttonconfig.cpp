@@ -190,11 +190,9 @@ void StateButtonConfig::DrawMenu( )
     
     mRestoreDefaults.Draw( );
     
-    UIRenderer::DrawText( "X", 
-                        mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetXPos( ) - UI_CURSOR_X_OFFSET, 
-                        mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetYPos( ),
-                        UI_COLOR_ENABLED );
-                        
+    UIBaseState::RenderMenuCursor( mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetXPos( ), 
+                                   mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetYPos( ) );
+    
     UIBaseState::RenderBackOption( "Return" );
 }
 

@@ -44,6 +44,14 @@ void UIBaseState::RenderBackOption( const char *pNavVerb)
     UIRenderer::DrawText( textStr, xPos, PLATFORM_LCD_HEIGHT - 50, 0xFFFF );
 }
 
+void UIBaseState::RenderMenuCursor( int menuX, int menuY )
+{
+    UIRenderer::DrawText( "X", 
+                          menuX - Font::MeasureStringWidth( "X" ), 
+                          menuY,
+                          UI_COLOR_ENABLED );
+}
+
 int UIBaseState::GetCenteredXPos( const char *pText )
 {
     int width = Font::MeasureStringWidth( pText );
