@@ -2,6 +2,8 @@
 
 #include "burnint.h"
 
+// 2023.05.13 THK: change VidSNewTinyMsg from TCHAR to wchar_t* because TCHAR is defined elsewhere as char
+
 #define CHEAT_MAXCPU	8 // enough?
 
 

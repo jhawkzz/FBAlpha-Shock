@@ -1,3 +1,5 @@
+// 2023.05.13 THK: prefixed read, write, readio, writeio with tlcs_ to prevent MSBuild conflicts
+
 #include "burnint.h"
 #include "tlcs90_intf.h"
 

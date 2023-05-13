@@ -1,5 +1,7 @@
 // NEC uPD4990A module (real-time clock/calendar)
 
+// 2023.05.13 THK: change OUT to _OUT.  OUT conflicts with MSBuild
+
 #include "neogeo.h"
 
 static struct {

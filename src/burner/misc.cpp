@@ -2,6 +2,9 @@
 #include <math.h>
 #include "burner.h"
 
+// 2023.05.13 THK: #ifdef out translations for Win32 build (they're already excluded from other platforms)
+
+
 // ---------------------------------------------------------------------------
 // Software gamma
 

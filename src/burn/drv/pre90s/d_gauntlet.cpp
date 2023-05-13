@@ -1,6 +1,8 @@
 // FB Alpha Gauntlet driver module
 // Based on MAME driver by Aaron Giles
 
+// 2023.05.13 THK: change start_type enums to be prefixed with _ to prevent MSBuild conflicts
+
 #include "tiles_generic.h"
 #include "m68000_intf.h"
 #include "m6502_intf.h"
