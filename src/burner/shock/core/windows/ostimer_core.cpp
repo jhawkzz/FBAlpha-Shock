@@ -8,14 +8,14 @@ OSTimer::OSTimer( )
     __int64 seconds;
 
     QueryPerformanceFrequency( (LARGE_INTEGER *) &seconds );
-    QueryPerformanceCounter( (LARGE_INTEGER *) &m_zero64 );
+    QueryPerformanceCounter( (LARGE_INTEGER *) &mZero64 );
 
-    m_microsecond64 = seconds / 1000000;
+    mMicrosecond64 = seconds / 1000000;
 }
 
 void OSTimer::Reset( )
 {   
-    QueryPerformanceCounter( (LARGE_INTEGER *) &m_zero64 );
+    QueryPerformanceCounter( (LARGE_INTEGER *) &mZero64 );
 }
 
 UINT32 OSTimer::GetElapsedTimeMicroseconds( )
@@ -24,7 +24,7 @@ UINT32 OSTimer::GetElapsedTimeMicroseconds( )
 
     QueryPerformanceCounter( (LARGE_INTEGER *) &current64 );
 
-    return UINT32((current64 - m_zero64) / float(m_microsecond64));
+    return UINT32((current64 - mZero64) / float(mMicrosecond64));
 }
 
 

@@ -18,10 +18,10 @@ public:
     static void Blit( );
 
 private:
-    static HWND m_hwnd;
-    static HBITMAP m_hbitmap;
-    static UINT* m_pFrontBuffer;
-    static short m_backBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
+    static HWND mHwnd;
+    static HBITMAP mHbitmap;
+    static UINT* mpFrontBuffer;
+    static short mBackBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
 };
 
 #endif

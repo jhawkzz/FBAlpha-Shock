@@ -12,8 +12,8 @@ protected:
         void* param;
     };
 
-    HANDLE m_handle;
-    ThreadArgs m_args;
+    HANDLE mHandle;
+    ThreadArgs mArgs;
 
     static DWORD WINAPI ThreadProc(void* param);
 };

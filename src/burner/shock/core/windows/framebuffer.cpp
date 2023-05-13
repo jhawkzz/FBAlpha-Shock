@@ -3,14 +3,14 @@
 
 #include "../../includes.h"
 
-HWND FrameBuffer::m_hwnd;
-HBITMAP FrameBuffer::m_hbitmap;
-UINT* FrameBuffer::m_pFrontBuffer;
-short FrameBuffer::m_backBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
+HWND FrameBuffer::mHwnd;
+HBITMAP FrameBuffer::mHbitmap;
+UINT* FrameBuffer::mpFrontBuffer;
+short FrameBuffer::mBackBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
 
 int FrameBuffer::Create( )
 {   
-    HDC dc = GetDC(m_hwnd);
+    HDC dc = GetDC(mHwnd);
     {
         BITMAPINFO info = {};
         info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -18,33 +18,33 @@ int FrameBuffer::Create( )
         info.bmiHeader.biHeight = PLATFORM_LCD_HEIGHT;
         info.bmiHeader.biPlanes = 1;
         info.bmiHeader.biBitCount = 32;
-        m_hbitmap = CreateDIBSection(dc, &info, DIB_RGB_COLORS, (void**) &m_pFrontBuffer, NULL, 0);
+        mHbitmap = CreateDIBSection(dc, &info, DIB_RGB_COLORS, (void**) &mpFrontBuffer, NULL, 0);
 
-        ReleaseDC(m_hwnd, dc);
+        ReleaseDC(mHwnd, dc);
     }
 
-    return m_hbitmap ? 0 : -1;
+    return mHbitmap ? 0 : -1;
 }
 
 void FrameBuffer::Destroy( )
 {
-    DeleteObject(m_hbitmap);
+    DeleteObject(mHbitmap);
 }
 
 void FrameBuffer::ClearFrameBuffer( )
 {
-    memset( m_backBuffer, 0, PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH );
+    memset( mBackBuffer, 0, PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH );
 }
 
 short *FrameBuffer::GetBackBuffer( )
 {
-   return m_backBuffer;
+   return mBackBuffer;
 }
 
 void FrameBuffer::Flip( )
 {
-    UINT *pFrameBuffer = m_pFrontBuffer + (PLATFORM_LCD_HEIGHT - 1) * PLATFORM_LCD_WIDTH;
-    short *pScaleBuffer = m_backBuffer;
+    UINT *pFrameBuffer = mpFrontBuffer + (PLATFORM_LCD_HEIGHT - 1) * PLATFORM_LCD_WIDTH;
+    short *pScaleBuffer = mBackBuffer;
 
     for( int y = 0; y < PLATFORM_LCD_HEIGHT; y++ )
     {
@@ -70,30 +70,30 @@ void FrameBuffer::Flip( )
         pScaleBuffer += PLATFORM_LCD_WIDTH;
     }
 
-    RedrawWindow(m_hwnd, NULL, NULL, RDW_UPDATENOW);
+    RedrawWindow(mHwnd, NULL, NULL, RDW_UPDATENOW);
 }
 
 void FrameBuffer::SetWindow(HWND hwnd)
 {
-    m_hwnd = hwnd;
+    mHwnd = hwnd;
 }
 
 void FrameBuffer::Blit()
 {
-    if (!m_hwnd)
+    if (!mHwnd)
         return;
 
     RECT rect;
-    GetClientRect(m_hwnd, &rect);
+    GetClientRect(mHwnd, &rect);
 
-    HDC dc = GetDC(m_hwnd);
+    HDC dc = GetDC(mHwnd);
     HDC hBitmapDC = CreateCompatibleDC(dc);
-    HBITMAP oldObj = (HBITMAP) SelectObject(hBitmapDC, m_hbitmap); 
+    HBITMAP oldObj = (HBITMAP) SelectObject(hBitmapDC, mHbitmap); 
 
     StretchBlt(dc, 0, 0, rect.right - rect.left, rect.bottom - rect.top, hBitmapDC, 0, 0, PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, SRCCOPY);
 
     SelectObject(hBitmapDC, oldObj); 
 
     DeleteDC(hBitmapDC);
-    ReleaseDC(m_hwnd, dc);
+    ReleaseDC(mHwnd, dc);
 }

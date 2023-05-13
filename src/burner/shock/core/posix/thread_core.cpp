@@ -5,10 +5,10 @@
 
 ShockThread::~ShockThread()
 {
-   pthread_detach( m_thread );
+   pthread_detach( mThread );
 }
 
 int ShockThread::Create(ShockThreadProc proc, void* param)
 {
-   return pthread_create( &m_thread, NULL, proc, param );
+   return pthread_create( &mThread, NULL, proc, param );
 }
