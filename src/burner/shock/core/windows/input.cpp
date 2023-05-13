@@ -50,7 +50,6 @@ void Input::Destroy( )
 
 int Input::GetValueForInput( InputCodeToButtonMapping input )
 {
-    //SHORT s = GetAsyncKeyState(input);
     SHORT s = GetAsyncKeyState(KeyMappings[input]);
     return s & 0x8000 ? 1 : 0;
 }

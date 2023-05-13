@@ -1,8 +1,8 @@
 #if !defined(_STATE_H)
+
 #ifdef __cplusplus
  extern "C" {
 #endif
-
 
 #if !defined(__cplusplus) && defined(_XBOX)
 #define C_INLINE _inline

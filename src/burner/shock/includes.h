@@ -4,8 +4,6 @@
 #ifndef INCLUDES_H_
 #define INCLUDES_H_
 
-typedef void *(*ShockThreadProc)(void *);
-
 #if defined(_WIN32)
     #define WIN32_LEAN_AND_MEAN
     #include <windows.h>

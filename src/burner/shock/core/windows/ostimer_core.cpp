@@ -10,7 +10,6 @@ OSTimer::OSTimer( )
     QueryPerformanceFrequency( (LARGE_INTEGER *) &seconds );
     QueryPerformanceCounter( (LARGE_INTEGER *) &m_zero64 );
 
-    //m_microsecond64 = seconds * 1000000;
     m_microsecond64 = seconds / 1000000;
 }
 

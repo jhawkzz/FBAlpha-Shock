@@ -174,8 +174,8 @@ int		DisOp;
 
 #define VERSION	 "0.30"
 
-//#define TRUE -1
-//#define FALSE 0
+#define TRUE -1
+#define FALSE 0
 
 #define EAX 0
 #define EBX 1
@@ -1280,8 +1280,6 @@ void Memory_Write(char Size,int AReg,int DReg,char *Flags,int Mask)
  * Extend = Sign Extend Word to Long
  *
  */
-#define TRUE (-1)
-#define FALSE 0
 
 void Memory_Fetch(char Size,int Dreg,int Extend)
 {
@@ -8195,7 +8193,7 @@ int main(int argc, char **argv)
 
 	for (dwLoop=0;dwLoop<65536;)  OpcodeArray[dwLoop++] = -2;
 
-	codebuf=(char*)malloc(64);
+	codebuf=malloc(64);
 	if (!codebuf)
 	{
 		printf ("Memory allocation error\n");
@@ -8213,7 +8211,7 @@ int main(int argc, char **argv)
 	comptab = argv[2];
 
 
-	CPUtype = (char*)malloc(64);
+	CPUtype = malloc(64);
 
 	sprintf(CPUtype,"%sM680%s", PREF, argv[3]);
 
