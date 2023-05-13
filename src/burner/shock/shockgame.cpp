@@ -265,7 +265,7 @@ void ShockGame::Update( )
             // otherwise the overhead of usleep() would take more time.
             if( sleepTime > MILLI_TO_MICROSECONDS )
             {
-               ShockSleep( sleepTime );
+               //ShockSleep( sleepTime );
             }
         }
         else

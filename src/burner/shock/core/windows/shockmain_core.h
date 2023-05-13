@@ -8,9 +8,6 @@ public:
 
 protected:
     static int Update();
-
-protected:
-    static HWND m_hwnd;
 };
 
 #endif

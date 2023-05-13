@@ -8,8 +8,17 @@ void flushPrintf( const char *pStr, ... )
 	va_list argptr;
     va_start( argptr, pStr );
 	vprintf( pStr, argptr );
-	fflush(stdout);
+
+#ifdef _WIN32
+    char text[256] = {};
+    vsnprintf(text, sizeof(text) - 1, pStr, argptr);
+    OutputDebugString(text);
+    OutputDebugString("\n");
+#endif
+
+    fflush(stdout);
 	va_end( argptr );
+
 }
 
 #ifndef _WIN32
@@ -31,7 +40,7 @@ int stricmp(char *s1, char *s2)
 {
     int i;
     for (i = 0; s1[i] && s2[i]; ++i)
-    {
+    {   
         /* If characters are same or inverting the
            6th bit makes them same */
         if (s1[i] == s2[i] || (s1[i] ^ 32) == s2[i])

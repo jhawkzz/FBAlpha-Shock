@@ -30,7 +30,7 @@ private:
         static fb_var_screeninfo mVScreenInfo;
         static fb_fix_screeninfo mFixedScreenInfo;
 
-        static char mScaleBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH ];
+         static char mScaleBuffer[ PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH ];
 };
 
 #endif

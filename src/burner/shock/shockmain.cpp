@@ -110,7 +110,12 @@ int ShockMain::Run(const char* romSet)
 
     ShockMain::BeginLoad( romSet );
     
-    result = ShockMain::Loop( );
+    do
+    {
+        result = ShockMain::Loop( );
+    }
+    while (result == 0);
+
     ShockMain::Destroy( );
 
     return result;
@@ -269,42 +274,24 @@ int ShockMain::UpdateState_Emulator( )
 
 int ShockMain::Loop()
 {
-    int result;
+    int result = ShockMain::Update();
+    if (result == -1)
+        return result;
 
-    while (true)
+    switch (mState)
     {
-        result = ShockMain::Update();
+        case ShockState_Loading:
+            return UpdateState_Loading( );        
 
-        if (result == -1)
-            break;
+        case ShockState_LoadError:
+            return UpdateState_LoadError();
 
-        switch (mState)
-        {
-            case ShockState_Loading:
-            {
-                result = UpdateState_Loading();
-                break;
-            }
+        case ShockState_FrontEnd:
+            return UpdateState_FrontEnd( );
 
-            case ShockState_LoadError:
-            {
-                result = UpdateState_LoadError();
-                break;
-            }
-
-            case ShockState_FrontEnd:
-            {
-                result = UpdateState_FrontEnd();
-                break;
-            }
-
-            case ShockState_Emulator:
-            {
-                result = UpdateState_Emulator();
-                break;
-            }
-        }
+        case ShockState_Emulator:
+            return UpdateState_Emulator( );
     }
 
-    return result;
+    return -1;
 }

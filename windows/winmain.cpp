@@ -28,7 +28,7 @@ LRESULT CALLBACK WndProc(
         return 0; 
 
     case WM_PAINT: 
-        // Paint the window's client area. 
+        FrameBuffer::Blit();
         return 0; 
 
     case WM_SIZE: 
@@ -36,7 +36,7 @@ LRESULT CALLBACK WndProc(
         return 0; 
 
     case WM_DESTROY: 
-        // Clean up window-specific data objects. 
+        PostQuitMessage(0);
         return 0; 
 
         // 
@@ -49,12 +49,14 @@ LRESULT CALLBACK WndProc(
     return 0; 
 }
 
+#include <shellapi.h>
+
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, 
     LPSTR lpszCmdLine, int nCmdShow) 
 { 
     MSG msg;
     BOOL bRet; 
-    WNDCLASS wc; 
+    WNDCLASS wc = {}; 
     UNREFERENCED_PARAMETER(lpszCmdLine); 
 
     // Register the window class for the main window. 
@@ -71,53 +73,37 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         wc.hCursor = LoadCursor((HINSTANCE) NULL, 
             IDC_ARROW); 
         wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); 
-        wc.lpszMenuName =  "MainMenu"; 
-        wc.lpszClassName = "MainWndClass"; 
+        wc.lpszClassName = "ShockCls"; 
 
         if (!RegisterClass(&wc)) 
-            return FALSE; 
+            return 0; 
     } 
 
     hAppInst = hInstance;  // save instance handle 
 
-    // Create the main window. 
-
-    hwndMain = CreateWindow("MainWndClass", "Sample", 
+    hwndMain = CreateWindow("ShockCls", "Shock", 
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
-        CW_USEDEFAULT, CW_USEDEFAULT, (HWND) NULL, 
+        PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, (HWND) NULL,
         (HMENU) NULL, hAppInst, (LPVOID) NULL); 
 
-    // If the main window cannot be created, terminate 
-    // the application. 
-
     if (!hwndMain) 
-        return FALSE; 
-
-    // Show the window and paint its contents. 
+        return 0; 
 
     ShowWindow(hwndMain, nCmdShow); 
     UpdateWindow(hwndMain); 
 
     ShockMain::SetWindow(hwndMain);
 
-    return ShockMain::Run( "" );
+    int count;
 
-    //// Start the message loop. 
+    LPWSTR *argList = CommandLineToArgvW(GetCommandLineW(), &count);
+    if (!argList || count <= 1)
+        return 0;
+    
+    char str[256];
+    WideCharToMultiByte(CP_ACP, 0, argList[1], -1, str, sizeof(str), NULL, NULL);
 
-    //while( (bRet = GetMessage( &msg, NULL, 0, 0 )) != 0)
-    //{ 
-    //    if (bRet == -1)
-    //    {
-    //        // handle the error and possibly exit
-    //    }
-    //    else
-    //    {
-    //        TranslateMessage(&msg); 
-    //        DispatchMessage(&msg); 
-    //    }
-    //} 
+    LocalFree(argList);
 
-    //// Return the exit code to the system. 
-
-    //return msg.wParam; 
+    return ShockMain::Run(str);
 } 

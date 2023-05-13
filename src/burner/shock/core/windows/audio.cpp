@@ -5,13 +5,16 @@
 
 int Audio::Create( )
 {
-    return -1;
+    flushPrintf(__FUNCTION__" not implemented");
+    return 0;
 }
 
 void Audio::Destroy( )
 {
+    flushPrintf(__FUNCTION__" not implemented");
 }
 
 void Audio::PlayBuffer( char *pBuffer, int bytes )
 {
+    flushPrintf(__FUNCTION__" not implemented");
 }

@@ -3,129 +3,94 @@
 
 #include "../../includes.h"
 
+HWND FrameBuffer::m_hwnd;
+HBITMAP FrameBuffer::m_hbitmap;
+UINT* FrameBuffer::m_pFrontBuffer;
+short FrameBuffer::m_backBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
+
 int FrameBuffer::Create( )
-{    
-	return -1;
+{   
+    HDC dc = GetDC(m_hwnd);
+    {
+        BITMAPINFO info = {};
+        info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        info.bmiHeader.biWidth = PLATFORM_LCD_WIDTH;
+        info.bmiHeader.biHeight = PLATFORM_LCD_HEIGHT;
+        info.bmiHeader.biPlanes = 1;
+        info.bmiHeader.biBitCount = 32;
+        m_hbitmap = CreateDIBSection(dc, &info, DIB_RGB_COLORS, (void**) &m_pFrontBuffer, NULL, 0);
+
+        ReleaseDC(m_hwnd, dc);
+    }
+
+    return m_hbitmap ? 0 : -1;
 }
 
 void FrameBuffer::Destroy( )
 {
+    DeleteObject(m_hbitmap);
 }
 
 void FrameBuffer::ClearFrameBuffer( )
 {
+    memset( m_backBuffer, 0, PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH );
 }
 
 short *FrameBuffer::GetBackBuffer( )
 {
-   return NULL;
+   return m_backBuffer;
 }
 
 void FrameBuffer::Flip( )
 {
+    UINT *pFrameBuffer = m_pFrontBuffer + (PLATFORM_LCD_HEIGHT - 1) * PLATFORM_LCD_WIDTH;
+    short *pScaleBuffer = m_backBuffer;
+
+    for( int y = 0; y < PLATFORM_LCD_HEIGHT; y++ )
+    {
+        for( int x = 0; x < PLATFORM_LCD_WIDTH; x++ )
+        {
+            short pixelData = pScaleBuffer[ x ];
+
+            // break out the components
+            short r = (pixelData >> 11) & 0x1F;
+            short g = (pixelData >> 5) & 0x3F;
+            short b = pixelData & 0x1F;
+
+            // taken from https://stackoverflow.com/questions/8579353/convert-16bit-colour-to-32bit
+            int r32 = (r << 3) | (r >> 2);
+            int g32 = (g << 2) | (g >> 4); //6bit g
+            int b32 = (b << 3) | (b >> 2);
+
+            // its ARGB
+            pFrameBuffer[ x ] = 0xFF << 24 | r32 << 16 | g32 << 8 | b32;
+        }
+
+        pFrameBuffer -= PLATFORM_LCD_WIDTH;
+        pScaleBuffer += PLATFORM_LCD_WIDTH;
+    }
+
+    RedrawWindow(m_hwnd, NULL, NULL, RDW_UPDATENOW);
 }
 
+void FrameBuffer::SetWindow(HWND hwnd)
+{
+    m_hwnd = hwnd;
+}
 
-//LRESULT CALLBACK WndProc(
-//    HWND hwnd,        // handle to window
-//    UINT uMsg,        // message identifier
-//    WPARAM wParam,    // first message parameter
-//    LPARAM lParam)    // second message parameter
-//{ 
-//
-//    switch (uMsg) 
-//    { 
-//    case WM_CREATE: 
-//        // Initialize the window. 
-//        return 0; 
-//
-//    case WM_PAINT: 
-//        // Paint the window's client area. 
-//        return 0; 
-//
-//    case WM_SIZE: 
-//        // Set the size and position of the window. 
-//        return 0; 
-//
-//    case WM_DESTROY: 
-//        // Clean up window-specific data objects. 
-//        return 0; 
-//
-//        // 
-//        // Process other messages. 
-//        // 
-//
-//    default: 
-//        return DefWindowProc(hwnd, uMsg, wParam, lParam); 
-//    } 
-//    return 0; 
-//}
-//
-//int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, 
-//    LPSTR lpszCmdLine, int nCmdShow) 
-//{ 
-//    MSG msg;
-//    BOOL bRet; 
-//    WNDCLASS wc; 
-//    UNREFERENCED_PARAMETER(lpszCmdLine); 
-//
-//    // Register the window class for the main window. 
-//
-//    if (!hPrevInstance) 
-//    { 
-//        wc.style = 0; 
-//        wc.lpfnWndProc = (WNDPROC) WndProc; 
-//        wc.cbClsExtra = 0; 
-//        wc.cbWndExtra = 0; 
-//        wc.hInstance = hInstance; 
-//        wc.hIcon = LoadIcon((HINSTANCE) NULL, 
-//            IDI_APPLICATION); 
-//        wc.hCursor = LoadCursor((HINSTANCE) NULL, 
-//            IDC_ARROW); 
-//        wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); 
-//        wc.lpszMenuName =  "MainMenu"; 
-//        wc.lpszClassName = "MainWndClass"; 
-//
-//        if (!RegisterClass(&wc)) 
-//            return FALSE; 
-//    } 
-//
-//    hAppInst = hInstance;  // save instance handle 
-//
-//    // Create the main window. 
-//
-//    hwndMain = CreateWindow("MainWndClass", "Sample", 
-//        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
-//        CW_USEDEFAULT, CW_USEDEFAULT, (HWND) NULL, 
-//        (HMENU) NULL, hAppInst, (LPVOID) NULL); 
-//
-//    // If the main window cannot be created, terminate 
-//    // the application. 
-//
-//    if (!hwndMain) 
-//        return FALSE; 
-//
-//    // Show the window and paint its contents. 
-//
-//    ShowWindow(hwndMain, nCmdShow); 
-//    UpdateWindow(hwndMain); 
-//
-//    // Start the message loop. 
-//
-//    while( (bRet = GetMessage( &msg, NULL, 0, 0 )) != 0)
-//    { 
-//        if (bRet == -1)
-//        {
-//            // handle the error and possibly exit
-//        }
-//        else
-//        {
-//            TranslateMessage(&msg); 
-//            DispatchMessage(&msg); 
-//        }
-//    } 
-//
-//    // Return the exit code to the system. 
-//
-//    return msg.wParam; 
-//} 
+void FrameBuffer::Blit()
+{
+    RECT rect;
+    GetWindowRect(m_hwnd, &rect);
+
+    HDC dc = GetDC(m_hwnd);
+    HDC hBitmapDC = CreateCompatibleDC(dc);
+    HBITMAP oldObj = (HBITMAP) SelectObject(hBitmapDC, m_hbitmap); 
+
+    BitBlt(dc, 0, 0, PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, hBitmapDC, 0, 0, SRCCOPY);
+
+    SelectObject(hBitmapDC, oldObj); 
+
+    DeleteDC(hBitmapDC);
+    ReleaseDC(m_hwnd, dc);
+}

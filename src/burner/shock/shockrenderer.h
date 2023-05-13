@@ -100,10 +100,6 @@ private:
                                    
 private:
 
-#ifdef X86
-    static char mScaleBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH ];
-#endif
-
     static UINT16 mRotateBuffer[ ROTATE_BUFFER_WIDTH * ROTATE_BUFFER_HEIGHT ];
 };
 
