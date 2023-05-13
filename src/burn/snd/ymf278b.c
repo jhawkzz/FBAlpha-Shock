@@ -1133,7 +1133,7 @@ int ymf278b_start(int num, UINT8 *rom, INT32 romsize, void (*irq_cb)(INT32, INT3
 	}
 
 	//m_stream = machine().sound().stream_alloc(*this, 0, 2, clock()/768);
-	m_mix_buffer = (INT32*)malloc(sizeof(INT32)*48000*2); // this driver only supports 44100, but set the buffersize to 48000 just incase someone uses this in their FBA settings.
+	m_mix_buffer = malloc(sizeof(INT32)*48000*2); // this driver only supports 44100, but set the buffersize to 48000 just incase someone uses this in their FBA settings.
 
 	// rate tables
 	precompute_rate_tables();

@@ -55,7 +55,7 @@ InterfaceInfo* InputGetInfo();
 std::vector<const InputInOut *> InputGetInterfaces();
 
 extern bool bInputOkay;
-extern INT32 nInputSelect;
+extern UINT32 nInputSelect;
 
 // CD emulation module
 
