@@ -54,6 +54,7 @@ private:
     static void UpdateResetMode( );
     static void ResetFBATickTime( );
     static void ConfigurePaths( );
+    static void InitHiscoreSupport( );
 
 private:
     static int  mGameLoaded;
