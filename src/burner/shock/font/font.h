@@ -5,7 +5,7 @@
 #define FONT_H_
 
 #define FONT_CLEAR_COLOR     (0xF81F)
-#define FONT_LETTER_COUNT    (50)
+#define FONT_LETTER_COUNT    (51)
 #define FONT_SPACING         (2)
 
 #define FONT_BITS_PER_PIXEL  (16)

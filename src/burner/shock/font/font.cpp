@@ -11,7 +11,7 @@
 char Font::mFont[ FONT_LETTER_COUNT ] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C',
                                           'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 
                                           'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ',', '.', '!',
-                                          '%', ':', '#', '-', '/', '\\', '(', ')', '*', '&', '@' }; //# = Copyright logo
+                                          '%', ':', '#', '-', '/', '\\', '(', ')', '*', '&', '@', '`' }; //# = Copyright logo
 
 char       Font::mCharLookup[ MAX_CHAR_LOOKUP ];
 FontObject Font::mFontObject[ FontType_Count ];
@@ -31,7 +31,7 @@ void Font::Create( )
         mCharLookup[ mFont[ i ] ] = (char) i;
 
         // minus 13 (this is the last alphanumeric letter, 'Z')
-        if ( i < FONT_LETTER_COUNT - 14 )
+        if ( i < FONT_LETTER_COUNT - 15 )
         {
             if( mFont[ i ] + 32 >= MAX_CHAR_LOOKUP )
             {
