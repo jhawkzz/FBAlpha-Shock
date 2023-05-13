@@ -1,8 +1,4 @@
-organize files
-remove platform specific hacks
-get framebuffer working
-test on windows
-
+windows input
 
 git token
 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

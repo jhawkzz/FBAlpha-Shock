@@ -112,7 +112,7 @@ int ShockMain::Run(const char* romSet)
     
     do
     {
-        result = ShockMain::Loop( );
+        result = ShockMain::Update( );
     }
     while (result == 0);
 
@@ -272,9 +272,9 @@ int ShockMain::UpdateState_Emulator( )
     return 0;
 }
 
-int ShockMain::Loop()
+int ShockMain::Update()
 {
-    int result = ShockMain::Update();
+    int result = ShockMainCore::Update();
     if (result == -1)
         return result;
 

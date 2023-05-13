@@ -37,7 +37,7 @@ public:
     static int  Run(const char *pRomtset );
 
 private:
-    static int   Loop( );
+    static int   Update( );
 
     static void *LoadThread( void *pArg );
     
