@@ -5,7 +5,7 @@
    #define ShockSleep(us) usleep(us)
     #define ShockCreateDir(path) mkdir( (path), 0777 )
 #elif defined _WIN32
-   #define ShockSleep(us) Sleep((us) * 1000)
+   #define ShockSleep(us) Sleep((us) / 1000)
     #define ShockCreateDir(path) CreateDirectory( (path), NULL )
 #endif
 
