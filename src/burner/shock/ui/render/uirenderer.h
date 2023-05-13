@@ -18,6 +18,7 @@ public:
     static void DrawTransparentSprite( UINT16 *pSpriteBuffer, int x, int y, int spriteWidth, int spriteHeight, UINT16 spriteClearColor );
     static void DrawSprite( UINT16 *pSpriteBuffer, int x, int y, int spriteWidth, int spriteHeight );
     static void DrawText( const char *pText, int x, int y, UINT16 color, FontType fontType = FontType_Met );
+    static void DrawLine( UINT16 color, int xPos, int yPos, int width );
     
     static void ResetForFrame( );
     static void Render( );

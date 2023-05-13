@@ -5,7 +5,7 @@
 #define FONT_H_
 
 #define FONT_CLEAR_COLOR     (0xF81F)
-#define FONT_LETTER_COUNT    (49)
+#define FONT_LETTER_COUNT    (50)
 #define FONT_SPACING         (2)
 
 #define FONT_BITS_PER_PIXEL  (16)
@@ -19,10 +19,10 @@
 #define MET_FONT_LETTER_WIDTH  (15)
 #define MET_FONT_LETTER_HEIGHT (17)
 
-#define UPHEAVAL_FONT_WIDTH         (1287)
-#define UPHEAVAL_FONT_HEIGHT        (368)
-#define UPHEAVAL_FONT_LETTER_WIDTH  (99)
-#define UPHEAVAL_FONT_LETTER_HEIGHT (92)
+#define UPHEAVAL_FONT_WIDTH         (611)
+#define UPHEAVAL_FONT_HEIGHT        (176)
+#define UPHEAVAL_FONT_LETTER_WIDTH  (47)
+#define UPHEAVAL_FONT_LETTER_HEIGHT (44)
 
 struct Letter
 {

@@ -104,6 +104,8 @@ UIState StateDisplaySettings::Update( )
 
 void StateDisplaySettings::DrawMenu( )
 {
+    UIBaseState::RenderTitle( "DISPLAY SETTINGS" );
+    
     short textColor = ShockConfig::GetDisplayMode() == 0 ? textColor = UI_COLOR_ENABLED : 0xFFFF;
     mMenuItemList[0].SetColor( textColor );
     mMenuItemList[0].Draw( );

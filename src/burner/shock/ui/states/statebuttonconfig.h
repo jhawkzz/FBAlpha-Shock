@@ -32,7 +32,7 @@ private:
     MenuItem  mRestoreDefaults;
     int       mPlayerSelection;
     int       mButtonSelection;
-    char      mResultStr[ MAX_PATH ];
+    int       mButtonConfigAvailable;
 };
 
 #endif

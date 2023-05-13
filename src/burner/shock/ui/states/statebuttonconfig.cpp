@@ -7,13 +7,12 @@ void StateButtonConfig::Create( )
 {
     UIBaseState::Create( );
     
-    mConfiguringButton = 0;
-    mPlayerSelection   = 0;
-    mButtonSelection   = 0;
+    mConfiguringButton     = 0;
+    mPlayerSelection       = 0;
+    mButtonSelection       = 0;
+    mButtonConfigAvailable = 0;
+    mpSelectedItem         = NULL;
     
-    mpSelectedItem     = NULL;
-    
-    memset( mResultStr          , 0, sizeof( mResultStr ) );
     memset( mNumButtonsPerPlayer, 0, sizeof( mNumButtonsPerPlayer ) );
     memset( mButtonInputList    , 0, sizeof( mButtonInputList ) );
     
@@ -46,18 +45,19 @@ void StateButtonConfig::EnterState( UIState oldState )
 {
     UIBaseState::EnterState( oldState );
     
-    mConfiguringButton = 0;
-    mPlayerSelection   = 0;
-    mButtonSelection   = 0;
-        
+    mConfiguringButton     = 0;
+    mPlayerSelection       = 0;
+    mButtonSelection       = 0;
+    mButtonConfigAvailable = 0;
+    
     // reset our output
-    memset( mResultStr          , 0, sizeof( mResultStr ) );
     memset( mNumButtonsPerPlayer, 0, sizeof( mNumButtonsPerPlayer ) );
     memset( mButtonInputList    , 0, sizeof( mButtonInputList ) );
     
-    int xPos = UI_X_POS_MENU;
-    int yPos = UI_Y_POS_MENU + 20; // button graphics are too large to start at the normal offset
+    int xPos      = UI_X_POS_MENU;
+    int yStartPos = UI_Y_POS_MENU + 20; // button graphics are too large to start at the normal offset
     
+    int yPos = yStartPos;
     int numPlayers = ShockBurnInput::GetNumPlayers();
     int i;
     for( i = 0; i < min( MAX_MVSX_PLAYERS, numPlayers ); i++ )
@@ -73,11 +73,14 @@ void StateButtonConfig::EnterState( UIState oldState )
                 yPos += UI_ROW_HEIGHT + 10;
                 
                 mNumButtonsPerPlayer[ i ]++;
+                
+                // flag that this game DOES have input to configure
+                mButtonConfigAvailable = 1;
             }
         }
             
         xPos += 400;
-        yPos = UI_Y_POS_MENU;
+        yPos = yStartPos;
     }    
 }
 
@@ -93,54 +96,57 @@ UIState StateButtonConfig::Update( )
     DrawMenu( );
     
     // check for menu navigation if not setting a button
-    if( mConfiguringButton == 0 )
+    if ( mButtonConfigAvailable == 1 )
     {
-        if( ShockInput::GetInput( P1_Joy_Down )->WasReleased() )
+        if( mConfiguringButton == 0 )
         {
-            mButtonSelection = min( mButtonSelection + 1, mNumButtonsPerPlayer[ mPlayerSelection ] - 1 );
-        }
-        else if( ShockInput::GetInput( P1_Joy_Up )->WasReleased() )
-        {
-            mButtonSelection = max( mButtonSelection - 1, 0 );
-        }
-        
-        if( ShockInput::GetInput( P1_Joy_Right )->WasReleased() )
-        {
-            mPlayerSelection = 1;
-        }
-        else if( ShockInput::GetInput( P1_Joy_Left )->WasReleased() )
-        {
-            mPlayerSelection = 0;
-        }
-    }
-    else
-    {
-        // cycle the button for this input
-        if( ShockInput::GetInput( P1_Joy_Left )->WasReleased() )
-        {
-            // get the index to the OS input currently mapped to this game input
-            OSInputToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
-            int buttonIndex = pInputMap->osInputToFireButtonLookup[ mButtonSelection ];
+            if( ShockInput::GetInput( P1_Joy_Down )->WasReleased() )
+            {
+                mButtonSelection = min( mButtonSelection + 1, mNumButtonsPerPlayer[ mPlayerSelection ] - 1 );
+            }
+            else if( ShockInput::GetInput( P1_Joy_Up )->WasReleased() )
+            {
+                mButtonSelection = max( mButtonSelection - 1, 0 );
+            }
             
-            // go back to the prior input
-            int prevIndex = GetPrevButtonInput( (InputCodeToButtonMapping)buttonIndex );
-            pInputMap->osInputToFireButtonLookup[ mButtonSelection ] = (InputCodeToButtonMapping)prevIndex;
+            if( ShockInput::GetInput( P1_Joy_Right )->WasReleased() )
+            {
+                mPlayerSelection = 1;
+            }
+            else if( ShockInput::GetInput( P1_Joy_Left )->WasReleased() )
+            {
+                mPlayerSelection = 0;
+            }
         }
-        else if( ShockInput::GetInput( P1_Joy_Right )->WasReleased() )
+        else
         {
-            // get the index to the OS input currently mapped to this game input
-            OSInputToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
-            int buttonIndex = pInputMap->osInputToFireButtonLookup[ mButtonSelection ];
-            
-            // advance to the next input
-            int nextIndex = GetNextButtonInput( (InputCodeToButtonMapping)buttonIndex );
-            pInputMap->osInputToFireButtonLookup[ mButtonSelection ] = (InputCodeToButtonMapping)nextIndex;
+            // cycle the button for this input
+            if( ShockInput::GetInput( P1_Joy_Left )->WasReleased() )
+            {
+                // get the index to the OS input currently mapped to this game input
+                OSInputToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
+                int buttonIndex = pInputMap->osInputToFireButtonLookup[ mButtonSelection ];
+                
+                // go back to the prior input
+                int prevIndex = GetPrevButtonInput( (InputCodeToButtonMapping)buttonIndex );
+                pInputMap->osInputToFireButtonLookup[ mButtonSelection ] = (InputCodeToButtonMapping)prevIndex;
+            }
+            else if( ShockInput::GetInput( P1_Joy_Right )->WasReleased() )
+            {
+                // get the index to the OS input currently mapped to this game input
+                OSInputToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
+                int buttonIndex = pInputMap->osInputToFireButtonLookup[ mButtonSelection ];
+                
+                // advance to the next input
+                int nextIndex = GetNextButtonInput( (InputCodeToButtonMapping)buttonIndex );
+                pInputMap->osInputToFireButtonLookup[ mButtonSelection ] = (InputCodeToButtonMapping)nextIndex;
+            }
         }
-    }
 
-    if( ShockInput::GetInput( P1_Red )->WasReleased() )
-    {
-        mConfiguringButton = !mConfiguringButton;
+        if( ShockInput::GetInput( P1_Red )->WasReleased() )
+        {
+            mConfiguringButton = !mConfiguringButton;
+        }
     }
     
     if( ShockInput::GetInput( P2_Start )->WasReleased( ) )
@@ -154,44 +160,58 @@ UIState StateButtonConfig::Update( )
 
 void StateButtonConfig::DrawMenu( )
 {
-    int i = 0;
-    for( i = 0; i < MAX_MVSX_PLAYERS; i++ )
+    UIBaseState::RenderTitle( "BUTTON CONFIG" );
+    
+    if( mButtonConfigAvailable == 1 )
     {
-        for( int c = 0; c < mNumButtonsPerPlayer[ i ]; c++ )
+        int i = 0;
+        for( i = 0; i < MAX_MVSX_PLAYERS; i++ )
         {
-            // if we're config'ing a button, and drawing the one thats 
-            // active, color its label green
-            if( mConfiguringButton == 1 
-                && i == mPlayerSelection 
-                && c == mButtonSelection )
+            for( int c = 0; c < mNumButtonsPerPlayer[ i ]; c++ )
             {
-                mButtonInputList[ i ][ c ].SetColor( UI_COLOR_ENABLED );
-            }
-            else
-            {
-                mButtonInputList[ i ][ c ].SetColor( 0xFFFF );
-            }
-        
-            mButtonInputList[ i ][ c ].Draw( );
+                // if we're config'ing a button, and drawing the one thats 
+                // active, color its label green
+                if( mConfiguringButton == 1 
+                    && i == mPlayerSelection 
+                    && c == mButtonSelection )
+                {
+                    mButtonInputList[ i ][ c ].SetColor( UI_COLOR_ENABLED );
+                }
+                else
+                {
+                    mButtonInputList[ i ][ c ].SetColor( 0xFFFF );
+                }
             
-            // draw the associated button to the right
-            OSInputToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( i );
-            int buttonIndex = pInputMap->osInputToFireButtonLookup[ c ];
-            
-            int xPos = mButtonInputList[ i ][ c ].GetXPos( ) + UI_CURSOR_X_OFFSET + 225;
-            int yPos = mButtonInputList[ i ][ c ].GetYPos( ) - 25;
-            
-            if( mpButtonImageMap[ buttonIndex ] != NULL )
-            {
-                UIRenderer::DrawTransparentSprite( mpButtonImageMap[ buttonIndex ], xPos, yPos, BUTTON_WIDTH, BUTTON_HEIGHT, 0 );
+                mButtonInputList[ i ][ c ].Draw( );
+                
+                // draw the associated button to the right
+                OSInputToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( i );
+                int buttonIndex = pInputMap->osInputToFireButtonLookup[ c ];
+                
+                int xPos = mButtonInputList[ i ][ c ].GetXPos( ) + UI_CURSOR_X_OFFSET + 225;
+                int yPos = mButtonInputList[ i ][ c ].GetYPos( ) - 25;
+                
+                if( mpButtonImageMap[ buttonIndex ] != NULL )
+                {
+                    UIRenderer::DrawTransparentSprite( mpButtonImageMap[ buttonIndex ], xPos, yPos, BUTTON_WIDTH, BUTTON_HEIGHT, 0 );
+                }
             }
         }
-    }
-    
-    mRestoreDefaults.Draw( );
-    
-    UIBaseState::RenderMenuCursor( mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetXPos( ), 
+        
+        mRestoreDefaults.Draw( );
+        
+        UIBaseState::RenderMenuCursor( mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetXPos( ), 
                                    mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetYPos( ) );
+    }
+    // games like RockClim don't seem to have buttons to configure
+    else
+    {
+        char noConfigStr[ MAX_PATH ] = { 0 };
+        strncpy( noConfigStr, "No Buttons Available to Configure", sizeof( noConfigStr ) - 1 );
+        int xPos = UIBaseState::GetCenteredXPos( noConfigStr );
+        
+        UIRenderer::DrawText( noConfigStr, xPos, UI_Y_POS_MENU, UI_COLOR_DISABLED );
+    }
     
     UIBaseState::RenderBackOption( "Return" );
 }

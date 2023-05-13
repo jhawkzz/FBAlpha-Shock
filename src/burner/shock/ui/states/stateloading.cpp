@@ -41,9 +41,10 @@ UIState StateLoading::Update( )
 
 void StateLoading::DrawMenu( )
 {
+    UIRenderer::DrawSprite( gMainBGHeader, 0, 0, BG_HEADER_WIDTH, BG_HEADER_HEIGHT );
+    
     char loadStr[ MAX_PATH ] = { 0 };
-    //snprintf( loadStr, sizeof( loadStr ), "LOADING GAME: %s", ShockRomLoader::GetRomsetName( ) );
-    snprintf( loadStr, sizeof( loadStr ), "LOADING" );
+    snprintf( loadStr, sizeof( loadStr ), "LOADING GAME" );
     int loadStrLen = strlen( loadStr );
     
     char gameStr[ MAX_PATH ] = { 0 };
@@ -52,14 +53,15 @@ void StateLoading::DrawMenu( )
     
     if( mLoadingTimerMS < gGlobalTimer.GetElapsedTimeMicroseconds() )
     {
-        mLoadingTimerMS = gGlobalTimer.GetElapsedTimeMicroseconds() + 100 * MILLI_TO_MICROSECONDS;
+        mLoadingTimerMS = gGlobalTimer.GetElapsedTimeMicroseconds() + 50 * MILLI_TO_MICROSECONDS;
         mLoadingColorLetterIndex = (mLoadingColorLetterIndex + 1) % (loadStrLen + gameStrLen);
     }
     
     int whiteColor = 0xFFFF;
     int loadColor  = UI_COLOR_ENABLED;
+    int startYPos  = UI_Y_POS_MENU + UI_ROW_HEIGHT;
     
-    // render the LOADING line
+    // render the LOADING GAME line
     int loadLength = Font::MeasureStringWidth( loadStr, FontType_Upheaval );
     int xPos = (PLATFORM_LCD_WIDTH - loadLength) / 2;
     
@@ -75,7 +77,7 @@ void StateLoading::DrawMenu( )
         letterStr[ 0 ] = loadStr[ i ];
         UIRenderer::DrawText( letterStr, 
                               xPos, 
-                              UI_Y_POS_MENU,
+                              startYPos,
                               letterColor,
                               FontType_Upheaval );
                               
@@ -98,7 +100,7 @@ void StateLoading::DrawMenu( )
         letterStr[ 0 ] = gameStr[ i ];
         UIRenderer::DrawText( letterStr, 
                               xPos, 
-                              UI_Y_POS_MENU * 3,
+                              startYPos + UI_ROW_HEIGHT,
                               letterColor,
                               FontType_Upheaval );
                               

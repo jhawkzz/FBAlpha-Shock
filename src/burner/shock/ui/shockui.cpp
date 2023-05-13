@@ -34,19 +34,15 @@ void ShockUI::Create( )
         pCurrBufferPos += PLATFORM_LCD_WIDTH;
     }
     
-    pCurrBufferPos   = mBackgroundImage;
-    UINT16 *pHeaderBufferPos = (UINT16 *)gMainBGHeader;
-    
-    for( int y = 0; y < BG_HEADER_HEIGHT; y++ )
-    {
-        // use the screen width so that we dont crash on x86
-        for( int x = 0; x < PLATFORM_LCD_WIDTH; x++ )
-        {
-            pCurrBufferPos[ x ] = pHeaderBufferPos[ x ];
-        }
+    // Render seperator line
+    int xPos = 18;
+    int yPos = UI_Y_POS_HEADER_SEPERATOR;
+    int length = PLATFORM_LCD_WIDTH - xPos * 2;
+    UINT16 *pShortBackBuffer = mBackgroundImage + (xPos + (yPos * PLATFORM_LCD_WIDTH));
         
-        pCurrBufferPos += PLATFORM_LCD_WIDTH;
-        pHeaderBufferPos += BG_HEADER_WIDTH;
+    for( int x = 0; x < length; x++ )
+    {
+        pShortBackBuffer[ x ] = 0xFFFF;
     }
     
     mUIState = UIState_Count;

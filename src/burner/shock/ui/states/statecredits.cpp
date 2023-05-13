@@ -74,6 +74,8 @@ UIState StateCredits::Update( )
 
 void StateCredits::RenderCredits( )
 {
+    UIBaseState::RenderTitle( "CREDITS / LEGAL" );
+    
     switch( mPageNum )
     {
         case 0: RenderPage0( ); break;

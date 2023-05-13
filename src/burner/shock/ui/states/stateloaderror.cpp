@@ -78,22 +78,17 @@ int StateLoadError::ShouldExitEmulator( )
 
 void StateLoadError::RenderFatalError( )
 {
-    int xPos = 0;
-    int yPos = UI_Y_POS_MENU;
+    RenderTitle( "LOAD ERROR" );
     
     char message[ MAX_PATH ] = { 0 };
-    strncpy( message, "Load Error", sizeof( message ) );
-    xPos = GetCenteredXPos( message );
-    UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
-    
     snprintf( message, sizeof( message ), "Romset: %s", ShockRomLoader::GetRomsetName( ) );
-    xPos = GetCenteredXPos( message );
-    yPos += UI_ROW_HEIGHT / 2;
+    int xPos = GetCenteredXPos( message );
+    int yPos = UI_Y_POS_MENU;
     UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
         
     if( mRomLoadResult & LOAD_FATAL_GENERIC )
     {
-        snprintf( message, sizeof( message ), "Could not be load romset" );
+        snprintf( message, sizeof( message ), "Could not be loaded" );
         xPos = GetCenteredXPos( message );
         yPos += UI_ROW_HEIGHT / 2;
         UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
@@ -165,17 +160,12 @@ void StateLoadError::RenderFatalError( )
 
 void StateLoadError::RenderWarning( )
 {
-    int xPos = 0;
-    int yPos = UI_Y_POS_MENU;
+    RenderTitle( "LOAD WARNING" );
     
     char message[ MAX_PATH ] = { 0 };
-    strncpy( message, "Load Warning", sizeof( message ) );
-    xPos = GetCenteredXPos( message );
-    UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
-    
     snprintf( message, sizeof( message ), "Romset: %s", ShockRomLoader::GetRomsetName( ) );
-    xPos = GetCenteredXPos( message );
-    yPos += UI_ROW_HEIGHT / 2;
+    int xPos = GetCenteredXPos( message );
+    int yPos = UI_Y_POS_MENU;
     UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
     
     if( mRomLoadResult & LOAD_WARNING_CRC )
@@ -185,12 +175,12 @@ void StateLoadError::RenderWarning( )
         yPos += UI_ROW_HEIGHT / 2;
         UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
         
-        snprintf( message, sizeof( message ), "ROM CRC values did not match what was expected." );
+        snprintf( message, sizeof( message ), "ROM CRC values did not match what was expected" );
         xPos = GetCenteredXPos( message );
         yPos += UI_ROW_HEIGHT / 2;
         UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
         
-        snprintf( message, sizeof( message ), "This could simply mean this is a romhack." );
+        snprintf( message, sizeof( message ), "This could simply mean this is a romhack" );
         xPos = GetCenteredXPos( message );
         yPos += UI_ROW_HEIGHT / 2;
         UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
@@ -203,7 +193,7 @@ void StateLoadError::RenderWarning( )
         yPos += UI_ROW_HEIGHT / 2;
         UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
         
-        snprintf( message, sizeof( message ), "Rom sizes did not match what was expected." );
+        snprintf( message, sizeof( message ), "Rom sizes did not match what was expected" );
         xPos = GetCenteredXPos( message );
         yPos += UI_ROW_HEIGHT / 2;
         UIRenderer::DrawText( message, xPos, yPos, 0xFFFF );
