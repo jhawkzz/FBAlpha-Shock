@@ -80,14 +80,17 @@ void FrameBuffer::SetWindow(HWND hwnd)
 
 void FrameBuffer::Blit()
 {
+    if (!m_hwnd)
+        return;
+
     RECT rect;
-    GetWindowRect(m_hwnd, &rect);
+    GetClientRect(m_hwnd, &rect);
 
     HDC dc = GetDC(m_hwnd);
     HDC hBitmapDC = CreateCompatibleDC(dc);
     HBITMAP oldObj = (HBITMAP) SelectObject(hBitmapDC, m_hbitmap); 
 
-    BitBlt(dc, 0, 0, PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, hBitmapDC, 0, 0, SRCCOPY);
+    StretchBlt(dc, 0, 0, rect.right - rect.left, rect.bottom - rect.top, hBitmapDC, 0, 0, PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, SRCCOPY);
 
     SelectObject(hBitmapDC, oldObj); 
 
