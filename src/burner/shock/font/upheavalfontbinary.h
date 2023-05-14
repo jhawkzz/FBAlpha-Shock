@@ -1,4 +1,6 @@
 
+// See License.md for license
+
 #ifndef UPHEAVAL_FONT_BINARY_H_
 #define UPHEAVAL_FONT_BINARY_H_
 

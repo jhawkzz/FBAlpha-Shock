@@ -122,7 +122,7 @@ void StateCredits::RenderPage0( )
     yPos += UI_ROW_HEIGHT;
     UIRenderer::DrawText( "Development:", xPos, yPos, 0xFFFF );
     yPos += UI_ROW_HEIGHT / 2;
-    UIRenderer::DrawText( "100 Mega Shock Edition Port Written by and * 2023 JHawkZZ", xPos, yPos, 0xFFFF );
+    UIRenderer::DrawText( "100 Mega Shock Edition Port Written by and # 2023 JHawkZZ", xPos, yPos, 0xFFFF );
     yPos += UI_ROW_HEIGHT / 2;
     UIRenderer::DrawText( "Quality Assurance by Usagi", xPos, yPos, 0xFFFF );
                         

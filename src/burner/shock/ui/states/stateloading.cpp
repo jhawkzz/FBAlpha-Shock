@@ -100,7 +100,7 @@ void StateLoading::DrawMenu( )
         letterStr[ 0 ] = gameStr[ i ];
         UIRenderer::DrawText( letterStr, 
                               xPos, 
-                              startYPos + UI_ROW_HEIGHT,
+                              startYPos + UI_ROW_HEIGHT * 2,
                               letterColor,
                               FontType_Upheaval );
                               
