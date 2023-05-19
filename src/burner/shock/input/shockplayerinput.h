@@ -30,7 +30,7 @@ private:
     static void SetGameDefaults_Capcom( );
 
 private:
-    static OSInputToBurnInput mOSInputToBurnInput[ MAX_MVSX_PLAYERS ];
+    static OSInputToBurnInput mOSInputToBurnInput[ MAX_SHOCK_PLAYERS ];
     static int                mHardwareCode;
 };
 

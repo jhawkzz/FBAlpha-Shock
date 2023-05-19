@@ -13,7 +13,7 @@ int   stricmp(char *s1, char *s2);
 
 int   getExeDirectory( char *pFilePath, int size );
 
-#if defined LUBUNTU || defined MVSX
+#if defined LUBUNTU || defined MVSX || defined ASP
     #define ShockSleep(us) usleep(us)
     #define ShockCreateDir(path) mkdir( (path), 0777 )
 #elif defined _WIN32

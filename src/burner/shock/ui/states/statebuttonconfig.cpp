@@ -60,7 +60,7 @@ void StateButtonConfig::EnterState( UIState oldState )
     int yPos = yStartPos;
     int numPlayers = ShockBurnInput::GetNumPlayers();
     int i;
-    for( i = 0; i < min( MAX_MVSX_PLAYERS, numPlayers ); i++ )
+    for( i = 0; i < min( MAX_SHOCK_PLAYERS, numPlayers ); i++ )
     {
         PlayerInp *pPlayerInput = ShockBurnInput::GetPlayerInput( i );
         
@@ -165,7 +165,7 @@ void StateButtonConfig::DrawMenu( )
     if( mButtonConfigAvailable == 1 )
     {
         int i = 0;
-        for( i = 0; i < MAX_MVSX_PLAYERS; i++ )
+        for( i = 0; i < MAX_SHOCK_PLAYERS; i++ )
         {
             for( int c = 0; c < mNumButtonsPerPlayer[ i ]; c++ )
             {

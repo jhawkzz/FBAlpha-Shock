@@ -3,7 +3,7 @@
 
 #include "../includes.h"
 
-OSInputToBurnInput ShockPlayerInput::mOSInputToBurnInput[ MAX_MVSX_PLAYERS ];
+OSInputToBurnInput ShockPlayerInput::mOSInputToBurnInput[ MAX_SHOCK_PLAYERS ];
 int                ShockPlayerInput::mHardwareCode;
 
 void ShockPlayerInput::Create( INT32 hardwareCode )
@@ -70,7 +70,7 @@ void ShockPlayerInput::LoadFireInputs( const char *pRomsetName )
     SavedFireInput *pFireInput = ShockConfig::LoadFireInputs( pRomsetName );
     if( pFireInput != NULL )
     {
-        for( int i = 0; i < MAX_MVSX_PLAYERS; i++ )
+        for( int i = 0; i < MAX_SHOCK_PLAYERS; i++ )
         {
             memcpy( mOSInputToBurnInput[ i ].osInputToFireButtonLookup,
                     pFireInput->osInputToFireButtonLookup[ i ],
@@ -88,7 +88,7 @@ void ShockPlayerInput::SaveFireInputs( const char *pRomsetName )
     SavedFireInput fireInput = { 0 };
         
     // copy the values out
-    for( int i = 0; i < MAX_MVSX_PLAYERS; i++ )
+    for( int i = 0; i < MAX_SHOCK_PLAYERS; i++ )
     {
         memcpy( fireInput.osInputToFireButtonLookup[ i ],
                 mOSInputToBurnInput[ i ].osInputToFireButtonLookup, 
