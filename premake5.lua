@@ -18,8 +18,31 @@ project "FBAlpha-Shock"
 
    -- Set the include directories
    includedirs {
+      "src/burn",
+      "src/burn/devices",
+      "src/burn/drv/sega",
+      "src/burn/drv/dataeast",
+      "src/burn/drv/konami",
+      "src/burn/snd",
+      "src/burn/drv/taito",
+      "src/burner",
       "src/burner/shock/core/windows",
-      -- Add more include directories here
+      "src/cpu",
+      "src/cpu/i8039",
+      "src/cpu/i8051",
+      "src/cpu/i8x41",
+      "src/cpu/m6805",
+      "src/cpu/tms32010",
+      "src/cpu/upd7725",
+      "src/cpu/upd7810",
+      "src/cpu/v60",
+      "src/cpu/z180",
+      "src/cpu/z80",
+      "src/dep/generated",
+      "src/dep/libs/zlib",
+      "src/intf",
+      "src/intf/audio",
+      "src/intf/cd",
    }
 
    -- Set the directories to exclude
