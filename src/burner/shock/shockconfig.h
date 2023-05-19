@@ -12,7 +12,7 @@
 struct SavedFireInput
 {
     char romsetName[ MAX_PATH ];
-    InputCodeToButtonMapping osInputToFireButtonLookup[ MAX_MVSX_PLAYERS ][ GameInp_Fire_Count ];
+    InputCodeToButtonMapping osInputToFireButtonLookup[ MAX_SHOCK_PLAYERS ][ GameInp_Fire_Count ];
 };
 
 struct ConfigSettings

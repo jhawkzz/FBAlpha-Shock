@@ -12,7 +12,11 @@
 
 // Although games could theoretically support more, for MVSX we
 // can only do 2, so we'll limit for simplicity
-#define MAX_MVSX_PLAYERS (2)
+#if defined LUBUNTU || defined MVSX || defined _WIN32
+#define MAX_SHOCK_PLAYERS (2)
+#elif ASP
+#define MAX_SHOCK_PLAYERS (1) //until we can add controller support (will we?) limit to 1
+#endif
 
 // IO for FBA to write game files
 #define EEPROM_PATH          "eeprom/" 
@@ -27,6 +31,9 @@
 #elif MVSX
 #define PLATFORM_LCD_WIDTH	  (1280)
 #define PLATFORM_LCD_HEIGHT	  (1024)
+#elif ASP
+#define PLATFORM_LCD_WIDTH	  (1280)
+#define PLATFORM_LCD_HEIGHT	  (720)
 #elif _WIN32
 #define PLATFORM_LCD_WIDTH	  (1280)
 #define PLATFORM_LCD_HEIGHT	  (1024)
