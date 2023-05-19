@@ -11,7 +11,7 @@ OSTimer gGlobalTimer;
 
 int ShockMain::Create( )
 {
-    mState      = ShockState_Idle;
+    mState      = ShockState_Loading;
     mLoadResult = LoadResult_None;
     
     // Setup Audio
@@ -105,20 +105,20 @@ int ShockMain::Run(const char* romSet)
     gGlobalTimer.Reset();
 
     result = ShockMain::Create( );
-    if( result == -1 )
-        return 1;
+    if ( result == -1 )
+        return result;
 
     ShockMain::BeginLoad( romSet );
     
     do
     {
-        result = ShockMain::Update( );
+        ShockMain::Update( );
     }
-    while (result == 0);
+    while (mState != ShockState_Quit);
 
     ShockMain::Destroy( );
 
-    return result;
+    return 0;
 }
 
 void *ShockMain::LoadThread( void *pArg )
@@ -153,10 +153,8 @@ void *ShockMain::LoadThread( void *pArg )
     return NULL;
 }
 
-int ShockMain::UpdateState_Loading( )
+void ShockMain::UpdateState_Loading( )
 {
-    int result = 0;
-    
     ShockUI::Update( );
     
     switch( mLoadResult )
@@ -197,19 +195,14 @@ int ShockMain::UpdateState_Loading( )
         
         case LoadResult_Failed_Other:
         {
-            mState = ShockState_Idle;
+            mState = ShockState_Quit;
             mLoadResult = LoadResult_Count;
-            
-            // just return -1 so we exit gracefully
-            result = -1;
             break;
         }
     }
-    
-    return result;
 }
 
-int ShockMain::UpdateState_LoadError( )
+void ShockMain::UpdateState_LoadError( )
 {
     // a return of 1 means stay in the frontend load error screen
     // a return of 0 means continue to the emulator
@@ -227,13 +220,11 @@ int ShockMain::UpdateState_LoadError( )
     }
     else if ( result == -1 )
     {
-        mState = ShockState_Idle;
+        mState = ShockState_Quit;
     }
-    
-    return result;
 }
 
-int ShockMain::UpdateState_FrontEnd( )
+void ShockMain::UpdateState_FrontEnd( )
 {
     // a return of 1 means stay in th frontend
     // a return of 0 means back to the emulator
@@ -249,13 +240,11 @@ int ShockMain::UpdateState_FrontEnd( )
     }
     else if ( result == -1 )
     {
-        mState = ShockState_Idle;
+        mState = ShockState_Quit;
     }
-    
-    return result;
 }
 
-int ShockMain::UpdateState_Emulator( )
+void ShockMain::UpdateState_Emulator( )
 {
     ShockGame::Update( );
             
@@ -268,30 +257,41 @@ int ShockMain::UpdateState_Emulator( )
         ShockUI::SetState_MainMenu( );
         ShockGame::Pause( 1 );
     }
-    
-    return 0;
 }
 
-int ShockMain::Update()
+void ShockMain::Update()
 {
     int result = ShockMainCore::Update();
+
     if (result == -1)
-        return result;
+    {
+        mState = ShockState_Quit;
+    }
 
     switch (mState)
     {
         case ShockState_Loading:
-            return UpdateState_Loading( );        
+        {
+            UpdateState_Loading( ); 
+            break;
+        }
 
         case ShockState_LoadError:
-            return UpdateState_LoadError();
+        {
+            UpdateState_LoadError();
+            break;
+        }
 
         case ShockState_FrontEnd:
-            return UpdateState_FrontEnd( );
+        {
+            UpdateState_FrontEnd( );
+            break;
+        }
 
         case ShockState_Emulator:
-            return UpdateState_Emulator( );
+        {
+            UpdateState_Emulator( );
+            break;
+        }
     }
-
-    return -1;
 }

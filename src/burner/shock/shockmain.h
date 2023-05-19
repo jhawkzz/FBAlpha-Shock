@@ -10,7 +10,7 @@
 
 enum ShockState
 {
-    ShockState_Idle,
+    ShockState_Quit = -1,
     ShockState_Loading,
     ShockState_LoadError,
     ShockState_FrontEnd,
@@ -37,14 +37,14 @@ public:
     static int  Run(const char *pRomtset );
 
 private:
-    static int   Update( );
+    static void Update( );
 
     static void *LoadThread( void *pArg );
     
-    static int   UpdateState_Loading( );
-    static int   UpdateState_LoadError( );
-    static int   UpdateState_FrontEnd( );
-    static int   UpdateState_Emulator( );
+    static void UpdateState_Loading( );
+    static void UpdateState_LoadError( );
+    static void UpdateState_FrontEnd( );
+    static void UpdateState_Emulator( );
 
 private:
     static ShockState mState;
