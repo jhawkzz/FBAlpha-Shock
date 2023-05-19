@@ -1313,11 +1313,11 @@
           <File Name="burner/shock/core/mvsx/ostimer_core.h"/>
         </VirtualDirectory>
         <File Name="burner/shock/core/ostimer.h"/>
-        <File Name="burner/shock/core/platform.h"/>
         <File Name="burner/shock/core/thread.h"/>
         <VirtualDirectory Name="posix">
           <File Name="burner/shock/core/posix/thread_core.cpp"/>
           <File Name="burner/shock/core/posix/thread_core.h"/>
+          <File Name="burner/shock/core/posix/shockmain_core.h"/>
         </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="util">
