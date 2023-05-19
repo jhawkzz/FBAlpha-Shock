@@ -3,6 +3,7 @@
 
 #include "includes.h"
 
+ShockThread ShockMain::mLoadThread;
 ShockState ShockMain::mState;
 LoadResult ShockMain::mLoadResult;
 char       ShockMain::mRomsetName[ MAX_PATH ];
@@ -87,8 +88,7 @@ int ShockMain::BeginLoad( const char *pRomset )
         
     strncpy( mRomsetName, pRomset, sizeof( mRomsetName ) );
     
-    ShockThread t;
-    int result = t.Create( ShockMain::LoadThread, mRomsetName );
+    int result = mLoadThread.Create( ShockMain::LoadThread, mRomsetName );
     if( result != 0 )
     {
         flushPrintf( "ShockMain::BeginLoad() pthread_create failed with error: %d\r\n", result );

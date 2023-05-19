@@ -47,6 +47,7 @@ private:
     static void UpdateState_Emulator( );
 
 private:
+    static ShockThread mLoadThread;
     static ShockState mState;
     static LoadResult mLoadResult;
     static char       mRomsetName[ MAX_PATH ];

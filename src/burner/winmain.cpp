@@ -1,4 +1,4 @@
-#include "../src/burner/shock/includes.h"
+#include "shock/includes.h"
 
 HINSTANCE hAppInst;
 HWND hwndMain;

@@ -10,6 +10,9 @@ project "FBAlpha-Shock"
    language "C++"
    targetdir "projects/windows/bin/%{cfg.buildcfg}"
 
+   defines { "BUILD_WIN32", "LSB_FIRST" }
+   characterset ("MBCS")
+
    -- Set the directories containing source files
    local sourceDirs = {
       "src",
@@ -64,6 +67,8 @@ project "FBAlpha-Shock"
    end
 
    removefiles { "src/burner/main.cpp" }
+   removefiles { "src/cpu/a68k/fba_make68k.c" }
+   removefiles { "src/cpu/a68k/mips/fba_make68k.c" }
 
    -- Create the folder structure in Visual Studio
    filter "files:**.h or **.hpp"
