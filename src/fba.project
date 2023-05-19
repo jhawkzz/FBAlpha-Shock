@@ -1291,25 +1291,34 @@
       <File Name="burner/shock/shockrenderer.h"/>
       <VirtualDirectory Name="core">
         <VirtualDirectory Name="x86">
-          <File Name="burner/shock/core/x86/x86framebuffer.cpp"/>
-          <File Name="burner/shock/core/x86/x86framebuffer.h"/>
-          <File Name="burner/shock/core/x86/x86audio.cpp"/>
-          <File Name="burner/shock/core/x86/x86audio.h"/>
-          <File Name="burner/shock/core/x86/x86input.cpp"/>
-          <File Name="burner/shock/core/x86/x86input.h"/>
+          <File Name="burner/shock/core/x86/audio.cpp"/>
+          <File Name="burner/shock/core/x86/audio.h"/>
+          <File Name="burner/shock/core/x86/framebuffer.cpp"/>
+          <File Name="burner/shock/core/x86/framebuffer.h"/>
+          <File Name="burner/shock/core/x86/input.cpp"/>
+          <File Name="burner/shock/core/x86/input.h"/>
+          <File Name="burner/shock/core/x86/ostimer_core.cpp"/>
+          <File Name="burner/shock/core/x86/ostimer_core.h"/>
         </VirtualDirectory>
         <VirtualDirectory Name="mvsx">
-          <File Name="burner/shock/core/mvsx/mvsxframebuffer.cpp"/>
-          <File Name="burner/shock/core/mvsx/mvsxframebuffer.h"/>
-          <File Name="burner/shock/core/mvsx/mvsxaudio.cpp"/>
-          <File Name="burner/shock/core/mvsx/mvsxaudio.h"/>
-          <File Name="burner/shock/core/mvsx/mvsxinput.cpp"/>
-          <File Name="burner/shock/core/mvsx/mvsxinput.h"/>
           <File Name="burner/shock/core/mvsx/mvsxled.cpp"/>
           <File Name="burner/shock/core/mvsx/mvsxled.h"/>
+          <File Name="burner/shock/core/mvsx/audio.cpp"/>
+          <File Name="burner/shock/core/mvsx/audio.h"/>
+          <File Name="burner/shock/core/mvsx/framebuffer.cpp"/>
+          <File Name="burner/shock/core/mvsx/framebuffer.h"/>
+          <File Name="burner/shock/core/mvsx/input.cpp"/>
+          <File Name="burner/shock/core/mvsx/input.h"/>
+          <File Name="burner/shock/core/mvsx/ostimer_core.cpp"/>
+          <File Name="burner/shock/core/mvsx/ostimer_core.h"/>
         </VirtualDirectory>
-        <File Name="burner/shock/core/ostimer.cpp"/>
         <File Name="burner/shock/core/ostimer.h"/>
+        <File Name="burner/shock/core/platform.h"/>
+        <File Name="burner/shock/core/thread.h"/>
+        <VirtualDirectory Name="posix">
+          <File Name="burner/shock/core/posix/thread_core.cpp"/>
+          <File Name="burner/shock/core/posix/thread_core.h"/>
+        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="util">
         <File Name="burner/shock/util/util.cpp"/>

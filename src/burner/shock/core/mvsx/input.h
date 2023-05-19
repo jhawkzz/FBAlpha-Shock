@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef MVSXINPUT_H_
-#define MVSXINPUT_H_
+#ifndef INPUT_H_
+#define INPUT_H_
 
 // The path to the input device on the MVSX Linux OS. 
 // This represents the entire control deck (both players, all buttons)
@@ -90,7 +90,7 @@ struct ButtonState
     int             value; // This is the action (0 is released, 1 is down)
 };
 
-class MVSXInput
+class Input
 {
 public:
     static int  Create( );

@@ -82,6 +82,7 @@ FBA_SHOCK_DIR := $(MAIN_FBA_DIR)/burner/shock
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/util
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core/mvsx
+FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core/posix
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/font
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/ui
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/ui/render
@@ -111,6 +112,8 @@ FBA_DEFINES := -DUSE_SPEEDHACKS \
 
 INCDIRS := \
 	-I$(FBA_BURNER_DIR) \
+	-I$(FBA_BURNER_DIR)/shock/core/mvsx \
+	-I$(FBA_BURNER_DIR)/shock/core/posix \
 	-I$(FBA_BURN_DIR) \
 	-I$(FBA_BURN_DIR)/snd \
 	-I$(FBA_BURN_DIR)/devices \

@@ -4,11 +4,13 @@
 #ifndef SHOCK_MAIN_H_
 #define SHOCK_MAIN_H_
 
+#include "shockmain_core.h"
+
 #define HOLD_TIME_FOR_FRONTEND_MILLI (1500)
 
 enum ShockState
 {
-    ShockState_Idle,
+    ShockState_Quit = -1,
     ShockState_Loading,
     ShockState_LoadError,
     ShockState_FrontEnd,
@@ -26,21 +28,23 @@ enum LoadResult
     LoadResult_Count
 };
 
-class ShockMain
+class ShockMain : public ShockMainCore
 {
 public:
     static int  Create( );
     static void Destroy( );
-    static int  BeginLoad( char *pRomset );
-    static int  Update( );
+    static int  BeginLoad( const char *pRomset );
+    static int  Run(const char *pRomtset );
 
 private:
+    static void Update( );
+
     static void *LoadThread( void *pArg );
     
-    static int   UpdateState_Loading( );
-    static int   UpdateState_LoadError( );
-    static int   UpdateState_FrontEnd( );
-    static int   UpdateState_Emulator( );
+    static void UpdateState_Loading( );
+    static void UpdateState_LoadError( );
+    static void UpdateState_FrontEnd( );
+    static void UpdateState_Emulator( );
 
 private:
     static ShockState mState;

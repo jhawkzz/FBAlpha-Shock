@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef X86INPUT_H_
-#define X86INPUT_H_
+#ifndef INPUT_H_
+#define INPUT_H_
 
 // Keyboard device
 #define KB_LOCAL_DEVICE     "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
@@ -50,7 +50,7 @@ struct ButtonState
     int             value; // This is the action (0 is released, 1 is down)
 };
 
-class X86Input
+class Input
 {
 public:
     static int  Create( );

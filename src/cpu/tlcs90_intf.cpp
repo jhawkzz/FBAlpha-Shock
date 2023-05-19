@@ -1,10 +1,12 @@
+// 2023.05.13 THK: prefixed read, write, readio, writeio with tlcs_ to prevent MSBuild conflicts
+
 #include "burnint.h"
 #include "tlcs90_intf.h"
 
-static UINT8 (*read)(UINT32) = NULL;
-static void (*write)(UINT32, UINT8) = NULL;
-static UINT8 (*readio)(UINT16) = NULL;
-static void (*writeio)(UINT16, UINT8) = NULL;
+static UINT8 (*tlcs_read)(UINT32) = NULL;
+static void (*tlcs_write)(UINT32, UINT8) = NULL;
+static UINT8 (*tlcs_readio)(UINT16) = NULL;
+static void (*tlcs_writeio)(UINT16, UINT8) = NULL;
 
 static UINT8 *mem[2][0x1000]; // only read/fetch & write
 
@@ -25,8 +27,8 @@ UINT8 tlcs90_program_read_byte(UINT32 address)
 		return mem[0][(address / 0x100)][address & 0xff];
 	}
 
-	if (read) {
-		return read(address);
+	if (tlcs_read) {
+		return tlcs_read(address);
 	}
 
 	return 0;
@@ -47,8 +49,8 @@ void tlcs90_program_write_byte(UINT32 address, UINT8 data)
 		return;
 	}
 
-	if (write) {
-		write(address, data);
+	if (tlcs_write) {
+        tlcs_write(address, data);
 		return;
 	}
 }
@@ -59,8 +61,8 @@ UINT8 tlcs90_io_read_byte(UINT16 port)
 
 //	bprintf (0, _T("Read Port: %4.4x\n"), port);
 
-	if (readio) {
-		return readio(port);
+	if (tlcs_readio) {
+		return tlcs_readio(port);
 	}
 
 	return 0;
@@ -72,30 +74,30 @@ void tlcs90_io_write_byte(UINT16 port, UINT8 data)
 
 //	bprintf (0, _T("Write Port: %4.4x %2.2x\n"), port, data);
 
-	if (writeio) {
-		return writeio(port, data);
+	if (tlcs_writeio) {
+		return tlcs_writeio(port, data);
 	}
 }
 
 
 void tlcs90SetReadHandler(UINT8 (*pread)(UINT32))
 {
-	read = pread;
+    tlcs_read = pread;
 }
 
 void tlcs90SetWriteHandler(void (*pwrite)(UINT32, UINT8))
 {
-	write = pwrite;
+	tlcs_write = pwrite;
 }
 
 void tlcs90SetReadPortHandler(UINT8 (*pread)(UINT16))
 {
-	readio = pread;
+    tlcs_readio = pread;
 }
 
 void tlcs90SetWritePortHandler(void (*pwrite)(UINT16, UINT8))
 {
-	writeio = pwrite;
+    tlcs_writeio = pwrite;
 }
 
 void tlcs90MapMemory(UINT8 *ptr, UINT32 start, UINT32 end, INT32 flags)
@@ -120,10 +122,10 @@ INT32 tlcs90Init(INT32, INT32 clock)
 {
 	memset (mem, 0, 2 * 0x1000 * sizeof(UINT8 *));
 
-	read = NULL;
-	write = NULL;
-	readio = NULL;
-	writeio = NULL;
+    tlcs_read = NULL;
+    tlcs_write = NULL;
+    tlcs_readio = NULL;
+    tlcs_writeio = NULL;
 
 	return tlcs90_init(clock);
 }
@@ -137,10 +139,10 @@ void tlcs90Close()
 INT32 tlcs90Exit()
 {
 	memset (mem, 0, 2 * 0x1000 * sizeof(UINT8 *));
-	read = NULL;
-	write = NULL;
-	readio = NULL;
-	writeio = NULL;
+    tlcs_read = NULL;
+    tlcs_write = NULL;
+    tlcs_readio = NULL;
+    tlcs_writeio = NULL;
 
 	return 0;
 }

@@ -2,6 +2,9 @@
 #include <math.h>
 #include "burner.h"
 
+// 2023.05.13 THK: #ifdef out translations for Win32 build (they're already excluded from other platforms)
+
+
 // ---------------------------------------------------------------------------
 // Software gamma
 
@@ -193,7 +196,7 @@ TCHAR* DecorateGenreInfo()
 	_stprintf(szDecoratedGenre, _T(""));
 	_stprintf(szFamily, _T(""));
 	
-#ifdef BUILD_WIN32 
+#if 0//BUILD_WIN32 
 //TODO: Translations are not working in non-win32 builds. This needs to be fixed
 
 	if (nGenre) {

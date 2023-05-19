@@ -3,11 +3,11 @@
 
 #include "../../includes.h"
 
-ButtonState MVSXInput::mButtonState[ Button_Count ];
-int         MVSXInput::mInputFileHandle;
-int         MVSXInput::mThreadRunning;
+ButtonState Input::mButtonState[ Button_Count ];
+int         Input::mInputFileHandle;
+int         Input::mThreadRunning;
 
-int MVSXInput::Create( )
+int Input::Create( )
 {
 	mInputFileHandle = open( SNK_JS_LOCAL_DEVICE, O_RDONLY );
 	if( mInputFileHandle < 0 )
@@ -42,7 +42,7 @@ int MVSXInput::Create( )
     return 0;
 }
 
-void MVSXInput::Destroy( )
+void Input::Destroy( )
 {
     for( int i = 0; i < Button_Count; i++ )
     {
@@ -65,7 +65,7 @@ void MVSXInput::Destroy( )
     mThreadRunning = 0;
 }
 
-void *MVSXInput::PollInput_ThreadProc(void *data)
+void *Input::PollInput_ThreadProc(void *data)
 {
     mThreadRunning = 1;
 	
@@ -91,7 +91,7 @@ void *MVSXInput::PollInput_ThreadProc(void *data)
     return NULL;
 }
 
-void MVSXInput::ReadInputs( )
+void Input::ReadInputs( )
 {
 	input_event input;
 	int ret = read( mInputFileHandle, &input, sizeof( input_event ) );
@@ -115,7 +115,7 @@ void MVSXInput::ReadInputs( )
     }
 }
 
-int MVSXInput::GetValueForInput( InputCodeToButtonMapping input )
+int Input::GetValueForInput( InputCodeToButtonMapping input )
 {
     // quickly lock around the value and copy it out
     int inputVal = 0;

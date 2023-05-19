@@ -8,10 +8,20 @@ void flushPrintf( const char *pStr, ... )
 	va_list argptr;
     va_start( argptr, pStr );
 	vprintf( pStr, argptr );
-	fflush(stdout);
+
+#ifdef _WIN32
+    char text[256] = {};
+    vsnprintf(text, sizeof(text) - 1, pStr, argptr);
+    OutputDebugString(text);
+    OutputDebugString("\n");
+#endif
+
+    fflush(stdout);
 	va_end( argptr );
+
 }
 
+#ifndef _WIN32
 char *strlwr(char *str)
 {
   unsigned char *p = (unsigned char *)str;
@@ -30,7 +40,7 @@ int stricmp(char *s1, char *s2)
 {
     int i;
     for (i = 0; s1[i] && s2[i]; ++i)
-    {
+    {   
         /* If characters are same or inverting the
            6th bit makes them same */
         if (s1[i] == s2[i] || (s1[i] ^ 32) == s2[i])
@@ -57,7 +67,7 @@ int getExeDirectory( char *pFilePath, int size )
     if ( count != -1 ) 
     {
         dirname( result );
-        
+
         snprintf( pFilePath, size, "%s", result );
         return 0;
     }
@@ -66,3 +76,17 @@ int getExeDirectory( char *pFilePath, int size )
         return -1;
     }
 }
+
+#else
+int getExeDirectory( char *pFilePath, int size )
+{
+    if (GetModuleFileName(NULL, pFilePath, size) == ERROR_INSUFFICIENT_BUFFER)
+        return -1;
+
+    char* slash = strrchr(pFilePath, '\\');
+    if (slash) *slash = 0;
+
+    return 0;
+}
+
+#endif

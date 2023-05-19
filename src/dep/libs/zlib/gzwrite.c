@@ -4,7 +4,10 @@
  */
 
 #include "gzguts.h"
-#include <unistd.h> //JHM: Fix implicit declaration warnings
+
+#ifndef _WIN32
+    #include <unistd.h> //JHM: Fix implicit declaration warnings
+#endif
 
 /* Local functions */
 local int gz_init OF((gz_statep));

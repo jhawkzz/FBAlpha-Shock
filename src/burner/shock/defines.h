@@ -4,7 +4,7 @@
 #ifndef DEFINES_H_
 #define DEFINES_H_
 
-#define VERSION "0.1.0"
+#define SHOCK_VERSION "0.1.0"
 
 // Before a game is loaded, we sometimes need to provide certain systems
 // with an FPS to start with. Use 60.
@@ -23,11 +23,15 @@
 // Graphics
 #ifdef X86
 #define PLATFORM_LCD_WIDTH	  (800)
-#define PLATFORM_LCD_HEIGHT	  (600)
+#define PLATFORM_LCD_HEIGHT	  (600) 
 #elif MVSX
 #define PLATFORM_LCD_WIDTH	  (1280)
 #define PLATFORM_LCD_HEIGHT	  (1024)
+#elif _WIN32
+#define PLATFORM_LCD_WIDTH	  (1280)
+#define PLATFORM_LCD_HEIGHT	  (1024)
 #endif
+
 #define PLATFORM_SCREEN_BPP	  (16)
 #define PLATFORM_SCREEN_PITCH (PLATFORM_LCD_WIDTH * (PLATFORM_SCREEN_BPP / 8))
 //
@@ -51,6 +55,7 @@
 #define MILLI_TO_MICROSECONDS  (1000)
 //
 
+#ifndef _WIN32
 #define min(a,b) \
    ({ __typeof__ (a) _a = (a); \
        __typeof__ (b) _b = (b); \
@@ -61,6 +66,7 @@
        __typeof__ (b) _b = (b); \
      _a > _b ? _a : _b; })
 
+#endif
 #endif
 
 class OSTimer;

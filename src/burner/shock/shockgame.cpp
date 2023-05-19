@@ -265,7 +265,7 @@ void ShockGame::Update( )
             // otherwise the overhead of usleep() would take more time.
             if( sleepTime > MILLI_TO_MICROSECONDS )
             {
-               usleep( sleepTime );
+               ShockSleep( sleepTime );
             }
         }
         else
@@ -354,16 +354,16 @@ int ShockGame::PrepareAudio( )
         flushPrintf( "ShockGame::PrepareAudio() - Failed to caculate burn sound length.\r\n" );
         return -1;
     }
-    
+
 #ifdef MVSX
-    result = MVSXAudio::SetBufferLength( nBurnSoundLen );
+    result = Audio::SetBufferLength( nBurnSoundLen );
     if( result < 0 )
     {
         flushPrintf( "ShockGame::PrepareAudio() - Failed to set MVSX buffer length.\r\n" );
         return -1;
     }
 #endif
-    
+
     return 0;   
 }
 
@@ -503,7 +503,7 @@ void ShockGame::ConfigurePaths( )
     snprintf( szAppEEPROMPath, sizeof( szAppEEPROMPath ), "%s/" EEPROM_PATH, path );
     if ( stat( szAppEEPROMPath, &st ) == -1 ) 
     {
-        int result = mkdir( szAppEEPROMPath, 0777 );
+        int result = ShockCreateDir( szAppEEPROMPath );
         if( result == -1 )
         {
             flushPrintf( "ShockGame::ConfigurePaths() - WARNING, Unable to create EEPROM_PATH: %s\r\n", szAppEEPROMPath );   
@@ -514,7 +514,7 @@ void ShockGame::ConfigurePaths( )
     snprintf( szAppHiscorePath, sizeof( szAppHiscorePath ), "%s/" HISCORE_PATH, path );
     if ( stat( szAppHiscorePath, &st ) == -1 ) 
     {
-        int result = mkdir( szAppHiscorePath, 0777 );
+        int result = ShockCreateDir( szAppHiscorePath );
         if( result == -1 )
         {
             flushPrintf( "ShockGame::ConfigurePaths() - WARNING, Unable to create HISCORE_PATH: %s\r\n", szAppHiscorePath );   
@@ -526,7 +526,7 @@ void ShockGame::ConfigurePaths( )
     snprintf( szAppBlendPath, sizeof( szAppBlendPath ), "%s/" BLEND_PATH, path );
     if ( stat( szAppBlendPath, &st ) == -1 ) 
     {
-        int result = mkdir( szAppBlendPath, 0777 );
+        int result = ShockCreateDir( szAppBlendPath );
         if( result == -1 )
         {
             flushPrintf( "ShockGame::ConfigurePaths() - WARNING, Unable to create BLEND_PATH: %s\r\n", szAppBlendPath );   

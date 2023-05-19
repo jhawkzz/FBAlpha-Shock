@@ -1,3 +1,5 @@
+// 2023.05.13 THK: don't define DWORD for win32 builds
+
 /****************************************************************************
 
     NEC V25/V35 emulator
@@ -63,7 +65,10 @@ static inline void write_port_word(unsigned int a, unsigned short d)
 typedef UINT8 BOOLEAN;
 typedef UINT8 BYTE;
 typedef UINT16 WORD;
+
+#ifndef _WIN32
 typedef UINT32 DWORD;
+#endif
 
 #include "v25priv.h"
 

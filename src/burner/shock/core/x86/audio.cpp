@@ -3,23 +3,23 @@
 
 #include "../../includes.h"
 
-unsigned long   X86Audio::mSampleFramesPerTick;
-snd_pcm_t      *X86Audio::mPcmHandle;
-int             X86Audio::mPcmBufferSize;
-char            X86Audio::mPcmFeedBuffer[ MAX_PCM_BUFFER_SIZE_BYTES ];
+unsigned long   Audio::mSampleFramesPerTick;
+snd_pcm_t      *Audio::mPcmHandle;
+int             Audio::mPcmBufferSize;
+char            Audio::mPcmFeedBuffer[ MAX_PCM_BUFFER_SIZE_BYTES ];
 
-RingBuffer      X86Audio::mDspRingBuffer;
-pthread_mutex_t X86Audio::mDspMutexLock;
-int             X86Audio::mDspMutexCreated;
-int             X86Audio::mDspThreadRunning;
+RingBuffer      Audio::mDspRingBuffer;
+pthread_mutex_t Audio::mDspMutexLock;
+int             Audio::mDspMutexCreated;
+int             Audio::mDspThreadRunning;
 
-int X86Audio::Create( )
+int Audio::Create( )
 {
 	// Open the PCM device in playback mode
 	int result = snd_pcm_open( &mPcmHandle, PCM_DEVICE, SND_PCM_STREAM_PLAYBACK, 0 );
     if( result < 0 )
     {
-		flushPrintf( "X86Audio::Create() - ERROR Can't open %s PCM device. %s\n", PCM_DEVICE, snd_strerror( result ) );
+		flushPrintf( "Audio::Create() - ERROR Can't open %s PCM device. %s\n", PCM_DEVICE, snd_strerror( result ) );
         return -1;
     }
     
@@ -32,27 +32,27 @@ int X86Audio::Create( )
 	result = snd_pcm_hw_params_set_access( mPcmHandle, pParams, SND_PCM_ACCESS_RW_INTERLEAVED );
     if ( result < 0 )
     {
-		flushPrintf( "X86Audio::Create() - ERROR Can't set interleaved mode. %s\n", snd_strerror( result ) );
+		flushPrintf( "Audio::Create() - ERROR Can't set interleaved mode. %s\n", snd_strerror( result ) );
         return -1;
     }
     
     if( SAMPLE_BITS_PER_SAMPLE != 16 )
     {
-        flushPrintf( "X86Audio::Create() - ERROR We only suppotr 16 bit audio.\n" );
+        flushPrintf( "Audio::Create() - ERROR We only suppotr 16 bit audio.\n" );
         return -1;
     }
 	
     result = snd_pcm_hw_params_set_format( mPcmHandle, pParams, SND_PCM_FORMAT_S16_LE );
     if( result < 0 )
     {
-		flushPrintf( "X86Audio::Create() - ERROR Can't set format. %s\n", snd_strerror( result ) );
+		flushPrintf( "Audio::Create() - ERROR Can't set format. %s\n", snd_strerror( result ) );
         return -1;
     }
 
 	result = snd_pcm_hw_params_set_channels( mPcmHandle, pParams, SAMPLE_NUM_CHANNELS );
     if( result < 0 )
     {
-		flushPrintf( "X86Audio::Create() - ERROR Can't set channels number. %s\n", result );
+		flushPrintf( "Audio::Create() - ERROR Can't set channels number. %s\n", result );
         return -1;
     }
 
@@ -60,7 +60,7 @@ int X86Audio::Create( )
 	result = snd_pcm_hw_params_set_rate_near( mPcmHandle, pParams, &rate, 0 );
     if( result < 0 )
     {
-		flushPrintf("X86Audio::Create() - ERROR Can't set playback rate. %s\n", snd_strerror( result ) );
+		flushPrintf("Audio::Create() - ERROR Can't set playback rate. %s\n", snd_strerror( result ) );
         return -1;
     }
 
@@ -68,22 +68,22 @@ int X86Audio::Create( )
 	result = snd_pcm_hw_params( mPcmHandle, pParams );
     if( result < 0 )
     {
-		flushPrintf( "X86Audio::Create() - ERROR Can't set harware parameters. %s\n", snd_strerror( result ) );
+		flushPrintf( "Audio::Create() - ERROR Can't set harware parameters. %s\n", snd_strerror( result ) );
         return -1;
     }
 
-	//flushPrintf("X86Audio::Create() - PCM Device Playback Name: %s\n", snd_pcm_name( mPcmHandle ) );
+	//flushPrintf("Audio::Create() - PCM Device Playback Name: %s\n", snd_pcm_name( mPcmHandle ) );
 
 	// get the number of sample frames per tick that it wants 
     // NOTE - It refers to these frames as "periods"
 	snd_pcm_hw_params_get_period_size( pParams, &mSampleFramesPerTick, 0 );
-    //flushPrintf( "X86Audio::Create() - Periods (Sample Frames) Per Tick: %lu\r\n", mSampleFramesPerTick );
+    //flushPrintf( "Audio::Create() - Periods (Sample Frames) Per Tick: %lu\r\n", mSampleFramesPerTick );
     
     // buffer size should be enough for 2 frame / period's worth of audio
 	mPcmBufferSize = mSampleFramesPerTick * SAMPLE_NUM_CHANNELS * 2;
     if( mPcmBufferSize > MAX_PCM_BUFFER_SIZE_BYTES )
     {
-        flushPrintf( "X86Audio::Create() - PCM Buffer Size Required too large. Needed: %d, Supports: %d\r\n", 
+        flushPrintf( "Audio::Create() - PCM Buffer Size Required too large. Needed: %d, Supports: %d\r\n", 
                      mPcmBufferSize, 
                      MAX_PCM_BUFFER_SIZE_BYTES );
         return -1;
@@ -100,7 +100,7 @@ int X86Audio::Create( )
     result = pthread_create( &audioT, NULL, UpdateAudio_ThreadProc, NULL );
     if( result != 0 )
     {
-        flushPrintf( "X86Audio::Create() pthread_create failed with error: %d\r\n", result );
+        flushPrintf( "Audio::Create() pthread_create failed with error: %d\r\n", result );
         
         Destroy( );
         return -1;
@@ -111,7 +111,7 @@ int X86Audio::Create( )
     return 0;
 }
 
-void X86Audio::Destroy( )
+void Audio::Destroy( )
 {
     if ( mPcmHandle != NULL )
     {
@@ -133,7 +133,7 @@ void X86Audio::Destroy( )
     mDspThreadRunning = 0;
 }
 
-void X86Audio::PlayBuffer( char *pBuffer, int bytes )
+void Audio::PlayBuffer( char *pBuffer, int bytes )
 {
     pthread_mutex_lock( &mDspMutexLock );
     
@@ -143,7 +143,7 @@ void X86Audio::PlayBuffer( char *pBuffer, int bytes )
     pthread_mutex_unlock( &mDspMutexLock );
 }
 
-int X86Audio::NeedBufferRefill( )
+int Audio::NeedBufferRefill( )
 {
     pthread_mutex_lock( &mDspMutexLock );
     
@@ -160,7 +160,7 @@ int X86Audio::NeedBufferRefill( )
     return 0;
 }
 
-void *X86Audio::UpdateAudio_ThreadProc( void *pArg)
+void *Audio::UpdateAudio_ThreadProc( void *pArg)
 {
     mDspThreadRunning = 1;
     
@@ -185,7 +185,7 @@ void *X86Audio::UpdateAudio_ThreadProc( void *pArg)
             } 
             else if ( result  < 0 ) 
             {
-                printf("X86Audio::UpdateAudio_ThreadProc() - ERROR. Can't write to PCM device. %s\n", snd_strerror( result ) );
+                printf("Audio::UpdateAudio_ThreadProc() - ERROR. Can't write to PCM device. %s\n", snd_strerror( result ) );
             }
             
             pthread_mutex_unlock( &mDspMutexLock );

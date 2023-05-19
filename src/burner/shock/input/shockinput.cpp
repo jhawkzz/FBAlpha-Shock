@@ -74,11 +74,7 @@ int ShockInput::Create( )
         mInputState[ i ].Create( );
     }
     
-#ifdef X86
-    return X86Input::Create( );
-#elif MVSX
-    return MVSXInput::Create( );
-#endif
+    return Input::Create( );
 }
 
 void ShockInput::Destroy( )
@@ -89,12 +85,7 @@ void ShockInput::Update( )
 {
     for( int i = 0; i < Button_Count; i++ )
     {
-#ifdef X86
-        int inputVal = X86Input::GetValueForInput( (InputCodeToButtonMapping) i );
-#elif MVSX
-        int inputVal = MVSXInput::GetValueForInput( (InputCodeToButtonMapping) i );
-#endif
-
+        int inputVal = Input::GetValueForInput( (InputCodeToButtonMapping) i );
         mInputState[ i ].Update( inputVal );
     }
 }

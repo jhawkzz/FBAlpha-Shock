@@ -22,6 +22,7 @@ void UIBaseState::ExitState( UIState newState )
     
 UIState UIBaseState::Update( )
 {
+    return UIState_Count;
 }
 
 UIState UIBaseState::HandleBackButton( )

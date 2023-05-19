@@ -116,7 +116,7 @@ void StateCredits::RenderPage0( )
     int xPos = UI_X_POS_MENU;
     int yPos = UI_Y_POS_MENU;
     
-    snprintf( text, sizeof( text ) - 1, "Version: %s", VERSION );
+    snprintf( text, sizeof( text ) - 1, "Version: %s", SHOCK_VERSION );
     UIRenderer::DrawText( text, xPos, yPos, 0xFFFF );
                           
     yPos += UI_ROW_HEIGHT;

@@ -1,6 +1,8 @@
 // FB Alpha Gauntlet driver module
 // Based on MAME driver by Aaron Giles
 
+// 2023.05.13 THK: change start_type enums to be prefixed with _ to prevent MSBuild conflicts
+
 #include "tiles_generic.h"
 #include "m68000_intf.h"
 #include "m6502_intf.h"
@@ -42,7 +44,7 @@ struct slapstic_params
 #define IGNORE_MASK  0x007f
 #define UNKNOWN      0xffff
 
-enum state_type { ENABLED, DISABLED, IGNORE, SPECIAL };
+enum state_type { _ENABLED , _DISABLED , _IGNORE, _SPECIAL };
 
 #define LOG_SLAPSTIC 0
 
@@ -148,7 +150,7 @@ void slapstic_init(INT32 chip)
     slapstic = slapstic_table + (chip - 101);
 
     /* reset the chip */
-    state = ENABLED;
+    state = _ENABLED;
     next_bank = extra_bank = -1;
 
     /* the 111 and later chips seem to reset to bank 0 */
@@ -199,10 +201,10 @@ INT32 slapstic_tweak(INT32 offset)
     switch (state)
     {
         /* ENABLED state: the chip has been activated and is ready for a bankswitch */
-        case ENABLED:
+        case _ENABLED:
             if ((offset & DISABLE_MASK) == slapstic->disable)
             {
-                state = DISABLED;
+                state = _DISABLED;
                 /* NS990620 Gauntlet II fix */
                 if (extra_bank != -1)
                     next_bank = extra_bank;
@@ -210,11 +212,11 @@ INT32 slapstic_tweak(INT32 offset)
             }
             else if ((offset & IGNORE_MASK) == slapstic->ignore)
             {
-                state = IGNORE;
+                state = _IGNORE;
             }
             else if (offset == slapstic->bank0)
             {
-                state = DISABLED;
+                state = _DISABLED;
                 if (extra_bank == -1)
                     next_bank = 0;
                 else
@@ -222,7 +224,7 @@ INT32 slapstic_tweak(INT32 offset)
             }
             else if (offset == slapstic->bank1)
             {
-                state = DISABLED;
+                state = _DISABLED;
                 if (extra_bank == -1)
                     next_bank = 1;
                 else
@@ -230,7 +232,7 @@ INT32 slapstic_tweak(INT32 offset)
             }
             else if (offset == slapstic->bank2)
             {
-                state = DISABLED;
+                state = _DISABLED;
                 if (extra_bank == -1)
                     next_bank = 2;
                 else
@@ -238,7 +240,7 @@ INT32 slapstic_tweak(INT32 offset)
             }
             else if (offset == slapstic->bank3)
             {
-                state = DISABLED;
+                state = _DISABLED;
                 if (extra_bank == -1)
                     next_bank = 3;
                 else
@@ -253,63 +255,63 @@ INT32 slapstic_tweak(INT32 offset)
             /* not been verified on the HW yet */
             else if (offset == slapstic->senable)
             {
-                state = SPECIAL;
+                state = _SPECIAL;
             }
             break;
 
         /* DISABLED state: everything is ignored except a reset */
-        case DISABLED:
+        case _DISABLED:
             if (offset == slapstic->reset)
             {
-                state = ENABLED;
+                state = _ENABLED;
                 next_bank = -1;
                 extra_bank = -1;
             }
             break;
 
         /* IGNORE state: next access is interpreted differently */
-        case IGNORE:
+        case _IGNORE:
             if (offset == slapstic->senable)
             {
-                state = SPECIAL;
+                state = _SPECIAL;
             }
             else
             {
-                state = ENABLED;
+                state = _ENABLED;
             }
             break;
 
         /* SPECIAL state: the special alternate bank switch override method is being used */
-        case SPECIAL:
+        case _SPECIAL:
             if (offset == slapstic->sbank0)
             {
-                state = ENABLED;
+                state = _ENABLED;
                 extra_bank = 0;
             }
             else if (offset == slapstic->sbank1)
             {
-                state = ENABLED;
+                state = _ENABLED;
                 extra_bank = 1;
             }
             else if (offset == slapstic->sbank2)
             {
-                state = ENABLED;
+                state = _ENABLED;
                 extra_bank = 2;
             }
             else if (offset == slapstic->sbank3)
             {
-                state = ENABLED;
+                state = _ENABLED;
                 extra_bank = 3;
             }
             else if (offset == slapstic->reset)
             {
-                state = ENABLED;
+                state = _ENABLED;
                 next_bank = -1;
                 extra_bank = -1;
             }
             else
             {
-                state = ENABLED;
+                state = _ENABLED;
             }
             break;
     }

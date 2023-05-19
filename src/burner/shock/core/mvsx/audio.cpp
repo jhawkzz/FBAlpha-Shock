@@ -3,23 +3,33 @@
 
 #include "../../includes.h"
 
-int             MVSXAudio::mSamplesPerTick;
-char            MVSXAudio::mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];
-int             MVSXAudio::mDspHandle;
-RingBuffer      MVSXAudio::mDspRingBuffer;
-pthread_mutex_t MVSXAudio::mDspMutexLock;
-int             MVSXAudio::mDspMutexCreated;
-int             MVSXAudio::mDspThreadRunning;
-int             MVSXAudio::mVolume;
-int             MVSXAudio::mVolumeThreadRunning;
-UINT8           MVSXAudio::mVolumeLookup[ SPEAKER_MAX_VALUE + 1 ];
+int             Audio::mSamplesPerTick;
+char            Audio::mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];
+int             Audio::mDspHandle;
+RingBuffer      Audio::mDspRingBuffer;
+pthread_mutex_t Audio::mDspMutexLock;
+int             Audio::mDspMutexCreated;
+int             Audio::mDspThreadRunning;
+int             Audio::mVolume;
+int             Audio::mVolumeThreadRunning;
+UINT8           Audio::mVolumeLookup[ SPEAKER_MAX_VALUE + 1 ];
 
-int MVSXAudio::Create( )
+int Audio::Create( )
 {
+    // common implementation found in FBA ports
+    int bufferLength = ( SAMPLE_RATE * 100 + (DEFAULT_FPS >> 1) ) / DEFAULT_FPS;
+    int result = Audio::SetBufferLength( bufferLength );
+
+    if( result < 0 )
+    {
+        flushPrintf( "ShockAudio::Create() - Failed to set MVSX buffer length.\r\n" );
+        return -1;
+    }
+
 	mDspHandle = open( SOUND_DEVICE, O_WRONLY );
 	if( mDspHandle < 0 )
 	{
-        flushPrintf( "MVSXAudio::Create() Failed to open sound device!\r\n" );
+        flushPrintf( "Audio::Create() Failed to open sound device!\r\n" );
         
         Destroy( );
 		return -1;
@@ -35,10 +45,10 @@ int MVSXAudio::Create( )
     int prefBufferSize = 11; //11 Maps to 2048
     int fragBufferHint = (numFragments << 16)  | prefBufferSize;
     
-	int result = ioctl(mDspHandle, SNDCTL_DSP_SETFRAGMENT, &fragBufferHint );
+	result = ioctl(mDspHandle, SNDCTL_DSP_SETFRAGMENT, &fragBufferHint );
     if( result < 0 )
     {
-        flushPrintf( "MVSXAudio::Create() SNDCTL_DSP_SETFRAGMENT failed. Errno: %d\r\n", errno );
+        flushPrintf( "Audio::Create() SNDCTL_DSP_SETFRAGMENT failed. Errno: %d\r\n", errno );
         
         Destroy( );
 		return -1;
@@ -48,7 +58,7 @@ int MVSXAudio::Create( )
 	result = ioctl( mDspHandle, SOUND_MIXER_WRITE_MUTE, &muteVal );
     if( result < 0 )
     {
-        flushPrintf( "MVSXAudio::Create() SOUND_MIXER_WRITE_MUTE failed. Errno: %d\r\n", errno );
+        flushPrintf( "Audio::Create() SOUND_MIXER_WRITE_MUTE failed. Errno: %d\r\n", errno );
         
         Destroy( );
         return -1;
@@ -60,7 +70,7 @@ int MVSXAudio::Create( )
 	result = ioctl(mDspHandle, SNDRV_OUTMODE, &sOutMode);
     if( result < 0 )
     {
-        flushPrintf( "MVSXAudio::Create() SNDRV_SOUTMODE failed. Errno: %d\r\n", errno );
+        flushPrintf( "Audio::Create() SNDRV_SOUTMODE failed. Errno: %d\r\n", errno );
         
         Destroy( );
         return -1;
@@ -70,7 +80,7 @@ int MVSXAudio::Create( )
 	ioctl(mDspHandle, SNDRV_SH2WDEVICE, &sh2DeviceState);
     if( result < 0 )
     {
-        flushPrintf( "MVSXAudio::Create() SNDRV_SH2WDEVICE failed. Errno: %d\r\n", errno );
+        flushPrintf( "Audio::Create() SNDRV_SH2WDEVICE failed. Errno: %d\r\n", errno );
         
         Destroy( );
         return -1;
@@ -80,7 +90,7 @@ int MVSXAudio::Create( )
 	ioctl(mDspHandle, SNDRV_PLAY_HWINIT, &hwInitVal);
     if( result < 0 )
     {
-        flushPrintf( "MVSXAudio::Create() SNDRV_PLAY_HWINIT failed. Errno: %d\r\n", errno );
+        flushPrintf( "Audio::Create() SNDRV_PLAY_HWINIT failed. Errno: %d\r\n", errno );
         
         Destroy( );
         return -1;
@@ -91,7 +101,7 @@ int MVSXAudio::Create( )
 	ioctl(mDspHandle, SNDRV_SPEAKER, &speakerOn);
     if( result < 0 )
     {
-        flushPrintf( "MVSXAudio::Create() SNDRV_SSPEAKER failed. Errno: %d\r\n", errno );
+        flushPrintf( "Audio::Create() SNDRV_SSPEAKER failed. Errno: %d\r\n", errno );
         
         Destroy( );
         return -1;
@@ -104,14 +114,14 @@ int MVSXAudio::Create( )
     result = ioctl( mDspHandle, SNDCTL_DSP_SAMPLESIZE, &bitsPerSample );
     if( result < 0 )
     {
-        flushPrintf( "MVSXAudio::Create() SNDCTL_DSP_SAMPLESIZE failed. Errno: %d\r\n", errno );
+        flushPrintf( "Audio::Create() SNDCTL_DSP_SAMPLESIZE failed. Errno: %d\r\n", errno );
     }*/
 
     int channels = SAMPLE_NUM_CHANNELS;
 	result = ioctl( mDspHandle, SNDCTL_DSP_CHANNELS, &channels );
     if ( result < 0 )
     {
-        flushPrintf( "MVSXAudio::Create() SNDCTL_DSP_CHANNELS: %d\r\n", errno );
+        flushPrintf( "Audio::Create() SNDCTL_DSP_CHANNELS: %d\r\n", errno );
         
         Destroy( );
         return -1;
@@ -121,7 +131,7 @@ int MVSXAudio::Create( )
 	result = ioctl( mDspHandle, SNDCTL_DSP_SPEED, &sampleRate );
     if( result < 0 )
     {
-        flushPrintf( "MVSXAudio::Create() SNDCTL_DSP_SPEED: %d\r\n", errno );
+        flushPrintf( "Audio::Create() SNDCTL_DSP_SPEED: %d\r\n", errno );
         
         Destroy( );
         return -1;
@@ -135,7 +145,7 @@ int MVSXAudio::Create( )
     result = pthread_create( &audioT, NULL, UpdateAudio_ThreadProc, NULL );
     if( result != 0 )
     {
-        flushPrintf( "MVSXAudio::Create() pthread_create failed with error: %d\r\n", result );
+        flushPrintf( "Audio::Create() pthread_create failed with error: %d\r\n", result );
         
         Destroy( );
         return -1;
@@ -147,7 +157,7 @@ int MVSXAudio::Create( )
     result = pthread_create( &volumeT, NULL, UpdateVolume_ThreadProc, NULL );
     if( result != 0 )
     {
-        flushPrintf( "MVSXAudio::Create() pthread_create failed with error: %d\r\n", result );
+        flushPrintf( "Audio::Create() pthread_create failed with error: %d\r\n", result );
         
         Destroy( );
         return -1;
@@ -158,7 +168,7 @@ int MVSXAudio::Create( )
     return 0;
 }
 
-void MVSXAudio::Destroy( )
+void Audio::Destroy( )
 {
     if( mDspHandle > 0 )
     {
@@ -179,7 +189,7 @@ void MVSXAudio::Destroy( )
     mVolumeThreadRunning = 0;
 }
 
-void MVSXAudio::PlayBuffer( char *pBuffer, int bytes )
+void Audio::PlayBuffer( char *pBuffer, int bytes )
 {
     pthread_mutex_lock( &mDspMutexLock );
     
@@ -188,12 +198,12 @@ void MVSXAudio::PlayBuffer( char *pBuffer, int bytes )
     pthread_mutex_unlock( &mDspMutexLock );
 }
 
-int MVSXAudio::GetVolume( )
+int Audio::GetVolume( )
 {
     return mVolume;
 }
 
-int MVSXAudio::SetBufferLength( int samplesPerFrame )
+int Audio::SetBufferLength( int samplesPerFrame )
 {
     mSamplesPerTick = samplesPerFrame;
     
@@ -202,7 +212,7 @@ int MVSXAudio::SetBufferLength( int samplesPerFrame )
     int bufferLength = (samplesPerFrame * SAMPLE_BLOCK_ALIGN) * 2;
     if( bufferLength > MAX_AUDIO_BUFFER_BYTES )
     {
-        flushPrintf( "MVSXAudio::SetBufferLength() - Needed buffer length more than supported. Need: %d Have: %d\r\n", 
+        flushPrintf( "Audio::SetBufferLength() - Needed buffer length more than supported. Need: %d Have: %d\r\n", 
                       bufferLength, 
                       MAX_AUDIO_BUFFER_BYTES );
         return -1;
@@ -211,7 +221,7 @@ int MVSXAudio::SetBufferLength( int samplesPerFrame )
     return 0;
 }
 
-void *MVSXAudio::UpdateAudio_ThreadProc( void *pArg)
+void *Audio::UpdateAudio_ThreadProc( void *pArg)
 {
     mDspThreadRunning = 1;
     
@@ -239,7 +249,7 @@ void *MVSXAudio::UpdateAudio_ThreadProc( void *pArg)
     return NULL;
 }
 
-void *MVSXAudio::UpdateVolume_ThreadProc( void *pArg )
+void *Audio::UpdateVolume_ThreadProc( void *pArg )
 {
     mVolumeThreadRunning = 1;
     
@@ -269,7 +279,7 @@ void *MVSXAudio::UpdateVolume_ThreadProc( void *pArg )
                     
                     if ( ioctl( mDspHandle, SOUND_MIXER_WRITE_VOLUME, &mVolume ) == -1) 
                     {
-                        flushPrintf("MVSXAudio::UpdateVolume_ThreadProc() SOUND_MIXER_WRITE_VOLUME failed!\r\n");
+                        flushPrintf("Audio::UpdateVolume_ThreadProc() SOUND_MIXER_WRITE_VOLUME failed!\r\n");
                     }
                 }
             }
@@ -278,14 +288,14 @@ void *MVSXAudio::UpdateVolume_ThreadProc( void *pArg )
         }
         else
         {
-            flushPrintf( "MVSXAudio::UpdateVolume_ThreadProc() Failed to open volume handle!\r\n" );
+            flushPrintf( "Audio::UpdateVolume_ThreadProc() Failed to open volume handle!\r\n" );
         }
         
         usleep( 200 * MILLI_TO_MICROSECONDS );
     }
 }
 
-void MVSXAudio::CreateVolumeLookup( )
+void Audio::CreateVolumeLookup( )
 {
     // the first half of the dial is just too low
     // so scale things up

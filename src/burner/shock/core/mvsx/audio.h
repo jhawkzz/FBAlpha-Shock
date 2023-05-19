@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef MVSXAUDIO_H_
-#define MVSXAUDIO_H_
+#ifndef AUDIO_H_
+#define AUDIO_H_
 
 #define SPEAKER_MAX_VALUE         (40) // Max value to scale audio by. Any louder could damage the speakers
 #define VOLUME_KNOB_MAX_VALUE     (82) // Volume knob is 82 - 0 reversed (all the way left is 82, all the way right is 0)
@@ -30,7 +30,7 @@
 
 #define MAKE_STEREO_VOLUME(a)     ((a) << 8 | (a))
 
-class MVSXAudio
+class Audio
 {
 public:
     static int  Create( );
