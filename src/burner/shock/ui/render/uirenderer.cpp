@@ -78,7 +78,7 @@ void UIRenderer::DrawSprite( UINT16 *pSpriteBuffer, int x, int y, int spriteWidt
     }
 }
 
-void UIRenderer::DrawText( const char *pText, int x, int y, UINT16 color )
+void UIRenderer::DrawText( const char *pText, int x, int y, UINT16 color, FontType fontType/*= FontType_Met*/ )
 {
     if( mDrawListCount + 1 < MAX_DRAWLIST_OBJECTS )
     {
@@ -90,6 +90,26 @@ void UIRenderer::DrawText( const char *pText, int x, int y, UINT16 color )
         mDrawList[ mDrawListCount ].mPosY = y;
         
         mDrawList[ mDrawListCount ].mTextColor = color;
+        mDrawList[ mDrawListCount ].mFontType = fontType;
+                
+        mDrawListCount++;
+    }
+    else
+    {
+        flushPrintf( "Draw List Full. Cannot add text.\r\n" );
+    }
+}
+
+void UIRenderer::DrawLine( UINT16 color, int xPos, int yPos, int width )
+{
+    if( mDrawListCount + 1 < MAX_DRAWLIST_OBJECTS )
+    {
+        mDrawList[ mDrawListCount ].Reset( );
+        
+        mDrawList[ mDrawListCount ].mLineColor = color;
+        mDrawList[ mDrawListCount ].mLineWidth = width;
+        mDrawList[ mDrawListCount ].mPosX      = xPos;
+        mDrawList[ mDrawListCount ].mPosY      = yPos;
                 
         mDrawListCount++;
     }

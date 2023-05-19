@@ -4,9 +4,6 @@
 #ifndef SHOCKUI_H_
 #define SHOCKUI_H_
 
-#define BG_HEADER_WIDTH  (1280)
-#define BG_HEADER_HEIGHT (179)
-
 class ShockUI
 {
 public:

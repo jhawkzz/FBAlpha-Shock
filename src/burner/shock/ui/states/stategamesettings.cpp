@@ -12,10 +12,10 @@ void StateGameSettings::Create( )
     int xPos = UI_X_POS_MENU;
     int yPos = UI_Y_POS_MENU;
     
-    mMenuItemList[ mNumMenuItems++ ].Create( "Enter Game Settings Menu", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "In-Game Settings Menu: ", xPos, yPos, 0xFFFF );
     
-    yPos += UI_ROW_HEIGHT * 2;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Reset Game", xPos, yPos, 0xFFFF );
+    yPos += UI_ROW_HEIGHT;
+    mMenuItemList[ mNumMenuItems++ ].Create( "Reset Game: ", xPos, yPos, 0xFFFF );
     
     mMenuSelection = 0;
     
@@ -93,59 +93,86 @@ UIState StateGameSettings::Update( )
 
 void StateGameSettings::DrawMenu( )
 {   
-    // Diagnostic Mode
-    int textColor = 0xFFFF;
-    if( ShockGame::GameHasDiagnosticMode( ) && ShockGame::GetDiagnosticMode( ) )
-    {
-        textColor = UI_COLOR_ENABLED;
-        UIRenderer::DrawText( "Game Settings Menu Will Be Entered When Game Is Resumed", 
-                        UI_X_POS_MENU, 
-                        mMenuItemList[ 0 ].GetYPos( ) + UI_ROW_HEIGHT / 2, 
-                        0xFFFF );
-    }
-    else if( ShockGame::GameHasDiagnosticMode( ) == 0 )
-    {
-        textColor = UI_COLOR_DISABLED;
-        UIRenderer::DrawText( "This Game Does Not Have A Settings Menu", 
-                        UI_X_POS_MENU, 
-                        mMenuItemList[ 0 ].GetYPos( ) + UI_ROW_HEIGHT / 2, 
-                        0xFFFF );
-    }
+    UIBaseState::RenderTitle( "GAME SETTINGS" );
     
-    mMenuItemList[ 0 ].SetColor( textColor );
+    // Diagnostic Mode
     mMenuItemList[ 0 ].Draw( );
     
-    // Reset Mode
-    textColor = 0xFFFF;
-    if( ShockGame::GameHasReset( ) && ShockGame::GetReset( ) )
-    {
-        textColor = UI_COLOR_ENABLED;
-        UIRenderer::DrawText( "Game Will Be Reset When Game Is Resumed", 
-                        UI_X_POS_MENU, 
-                        mMenuItemList[ 1 ].GetYPos( ) + UI_ROW_HEIGHT / 2, 
-                        0xFFFF );
-    }
-    else if( ShockGame::GameHasReset( ) == 0 )
-    {
-        textColor = UI_COLOR_DISABLED;
-        UIRenderer::DrawText( "This Game Does Not Have A Reset Option", 
-                        UI_X_POS_MENU, 
-                        mMenuItemList[ 1 ].GetYPos( ) + UI_ROW_HEIGHT / 2, 
-                        0xFFFF );
-    }
+    char settingStr[ MAX_PATH ] = { 0 };
+    int menuItemLen = 0;
     
-    mMenuItemList[ 1 ].SetColor( textColor );
+    UINT16 settingColor = 0xFFFF;
+    if( ShockGame::GameHasDiagnosticMode( ) )
+    {
+        if ( ShockGame::GetDiagnosticMode( ) == 1 )
+        {
+            strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
+            settingColor = UI_COLOR_ENABLED;
+        }
+        else
+        {
+            strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
+            settingColor = 0xFFFF;
+        }
+    }
+    else
+    {
+        settingColor = UI_COLOR_DISABLED;
+        strncpy( settingStr, "Not Available", sizeof( settingStr ) - 1 );
+    }
+    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 0 ].GetText( ) );
+    UIRenderer::DrawText( settingStr, mMenuItemList[ 0 ].GetXPos( ) + menuItemLen, mMenuItemList[ 0 ].GetYPos( ), settingColor );
+    //
+    
+    // Reset Mode
     mMenuItemList[ 1 ].Draw( );
     
-    UIRenderer::DrawText( "Dip Switch Support Coming Soon", 
-                        UI_X_POS_MENU, 
-                        mMenuItemList[ 1 ].GetYPos( ) + UI_ROW_HEIGHT * 2, 
+    if( ShockGame::GameHasReset( ) )
+    {
+        if ( ShockGame::GetReset( ) == 1 )
+        {
+            strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
+            settingColor = UI_COLOR_ENABLED;
+        }
+        else
+        {
+            strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
+            settingColor = 0xFFFF;
+        }
+    }
+    else
+    {
+        settingColor = UI_COLOR_DISABLED;
+        strncpy( settingStr, "Not Available", sizeof( settingStr ) - 1 );
+    }
+    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 1 ].GetText( ) );
+    UIRenderer::DrawText( settingStr, mMenuItemList[ 1 ].GetXPos( ) + menuItemLen, mMenuItemList[ 1 ].GetYPos( ), settingColor );
+    //
+    
+    // render a note about settings being applied
+    char noteStr[ MAX_PATH ] = { 0 };
+    strncpy( noteStr, "Return to game to activate settings", sizeof( noteStr ) - 1 );
+    int xPos = UIBaseState::GetCenteredXPos( noteStr );
+    int yPos = mMenuItemList[ 1 ].GetYPos( ) + 50;
+    UIRenderer::DrawText( noteStr, UI_X_POS_MENU, yPos, 0xFFFF );
+    
+    // seperator
+    yPos += 100;
+    int lineWidth = 200;
+    xPos = (PLATFORM_LCD_WIDTH - lineWidth) / 2;
+    UIRenderer::DrawLine( 0xFFFF, xPos, yPos, lineWidth );
+    
+    // dips
+    yPos += 10;
+    strncpy( noteStr, "Dip Switch Support Coming Soon", sizeof( noteStr ) - 1 );
+    xPos = UIBaseState::GetCenteredXPos( noteStr );
+    UIRenderer::DrawText( noteStr, 
+                        xPos, 
+                        yPos, 
                         0xFFFF );
     
-    UIRenderer::DrawText( "X", 
-                        mMenuItemList[ mMenuSelection ].GetXPos( ) - UI_CURSOR_X_OFFSET, 
-                        mMenuItemList[ mMenuSelection ].GetYPos( ),
-                        UI_COLOR_ENABLED );
+    UIBaseState::RenderMenuCursor( mMenuItemList[ mMenuSelection ].GetXPos( ), 
+                                   mMenuItemList[ mMenuSelection ].GetYPos( ) );
                         
     UIBaseState::RenderBackOption( "Return" );
 }

@@ -131,16 +131,17 @@ UIState StateMainMenu::Update( )
 
 void StateMainMenu::DrawMenu( )
 {
+    UIRenderer::DrawSprite( gMainBGHeader, 0, 0, BG_HEADER_WIDTH, BG_HEADER_HEIGHT );
+    
     int i = 0;
     for( i = 0; i < mNumMenuItems; i++ )
     {
         mMenuItemGameState[ i ].menuItem.Draw( );
     }
     
-    UIRenderer::DrawText( "X", 
-                        mMenuItemGameState[ mMenuSelection ].menuItem.GetXPos( ) - UI_CURSOR_X_OFFSET, 
-                        mMenuItemGameState[ mMenuSelection ].menuItem.GetYPos( ),
-                        UI_COLOR_ENABLED );
+    UIBaseState::RenderMenuCursor( mMenuItemGameState[ mMenuSelection ].menuItem.GetXPos( ), 
+                                   mMenuItemGameState[ mMenuSelection ].menuItem.GetYPos( ) );
+                                   
                         
     UIBaseState::RenderBackOption( "Return" );
 }

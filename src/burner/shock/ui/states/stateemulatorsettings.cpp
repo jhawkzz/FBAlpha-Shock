@@ -87,6 +87,8 @@ UIState StateEmulatorSettings::Update( )
 
 void StateEmulatorSettings::DrawMenu( )
 {
+    UIBaseState::RenderTitle( "EMULATOR SETTINGS" );
+    
     char settingStr[ MAX_PATH ] = { 0 };
     short textColor = 0;
     int menuItemLen = 0;

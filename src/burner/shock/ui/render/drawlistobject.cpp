@@ -8,6 +8,10 @@ DrawListObject::DrawListObject( )
     memset( mText, 0, sizeof( mText ) );
     
     mTextColor = 0;
+    mFontType  = (FontType)0;
+    
+    mLineWidth = 0;
+    mLineColor = 0;
     
     mSpriteWidth         = 0;
     mSpriteHeight        = 0;
@@ -28,6 +32,7 @@ void DrawListObject::Reset( )
     mpSpriteBuffer = NULL;
     
     mTextColor = 0;
+    mFontType  = (FontType)0;
     
     mSpriteWidth         = 0;
     mSpriteHeight        = 0;
@@ -88,7 +93,20 @@ void DrawListObject::RenderSprite( UINT16 *pBackBuffer )
 
 void DrawListObject::RenderText( UINT16 *pBackBuffer )
 {
-    Font::Print( pBackBuffer, mText, mPosX, mPosY, mTextColor );
+    Font::Print( pBackBuffer, mText, mPosX, mPosY, mTextColor, mFontType );
+}
+
+void DrawListObject::RenderLine( UINT16 *pBackBuffer )
+{
+    UINT16 *pShortBackBuffer = pBackBuffer + (mPosX + (mPosY * PLATFORM_LCD_WIDTH));
+    
+    int availWidth = PLATFORM_LCD_WIDTH - mPosX;
+    int length = min( mLineWidth, availWidth );
+    
+    for( int x = 0; x < length; x++ )
+    {
+        pShortBackBuffer[ x ] = mLineColor;
+    }
 }
 
 void DrawListObject::RenderToBackBuffer( UINT16 *pBackBuffer )
@@ -111,5 +129,9 @@ void DrawListObject::RenderToBackBuffer( UINT16 *pBackBuffer )
         {
             RenderSprite( pBackBuffer );
         }
+    }
+    else if ( mLineWidth > 0 )
+    {
+        RenderLine( pBackBuffer );
     }
 }

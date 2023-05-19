@@ -104,6 +104,8 @@ UIState StateDisplaySettings::Update( )
 
 void StateDisplaySettings::DrawMenu( )
 {
+    UIBaseState::RenderTitle( "DISPLAY SETTINGS" );
+    
     short textColor = ShockConfig::GetDisplayMode() == 0 ? textColor = UI_COLOR_ENABLED : 0xFFFF;
     mMenuItemList[0].SetColor( textColor );
     mMenuItemList[0].Draw( );
@@ -143,10 +145,8 @@ void StateDisplaySettings::DrawMenu( )
     UIRenderer::DrawText( settingStr, mMenuItemList[ 3 ].GetXPos( ) + menuItemLen, mMenuItemList[ 3 ].GetYPos( ), textColor );
     
     // Cursor
-    UIRenderer::DrawText( "X", 
-                        mMenuItemList[ mMenuSelection ].GetXPos( ) - UI_CURSOR_X_OFFSET, 
-                        mMenuItemList[ mMenuSelection ].GetYPos( ),
-                        UI_COLOR_ENABLED );
+    UIBaseState::RenderMenuCursor( mMenuItemList[ mMenuSelection ].GetXPos( ), 
+                                   mMenuItemList[ mMenuSelection ].GetYPos( ) );
     
     UIBaseState::RenderBackOption( "Return" );
 }
