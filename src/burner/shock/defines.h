@@ -21,7 +21,7 @@
 #define HISCORE_DAT_FILENAME "hiscore.dat"
 
 // Graphics
-#ifdef X86
+#ifdef LUBUNTU
 #define PLATFORM_LCD_WIDTH	  (800)
 #define PLATFORM_LCD_HEIGHT	  (600) 
 #elif MVSX

@@ -91,7 +91,7 @@ int Audio::Create( )
 
     // to ME, the audio feels off by a few frames,
     // and this period time hints at the latency you need to factor in.
-    // However, its consistent (doesnt fall behind), only on x86, and i need to move on.
+    // However, its consistent (doesnt fall behind), only on Lubuntu, and i need to move on.
     /*UINT32 tmp;
 	snd_pcm_hw_params_get_period_time( pParams, &tmp, NULL);
     printf("period time: %d\r\n", tmp );*/

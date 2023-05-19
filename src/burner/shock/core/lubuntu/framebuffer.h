@@ -4,7 +4,7 @@
 #ifndef FRAMEBUFFER_H_
 #define FRAMEBUFFER_H_
 
-//The path to the frame buffer out on x86 Lubuntu
+//The path to the frame buffer out on Lubuntu
 #define FB_DEVICE "/dev/fb0"
 
 class FrameBuffer

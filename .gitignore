@@ -2,9 +2,10 @@
 fbaconfig.dat
 *.zip
 
-build/
-build_x86/
-build_x86_debug/
+build_mvsx/
+build_mvsx_debug/
+build_lubuntu/
+build_lubuntu_debug/
 src/.clang/
 src/.codelite/
 blend/
