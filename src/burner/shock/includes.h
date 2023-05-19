@@ -60,7 +60,6 @@
 #include "framebuffer.h"
 #include "input.h"
 
-#include "shock/core/platform.h"
 #include "shock/core/thread.h"
 
 #include "shock/shockrenderer.h"
