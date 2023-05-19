@@ -893,7 +893,6 @@
     <ClCompile Include="..\..\src\cpu\mips3\cop0.cpp" />
     <ClCompile Include="..\..\src\cpu\mips3\cop1.cpp" />
     <ClCompile Include="..\..\src\cpu\mips3\mips3.cpp" />
-    <ClCompile Include="..\..\src\cpu\mips3\mips3_dasm.cxx" />
     <ClCompile Include="..\..\src\cpu\mips3_intf.cpp" />
     <ClCompile Include="..\..\src\cpu\nec\nec.cpp" />
     <ClCompile Include="..\..\src\cpu\nec\v25.cpp" />
