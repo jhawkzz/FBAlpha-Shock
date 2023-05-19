@@ -1,5 +1,22 @@
-#Makefile for the MVSX FBA emulator's x86 implementation.
+
+#Usage: 
+	#Debug
+		#To Build: make -f lubuntu_make DEBUG=y
+		#To Clean: make -f lubuntu_make DEBUG=y clean
+	#Release
+		#To Build: make -f lubuntu_make
+		#To Clean: make -f lubuntu_make clean
+
+#Makefile for the MVSX FBA emulator's Lubuntu implementation.
 #Key differences - compiled with toolchain included with Lubuntu
+
+ifeq (${DEBUG},y)
+OPTIMIZE_FLAGS := -O0 -g
+BUILD_DIR := ./build_lubuntu_debug
+else
+OPTIMIZE_FLAGS := -O3
+BUILD_DIR := ./build_lubuntu
+endif
 
 CC          := gcc
 CXX       := g++
@@ -19,9 +36,7 @@ FBA_INTF_DIR 	          := $(MAIN_FBA_DIR)/intf
 FBA_INTF_AUDIO_DIR := $(FBA_INTF_DIR)/audio
 FBA_INTF_CD_DIR 	  := $(FBA_INTF_DIR)/cd
 
-BUILD_DIR := ./build_x86
-
-TARGET := $(BUILD_DIR)/x86_fba029743
+TARGET := $(BUILD_DIR)/lubuntu_fba029743
 
 .PHONY: clean
 
@@ -83,7 +98,7 @@ FBA_SHOCK_DIR := $(MAIN_FBA_DIR)/burner/shock
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/util
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core/posix
-FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core/x86
+FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core/lubuntu
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/font
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/ui
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/ui/render
@@ -109,11 +124,11 @@ FBA_DEFINES := -DUSE_SPEEDHACKS \
 	-DLSB_FIRST\
 	-DINLINE="static inline" \
 	-DSH2_INLINE="static inline"\
-	-DX86
+	-DLUBUNTU
 
 INCDIRS := \
 	-I$(FBA_BURNER_DIR) \
-	-I$(FBA_BURNER_DIR)/shock/core/x86 \
+	-I$(FBA_BURNER_DIR)/shock/core/lubuntu \
 	-I$(FBA_BURNER_DIR)/shock/core/posix \
 	-I$(FBA_BURN_DIR) \
 	-I$(FBA_BURN_DIR)/snd \
@@ -146,11 +161,8 @@ INCDIRS := \
 	-iquote $(FBA_INTF_AUDIO_DIR) \
 	-iquote $(FBA_INTF_CD_DIR)
 
-CFLAGS += -O3
-CXXFLAGS += -O3
-
-CFLAGS += -fsigned-char
-CXXFLAGS += -fsigned-char
+CFLAGS += -fsigned-char $(OPTIMIZE_FLAGS)
+CXXFLAGS += -fsigned-char $(OPTIMIZE_FLAGS)
 
 CXXFLAGS += -D __ELINUX__
 WARNINGS_DEFINES = -Wno-write-strings

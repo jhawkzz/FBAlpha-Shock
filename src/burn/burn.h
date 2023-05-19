@@ -78,7 +78,9 @@ __extension__ typedef unsigned long long	UINT64;
 __extension__ typedef long long				INT64;
 #endif
 
+#ifdef _WIN32
 #include "driver.h"  // 2023.05.13 THK: include for Windows because compile order of .cpp isn't enforced
+#endif
 #include "state.h"
 #include "cheat.h"
 #include "hiscore.h"

@@ -52,7 +52,7 @@
 #include "shock/core/mvsx/mvsxled.h"
 #endif
 
-#ifdef X86
+#ifdef LUBUNTU
 #include <alsa/asoundlib.h>
 #endif
 

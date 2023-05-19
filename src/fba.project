@@ -1290,15 +1290,15 @@
       <File Name="burner/shock/shockrenderer.cpp"/>
       <File Name="burner/shock/shockrenderer.h"/>
       <VirtualDirectory Name="core">
-        <VirtualDirectory Name="x86">
-          <File Name="burner/shock/core/x86/audio.cpp"/>
-          <File Name="burner/shock/core/x86/audio.h"/>
-          <File Name="burner/shock/core/x86/framebuffer.cpp"/>
-          <File Name="burner/shock/core/x86/framebuffer.h"/>
-          <File Name="burner/shock/core/x86/input.cpp"/>
-          <File Name="burner/shock/core/x86/input.h"/>
-          <File Name="burner/shock/core/x86/ostimer_core.cpp"/>
-          <File Name="burner/shock/core/x86/ostimer_core.h"/>
+        <VirtualDirectory Name="lubuntu">
+          <File Name="burner/shock/core/lubuntu/audio.cpp"/>
+          <File Name="burner/shock/core/lubuntu/audio.h"/>
+          <File Name="burner/shock/core/lubuntu/framebuffer.cpp"/>
+          <File Name="burner/shock/core/lubuntu/framebuffer.h"/>
+          <File Name="burner/shock/core/lubuntu/input.cpp"/>
+          <File Name="burner/shock/core/lubuntu/input.h"/>
+          <File Name="burner/shock/core/lubuntu/ostimer_core.cpp"/>
+          <File Name="burner/shock/core/lubuntu/ostimer_core.h"/>
         </VirtualDirectory>
         <VirtualDirectory Name="mvsx">
           <File Name="burner/shock/core/mvsx/mvsxled.cpp"/>

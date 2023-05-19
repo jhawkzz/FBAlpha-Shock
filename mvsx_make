@@ -1,12 +1,28 @@
-#Makefile for the MVSX FBA emulator's x86 implementation.
-#Key differences - compiled with toolchain included with Lubuntu
 
-CC          := gcc
-CXX       := g++
+#Usage: 
+	#Debug
+		#To Build: make -f mvsx_make DEBUG=y
+		#To Clean: make -f mvsx_make DEBUG=y clean
+	#Release
+		#To Build: make -f mvsx_make
+		#To Clean: make -f mvsx_make clean
+
+ifeq (${DEBUG},y)
+OPTIMIZE_FLAGS := -O0 -g
+BUILD_DIR := ./build_mvsx_debug
+else
+OPTIMIZE_FLAGS := -O3
+BUILD_DIR := ./build_mvsx
+endif
+
+#Setup toolchain paths
+BINPATH := ../toolchain-mvsx/arm-2011.09/bin
+
+CC          := ${BINPATH}/arm-none-linux-gnueabi-gcc
+CXX       := ${BINPATH}/arm-none-linux-gnueabi-g++
+STRIP	:= ${BINPATH}/arm-none-linux-gnueabi-strip -s
 INCS     := -I./src 
-
-#use dynamic linking since asound requires it.
-LIBS      := -Wl,-Bdynamic -s -lm -lpthread -lrt -lasound
+LIBS      := -static -s -lm -lpthread -lrt
 
 MAIN_FBA_DIR               := src
 FBA_BURN_DIR               := $(MAIN_FBA_DIR)/burn
@@ -19,9 +35,7 @@ FBA_INTF_DIR 	          := $(MAIN_FBA_DIR)/intf
 FBA_INTF_AUDIO_DIR := $(FBA_INTF_DIR)/audio
 FBA_INTF_CD_DIR 	  := $(FBA_INTF_DIR)/cd
 
-BUILD_DIR := ./build_x86_debug
-
-TARGET := $(BUILD_DIR)/x86_fba029743_debug
+TARGET := $(BUILD_DIR)/fba029743
 
 .PHONY: clean
 
@@ -80,9 +94,10 @@ FBA_CPU_DIRS := $(FBA_CPU_DIR) \
 FBA_ZLIB_DIRS := $(FBA_LIB_DIR)/zlib
 
 FBA_SHOCK_DIR := $(MAIN_FBA_DIR)/burner/shock
-FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/util
-FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core/x86
+FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core
+FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core/mvsx
+FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/core/posix
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/font
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/ui
 FBA_SHOCK_DIR += $(MAIN_FBA_DIR)/burner/shock/ui/render
@@ -108,10 +123,12 @@ FBA_DEFINES := -DUSE_SPEEDHACKS \
 	-DLSB_FIRST\
 	-DINLINE="static inline" \
 	-DSH2_INLINE="static inline"\
-	-DX86
+	-DMVSX
 
 INCDIRS := \
 	-I$(FBA_BURNER_DIR) \
+	-I$(FBA_BURNER_DIR)/shock/core/mvsx \
+	-I$(FBA_BURNER_DIR)/shock/core/posix \
 	-I$(FBA_BURN_DIR) \
 	-I$(FBA_BURN_DIR)/snd \
 	-I$(FBA_BURN_DIR)/devices \
@@ -137,19 +154,15 @@ INCDIRS := \
 	-I$(FBA_BURN_DRV_DIR)/taito \
 	-I$(FBA_BURN_DRV_DIR)/konami \
 	-I$(FBA_GENERATED_DIR) \
-	-I$(FBA_LIB_DIR)\
+	-I$(FBA_LIB_DIR) \
 	-I$(INCS) \
 	-iquote $(FBA_INTF_DIR) \
 	-iquote $(FBA_INTF_AUDIO_DIR) \
 	-iquote $(FBA_INTF_CD_DIR)
 
-CFLAGS += -O0 -g
-CXXFLAGS += -O0 -g
+CFLAGS += -fsigned-char $(OPTIMIZE_FLAGS)
+CXXFLAGS += -fsigned-char $(OPTIMIZE_FLAGS)
 
-CFLAGS += -fsigned-char
-CXXFLAGS += -fsigned-char
-
-CXXFLAGS += -D __ELINUX__
 WARNINGS_DEFINES = -Wno-write-strings
 C_STD_DEFINES = -std=gnu99
 

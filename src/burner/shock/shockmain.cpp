@@ -34,7 +34,7 @@ int ShockMain::Create( )
     result = ShockInput::Create( );
     if( result == -1 )
     {
-        flushPrintf( "ShockMain::CreateSystems() - Error, could not create Input! If x86, run with sudo\r\n" );
+        flushPrintf( "ShockMain::CreateSystems() - Error, could not create Input! If Lubuntu, run with sudo\r\n" );
         return -1;
     }
     
