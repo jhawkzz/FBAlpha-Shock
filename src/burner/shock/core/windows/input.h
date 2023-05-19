@@ -36,14 +36,7 @@ enum InputCodeToButtonMapping
     P2_Joy_Right,
     P2_Joy_Left,
 
-    Button_Count = 24
-};
-
-struct ButtonState
-{
-    int             mutexCreated;
-    HANDLE          mutexLock;
-    int             value; // This is the action (0 is released, 1 is down)
+    Button_Count
 };
 
 class Input

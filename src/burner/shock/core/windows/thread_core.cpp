@@ -21,7 +21,5 @@ int ShockThread::Create(ShockThreadProc proc, void* param)
 DWORD WINAPI ShockThreadCore::ThreadProc(void* param)
 {
     ShockThread* st = (ShockThread*) param;
-    st->mArgs.proc(st->mArgs.param);
-
-    return 0;
+    return st->mArgs.proc(st->mArgs.param);
 }

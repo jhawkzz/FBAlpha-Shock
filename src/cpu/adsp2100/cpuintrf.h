@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-// 2023.05.13 THK: comment out CLEAR_LINE enum, already defined in another file
+// 2023.05.13 THK: comment out CLEAR_LINE enum, already defined in driver.h
 // 2023.05.12 JHM: Defined in the makefile instead (as static inline)
 //#define INLINE inline
 

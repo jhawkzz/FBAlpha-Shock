@@ -2,8 +2,6 @@
 
 #include "burnint.h"
 
-// 2023.05.13 THK: change VidSNewTinyMsg from TCHAR to wchar_t* because TCHAR is defined elsewhere as char
-
 #define CHEAT_MAXCPU	8 // enough?
 
 
@@ -205,6 +203,7 @@ INT32 CheatEnable(INT32 nCheat, INT32 nOption) // -1 / 0 - disable, -2 disable &
 }
 
 #if defined (BUILD_WIN32)
+// 2023.05.13 THK: change VidSNewTinyMsg from TCHAR to wchar_t* because TCHAR is defined elsewhere as char
 extern INT32 VidSNewTinyMsg(const wchar_t* pText, INT32 nRGB = 0, INT32 nDuration = 0, INT32 nPriority = 5);
 #endif
 

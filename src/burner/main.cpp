@@ -3,6 +3,12 @@
 
 #include "shock/includes.h"
 
+/* NOTE
+ * If running on x86 Lubuntu, this renders directly to the frame buffer. 
+ * That means you'll need to enter a terminal mode by pressing Ctrl + Alt + F1
+ * and launching it from there. Press Ctrl + Alt + F7 to return.
+*/
+
 int main( int argc, char **argv )
 {
     flushPrintf( "-=-=-=-=FBA 100 Mega Shock Edition=-=-=-=-\r\n" );

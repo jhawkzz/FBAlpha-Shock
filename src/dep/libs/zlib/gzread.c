@@ -5,10 +5,8 @@
 
 #include "gzguts.h"
 
-#if defined(_WIN32)
-#include <io.h> //THK: required for Windows
-#else
-#include <unistd.h> //JHM: Fix implicit declaration warnings
+#ifndef _WIN32
+    #include <unistd.h> //JHM: Fix implicit declaration warnings
 #endif
 
 /* Local functions */

@@ -13,4 +13,12 @@ int   stricmp(char *s1, char *s2);
 
 int   getExeDirectory( char *pFilePath, int size );
 
+#if defined X86 || defined MVSX
+    #define ShockSleep(us) usleep(us)
+    #define ShockCreateDir(path) mkdir( (path), 0777 )
+#elif defined _WIN32
+    #define ShockSleep(us) Sleep((us) / 1000)
+    #define ShockCreateDir(path) CreateDirectory( (path), NULL )
+#endif
+
 #endif
