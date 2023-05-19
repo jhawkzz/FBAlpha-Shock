@@ -4,9 +4,9 @@
 #include "includes.h"
 
 ShockThread ShockMain::mLoadThread;
-ShockState ShockMain::mState;
-LoadResult ShockMain::mLoadResult;
-char       ShockMain::mRomsetName[ MAX_PATH ];
+ShockState  ShockMain::mState;
+LoadResult  ShockMain::mLoadResult;
+char        ShockMain::mRomsetName[ MAX_PATH ];
 
 OSTimer gGlobalTimer;
 
