@@ -10,3 +10,8 @@ src/.codelite/
 blend/
 eeprom/
 hiscore/
+
+.vs/
+*.suo
+*.vcxproj.user
+windows/FBAlpha-Shock/x64/
