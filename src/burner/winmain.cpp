@@ -170,8 +170,6 @@ LRESULT CALLBACK WndProc(
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, 
     LPSTR lpszCmdLine, int nCmdShow) 
 { 
-    MSG msg;
-    BOOL bRet; 
     WNDCLASS wc = {}; 
     UNREFERENCED_PARAMETER(lpszCmdLine); 
 
