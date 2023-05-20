@@ -1,7 +1,7 @@
 
 // See License.md for license
 
-#include "includes.h"
+#include "shock/includes.h"
 
 int  ShockGame::mGameLoaded;
 char ShockGame::mBurnAudioBuffer[ MAX_AUDIO_BUFFER_BYTES ];

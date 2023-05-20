@@ -1,10 +1,10 @@
 
 // See License.md for license
 
-#ifndef FRAMEBUFFERIMPL_H_
-#define FRAMEBUFFERIMPL_H_
+#ifndef FRAMEBUFFER_IMPL_H_
+#define FRAMEBUFFER_IMPL_H_
 
-#include "../../includes.h"
+#include "shock/includes.h"
 
 class FrameBufferImpl
 {

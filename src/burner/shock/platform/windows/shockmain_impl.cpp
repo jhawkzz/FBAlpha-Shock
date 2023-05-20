@@ -1,7 +1,7 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/includes.h"
 #include "framebuffer_impl.h"
 
 void ShockMainImpl::SetWindow(HWND hwnd)

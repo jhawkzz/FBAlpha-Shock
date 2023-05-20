@@ -29,7 +29,8 @@ project "FBAlpha-Shock"
       "src/burn/snd",
       "src/burn/drv/taito",
       "src/burner",
-      "src/burner/shock/core/windows",
+      "src/burner/shock/core/platform/windows",
+      "src/burner/shock/platform/windows",
       "src/cpu",
       "src/cpu/i8039",
       "src/cpu/i8051",
@@ -50,10 +51,14 @@ project "FBAlpha-Shock"
 
    -- Set the directories to exclude
    local excludeDirs = {
-      "src/burner/shock/core/mvsx",
-      "src/burner/shock/core/posix",
-      "src/burner/shock/core/lubuntu",
-	  "src/burner/shock/core/asp",
+      "src/burner/shock/platform/mvsx",
+      "src/burner/shock/platform/posix",
+      "src/burner/shock/core//lubuntu",
+      "src/burner/shock/platform/asp",
+      "src/burner/shock/core/platform/mvsx",
+      "src/burner/shock/core/platform/posix",
+      "src/burner/shock/core/platform/lubuntu",
+      "src/burner/shock/core/platform/asp",
    }
 
    -- Collect source files recursively from the specified directories

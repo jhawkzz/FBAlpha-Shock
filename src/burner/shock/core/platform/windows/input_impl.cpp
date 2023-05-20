@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#include "../input.h"
-#include "../../includes.h"
+#include "shock/includes.h"
+#include "shock/core/input.h"
 
 namespace
 {

@@ -1,5 +1,5 @@
-#ifndef SHOCKMAINIMPL_H_
-#define SHOCKMAINIMPL_H_
+#ifndef SHOCKMAIN_IMPL_H_
+#define SHOCKMAIN_IMPL_H_
 
 class ShockMainImpl
 {

@@ -1,7 +1,7 @@
 #ifndef THREADIMPL_H_
 #define THREADIMPL_H_
 
-#include "../../includes.h"
+#include "shock/includes.h"
 
 class ShockThreadImpl
 {

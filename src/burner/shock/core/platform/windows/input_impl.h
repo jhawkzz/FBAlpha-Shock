@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef INPUTIMPL_H_
-#define INPUTIMPL_H_
+#ifndef INPUT_IMPL_H_
+#define INPUT_IMPL_H_
 
 class InputImpl
 {

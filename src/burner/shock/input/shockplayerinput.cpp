@@ -1,7 +1,7 @@
 
 // See License.md for license
 
-#include "../includes.h"
+#include "shock/includes.h"
 
 ShockButtonToBurnInput ShockPlayerInput::mShockButtonToBurnInput[ MAX_SHOCK_PLAYERS ];
 int                    ShockPlayerInput::mHardwareCode;

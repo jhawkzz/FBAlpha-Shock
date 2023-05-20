@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#include "includes.h"
-#include "core/framebuffer.h"
+#include "shock/includes.h"
+#include "shock/core/framebuffer.h"
 
 UINT16 ShockRenderer::mRotateBuffer[ ROTATE_BUFFER_WIDTH * ROTATE_BUFFER_HEIGHT ];
 
