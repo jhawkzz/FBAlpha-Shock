@@ -239,6 +239,7 @@ void ShockGame::Update( )
                                   mGameHeight, 
                                   mGameDriverFlags,
                                   mFBA_FPS_Current );
+        
         ShockRenderer::Flip( );
         
         mFBA_FPS_FramesDrawn++;

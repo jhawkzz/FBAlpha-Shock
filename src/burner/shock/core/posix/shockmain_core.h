@@ -4,7 +4,7 @@
 class ShockMainCore
 {
 protected:
-    static int Update() {}
+    static int Update() { return 0; }
 };
 
 #endif

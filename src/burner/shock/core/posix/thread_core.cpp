@@ -3,9 +3,17 @@
 
 #include "../../includes.h"
 
+ShockThread::ShockThread()
+{
+    mThread = -1;
+}
+
 ShockThread::~ShockThread()
 {
-   pthread_detach( mThread );
+    if( mThread > -1 )
+    {
+        pthread_detach( mThread );
+    }
 }
 
 int ShockThread::Create(ShockThreadProc proc, void* param)

@@ -34,7 +34,7 @@ public:
     static int  Create( );
     static void Destroy( );
     static int  BeginLoad( const char *pRomset );
-    static int  Run(const char *pRomtset );
+    static void Run( const char *pRomset );
 
 private:
     static void Update( );

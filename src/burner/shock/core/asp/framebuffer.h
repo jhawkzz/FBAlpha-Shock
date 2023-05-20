@@ -8,7 +8,7 @@
 #define FB_DOUBLE_BUFFER_OFFSET_BYTES (PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH)
 
 //The path to the frame buffer out on the ASP Linux OS
-#define FB_DEVICE "/dev/graphics/fb1"
+#define FB_DEVICE "/dev/graphics/fb0"
 
 class FrameBuffer
 {
