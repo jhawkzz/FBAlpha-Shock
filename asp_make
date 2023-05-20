@@ -111,10 +111,12 @@ FBA_SRC_DIRS += $(FBA_INTF_CD_DIR)
 FBA_SRC_DIRS += $(FBA_ZLIB_DIRS)
 FBA_SRC_DIRS += $(FBA_SHOCK_DIR)
 
-FBA_CXXSRCS := $(filter-out $(BURN_BLACKLIST),$(foreach dir,$(FBA_SRC_DIRS),$(wildcard $(dir)/*.cpp)))
+FBA_EXCLUDED_FILES := $(MAIN_FBA_DIR)/burner/winmain.cpp
+
+FBA_CXXSRCS := $(filter-out $(FBA_EXCLUDED_FILES),$(foreach dir,$(FBA_SRC_DIRS),$(wildcard $(dir)/*.cpp)))
 FBA_CXXOBJ   := $(FBA_CXXSRCS:%=$(BUILD_DIR)/%.o)
 
-FBA_CSRCS      := $(filter-out $(BURN_BLACKLIST),$(foreach dir,$(FBA_SRC_DIRS),$(wildcard $(dir)/*.c)))
+FBA_CSRCS      := $(filter-out $(FBA_EXCLUDED_FILES),$(foreach dir,$(FBA_SRC_DIRS),$(wildcard $(dir)/*.c)))
 FBA_COBJ   := $(FBA_CSRCS:%=$(BUILD_DIR)/%.o)
 
 OBJS := $(FBA_COBJ) $(FBA_CXXOBJ)
