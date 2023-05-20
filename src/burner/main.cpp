@@ -20,5 +20,7 @@ int main( int argc, char **argv )
         return 0;
     }
     
-    return ShockMain::Run( argv[ 1 ] );
+    ShockMain::Run( argv[ 1 ] );
+    
+    return 0;
 }

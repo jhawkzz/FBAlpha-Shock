@@ -10,13 +10,8 @@
 // with an FPS to start with. Use 60.
 #define DEFAULT_FPS (6000)
 
-// Although games could theoretically support more, for MVSX we
-// can only do 2, so we'll limit for simplicity
-#if defined LUBUNTU || defined MVSX || defined _WIN32
+// Although games could theoretically support more, we'll only ever support 2
 #define MAX_SHOCK_PLAYERS (2)
-#elif ASP
-#define MAX_SHOCK_PLAYERS (1) //until we can add controller support (will we?) limit to 1
-#endif
 
 // IO for FBA to write game files
 #define EEPROM_PATH          "eeprom/" 

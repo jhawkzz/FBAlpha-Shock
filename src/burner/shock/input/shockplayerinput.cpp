@@ -9,6 +9,11 @@ int                ShockPlayerInput::mHardwareCode;
 void ShockPlayerInput::Create( INT32 hardwareCode )
 {
     // Set default values that are not allowed to change
+    if( MAX_SHOCK_PLAYERS < 2 )
+    {
+        flushPrintf( "ERROR! MAX_SHOCK_PLAYERS MUST BE AT LEAST 2. Found: %d", MAX_SHOCK_PLAYERS );
+        exit( 0 );
+    }
     
     // Player 1
     mOSInputToBurnInput[ 0 ].osInputToCoinLookup  = OptionsBack;
@@ -102,7 +107,7 @@ void ShockPlayerInput::Update( )
 {
     ShockInput::Update( );
     
-    for( int i = 0; i < min( 2, ShockBurnInput::mNumPlayers ); i++ )
+    for( int i = 0; i < min( MAX_SHOCK_PLAYERS, ShockBurnInput::mNumPlayers ); i++ )
     {
         // Coin and Start
         if( ShockBurnInput::mPlayerInputList[ i ].coinButton.pGameInp != NULL )
@@ -134,7 +139,7 @@ void ShockPlayerInput::Update( )
             }
 #endif
         }
-    
+        
         // Joystick
         for( int c = 0; c < GameInp_Joy_Count; c++ )
         {

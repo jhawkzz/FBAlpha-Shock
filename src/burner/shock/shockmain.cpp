@@ -19,7 +19,7 @@ int ShockMain::Create( )
     int result = ShockAudio::Create( );
     if( result == -1 )
     {
-        flushPrintf( "ShockMain::CreateSystems() - Error, could not create Shock Audio!\r\n" );
+        flushPrintf( "ShockMain::Create() - Error, could not create Shock Audio!\r\n" );
         return -1;
     }
     
@@ -27,7 +27,7 @@ int ShockMain::Create( )
     result = ShockRenderer::Create( );
     if ( result == -1 )
     {
-        flushPrintf( "ShockMain::CreateSystems() - Error, could not create Shock Renderer!\r\n" );
+        flushPrintf( "ShockMain::Create() - Error, could not create Shock Renderer!\r\n" );
         return -1;
     }
    
@@ -35,7 +35,7 @@ int ShockMain::Create( )
     result = ShockInput::Create( );
     if( result == -1 )
     {
-        flushPrintf( "ShockMain::CreateSystems() - Error, could not create Input! If Lubuntu, run with sudo\r\n" );
+        flushPrintf( "ShockMain::Create() - Error, could not create Input! If Lubuntu, run with sudo\r\n" );
         return -1;
     }
     
@@ -43,7 +43,7 @@ int ShockMain::Create( )
     result = MVSXLed::Create( );
     if( result == -1 )
     {
-        flushPrintf( "ShockMain::CreateSystems() - WARNING, could not create LED. Not fatal, will continue.\r\n" );
+        flushPrintf( "ShockMain::Create() - WARNING, could not create LED. Not fatal, will continue.\r\n" );
     }
 #endif
     
@@ -98,17 +98,18 @@ int ShockMain::BeginLoad( const char *pRomset )
     return 0;
 }
 
-int ShockMain::Run(const char* romSet)
+void ShockMain::Run(const char* pRomset)
 {
-    int result;
-    
     gGlobalTimer.Reset();
 
-    result = ShockMain::Create( );
+    int result = ShockMain::Create( );
     if ( result == -1 )
-        return result;
+    {
+        flushPrintf( "ShockMain::Run() - ShockMain::Create() failed!\r\n" );
+        return;
+    }
 
-    ShockMain::BeginLoad( romSet );
+    ShockMain::BeginLoad( pRomset );
     
     do
     {
@@ -117,8 +118,6 @@ int ShockMain::Run(const char* romSet)
     while (mState != ShockState_Quit);
 
     ShockMain::Destroy( );
-
-    return 0;
 }
 
 void *ShockMain::LoadThread( void *pArg )
@@ -247,7 +246,7 @@ void ShockMain::UpdateState_FrontEnd( )
 void ShockMain::UpdateState_Emulator( )
 {
     ShockGame::Update( );
-            
+        
     // Check for switching to the frontend
     if( ShockInput::GetInput( P1_Start )->GetState( ) == 1 &&
         ShockInput::GetInput( P1_Start )->GetTimeHeldMS( ) >= HOLD_TIME_FOR_FRONTEND_MILLI * MILLI_TO_MICROSECONDS )
@@ -261,7 +260,7 @@ void ShockMain::UpdateState_Emulator( )
 
 void ShockMain::Update()
 {
-    int result = ShockMainCore::Update();
+    int result = ShockMainCore::Update( );
 
     if (result == -1)
     {
