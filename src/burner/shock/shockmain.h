@@ -4,8 +4,8 @@
 #ifndef SHOCK_MAIN_H_
 #define SHOCK_MAIN_H_
 
+#include "shock/core/thread.h"
 #include "shockmain_impl.h"
-#include "core/thread.h"
 
 #define HOLD_TIME_FOR_FRONTEND_MILLI (1500)
 
