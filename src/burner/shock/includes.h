@@ -56,11 +56,10 @@
 #include <alsa/asoundlib.h>
 #endif
 
-#include "audio.h"
-#include "framebuffer.h"
-#include "input.h"
-
-#include "shock/core/thread.h"
+//#include "audio.h"
+//#include "framebuffer.h"
+//#include "input.h"
+//#include "thread.h"
 
 #include "shock/shockrenderer.h"
 #include "shock/shockaudio.h"

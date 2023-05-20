@@ -1319,16 +1319,6 @@
           <File Name="burner/shock/core/posix/thread_core.h"/>
           <File Name="burner/shock/core/posix/shockmain_core.h"/>
         </VirtualDirectory>
-        <VirtualDirectory Name="asp">
-          <File Name="burner/shock/core/asp/audio.cpp"/>
-          <File Name="burner/shock/core/asp/audio.h"/>
-          <File Name="burner/shock/core/asp/framebuffer.cpp"/>
-          <File Name="burner/shock/core/asp/framebuffer.h"/>
-          <File Name="burner/shock/core/asp/input.cpp"/>
-          <File Name="burner/shock/core/asp/input.h"/>
-          <File Name="burner/shock/core/asp/ostimer_core.cpp"/>
-          <File Name="burner/shock/core/asp/ostimer_core.h"/>
-        </VirtualDirectory>
       </VirtualDirectory>
       <VirtualDirectory Name="util">
         <File Name="burner/shock/util/util.cpp"/>

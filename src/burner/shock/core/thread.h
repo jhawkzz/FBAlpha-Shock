@@ -3,9 +3,9 @@
 
 typedef void *(*ShockThreadProc)(void *);
 
-#include "thread_core.h"
+#include "thread_impl.h"
 
-class ShockThread : public ShockThreadCore
+class ShockThread : public ShockThreadImpl
 {
 public:
     ShockThread();

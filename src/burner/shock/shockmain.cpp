@@ -260,7 +260,7 @@ void ShockMain::UpdateState_Emulator( )
 
 void ShockMain::Update()
 {
-    int result = ShockMainCore::Update( );
+    int result = ShockMainImpl::Update();
 
     if (result == -1)
     {

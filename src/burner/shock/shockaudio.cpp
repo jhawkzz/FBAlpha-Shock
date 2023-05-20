@@ -2,6 +2,7 @@
 // See License.md for license
 
 #include "includes.h"
+#include "core/audio.h"
 
 int ShockAudio::Create( )
 {   

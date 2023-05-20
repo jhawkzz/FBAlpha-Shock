@@ -4,6 +4,8 @@
 #ifndef SHOCKINPUT_H_
 #define SHOCKINPUT_H_
 
+#include "core/input.h"
+
 enum InputState
 {
     InputState_Released = 0,

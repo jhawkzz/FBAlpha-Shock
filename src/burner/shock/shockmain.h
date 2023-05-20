@@ -4,7 +4,8 @@
 #ifndef SHOCK_MAIN_H_
 #define SHOCK_MAIN_H_
 
-#include "shockmain_core.h"
+#include "shockmain_impl.h"
+#include "core/thread.h"
 
 #define HOLD_TIME_FOR_FRONTEND_MILLI (1500)
 
@@ -28,7 +29,7 @@ enum LoadResult
     LoadResult_Count
 };
 
-class ShockMain : public ShockMainCore
+class ShockMain : public ShockMainImpl
 {
 public:
     static int  Create( );

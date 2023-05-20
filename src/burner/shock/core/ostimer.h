@@ -4,10 +4,10 @@
 #ifndef OSTIMER_H_
 #define OSTIMER_H_
 
+#include "ostimer_impl.h"
 #include "../includes.h"
-#include "ostimer_core.h"
 
-class OSTimer : public OSTimerCore
+class OSTimer : public OSTimerImpl
 {
 public:
     OSTimer( );
