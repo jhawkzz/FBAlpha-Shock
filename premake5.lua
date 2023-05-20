@@ -53,6 +53,7 @@ project "FBAlpha-Shock"
       "src/burner/shock/core/mvsx",
       "src/burner/shock/core/posix",
       "src/burner/shock/core/lubuntu",
+	  "src/burner/shock/core/asp",
    }
 
    -- Collect source files recursively from the specified directories
