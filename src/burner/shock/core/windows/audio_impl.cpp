@@ -17,5 +17,5 @@ void Audio::Destroy( )
 
 void Audio::PlayBuffer( char *pBuffer, int bytes )
 {
-    flushPrintf(__FUNCTION__" not implemented");
+    //flushPrintf(__FUNCTION__" not implemented");
 }

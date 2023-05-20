@@ -26,15 +26,9 @@ private:
 private:
     int       mConfiguringButton;
     MenuItem *mpSelectedItem;
-<<<<<<< HEAD
     int       mNumButtonsPerPlayer[ MAX_SHOCK_PLAYERS ];
     MenuItem  mButtonInputList[ MAX_SHOCK_PLAYERS ][ GameInp_Fire_Count ];
     UINT16   *mpButtonImageMap[ ShockButton_Count ];
-=======
-    int       mNumButtonsPerPlayer[ MAX_MVSX_PLAYERS ];
-    MenuItem  mButtonInputList[ MAX_MVSX_PLAYERS ][ GameInp_Fire_Count ];
-    UINT16   *mpButtonImageMap[ Button_Count ];
->>>>>>> e8a4db5 (wip)
     MenuItem  mRestoreDefaults;
     int       mPlayerSelection;
     int       mButtonSelection;

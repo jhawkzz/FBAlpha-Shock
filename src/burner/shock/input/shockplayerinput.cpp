@@ -75,7 +75,7 @@ void ShockPlayerInput::LoadFireInputs( const char *pRomsetName )
     SavedFireInput *pFireInput = ShockConfig::LoadFireInputs( pRomsetName );
     if( pFireInput != NULL )
     {
-        for( int i = 0; i < MAX_MVSX_PLAYERS; i++ )
+        for( int i = 0; i < MAX_SHOCK_PLAYERS; i++ )
         {
             memcpy( mShockButtonToBurnInput[ i ].fireButtonLookup,
                     pFireInput->fireButtonLookup[ i ],
@@ -93,7 +93,7 @@ void ShockPlayerInput::SaveFireInputs( const char *pRomsetName )
     SavedFireInput fireInput = { 0 };
         
     // copy the values out
-    for( int i = 0; i < MAX_MVSX_PLAYERS; i++ )
+    for( int i = 0; i < MAX_SHOCK_PLAYERS; i++ )
     {
         memcpy( fireInput.fireButtonLookup[ i ],
                 mShockButtonToBurnInput[ i ].fireButtonLookup, 
