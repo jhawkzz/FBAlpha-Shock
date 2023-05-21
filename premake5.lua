@@ -1,6 +1,6 @@
 workspace "FBAlpha-Shock"
    configurations { "Debug", "Release" }
-   platforms {"asp", "lubuntu", "mvsx", "windows"}
+   platforms {"asp", "lubuntu", "mvsx", "Win64"}
    systemversion "latest"
    location "projects"
    filter { "platforms:asp" }
@@ -9,7 +9,7 @@ workspace "FBAlpha-Shock"
       architecture "x86"
    filter { "platforms:mvsx" }
       architecture "x86"
-   filter "platforms:windows"
+   filter "platforms:Win64"
       architecture "x64"
 
 project "FBAlpha-Shock"
@@ -28,9 +28,9 @@ project "FBAlpha-Shock"
       kind "ConsoleApp"
       targetdir "projects/mvsx/bin/%{cfg.buildcfg}"
       defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "MVSX" }
-   filter "platforms:windows"
+   filter "platforms:Win64"
       kind "WindowedApp"
-      targetdir "projects/windows/bin/%{cfg.buildcfg}"
+      targetdir "projects/win64/bin/%{cfg.buildcfg}"
       defines { "INLINE static inline", "SH2_INLINE static inline", "LSB_FIRST", "BUILD_WIN32" }
 
    -- Set the directories containing source files
