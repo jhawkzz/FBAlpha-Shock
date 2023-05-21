@@ -1,17 +1,37 @@
 workspace "FBAlpha-Shock"
-   location "projects/windows"
    configurations { "Debug", "Release" }
-   architecture "x64"
+   platforms {"asp", "lubuntu", "mvsx", "windows"}
    systemversion "latest"
+   location "projects"
+   filter { "platforms:asp" }
+      architecture "x86"
+   filter { "platforms:lubuntu" }
+      architecture "x86"
+   filter { "platforms:mvsx" }
+      architecture "x86"
+   filter "platforms:windows"
+      architecture "x64"
 
 project "FBAlpha-Shock"
-   location "projects/windows"
-   kind "WindowedApp"
    language "C++"
-   targetdir "projects/windows/bin/%{cfg.buildcfg}"
-
-   defines { "BUILD_WIN32", "LSB_FIRST" }
    characterset ("MBCS")
+   location "projects"
+   filter { "platforms:asp" }
+      kind "ConsoleApp"
+      targetdir "projects/asp/bin/%{cfg.buildcfg}"
+      defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "ASP" }
+   filter { "platforms:lubuntu" }
+      kind "ConsoleApp"
+      targetdir "projects/lubuntu/bin/%{cfg.buildcfg}"
+      defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "LUBUNTU" }
+   filter { "platforms:mvsx" }
+      kind "ConsoleApp"
+      targetdir "projects/mvsx/bin/%{cfg.buildcfg}"
+      defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "MVSX" }
+   filter "platforms:windows"
+      kind "WindowedApp"
+      targetdir "projects/windows/bin/%{cfg.buildcfg}"
+      defines { "INLINE static inline", "SH2_INLINE static inline", "LSB_FIRST", "BUILD_WIN32" }
 
    -- Set the directories containing source files
    local sourceDirs = {
