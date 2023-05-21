@@ -3,6 +3,11 @@
 
 #include "../../includes.h"
 
+ShockThread::ShockThread()
+{
+    mHandle = NULL;
+}
+
 ShockThread::~ShockThread()
 {
     CloseHandle(mHandle);
