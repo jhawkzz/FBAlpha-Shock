@@ -39,7 +39,7 @@ enum InputCodeToButtonMapping
     Button_Count
 };
 
-#include "input_impl.h"
+#include "shock/platform/input.h"
 
 class Input : public InputImpl
 {

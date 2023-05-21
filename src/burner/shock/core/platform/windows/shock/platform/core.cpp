@@ -2,14 +2,17 @@
 // See License.md for license
 
 #include "shock/includes.h"
-#include "framebuffer_impl.h"
+#include "shock/core/framebuffer.h"
 
-void ShockMainImpl::SetWindow(HWND hwnd)
+void CoreImpl::SetWindow(HWND hwnd)
 {
     FrameBufferImpl::SetWindow(hwnd);
 }
 
-int ShockMainImpl::Update()
+Core::~Core()
+{}
+
+int Core::Update()
 {
     MSG msg;
 

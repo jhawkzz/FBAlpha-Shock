@@ -209,7 +209,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     ShowWindow(hwndMain, nCmdShow); 
     UpdateWindow(hwndMain); 
 
-    ShockMain::SetWindow(hwndMain);
+    CoreImpl::SetWindow(hwndMain);
 
     int count;
 

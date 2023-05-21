@@ -1,7 +1,7 @@
 
 // See License.md for license
 
-#include "../framebuffer.h"
+#include "shock/core/framebuffer.h"
 
 HWND FrameBufferImpl::mHwnd;
 HBITMAP FrameBufferImpl::mHbitmap;

@@ -5,7 +5,7 @@
 #define SHOCK_MAIN_H_
 
 #include "shock/core/thread.h"
-#include "shockmain_impl.h"
+#include "shock/core/core.h"
 
 #define HOLD_TIME_FOR_FRONTEND_MILLI (1500)
 
@@ -29,7 +29,7 @@ enum LoadResult
     LoadResult_Count
 };
 
-class ShockMain : public ShockMainImpl
+class ShockMain
 {
 public:
     static int  Create( );
@@ -48,10 +48,11 @@ private:
     static void UpdateState_Emulator( );
 
 private:
-    static ShockThread mLoadThread;
-    static ShockState mState;
-    static LoadResult mLoadResult;
-    static char       mRomsetName[ MAX_PATH ];
+    static Thread       mLoadThread;
+    static Core         mCore;
+    static ShockState   mState;
+    static LoadResult   mLoadResult;
+    static char         mRomsetName[ MAX_PATH ];
 };
 
 #endif

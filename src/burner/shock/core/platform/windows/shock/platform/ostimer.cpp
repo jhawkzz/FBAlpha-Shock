@@ -1,7 +1,7 @@
 
 // See License.md for license
 
-#include "../ostimer.h"
+#include "shock/core/ostimer.h"
 
 OSTimer::OSTimer( )
 {

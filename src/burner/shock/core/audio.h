@@ -4,7 +4,7 @@
 #ifndef AUDIO_H_
 #define AUDIO_H_
 
-#include "audio_impl.h"
+#include "shock/platform/audio.h"
 
 class Audio : public AudioImpl
 {

@@ -30,7 +30,6 @@ project "FBAlpha-Shock"
       "src/burn/drv/taito",
       "src/burner",
       "src/burner/shock/core/platform/windows",
-      "src/burner/shock/platform/windows",
       "src/cpu",
       "src/cpu/i8039",
       "src/cpu/i8051",

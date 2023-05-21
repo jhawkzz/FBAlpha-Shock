@@ -3,12 +3,12 @@
 
 #include "shock/includes.h"
 
-ShockThread::~ShockThread()
+Thread::~Thread()
 {
     CloseHandle(mHandle);
 }
 
-int ShockThread::Create(ShockThreadProc proc, void* param)
+int Thread::Create(ShockThreadProc proc, void* param)
 {
     mArgs.proc = proc;
     mArgs.param = param;
@@ -18,9 +18,9 @@ int ShockThread::Create(ShockThreadProc proc, void* param)
     return mHandle ? 0 : -1;
 }
 
-DWORD WINAPI ShockThreadImpl::ThreadProc(void* param)
+DWORD WINAPI ThreadImpl::ThreadProc(void* param)
 {
-    ShockThread* st = (ShockThread*) param;
+    Thread* st = (Thread*) param;
     st->mArgs.proc(st->mArgs.param);
 
     return 0;

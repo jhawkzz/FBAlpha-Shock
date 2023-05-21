@@ -3,7 +3,7 @@
 
 #include "shock/includes.h"
 
-class ShockThreadImpl
+class ThreadImpl
 {
 protected:
     struct ThreadArgs
