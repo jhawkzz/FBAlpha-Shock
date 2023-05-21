@@ -1,8 +1,5 @@
-workspace "FBAlpha-Shock"
-   configurations { "Debug", "Release" }
-   platforms {"asp", "lubuntu", "mvsx", "Win64"}
    systemversion "latest"
-   location "projects"
+   location "../projects"
    filter { "platforms:asp" }
       architecture "x86"
    filter { "platforms:lubuntu" }
@@ -15,69 +12,69 @@ workspace "FBAlpha-Shock"
 project "FBAlpha-Shock"
    language "C++"
    characterset ("MBCS")
-   location "projects"
+   location "../projects"
    filter { "platforms:asp" }
       kind "ConsoleApp"
-      targetdir "projects/asp/bin/%{cfg.buildcfg}"
+      targetdir "../projects/asp/bin/%{cfg.buildcfg}"
       defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "ASP" }
    filter { "platforms:lubuntu" }
       kind "ConsoleApp"
-      targetdir "projects/lubuntu/bin/%{cfg.buildcfg}"
+      targetdir "../projects/lubuntu/bin/%{cfg.buildcfg}"
       defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "LUBUNTU" }
    filter { "platforms:mvsx" }
       kind "ConsoleApp"
-      targetdir "projects/mvsx/bin/%{cfg.buildcfg}"
+      targetdir "../projects/mvsx/bin/%{cfg.buildcfg}"
       defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "MVSX" }
    filter "platforms:Win64"
       kind "WindowedApp"
-      targetdir "projects/win64/bin/%{cfg.buildcfg}"
+      targetdir "../projects/win64/bin/%{cfg.buildcfg}"
       defines { "INLINE static inline", "SH2_INLINE static inline", "LSB_FIRST", "BUILD_WIN32" }
 
    -- Set the directories containing source files
    local sourceDirs = {
-      "src",
+      "../src",
       -- Add more source directories here
    }
 
    -- Set the include directories
    includedirs {
-      "src/burn",
-      "src/burn/devices",
-      "src/burn/drv/sega",
-      "src/burn/drv/dataeast",
-      "src/burn/drv/konami",
-      "src/burn/snd",
-      "src/burn/drv/taito",
-      "src/burner",
-      "src/burner/shock/core/platform/windows",
-      "src/cpu",
-      "src/cpu/i8039",
-      "src/cpu/i8051",
-      "src/cpu/i8x41",
-      "src/cpu/m6805",
-      "src/cpu/tms32010",
-      "src/cpu/upd7725",
-      "src/cpu/upd7810",
-      "src/cpu/v60",
-      "src/cpu/z180",
-      "src/cpu/z80",
-      "src/dep/generated",
-      "src/dep/libs/zlib",
-      "src/intf",
-      "src/intf/audio",
-      "src/intf/cd",
+      "../src/burn",
+      "../src/burn/devices",
+      "../src/burn/drv/sega",
+      "../src/burn/drv/dataeast",
+      "../src/burn/drv/konami",
+      "../src/burn/snd",
+      "../src/burn/drv/taito",
+      "../src/burner",
+      "../src/burner/shock/core/platform/windows",
+      "../src/cpu",
+      "../src/cpu/i8039",
+      "../src/cpu/i8051",
+      "../src/cpu/i8x41",
+      "../src/cpu/m6805",
+      "../src/cpu/tms32010",
+      "../src/cpu/upd7725",
+      "../src/cpu/upd7810",
+      "../src/cpu/v60",
+      "../src/cpu/z180",
+      "../src/cpu/z80",
+      "../src/dep/generated",
+      "../src/dep/libs/zlib",
+      "../src/intf",
+      "../src/intf/audio",
+      "../src/intf/cd",
    }
 
    -- Set the directories to exclude
    local excludeDirs = {
-      "src/burner/shock/platform/mvsx",
-      "src/burner/shock/platform/posix",
-      "src/burner/shock/core//lubuntu",
-      "src/burner/shock/platform/asp",
-      "src/burner/shock/core/platform/mvsx",
-      "src/burner/shock/core/platform/posix",
-      "src/burner/shock/core/platform/lubuntu",
-      "src/burner/shock/core/platform/asp",
+      "../src/burner/shock/platform/mvsx",
+      "../src/burner/shock/platform/posix",
+      "../src/burner/shock/core//lubuntu",
+      "../src/burner/shock/platform/asp",
+      "../src/burner/shock/core/platform/mvsx",
+      "../src/burner/shock/core/platform/posix",
+      "../src/burner/shock/core/platform/lubuntu",
+      "../src/burner/shock/core/platform/asp",
    }
 
    -- Collect source files recursively from the specified directories
@@ -91,9 +88,9 @@ project "FBAlpha-Shock"
       removefiles { excludeDir .. "/**.cpp", excludeDir .. "/**.c", excludeDir .. "/**.h" }
    end
 
-   removefiles { "src/burner/main.cpp" }
-   removefiles { "src/cpu/a68k/fba_make68k.c" }
-   removefiles { "src/cpu/a68k/mips/fba_make68k.c" }
+   removefiles { "../src/burner/main.cpp" }
+   removefiles { "../src/cpu/a68k/fba_make68k.c" }
+   removefiles { "../src/cpu/a68k/mips/fba_make68k.c" }
 
    -- Create the folder structure in Visual Studio
    filter "files:**.h or **.hpp"
