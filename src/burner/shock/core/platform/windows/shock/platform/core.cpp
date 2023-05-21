@@ -1,8 +1,9 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/core/core.h"
 #include "shock/core/framebuffer.h"
+#include "shock/includes.h"
 
 void CoreImpl::SetWindow(HWND hwnd)
 {

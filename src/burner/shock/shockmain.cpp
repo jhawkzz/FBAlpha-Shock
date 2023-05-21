@@ -1,10 +1,10 @@
 
 // See License.md for license
 
+#include "shock/core/core.h"
 #include "shock/includes.h"
 
 Thread      ShockMain::mLoadThread;
-Core        ShockMain::mCore;
 ShockState  ShockMain::mState;
 LoadResult  ShockMain::mLoadResult;
 char        ShockMain::mRomsetName[ MAX_PATH ];
@@ -261,7 +261,7 @@ void ShockMain::UpdateState_Emulator( )
 
 void ShockMain::Update()
 {
-    int result = mCore.Update();
+    int result = Core::Update();
 
     if (result == -1)
     {

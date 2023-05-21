@@ -5,7 +5,6 @@
 #define SHOCK_MAIN_H_
 
 #include "shock/core/thread.h"
-#include "shock/core/core.h"
 
 #define HOLD_TIME_FOR_FRONTEND_MILLI (1500)
 
@@ -49,7 +48,6 @@ private:
 
 private:
     static Thread       mLoadThread;
-    static Core         mCore;
     static ShockState   mState;
     static LoadResult   mLoadResult;
     static char         mRomsetName[ MAX_PATH ];

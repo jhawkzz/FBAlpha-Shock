@@ -8,7 +8,7 @@ class Core : public CoreImpl
 public:
    ~Core();
 
-   int Update();
+   static int Update();
 };
 
 #endif
