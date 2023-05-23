@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
-    
+#include "shock/platform/thread.h"
+
 ThreadImpl::~ThreadImpl()
 {
     if ( mThread > -1 )
