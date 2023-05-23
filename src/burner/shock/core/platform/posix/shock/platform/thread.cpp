@@ -1,7 +1,7 @@
 
 // See License.md for license
 
-#include "shock/platform/thread.h"
+#include "shock/core/thread.h"
 
 ThreadImpl::~ThreadImpl()
 {
@@ -11,7 +11,7 @@ ThreadImpl::~ThreadImpl()
     }
 }
 
-int ThreadImpl::Create(ShockThreadProc proc, void* param)
+int Thread::Create(ShockThreadProc proc, void* param)
 {
    return pthread_create( &mThread, NULL, proc, param );
 }
