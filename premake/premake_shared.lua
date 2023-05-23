@@ -59,6 +59,8 @@ project "FBAlpha-Shock"
       "../src/burn/drv/cave",
       "../src/burn/drv/dataeast",
       "../src/burn/drv/konami",
+      "../src/burn/drv/neogeo",
+      "../src/burn/drv/psikyo",
       "../src/burn/drv/sega",
       "../src/burn/drv/taito",
       "../src/burner",
