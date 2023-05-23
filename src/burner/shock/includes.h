@@ -61,7 +61,6 @@
 #include "shock/shockromloader.h"
 
 #include "shock/input/shockburninput.h"
-#include "shock/input/shockplayerinput.h"
 
 #include "shock/shockconfig.h"
 

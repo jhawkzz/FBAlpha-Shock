@@ -7,6 +7,8 @@
 #define MAX_GAMES   (9000)
 #define CONFIG_FILE "fbaconfig.dat"
 
+#include "shock/input/shockplayerinput.h"
+
 // we'll store settings, and MAX_GAMES worth of input configs (2 players per game)
 
 struct SavedFireInput

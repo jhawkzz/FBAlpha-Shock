@@ -7,6 +7,8 @@
 #define BUTTON_WIDTH  (50)
 #define BUTTON_HEIGHT (55)
 
+#include "shock/input/shockplayerinput.h"
+
 class StateButtonConfig : public UIBaseState
 {
 public:
