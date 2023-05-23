@@ -4,7 +4,7 @@
 #ifndef INPUT_IMPL_H_
 #define INPUT_IMPL_H_
 
-#include "shock/includes.h"
+#include "shock/systems.h"
 
 // Keyboard device
 #define KB_LOCAL_DEVICE     "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
