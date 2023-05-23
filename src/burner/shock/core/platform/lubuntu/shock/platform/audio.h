@@ -9,10 +9,10 @@
 
 class AudioImpl
 {
-private:
+protected:
     static void *UpdateAudio_ThreadProc( void *pArg );
 
-private:
+protected:
     static unsigned long   mSampleFramesPerTick;
     static snd_pcm_t      *mPcmHandle;
     static int             mPcmBufferSize;

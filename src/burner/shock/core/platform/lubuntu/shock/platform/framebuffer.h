@@ -9,12 +9,12 @@
 
 class FrameBufferImpl
 {
-private:
+protected:
         static void PrintMode( fb_var_screeninfo *pfbVScreenInfo );
         static void PrintVScreenInfo( fb_var_screeninfo *pVScreenInfo );
         static void PrintFixedScreenInfo( fb_fix_screeninfo *pFixedScreenInfo );
 
-private:
+protected:
         static int  mFrameBufferHandle;
         static int  mFrameBufferBytes;
 
