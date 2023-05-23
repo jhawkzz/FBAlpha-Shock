@@ -16,7 +16,7 @@ build =
 
    excludefiles = 
    {
-      "../src/burner/main.cpp",
+      "../src/burner/winmain.cpp",
    },
 
    includedirs = 

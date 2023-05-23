@@ -1,1 +1,0 @@
-premake5 --file=./premake/premake5_windows.lua vs2022
