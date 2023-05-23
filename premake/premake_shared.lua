@@ -6,17 +6,21 @@ workspace "FBAlpha-Shock"
    for _, platform in ipairs(build.platforms) do
       platforms { platform }
    end
-
+   
    systemversion "latest"
    location "../projects"
    filter { "platforms:asp" }
       architecture "arm"
+      system "linux"
    filter { "platforms:lubuntu" }
       architecture "x86"
+      system "linux"
    filter { "platforms:mvsx" }
-      architecture "arm"
+      architecture "ARM"
+      system "linux"
    filter { "platforms:Win64" }
       architecture "x64"
+      system "windows"
 
 project "FBAlpha-Shock"
    language "C++"
@@ -38,6 +42,8 @@ project "FBAlpha-Shock"
       kind "WindowedApp"
       targetdir "../projects/win64/bin/%{cfg.buildcfg}"
       defines { "INLINE static inline", "SH2_INLINE static inline", "LSB_FIRST", "BUILD_WIN32" }
+
+   filter {}
 
    -- Set the directories containing source files
    local sourceDirs = {

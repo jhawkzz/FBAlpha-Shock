@@ -1,22 +1,14 @@
 
 // See License.md for license
 
-#ifndef FRAMEBUFFER_H_
-#define FRAMEBUFFER_H_
+#ifndef FRAMEBUFFER_IMPL_H_
+#define FRAMEBUFFER_IMPL_H_
 
 //The path to the frame buffer out on Lubuntu
 #define FB_DEVICE "/dev/fb0"
 
-class FrameBuffer
+class FrameBufferImpl
 {
-public:
-        static int  Create( );
-        static void Destroy( );
-        static void ClearFrameBuffer( );
-        static short *GetBackBuffer( );
-		
-        static void Flip( );
-        
 private:
         static void PrintMode( fb_var_screeninfo *pfbVScreenInfo );
         static void PrintVScreenInfo( fb_var_screeninfo *pVScreenInfo );

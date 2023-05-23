@@ -1,7 +1,8 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/includes.h"
+#include "shock/core/audio.h"
 
 unsigned long   Audio::mSampleFramesPerTick;
 snd_pcm_t      *Audio::mPcmHandle;

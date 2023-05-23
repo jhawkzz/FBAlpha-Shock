@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef INPUT_H_
-#define INPUT_H_
+#ifndef INPUT_IMPL_H_
+#define INPUT_IMPL_H_
 
 // Keyboard device
 #define KB_LOCAL_DEVICE     "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
@@ -85,13 +85,8 @@ struct LubuntuInputState
     int             value; // This is the action (0 is released, 1 is down)
 };
 
-class Input
+class InputImpl
 {
-public:
-    static int  Create( );
-    static void Destroy( );
-    static int  GetValueForButton( ShockButton shockButton );
-    
 private:
     static void  CreateLookup( );
     static void *PollInput_ThreadProc( void *);

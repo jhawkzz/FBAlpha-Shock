@@ -1,7 +1,8 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/core/input.h"
+#include "shock/includes.h"
 
 LubuntuInput      Input::mLubuntuInputLookup[ ShockButton_Count ];
 LubuntuInputState Input::mLubuntuInputState[ LubuntuInput_Count ];

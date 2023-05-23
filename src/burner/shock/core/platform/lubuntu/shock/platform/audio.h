@@ -1,20 +1,14 @@
 
 // See License.md for license
 
-#ifndef AUDIO_H_
-#define AUDIO_H_
+#ifndef AUDIO_IMPL_H_
+#define AUDIO_IMPL_H_
 
 #define PCM_DEVICE                "default"
 #define MAX_PCM_BUFFER_SIZE_BYTES (1024 * 1024)
 
-class Audio
+class AudioImpl
 {
-public:
-    static int  Create( );
-    static void Destroy( );
-    static void PlayBuffer( char *pBuffer, int bytes );
-    static int  NeedBufferRefill( );
-    
 private:
     static void *UpdateAudio_ThreadProc( void *pArg );
 
