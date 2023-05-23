@@ -7,4 +7,3 @@ int Core::Update()
 {
    return 0;
 }
-sddf
