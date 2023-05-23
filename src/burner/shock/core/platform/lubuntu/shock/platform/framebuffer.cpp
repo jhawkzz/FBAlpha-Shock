@@ -9,7 +9,7 @@ char             *FrameBufferImpl::mpFrameBuffer;
 fb_var_screeninfo FrameBufferImpl::mVScreenInfo;
 fb_fix_screeninfo FrameBufferImpl::mFixedScreenInfo;
 
-char FrameBuffer::mScaleBuffer[ PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH ];
+char FrameBufferImpl::mScaleBuffer[ PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH ];
 
 int FrameBuffer::Create( )
 {    
