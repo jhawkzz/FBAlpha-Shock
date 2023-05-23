@@ -1,3 +1,3 @@
 #include "shock/core/core.h"
 
-void Core::Update() {}
+int Core::Update() {return 0;}
