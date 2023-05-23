@@ -19,6 +19,14 @@ build =
    {
       "../src/burner/shock/core/platform/windows",
    },
+
+   buildoptions = 
+   {
+   },
+
+   links = 
+   {
+   }
 }
 
 include ("premake_shared.lua")

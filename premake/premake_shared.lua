@@ -63,6 +63,7 @@ project "FBAlpha-Shock"
       "../src/burn/drv/psikyo",
       "../src/burn/drv/sega",
       "../src/burn/drv/taito",
+      "../src/burn/drv/toaplan",
       "../src/burner",
       "../src/burn/snd",
       "../src/cpu",
@@ -83,10 +84,17 @@ project "FBAlpha-Shock"
       "../src/intf/cd",
    }
 
-   -- Collect source files recursively from the specified directories
    local sources = {}
    for _, sourceDir in ipairs(sourceDirs) do
       files { sourceDir .. "/**.cpp", sourceDir .. "/**.c", sourceDir .. "/**.h" }
+   end
+
+   for _, option in ipairs(build.buildoptions) do
+      buildoptions { option }
+   end
+
+   for _, link in ipairs(build.links) do
+      links { link }
    end
 
    -- Remove the excluded directories from the list of source files
