@@ -1,3 +1,9 @@
 #include "shock/core/core.h"
 
-int Core::Update() {return 0;}
+Core::~Core()
+{}
+
+int Core::Update()
+{
+   return 0;
+}
