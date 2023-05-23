@@ -103,7 +103,7 @@ void Input::CreateLookup( )
     mLubuntuInputLookup[ P2_Start      ] = LubuntuInput_KB_2;
 }
 
-void *Input::PollInput_ThreadProc(void *data)
+void *InputImpl::PollInput_ThreadProc(void *data)
 {
     mThreadRunning = 1;
 	
@@ -129,7 +129,7 @@ void *Input::PollInput_ThreadProc(void *data)
     return NULL;
 }
 
-void Input::ReadInputs( )
+void InputImpl::ReadInputs( )
 {
 	input_event input;
 	int ret = read( mInputFileHandle, &input, sizeof( input_event ) );

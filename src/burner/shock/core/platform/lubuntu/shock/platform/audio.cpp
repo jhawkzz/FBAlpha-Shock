@@ -4,15 +4,15 @@
 #include "shock/includes.h"
 #include "shock/core/audio.h"
 
-unsigned long   Audio::mSampleFramesPerTick;
-snd_pcm_t      *Audio::mPcmHandle;
-int             Audio::mPcmBufferSize;
-char            Audio::mPcmFeedBuffer[ MAX_PCM_BUFFER_SIZE_BYTES ];
+unsigned long   AudioImpl::mSampleFramesPerTick;
+snd_pcm_t      *AudioImpl::mPcmHandle;
+int             AudioImpl::mPcmBufferSize;
+char            AudioImpl::mPcmFeedBuffer[ MAX_PCM_BUFFER_SIZE_BYTES ];
 
-RingBuffer      Audio::mDspRingBuffer;
-pthread_mutex_t Audio::mDspMutexLock;
-int             Audio::mDspMutexCreated;
-int             Audio::mDspThreadRunning;
+RingBuffer      AudioImpl::mDspRingBuffer;
+pthread_mutex_t AudioImpl::mDspMutexLock;
+int             AudioImpl::mDspMutexCreated;
+int             AudioImpl::mDspThreadRunning;
 
 int Audio::Create( )
 {
@@ -161,7 +161,7 @@ int Audio::NeedBufferRefill( )
     return 0;
 }
 
-void *Audio::UpdateAudio_ThreadProc( void *pArg)
+void *AudioImpl::UpdateAudio_ThreadProc( void *pArg)
 {
     mDspThreadRunning = 1;
     

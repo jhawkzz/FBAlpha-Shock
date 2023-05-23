@@ -4,7 +4,7 @@
 class ShockThreadImpl
 {
 public:
-   pthread_t mThread;
+   pthread_t mThread = -1;
 };
 
 #endif
