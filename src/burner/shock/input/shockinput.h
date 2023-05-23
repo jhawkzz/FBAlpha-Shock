@@ -4,7 +4,7 @@
 #ifndef SHOCKINPUT_H_
 #define SHOCKINPUT_H_
 
-#include "core/input.h"
+#include "shock/core/input.h"
 
 enum InputState
 {
