@@ -60,7 +60,6 @@
 #include "shock/shockaudio.h"
 #include "shock/shockromloader.h"
 
-#include "shock/input/shockinput.h"
 #include "shock/input/shockburninput.h"
 #include "shock/input/shockplayerinput.h"
 
