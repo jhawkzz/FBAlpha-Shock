@@ -1,12 +1,21 @@
+workspace "FBAlpha-Shock"
+   for _, config in ipairs(build.configs) do
+      configurations { config }
+   end
+
+   for _, platform in ipairs(build.platforms) do
+      platforms { platform }
+   end
+
    systemversion "latest"
    location "../projects"
    filter { "platforms:asp" }
-      architecture "x86"
+      architecture "arm"
    filter { "platforms:lubuntu" }
       architecture "x86"
    filter { "platforms:mvsx" }
-      architecture "x86"
-   filter "platforms:Win64"
+      architecture "arm"
+   filter { "platforms:Win64" }
       architecture "x64"
 
 project "FBAlpha-Shock"
@@ -25,7 +34,7 @@ project "FBAlpha-Shock"
       kind "ConsoleApp"
       targetdir "../projects/mvsx/bin/%{cfg.buildcfg}"
       defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "MVSX" }
-   filter "platforms:Win64"
+   filter { "platforms:Win64" }
       kind "WindowedApp"
       targetdir "../projects/win64/bin/%{cfg.buildcfg}"
       defines { "INLINE static inline", "SH2_INLINE static inline", "LSB_FIRST", "BUILD_WIN32" }
@@ -46,7 +55,6 @@ project "FBAlpha-Shock"
       "../src/burn/snd",
       "../src/burn/drv/taito",
       "../src/burner",
-      "../src/burner/shock/core/platform/windows",
       "../src/cpu",
       "../src/cpu/i8039",
       "../src/cpu/i8051",
@@ -65,18 +73,6 @@ project "FBAlpha-Shock"
       "../src/intf/cd",
    }
 
-   -- Set the directories to exclude
-   local excludeDirs = {
-      "../src/burner/shock/platform/mvsx",
-      "../src/burner/shock/platform/posix",
-      "../src/burner/shock/core//lubuntu",
-      "../src/burner/shock/platform/asp",
-      "../src/burner/shock/core/platform/mvsx",
-      "../src/burner/shock/core/platform/posix",
-      "../src/burner/shock/core/platform/lubuntu",
-      "../src/burner/shock/core/platform/asp",
-   }
-
    -- Collect source files recursively from the specified directories
    local sources = {}
    for _, sourceDir in ipairs(sourceDirs) do
@@ -84,13 +80,24 @@ project "FBAlpha-Shock"
    end
 
    -- Remove the excluded directories from the list of source files
-   for _, excludeDir in ipairs(excludeDirs) do
-      removefiles { excludeDir .. "/**.cpp", excludeDir .. "/**.c", excludeDir .. "/**.h" }
+   for _, includedir in ipairs(build.includedirs) do
+      includedirs { includedir }
    end
 
-   removefiles { "../src/burner/main.cpp" }
-   removefiles { "../src/cpu/a68k/fba_make68k.c" }
-   removefiles { "../src/cpu/a68k/mips/fba_make68k.c" }
+   -- Remove the excluded directories from the list of source files
+   for _, excludedir in ipairs(build.excludedirs) do
+      removefiles { excludedir .. "/**.cpp", excludedir .. "/**.c", excludedir .. "/**.h" }
+   end
+
+   removefiles {
+      "../src/cpu/a68k/fba_make68k.c",
+      "../src/cpu/a68k/mips/fba_make68k.c"
+   }
+
+   -- Remove the excluded directories from the list of source files
+   for _, file in ipairs(build.excludefiles) do
+      removefiles { file }
+   end
 
    -- Create the folder structure in Visual Studio
    filter "files:**.h or **.hpp"

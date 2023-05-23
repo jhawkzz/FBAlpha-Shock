@@ -1,6 +1,6 @@
 build = 
 {
-   platforms = { "Win64" },
+   platforms = { "lubuntu" },
    configs = { "Debug", "Release" },
    excludedirs = 
    {
@@ -21,7 +21,7 @@ build =
 
    includedirs = 
    {
-      "../src/burner/shock/core/platform/windows",
+      "../src/burner/shock/core/platform/lubuntu",
    },
 }
 
