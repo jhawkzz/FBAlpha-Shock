@@ -3,7 +3,7 @@
 
 #include "shock/includes.h"
     
-ShockThreadImpl::~ShockThreadImpl()
+ThreadImpl::~ThreadImpl()
 {
     if ( mThread > -1 )
     {
@@ -11,7 +11,7 @@ ShockThreadImpl::~ShockThreadImpl()
     }
 }
 
-int ShockThreadImpl::Create(ShockThreadProc proc, void* param)
+int ThreadImpl::Create(ShockThreadProc proc, void* param)
 {
    return pthread_create( &mThread, NULL, proc, param );
 }
