@@ -199,7 +199,7 @@ void Audio::PlayBuffer( char *pBuffer, int bytes )
     pthread_mutex_unlock( &mDspMutexLock );
 }
 
-int Audio::GetVolume( )
+int AudioImpl::GetVolume( )
 {
     return mVolume;
 }
