@@ -4,6 +4,10 @@
 #include "shock/core/core.h"
 #include "shock/includes.h"
 
+#ifdef MVSX
+   #include "shock/platform/mvsxled.h"
+#endif
+
 Thread      ShockMain::mLoadThread;
 ShockState  ShockMain::mState;
 LoadResult  ShockMain::mLoadResult;
