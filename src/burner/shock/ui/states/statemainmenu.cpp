@@ -104,7 +104,7 @@ UIState StateMainMenu::Update( )
     }
     
     // check for entering a gamestate menu item
-    if( ShockInput::GetInput( P1_Red )->WasReleased() )
+    if( ShockInput::GetInput( P1_Button_1 )->WasReleased() )
     {   
         if( mMenuSelection == 0 )
         {
@@ -121,7 +121,7 @@ UIState StateMainMenu::Update( )
     }
     
     // returning is different vs normal ui states, so don't use the base method
-    if( ShockInput::GetInput( OptionsBack )->WasReleased( ) )
+    if( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
     {
         mExitUI = 1;
     }

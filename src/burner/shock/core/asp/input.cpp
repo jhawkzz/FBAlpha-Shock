@@ -3,28 +3,31 @@
 
 #include "../../includes.h"
 
-ButtonState Input::mButtonState[ Button_Count ];
-int         Input::mInputFileHandle;
-int         Input::mThreadRunning;
+ASPInput      Input::mASPInputLookup[ ShockButton_Count ];
+ASPInputState Input::mASPInputState[ ASPInput_Count ];
+int           Input::mInputFileHandle;
+int           Input::mThreadRunning;
 
 int Input::Create( )
 {
-	mInputFileHandle = open( SNK_JS_LOCAL_DEVICE, O_RDONLY );
+	mInputFileHandle = open( ASP_INTEGRATED_DEVICE, O_RDONLY );
 	if( mInputFileHandle < 0 )
 	{
-		flushPrintf( "Failed to open SNK_JS_LOCAL_DEVICE\r\n" );
+		flushPrintf( "Failed to open ASP_INTEGRATED_DEVICE\r\n" );
         
         Destroy( );
         return -1;
 	}
     
     // setup all our inputs
-    for( int i = 0; i < Button_Count; i++ )
+    for( int i = 0; i < ASPInput_Count; i++ )
     {
-        mButtonState[ i ].value = 0;
-        pthread_mutex_init( &mButtonState[ i ].mutexLock, NULL );
-        mButtonState[ i ].mutexCreated = 1;
+        mASPInputState[ i ].value = 0;
+        pthread_mutex_init( &mASPInputState[ i ].mutexLock, NULL );
+        mASPInputState[ i ].mutexCreated = 1;
     }
+    
+    CreateLookup( );
 	
     // start the polling thread
 	pthread_t t;
@@ -44,15 +47,15 @@ int Input::Create( )
 
 void Input::Destroy( )
 {
-    for( int i = 0; i < Button_Count; i++ )
+    for( int i = 0; i < ASPInput_Count; i++ )
     {
-        if ( mButtonState[ i ].mutexCreated == 1 )
+        if ( mASPInputState[ i ].mutexCreated == 1 )
         {
-            pthread_mutex_lock( &mButtonState[ i ].mutexLock );
-            pthread_mutex_unlock( &mButtonState[ i ].mutexLock );
-            pthread_mutex_destroy( &mButtonState[ i ].mutexLock );
+            pthread_mutex_lock( &mASPInputState[ i ].mutexLock );
+            pthread_mutex_unlock( &mASPInputState[ i ].mutexLock );
+            pthread_mutex_destroy( &mASPInputState[ i ].mutexLock );
             
-            mButtonState[ i ].mutexCreated = 0;
+            mASPInputState[ i ].mutexCreated = 0;
         }
     }
     
@@ -63,6 +66,28 @@ void Input::Destroy( )
     }
     
     mThreadRunning = 0;
+}
+
+void Input::CreateLookup( )
+{
+    mASPInputLookup[ P1_Joy_Up     ] = ASPInput_P1_Joy_Up;
+    mASPInputLookup[ P1_Joy_Left   ] = ASPInput_P1_Joy_Left;
+    mASPInputLookup[ P1_Joy_Right  ] = ASPInput_P1_Joy_Right;
+    mASPInputLookup[ P1_Joy_Down   ] = ASPInput_P1_Joy_Down;
+    
+    mASPInputLookup[ P1_Button_1   ] = ASPInput_YellowB;
+    mASPInputLookup[ P1_Button_2   ] = ASPInput_RedA;
+    mASPInputLookup[ P1_Button_3   ] = ASPInput_GreenC;
+    mASPInputLookup[ P1_Button_4   ] = ASPInput_TopGray;
+    mASPInputLookup[ P1_Button_5   ] = ASPInput_BlueD;
+    mASPInputLookup[ P1_Button_6   ] = ASPInput_BotGray;
+    
+    mASPInputLookup[ P1_InsertCoin ] = ASPInput_Options;
+    mASPInputLookup[ P1_Start      ] = ASPInput_Start;
+    
+    // For testing only, dont leave this.
+    mASPInputLookup[ P2_Start      ] = ASPInput_TopWhite;
+    mASPInputLookup[ P2_InsertCoin ] = ASPInput_Select;
 }
 
 void *Input::PollInput_ThreadProc(void *data)
@@ -102,27 +127,27 @@ void Input::ReadInputs( )
 	}
     
     // guard against inputs out of range
-    if( input.code >= INPUT_CODE_BASE_VALUE && input.code < INPUT_CODE_HIGH_VALUE )
+    if( input.code >= ASPInput_P1_Joy_Up && input.code < ASPInput_Count )
     {
-        int buttonIndex = INPUT_CODE_TO_BUTTON_INDEX(input.code);
-        
         // quickly lock, set the value, release
-        pthread_mutex_lock( &mButtonState[ buttonIndex ].mutexLock );
+        pthread_mutex_lock( &mASPInputState[ input.code ].mutexLock );
         
-        mButtonState[ buttonIndex ].value = input.value;
+        mASPInputState[ input.code ].value = input.value;
         
-        pthread_mutex_unlock( &mButtonState[ buttonIndex ].mutexLock );
+        pthread_mutex_unlock( &mASPInputState[ input.code ].mutexLock );
     }
 }
 
-int Input::GetValueForInput( InputCodeToButtonMapping input )
+int Input::GetValueForButton( ShockButton shockButton )
 {
     // quickly lock around the value and copy it out
     int inputVal = 0;
     
-    pthread_mutex_lock( &mButtonState[ input ].mutexLock );
-    inputVal = mButtonState[ input ].value;
-    pthread_mutex_unlock( &mButtonState[ input ].mutexLock );
+    ASPInput input = mASPInputLookup[ shockButton ];
+    
+    pthread_mutex_lock( &mASPInputState[ input ].mutexLock );
+    inputVal = mASPInputState[ input ].value;
+    pthread_mutex_unlock( &mASPInputState[ input ].mutexLock );
     
     return inputVal;
 }

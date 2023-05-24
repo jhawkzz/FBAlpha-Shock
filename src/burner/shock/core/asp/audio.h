@@ -4,13 +4,8 @@
 #ifndef AUDIO_H_
 #define AUDIO_H_
 
-#define SPEAKER_MAX_VALUE         (40) // Max value to scale audio by. Any louder could damage the speakers
-#define VOLUME_KNOB_MAX_VALUE     (82) // Volume knob is 82 - 0 reversed (all the way left is 82, all the way right is 0)
-
-// The path to the sound device and volume knob on the MVSX Linux OS.
-// We read the value at VOLUME_DEVICE and multiply the sound we write to SOUND_DEVICE to effect volume.
+// The path to the sound device on the ASP Linux OS.
 #define SOUND_DEVICE	          "/dev/snd/actsnd"
-#define VOLUME_DEVICE             "/sys/class/volume/value"
 
 #define SNDRV_OUTMODE             (0xFFFF0000)
 #define SNDRV_OUTMODE_SPEAKER     (0)
@@ -28,21 +23,16 @@
 #define SNDRV_SPEAKER_OFF         (0)
 #define SNDRV_SPEAKER_ON          (1) //Any non-zero value works
 
-#define MAKE_STEREO_VOLUME(a)     ((a) << 8 | (a))
-
 class Audio
 {
 public:
     static int  Create( );
     static void Destroy( );
     static void PlayBuffer( char *pBuffer, int bytes );
-    static int  GetVolume( );
     static int  SetBufferLength( int samplesPerFrame );
     
 private:
     static void *UpdateAudio_ThreadProc( void *pArg );
-    static void *UpdateVolume_ThreadProc( void *pArg );
-    static void  CreateVolumeLookup( );
 
 private:
     static int             mSamplesPerTick;
@@ -53,10 +43,6 @@ private:
     static pthread_mutex_t mDspMutexLock;
     static int             mDspMutexCreated;
     static int             mDspThreadRunning;
-    
-    static int             mVolume; //No need for mutex, we only read across threads, no writing.
-    static int             mVolumeThreadRunning;
-    static UINT8           mVolumeLookup[ SPEAKER_MAX_VALUE + 1 ];
 };
 
 #endif

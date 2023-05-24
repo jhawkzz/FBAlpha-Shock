@@ -36,7 +36,6 @@ public:
     static int  Create( );
     static void Destroy( );
     static void PlayBuffer( char *pBuffer, int bytes );
-    static int  GetVolume( );
     static int  SetBufferLength( int samplesPerFrame );
     
 private:

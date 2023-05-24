@@ -198,11 +198,6 @@ void Audio::PlayBuffer( char *pBuffer, int bytes )
     pthread_mutex_unlock( &mDspMutexLock );
 }
 
-int Audio::GetVolume( )
-{
-    return mVolume;
-}
-
 int Audio::SetBufferLength( int samplesPerFrame )
 {
     mSamplesPerTick = samplesPerFrame;

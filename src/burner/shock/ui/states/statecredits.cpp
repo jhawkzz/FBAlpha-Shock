@@ -56,7 +56,7 @@ UIState StateCredits::Update( )
         mMenuSelection = 1;
     }
     
-    if( ShockInput::GetInput( P1_Red )->WasReleased() )
+    if( ShockInput::GetInput( P1_Button_1 )->WasReleased() )
     {
         if( mMenuSelection == 0 )
         {

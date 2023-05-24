@@ -8,42 +8,77 @@
 #define KB_LOCAL_DEVICE     "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
 #define INPUT_POLL_TIMEOUT  (300)
 
-enum InputCodeToButtonMapping
+enum LubuntuInput
 {
-    P1_Start     = 2, // Keyboard 1
-    OptionsBack  = 6, // Keyboard 5
-    SelectGame   = 7, // Keyboard 6
-    P2_Start     = 3, // Keyboard 2
+    LubuntuInput_KB_1      = 2,
+    LubuntuInput_KB_2      = 3,
+    LubuntuInput_KB_5      = 6,
+    LubuntuInput_KB_6      = 7,
     
-    P2_Yellow    = 21, // Keyboard Y
-    P2_Green     = 22, // Keyboard U
-    P2_Blue      = 23, // Keyboard I
+    LubuntuInput_KB_Y      = 21,
+    LubuntuInput_KB_U      = 22,
+    LubuntuInput_KB_I      = 23,
     
-    P1_Yellow    = 30, // Keyboard A
-    P1_Green     = 31, // Keyboard S
-    P1_Blue      = 32, // Keyboard D
+    LubuntuInput_KB_A      = 30,
+    LubuntuInput_KB_S      = 31,
+    LubuntuInput_KB_D      = 32,
     
-    P2_Red       = 35, // Keyboard H
-    P2_MidBot    = 36, // Keyboard J
-    P2_RightBot  = 37, // Keyboard K
+    LubuntuInput_KB_H      = 35,
+    LubuntuInput_KB_J      = 36,
+    LubuntuInput_KB_K      = 37,
     
-    P1_Red       = 44, // Keyboard Z
-    P1_MidBot    = 45, // Keyboard X
-    P1_RightBot  = 46, // Keyboard C
+    LubuntuInput_KB_Z      = 44,
+    LubuntuInput_KB_X      = 45,
+    LubuntuInput_KB_C      = 46,
     
-    P1_Joy_Up    = 103, // Keyboard Up Arrow
-    P2_Joy_Up    = 102, // Keyboard Home
-    P1_Joy_Right = 106, // Keyboard Right Arrow
-    P2_Joy_Down  = 107, // Keyboard End
-    P1_Joy_Down  = 108, // Keyboard Down Arrow
-    P1_Joy_Left  = 105, // Keyboard Left Arrow
-    P2_Joy_Right = 109, // Keyboard PgDn
-    P2_Joy_Left  = 111, // Keyboard Delete
+    LubuntuInput_KB_Home   = 102,
+    LubuntuInput_KB_Up     = 103,
+    LubuntuInput_KB_Left   = 105,
+    LubuntuInput_KB_Right  = 106,
+    LubuntuInput_KB_End    = 107,
+    LubuntuInput_KB_Down   = 108,
+    LubuntuInput_KB_PgDn   = 109,
+    LubuntuInput_KB_Delete = 111,
     
-    Button_Count
+    LubuntuInput_Count     = 112
 };
 
-struct ButtonState
+enum ShockButton
+{
+    P1_Joy_Up     = 0,
+    P1_Joy_Left   = 1,
+    P1_Joy_Right  = 2,
+    P1_Joy_Down   = 3,
+    
+    P1_InsertCoin = 4,
+    P1_Start      = 5,
+    
+    P1_Button_1   = 6,
+    P1_Button_2   = 7,
+    P1_Button_3   = 8,
+    P1_Button_4   = 9,
+    P1_Button_5   = 10,
+    P1_Button_6   = 11,
+    
+    P2_Joy_Up     = 12,
+    P2_Joy_Left   = 13,
+    P2_Joy_Right  = 14,
+    P2_Joy_Down   = 15,
+    
+    P2_InsertCoin = 16,
+    P2_Start      = 17,
+    
+    P2_Button_1   = 18,
+    P2_Button_2   = 19,
+    P2_Button_3   = 20,
+    P2_Button_4   = 21,
+    P2_Button_5   = 22,
+    P2_Button_6   = 23,
+    
+    ShockButton_Count  = 24
+};
+
+struct LubuntuInputState
 {
     int             mutexCreated;
     pthread_mutex_t mutexLock;
@@ -55,15 +90,17 @@ class Input
 public:
     static int  Create( );
     static void Destroy( );
-    static int  GetValueForInput( InputCodeToButtonMapping input );
+    static int  GetValueForButton( ShockButton shockButton );
     
 private:
+    static void  CreateLookup( );
     static void *PollInput_ThreadProc( void *);
     static void  ReadInputs( );
 
-    static ButtonState mButtonState[ Button_Count ];
-    static int         mInputFileHandle;
-    static int         mThreadRunning; // No need for a mutex, we just use it to kill the thread
+    static LubuntuInput      mLubuntuInputLookup[ ShockButton_Count ];
+    static LubuntuInputState mLubuntuInputState[ LubuntuInput_Count ];
+    static int               mInputFileHandle;
+    static int               mThreadRunning; // No need for a mutex, we just use it to kill the thread
 };
 
 #endif

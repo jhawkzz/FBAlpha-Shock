@@ -188,9 +188,9 @@ void ShockConfig::SaveFireInputs( const char *pRomsetName, SavedFireInput *pFire
     {
         strcpy( pInputForWrite->romsetName, pRomsetName );
         
-        memcpy( pInputForWrite->osInputToFireButtonLookup, 
-                pFireInputs->osInputToFireButtonLookup, 
-                sizeof( pInputForWrite->osInputToFireButtonLookup ) );
+        memcpy( pInputForWrite->fireButtonLookup, 
+                pFireInputs->fireButtonLookup, 
+                sizeof( pInputForWrite->fireButtonLookup ) );
     }
     else
     {

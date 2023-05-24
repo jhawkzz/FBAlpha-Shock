@@ -4,12 +4,12 @@
 #ifndef SHOCKPLAYERINPUT_H_
 #define SHOCKPLAYERINPUT_H_
 
-struct OSInputToBurnInput
+struct ShockButtonToBurnInput
 {
-    InputCodeToButtonMapping osInputToJoyLookup[ GameInp_Joy_Count ];
-    InputCodeToButtonMapping osInputToFireButtonLookup[ GameInp_Fire_Count ];
-    InputCodeToButtonMapping osInputToCoinLookup;
-    InputCodeToButtonMapping osInputToStartLookup;
+    ShockButton joyLookup[ GameInp_Joy_Count ];
+    ShockButton fireButtonLookup[ GameInp_Fire_Count ];
+    ShockButton coinLookup;
+    ShockButton startLookup;
 };
 
 class ShockPlayerInput
@@ -23,15 +23,15 @@ public:
     
     static void Update( );
     
-    static OSInputToBurnInput *GetInputMapForPlayer( int index );
+    static ShockButtonToBurnInput *GetInputMapForPlayer( int index );
     
 private:
     static void SetGameDefaults_SNKNeoGeo( );
     static void SetGameDefaults_Capcom( );
 
 private:
-    static OSInputToBurnInput mOSInputToBurnInput[ MAX_SHOCK_PLAYERS ];
-    static int                mHardwareCode;
+    static ShockButtonToBurnInput mShockButtonToBurnInput[ MAX_SHOCK_PLAYERS ];
+    static int                    mHardwareCode;
 };
 
 #endif

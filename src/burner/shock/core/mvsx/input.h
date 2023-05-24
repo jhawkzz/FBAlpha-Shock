@@ -6,84 +6,80 @@
 
 // The path to the input device on the MVSX Linux OS. 
 // This represents the entire control deck (both players, all buttons)
-#define SNK_JS_LOCAL_DEVICE "/dev/input/event2"
+#define MVSX_INTEGRATED_DEVICE "/dev/input/event2"
 #define INPUT_POLL_TIMEOUT  (300)
 
-/*Mappings
-Value 0: Released
-Value 1: Pressed
-
-T: Is always 1
-
-Weirdly these are not sequential at all. (there is no 309, for example)
-
-316 = P1 Joy Up
-312 = P1 Joy Left
-313 = P1 Joy Down
-314 = P1 Joy Right
-308 = P1 Start
-328 = P1 Red
-307 = P1 Yellow
-304 = P1 Green
-311 = P1 Blue
-315 = P1 Inner Black (Orig White, middle button bottom row)
-310 = P1 Outer Black (Orig White, outer button bottom row)
-
-305 = Options/Back
-322 = Select Game
-
-324 = P2 Joy Up
-323 = P2 Joy Left
-325 = P2 Joy Down
-321 = P2 Joy Right
-320 = P2 Start
-329 = P2 Red
-330 = P2 Yellow
-333 = P2 Green
-332 = P2 Blue
-327 = P2 Inner Black (Orig White, middle button bottom row)
-326 = P2 Outer Black (Orig White, middle button bottom row)*/
-
-#define INPUT_CODE_BASE_VALUE (300)
-#define INPUT_CODE_HIGH_VALUE (334)
-
-#define INPUT_CODE_TO_BUTTON_INDEX(a) (a-INPUT_CODE_BASE_VALUE)
-
-// NOTE: All of these buttons actually start at 
-// 300 (304, 305, etc.)
-// To save on memory/cpu, we'll remove the 300 base
-// so we can create an array directly from this.
-enum InputCodeToButtonMapping
+enum MVSXInput
 {
-    P1_Green     = 4,
-    OptionsBack  = 5,
-    P1_Yellow    = 7,
-    P1_Start     = 8,
-    P1_RightBot  = 10, //(Rightmost button, bottom row)
-    P1_Blue      = 11,
-    P1_Joy_Left  = 12,
-    P1_Joy_Down  = 13,
-    P1_Joy_Right = 14,
-    P1_MidBot    = 15, //(Middle button, bottom row)
-    P1_Joy_Up    = 16,
-    P2_Start     = 20,
-    P2_Joy_Right = 21,
-    SelectGame   = 22,
-    P2_Joy_Left  = 23,
-    P2_Joy_Up    = 24,
-    P2_Joy_Down  = 25,
-    P2_RightBot  = 26, //(Rightmost button, bottom row)
-    P2_MidBot    = 27, //(Middle button, bottom row)
-    P1_Red       = 28,
-    P2_Red       = 29,
-    P2_Yellow    = 30,
-    P2_Blue      = 32,
-    P2_Green     = 33,
+    MVSXInput_P1_Green     = 304,
+    MVSXInput_OptionsBack  = 305,
     
-    Button_Count
+    MVSXInput_P1_Yellow    = 307,
+    MVSXInput_P1_Start     = 308,
+    MVSXInput_P1_RightBot  = 310,
+    
+    MVSXInput_P1_Blue      = 311,
+    
+    MVSXInput_P1_Joy_Left  = 312,
+    MVSXInput_P1_Joy_Down  = 313,
+    MVSXInput_P1_Joy_Right = 314,
+    
+    MVSXInput_P1_MidBot    = 315,
+    MVSXInput_P1_Joy_Up    = 316,
+    
+    MVSXInput_P2_Start     = 320,
+    MVSXInput_P2_Joy_Right = 321,
+    MVSXInput_SelectGame   = 322,
+    MVSXInput_P2_Joy_Left  = 323,
+    MVSXInput_P2_Joy_Up    = 324,
+    MVSXInput_P2_Joy_Down  = 325,
+    MVSXInput_P2_RightBot  = 326,
+    MVSXInput_P2_MidBot    = 327,
+    MVSXInput_P1_Red       = 328,
+    MVSXInput_P2_Red       = 329,
+    MVSXInput_P2_Yellow    = 330,
+    MVSXInput_P2_Blue      = 332,
+    MVSXInput_P2_Green     = 333,
+    
+    MVSXInput_Count        = 334
 };
 
-struct ButtonState
+enum ShockButton
+{
+    P1_Joy_Up     = 0,
+    P1_Joy_Left   = 1,
+    P1_Joy_Right  = 2,
+    P1_Joy_Down   = 3,
+    
+    P1_InsertCoin = 4,
+    P1_Start      = 5,
+    
+    P1_Button_1   = 6,
+    P1_Button_2   = 7,
+    P1_Button_3   = 8,
+    P1_Button_4   = 9,
+    P1_Button_5   = 10,
+    P1_Button_6   = 11,
+    
+    P2_Joy_Up     = 12,
+    P2_Joy_Left   = 13,
+    P2_Joy_Right  = 14,
+    P2_Joy_Down   = 15,
+    
+    P2_InsertCoin = 16,
+    P2_Start      = 17,
+    
+    P2_Button_1   = 18,
+    P2_Button_2   = 19,
+    P2_Button_3   = 20,
+    P2_Button_4   = 21,
+    P2_Button_5   = 22,
+    P2_Button_6   = 23,
+    
+    ShockButton_Count = 24
+};
+
+struct MVSXInputState
 {
     int             mutexCreated;
     pthread_mutex_t mutexLock;
@@ -95,15 +91,17 @@ class Input
 public:
     static int  Create( );
     static void Destroy( );
-    static int  GetValueForInput( InputCodeToButtonMapping input );
+    static int  GetValueForButton( ShockButton shockButton );
     
 private:
+    static void  CreateLookup( );
     static void *PollInput_ThreadProc( void *);
     static void  ReadInputs( );
 
-    static ButtonState mButtonState[ Button_Count ];
-    static int         mInputFileHandle;
-    static int         mThreadRunning; // No need for a mutex, we just use it to kill the thread
+    static MVSXInput      mMVSXInputLookup[ ShockButton_Count ];
+    static MVSXInputState mMVSXInputState[ MVSXInput_Count ];
+    static int            mInputFileHandle;
+    static int            mThreadRunning; // No need for a mutex, we just use it to kill the thread
 };
 
 #endif

@@ -44,10 +44,10 @@ public:
     
     static void Update( );
     
-    static InputControl *GetInput( InputCodeToButtonMapping button );
+    static InputControl *GetInput( ShockButton button );
     
 private:
-    static InputControl mInputState[ Button_Count ];
+    static InputControl mInputState[ ShockButton_Count ];
 };
 
 #endif
