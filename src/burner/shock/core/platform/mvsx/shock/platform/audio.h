@@ -33,6 +33,7 @@
 class AudioImpl
 {
 protected:
+    static int GetVolume( );
     static int SetBufferLength( int samplesPerFrame );
     static void *UpdateAudio_ThreadProc( void *pArg );
     static void *UpdateVolume_ThreadProc( void *pArg );
