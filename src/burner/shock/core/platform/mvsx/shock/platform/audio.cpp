@@ -296,7 +296,7 @@ void *AudioImpl::UpdateVolume_ThreadProc( void *pArg )
     }
 }
 
-void Audio::ImplCreateVolumeLookup( )
+void AudioImpl::CreateVolumeLookup( )
 {
     // the first half of the dial is just too low
     // so scale things up
