@@ -4,6 +4,8 @@
 #ifndef FRAMEBUFFER_IMPL_H_
 #define FRAMEBUFFER_IMPL_H_
 
+#include "shock/systems.h"
+
 // the amount of bytes from the base frame buffer for the start of the double buffer
 #define FB_DOUBLE_BUFFER_OFFSET_BYTES (PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH)
 

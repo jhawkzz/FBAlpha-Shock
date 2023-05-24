@@ -2,7 +2,6 @@
 // See License.md for license
 
 #include "shock/core/framebuffer.h"
-#include "shock/systems.h"
 
 int   FrameBufferImpl::mFrameBufferHandle;
 int   FrameBufferImpl::mFrameBufferBytes;
