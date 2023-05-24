@@ -1,13 +1,13 @@
 function set_location()
-   location "../projects/lubuntu"
+   location "../projects/asp"
 end
 
 function set_targetdir()
-   targetdir "../projects/lubuntu/bin/%{cfg.buildcfg}"
+   targetdir "../projects/asp/bin/%{cfg.buildcfg}"
 end
 
 function set_defines()
-   defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "LUBUNTU" }
+   defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "ASP" }
 end
 
 function set_kind()
@@ -15,7 +15,7 @@ function set_kind()
 end
 
 function set_architecture()
-   architecture "x86"
+   architecture "ARM"
 end
 
 function set_system()
@@ -46,7 +46,7 @@ end
 function set_additional_includedirs()
    includedirs
    {
-      "../src/burner/shock/core/platform/lubuntu",
+      "../src/burner/shock/core/platform/asp",
       "../src/burner/shock/core/platform/posix",
    }
 end
@@ -54,9 +54,9 @@ end
 function set_exclude_files()
    local excludedirs = 
    {
-         "../src/burner/shock/core/platform/mvsx",
+         "../src/burner/shock/core/platform/lubuntu",
          "../src/burner/shock/core/platform/windows",
-         "../src/burner/shock/core/platform/asp",
+         "../src/burner/shock/core/platform/mvsx",
    }
 
    for _, excludedir in ipairs(excludedirs) do

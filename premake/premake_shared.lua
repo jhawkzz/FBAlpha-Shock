@@ -1,49 +1,32 @@
 workspace "FBAlpha-Shock"
-   for _, config in ipairs(build.configs) do
-      configurations { config }
-   end
-
-   for _, platform in ipairs(build.platforms) do
-      platforms { platform }
-   end
    systemversion "latest"
+   set_configurations()
    set_location()
+   set_architecture()
+   set_system()
    
    filter { "platforms:asp" }
       architecture "ARM"
       system "linux"
-   filter { "platforms:lubuntu" }
-      architecture "x86"
-      system "linux"
    filter { "platforms:mvsx" }
       architecture "ARM"
       system "linux"
-   filter { "platforms:Win64" }
-      architecture "x64"
-      system "windows"
 
 project "FBAlpha-Shock"
    language "C++"
    characterset ("MBCS")
    set_location()
+   set_targetdir()
+   set_defines()
+   set_kind()
    
    filter { "platforms:asp" }
       kind "ConsoleApp"
-      targetdir "../projects/asp/bin/%{cfg.buildcfg}"
       defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "ASP" }
-   filter { "platforms:lubuntu" }
-      kind "ConsoleApp"
-      targetdir "../projects/lubuntu/bin/%{cfg.buildcfg}"
-      defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "LUBUNTU" }
    filter { "platforms:mvsx" }
       kind "ConsoleApp"
-      targetdir "../projects/mvsx/bin/%{cfg.buildcfg}"
       defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "MVSX" }
-   filter { "platforms:Win64" }
-      kind "WindowedApp"
-      targetdir "../projects/win64/bin/%{cfg.buildcfg}"
-      defines { "INLINE static inline", "SH2_INLINE static inline", "LSB_FIRST", "BUILD_WIN32" }
-
+   
    filter {}
 
    -- Set the directories containing source files
@@ -90,33 +73,16 @@ project "FBAlpha-Shock"
       files { sourceDir .. "/**.cpp", sourceDir .. "/**.c", sourceDir .. "/**.h" }
    end
 
-   for _, option in ipairs(build.buildoptions) do
-      buildoptions { option }
-   end
+   set_buildoptions()
+   set_links()
+   set_additional_includedirs()
 
-   for _, link in ipairs(build.links) do
-      links { link }
-   end
-
-   -- Remove the excluded directories from the list of source files
-   for _, includedir in ipairs(build.includedirs) do
-      includedirs { includedir }
-   end
-
-   -- Remove the excluded directories from the list of source files
-   for _, excludedir in ipairs(build.excludedirs) do
-      removefiles { excludedir .. "/**.cpp", excludedir .. "/**.c", excludedir .. "/**.h" }
-   end
+   set_exclude_files()
 
    removefiles {
       "../src/cpu/a68k/fba_make68k.c",
       "../src/cpu/a68k/mips/fba_make68k.c"
    }
-
-   -- Remove the excluded directories from the list of source files
-   for _, file in ipairs(build.excludefiles) do
-      removefiles { file }
-   end
 
    -- Create the folder structure in Visual Studio
    filter "files:**.h or **.hpp"
