@@ -6,7 +6,7 @@
 class ThreadImpl
 {
 public:
-   virtual ~ThreadImpl();
+   virtual ~ThreadImpl() {}
 
    pthread_t mThread = -1;
 };
