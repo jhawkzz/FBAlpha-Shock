@@ -6,11 +6,11 @@ workspace "FBAlpha-Shock"
    for _, platform in ipairs(build.platforms) do
       platforms { platform }
    end
-   
    systemversion "latest"
-   location "../projects"
+   --location "../projects"
+   set_location()
    filter { "platforms:asp" }
-      architecture "arm"
+      architecture "ARM"
       system "linux"
    filter { "platforms:lubuntu" }
       architecture "x86"
@@ -25,7 +25,8 @@ workspace "FBAlpha-Shock"
 project "FBAlpha-Shock"
    language "C++"
    characterset ("MBCS")
-   location "../projects"
+   set_location()
+   --location "../projects"
    filter { "platforms:asp" }
       kind "ConsoleApp"
       targetdir "../projects/asp/bin/%{cfg.buildcfg}"

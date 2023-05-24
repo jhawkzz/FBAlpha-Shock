@@ -1,14 +1,14 @@
 function set_location()
-   location "../projects/lubuntu"
+   location "../projects/mvsx"
 end
 
 build = 
 {
-   platforms = { "lubuntu" },
+   platforms = { "mvsx" },
    configs = { "Debug", "Release" },
    excludedirs = 
    {
-         "../src/burner/shock/core/platform/mvsx",
+         "../src/burner/shock/core/platform/lubuntu",
          "../src/burner/shock/core/platform/windows",
          "../src/burner/shock/core/platform/asp",
    },
@@ -20,7 +20,7 @@ build =
 
    includedirs = 
    {
-      "../src/burner/shock/core/platform/lubuntu",
+      "../src/burner/shock/core/platform/mvsx",
       "../src/burner/shock/core/platform/posix",
    },
    

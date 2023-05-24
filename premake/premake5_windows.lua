@@ -1,3 +1,7 @@
+function set_location()
+   location "../projects/windows"
+end
+
 build = 
 {
    platforms = { "Win64" },
