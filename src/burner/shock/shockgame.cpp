@@ -3,6 +3,10 @@
 
 #include "shock/includes.h"
 
+#ifdef MVSX
+   #include "shock/platform/mvsxled.h"
+#endif
+
 int  ShockGame::mGameLoaded;
 char ShockGame::mBurnAudioBuffer[ MAX_AUDIO_BUFFER_BYTES ];
 char ShockGame::mGameBackBuffer[ GAME_BUFFER_WIDTH * GAME_BUFFER_HEIGHT * GAME_BUFFER_BPP ];
