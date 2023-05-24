@@ -3,7 +3,7 @@
 
 #include "shock/platform/core.h"
 
-class Core : public CoreImpl
+class Core : public CoreCore
 {
 public:
    ~Core();

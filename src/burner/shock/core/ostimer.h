@@ -7,7 +7,7 @@
 #include "shock/includes.h"
 #include "shock/platform/ostimer.h"
 
-class OSTimer : public OSTimerImpl
+class OSTimer : public OSTimerCore
 {
 public:
     OSTimer( );

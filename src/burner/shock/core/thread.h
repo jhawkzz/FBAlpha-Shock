@@ -5,7 +5,7 @@ typedef void *(*ShockThreadProc)(void *);
 
 #include "shock/platform/thread.h"
 
-class Thread : public ThreadImpl
+class Thread : public ThreadCore
 {
 public:
     Thread();

@@ -1,13 +1,13 @@
 
 // See License.md for license
 
-#ifndef AUDIO_IMPL_H_
-#define AUDIO_IMPL_H_
+#ifndef AUDIO_CORE_H_
+#define AUDIO_CORE_H_
 
 #define PCM_DEVICE                "default"
 #define MAX_PCM_BUFFER_SIZE_BYTES (1024 * 1024)
 
-class AudioImpl
+class AudioCore
 {
 protected:
     static void *UpdateAudio_ThreadProc( void *pArg );

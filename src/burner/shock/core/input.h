@@ -6,7 +6,7 @@
 
 #include "shock/platform/input.h"
 
-class Input : public InputImpl
+class Input : public InputCore
 {
 public:
     static int  Create( );

@@ -1,10 +1,10 @@
 
 // See License.md for license
 
-#ifndef OSTIMER_IMPL_H_
-#define OSTIMER_IMPL_H_
+#ifndef OSTIMER_CORE_H_
+#define OSTIMER_CORE_H_
 
-class OSTimerImpl
+class OSTimerCore
 {
 protected:
     timespec Diff( timespec start, timespec end );

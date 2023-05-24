@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef FRAMEBUFFER_IMPL_H_
-#define FRAMEBUFFER_IMPL_H_
+#ifndef FRAMEBUFFER_CORE_H_
+#define FRAMEBUFFER_CORE_H_
 
 #include "shock/systems.h"
 
@@ -12,7 +12,7 @@
 //The path to the frame buffer out on the MVSX Linux OS
 #define FB_DEVICE "/dev/graphics/fb0"
 
-class FrameBufferImpl
+class FrameBufferCore
 {
 protected:
     static int    MVSXEnableHCD( );

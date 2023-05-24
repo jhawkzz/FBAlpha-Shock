@@ -1,10 +1,10 @@
 
 // See License.md for license
 
-#ifndef AUDIO_IMPL_H_
-#define AUDIO_IMPL_H_
+#ifndef AUDIO_CORE_H_
+#define AUDIO_CORE_H_
 
-class AudioImpl
+class AudioCore
 {
 };
 

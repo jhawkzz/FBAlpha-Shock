@@ -5,11 +5,11 @@
 #include "shock/defines.h"
 #include "shock/util/util.h"
 
-int   FrameBufferImpl::mFrameBufferHandle;
-int   FrameBufferImpl::mFrameBufferBytes;
-char *FrameBufferImpl::mpFrameBuffer;
-char *FrameBufferImpl::mpBackBuffer;
-fb_var_screeninfo FrameBufferImpl::mVScreenInfo;
+int   FrameBufferCore::mFrameBufferHandle;
+int   FrameBufferCore::mFrameBufferBytes;
+char *FrameBufferCore::mpFrameBuffer;
+char *FrameBufferCore::mpBackBuffer;
+fb_var_screeninfo FrameBufferCore::mVScreenInfo;
 
 int FrameBuffer::Create( )
 {
@@ -189,7 +189,7 @@ void FrameBuffer::Flip( )
     }
 }
 
-int FrameBufferImpl::MVSXEnableHCD( )
+int FrameBufferCore::MVSXEnableHCD( )
 {
     // I have no idea what this is doing - my best guess is
     // ensuring the owl driver is enabled
@@ -206,7 +206,7 @@ int FrameBufferImpl::MVSXEnableHCD( )
     return 0;
 }
 
-void FrameBufferImpl::PrintMode( fb_var_screeninfo *pVScreenInfo )
+void FrameBufferCore::PrintMode( fb_var_screeninfo *pVScreenInfo )
 {
     // taken from https://github.com/brgl/busybox/blob/master/util-linux/fbset.c
 	double drate = 0, hrate = 0, vrate = 0;
@@ -242,7 +242,7 @@ void FrameBufferImpl::PrintMode( fb_var_screeninfo *pVScreenInfo )
             pVScreenInfo->blue.length, pVScreenInfo->blue.offset, pVScreenInfo->transp.length, pVScreenInfo->transp.offset);
 }
 
-void FrameBufferImpl::PrintVScreenInfo( fb_var_screeninfo *pVScreenInfo )
+void FrameBufferCore::PrintVScreenInfo( fb_var_screeninfo *pVScreenInfo )
 {
     flushPrintf( "Variable screen info:\r\n"
                     "xres: %d\r\n"
@@ -299,7 +299,7 @@ void FrameBufferImpl::PrintVScreenInfo( fb_var_screeninfo *pVScreenInfo )
                             pVScreenInfo->vmode );
 }
 
-void FrameBufferImpl::PrintFixedScreenInfo( fb_fix_screeninfo *pFixedScreenInfo )
+void FrameBufferCore::PrintFixedScreenInfo( fb_fix_screeninfo *pFixedScreenInfo )
 {
     flushPrintf("Fixed screen info:\r\n"
                     "id: %s\r\n"

@@ -1,9 +1,9 @@
-#ifndef COREIMPL_H_
-#define COREIMPL_H_
+#ifndef CORE_CORE_H_
+#define CORE_CORE_H_
 
 #include "shock/includes.h"
 
-class CoreImpl
+class CoreCore
 {
 public:
     static void SetWindow(HWND hwnd);

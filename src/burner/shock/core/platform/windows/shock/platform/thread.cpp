@@ -18,7 +18,7 @@ int Thread::Create(ShockThreadProc proc, void* param)
     return mHandle ? 0 : -1;
 }
 
-DWORD WINAPI ThreadImpl::ThreadProc(void* param)
+DWORD WINAPI ThreadCore::ThreadProc(void* param)
 {
     Thread* st = (Thread*) param;
     st->mArgs.proc(st->mArgs.param);

@@ -4,16 +4,16 @@
 #include "shock/includes.h"
 #include "shock/core/audio.h"
 
-int             AudioImpl::mSamplesPerTick;
-char            AudioImpl::mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];
-int             AudioImpl::mDspHandle;
-RingBuffer      AudioImpl::mDspRingBuffer;
-pthread_mutex_t AudioImpl::mDspMutexLock;
-int             AudioImpl::mDspMutexCreated;
-int             AudioImpl::mDspThreadRunning;
-int             AudioImpl::mVolume;
-int             AudioImpl::mVolumeThreadRunning;
-UINT8           AudioImpl::mVolumeLookup[ SPEAKER_MAX_VALUE + 1 ];
+int             AudioCore::mSamplesPerTick;
+char            AudioCore::mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];
+int             AudioCore::mDspHandle;
+RingBuffer      AudioCore::mDspRingBuffer;
+pthread_mutex_t AudioCore::mDspMutexLock;
+int             AudioCore::mDspMutexCreated;
+int             AudioCore::mDspThreadRunning;
+int             AudioCore::mVolume;
+int             AudioCore::mVolumeThreadRunning;
+UINT8           AudioCore::mVolumeLookup[ SPEAKER_MAX_VALUE + 1 ];
 
 int Audio::Create( )
 {
@@ -199,12 +199,12 @@ void Audio::PlayBuffer( char *pBuffer, int bytes )
     pthread_mutex_unlock( &mDspMutexLock );
 }
 
-int AudioImpl::GetVolume( )
+int AudioCore::GetVolume( )
 {
     return mVolume;
 }
 
-int AudioImpl::SetBufferLength( int samplesPerFrame )
+int AudioCore::SetBufferLength( int samplesPerFrame )
 {
     mSamplesPerTick = samplesPerFrame;
     
@@ -222,7 +222,7 @@ int AudioImpl::SetBufferLength( int samplesPerFrame )
     return 0;
 }
 
-void *AudioImpl::UpdateAudio_ThreadProc( void *pArg)
+void *AudioCore::UpdateAudio_ThreadProc( void *pArg)
 {
     mDspThreadRunning = 1;
     
@@ -250,7 +250,7 @@ void *AudioImpl::UpdateAudio_ThreadProc( void *pArg)
     return NULL;
 }
 
-void *AudioImpl::UpdateVolume_ThreadProc( void *pArg )
+void *AudioCore::UpdateVolume_ThreadProc( void *pArg )
 {
     mVolumeThreadRunning = 1;
     
@@ -296,7 +296,7 @@ void *AudioImpl::UpdateVolume_ThreadProc( void *pArg )
     }
 }
 
-void AudioImpl::CreateVolumeLookup( )
+void AudioCore::CreateVolumeLookup( )
 {
     // the first half of the dial is just too low
     // so scale things up

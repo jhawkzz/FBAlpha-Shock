@@ -6,7 +6,7 @@
 
 #include "shock/platform/audio.h"
 
-class Audio : public AudioImpl
+class Audio : public AudioCore
 {
 public:
     static int  Create( );

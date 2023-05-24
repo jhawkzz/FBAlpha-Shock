@@ -1,9 +1,9 @@
-#ifndef THREADIMPL_H_
-#define THREADIMPL_H_
+#ifndef THREAD_CORE_H_
+#define THREAD_CORE_H_
 
 #include "shock/includes.h"
 
-class ThreadImpl
+class ThreadCore
 {
 protected:
     struct ThreadArgs

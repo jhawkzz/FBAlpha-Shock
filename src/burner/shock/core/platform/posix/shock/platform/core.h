@@ -1,7 +1,7 @@
-#ifndef CORE_IMPL_H_
-#define CORE_IMPL_H_
+#ifndef CORE_CORE_H_
+#define CORE_CORE_H_
 
-class CoreImpl
+class CoreCore
 {
 };
 

@@ -6,7 +6,7 @@
 
 #include "shock/platform/framebuffer.h"
 
-class FrameBuffer : public FrameBufferImpl
+class FrameBuffer : public FrameBufferCore
 {
 public:
     static int  Create( );

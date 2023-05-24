@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef INPUT_IMPL_H_
-#define INPUT_IMPL_H_
+#ifndef INPUT_CORE_H_
+#define INPUT_CORE_H_
 
 #include "shock/systems.h"
 
@@ -87,7 +87,7 @@ struct LubuntuInputState
     int             value; // This is the action (0 is released, 1 is down)
 };
 
-class InputImpl
+class InputCore
 {
 private:
     static void  CreateLookup( );

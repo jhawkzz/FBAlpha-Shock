@@ -4,10 +4,10 @@
 #include "shock/core/input.h"
 #include "shock/util/util.h"
 
-MVSXInput      Input::mMVSXInputLookup[ ShockButton_Count ];
-MVSXInputState Input::mMVSXInputState[ MVSXInput_Count ];
-int            Input::mInputFileHandle;
-int            Input::mThreadRunning;
+MVSXInput      InputCore::mMVSXInputLookup[ ShockButton_Count ];
+MVSXInputState InputCore::mMVSXInputState[ MVSXInput_Count ];
+int            InputCore::mInputFileHandle;
+int            InputCore::mThreadRunning;
 
 int Input::Create( )
 {
@@ -69,7 +69,6 @@ void Input::Destroy( )
     mThreadRunning = 0;
 }
 
-<<<<<<< HEAD
 void Input::CreateLookup( )
 {
     mMVSXInputLookup[ P1_Joy_Up     ] = MVSXInput_P1_Joy_Up;
@@ -104,10 +103,7 @@ void Input::CreateLookup( )
     mMVSXInputLookup[ P2_Start      ] = MVSXInput_P2_Start;
 }
 
-void *Input::PollInput_ThreadProc(void *data)
-=======
-void *InputImpl::PollInput_ThreadProc(void *data)
->>>>>>> 29c723e (mvsx)
+void *InputCore::PollInput_ThreadProc(void *data)
 {
     mThreadRunning = 1;
 	
@@ -133,7 +129,7 @@ void *InputImpl::PollInput_ThreadProc(void *data)
     return NULL;
 }
 
-void InputImpl::ReadInputs( )
+void InputCore::ReadInputs( )
 {
 	input_event input;
 	int ret = read( mInputFileHandle, &input, sizeof( input_event ) );

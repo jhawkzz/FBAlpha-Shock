@@ -3,10 +3,10 @@
 
 #include "shock/core/framebuffer.h"
 
-HWND FrameBufferImpl::mHwnd;
-HBITMAP FrameBufferImpl::mHbitmap;
-UINT* FrameBufferImpl::mpFrontBuffer;
-short FrameBufferImpl::mBackBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
+HWND FrameBufferCore::mHwnd;
+HBITMAP FrameBufferCore::mHbitmap;
+UINT* FrameBufferCore::mpFrontBuffer;
+short FrameBufferCore::mBackBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
 
 int FrameBuffer::Create( )
 {   
@@ -73,12 +73,12 @@ void FrameBuffer::Flip( )
     RedrawWindow(mHwnd, NULL, NULL, RDW_UPDATENOW);
 }
 
-void FrameBufferImpl::SetWindow(HWND hwnd)
+void FrameBufferCore::SetWindow(HWND hwnd)
 {
     mHwnd = hwnd;
 }
 
-void FrameBufferImpl::Blit()
+void FrameBufferCore::Blit()
 {
     if (!mHwnd)
         return;

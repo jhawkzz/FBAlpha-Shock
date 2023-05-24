@@ -1,12 +1,12 @@
 
 // See License.md for license
 
-#ifndef FRAMEBUFFER_IMPL_H_
-#define FRAMEBUFFER_IMPL_H_
+#ifndef FRAMEBUFFER_CORE_H_
+#define FRAMEBUFFER_CORE_H_
 
 #include "shock/includes.h"
 
-class FrameBufferImpl
+class FrameBufferCore
 {
 public:
     static void SetWindow(HWND hwnd);

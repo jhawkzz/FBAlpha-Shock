@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef INPUT_IMPL_H_
-#define INPUT_IMPL_H_
+#ifndef INPUT_CORE_H_
+#define INPUT_CORE_H_
 
 enum InputCodeToButtonMapping
 {
@@ -39,7 +39,7 @@ enum InputCodeToButtonMapping
     Button_Count
 };
 
-class InputImpl
+class InputCore
 {
 public:
 };

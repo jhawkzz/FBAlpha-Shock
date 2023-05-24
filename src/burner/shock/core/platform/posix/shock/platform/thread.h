@@ -1,12 +1,12 @@
-#ifndef THREAD_IMPL_H_
-#define THREAD_IMPL_H_
+#ifndef THREAD_CORE_H_
+#define THREAD_CORE_H_
 
 #include "shock/systems.h"
 
-class ThreadImpl
+class ThreadCore
 {
 public:
-   virtual ~ThreadImpl() {}
+   virtual ~ThreadCore() {}
 
    pthread_t mThread = -1;
 };
