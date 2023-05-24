@@ -3,6 +3,10 @@
 
 #include "shock/includes.h"
 
+#ifdef MVSX
+   #include "shock/platform/mvsxled.h"
+#endif
+
 ShockButtonToBurnInput ShockPlayerInput::mShockButtonToBurnInput[ MAX_SHOCK_PLAYERS ];
 int                    ShockPlayerInput::mHardwareCode;
 
