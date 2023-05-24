@@ -240,6 +240,8 @@ int StateButtonConfig::GetPrevButtonInput( ShockButton buttonIndex )
     
     int prevIndex = buttonIndex - 1;
     if( prevIndex < 0 ) prevIndex = ShockButton_Count - 1;
+    
+    return prevIndex;
 }
 
 int StateButtonConfig::GetNextButtonInput( ShockButton buttonIndex )

@@ -4,39 +4,39 @@
 #ifndef INPUT_H_
 #define INPUT_H_
 
-enum InputCodeToButtonMapping
+enum ShockButton
 {
-    P1_Start,
-    OptionsBack,
-    SelectGame,
-    P2_Start,
+    P1_Joy_Up = 0,
+    P1_Joy_Left = 1,
+    P1_Joy_Right = 2,
+    P1_Joy_Down = 3,
 
-    P2_Yellow,
-    P2_Green,
-    P2_Blue,
+    P1_InsertCoin = 4,
+    P1_Start = 5,
 
-    P1_Yellow,
-    P1_Green,
-    P1_Blue,
+    P1_Button_1 = 6,
+    P1_Button_2 = 7,
+    P1_Button_3 = 8,
+    P1_Button_4 = 9,
+    P1_Button_5 = 10,
+    P1_Button_6 = 11,
 
-    P2_Red,
-    P2_MidBot,
-    P2_RightBot,
+    P2_Joy_Up = 12,
+    P2_Joy_Left = 13,
+    P2_Joy_Right = 14,
+    P2_Joy_Down = 15,
 
-    P1_Red,
-    P1_MidBot,
-    P1_RightBot,
+    P2_InsertCoin = 16,
+    P2_Start = 17,
 
-    P1_Joy_Up,
-    P2_Joy_Up ,
-    P1_Joy_Right,
-    P2_Joy_Down,
-    P1_Joy_Down,
-    P1_Joy_Left,
-    P2_Joy_Right,
-    P2_Joy_Left,
+    P2_Button_1 = 18,
+    P2_Button_2 = 19,
+    P2_Button_3 = 20,
+    P2_Button_4 = 21,
+    P2_Button_5 = 22,
+    P2_Button_6 = 23,
 
-    Button_Count
+    ShockButton_Count = 24
 };
 
 class Input
@@ -44,7 +44,7 @@ class Input
 public:
     static int  Create( );
     static void Destroy( );
-    static int  GetValueForInput( InputCodeToButtonMapping input );
+    static int  GetValueForButton( ShockButton shockButton );
 };
 
 #endif
