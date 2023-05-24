@@ -717,7 +717,7 @@ GENERATED += $(OBJDIR)/neogeo.o
 GENERATED += $(OBJDIR)/nes_apu.o
 GENERATED += $(OBJDIR)/nmk004.o
 GENERATED += $(OBJDIR)/nmk112.o
-GENERATED += $(OBJDIR)/ostimer_core.o
+GENERATED += $(OBJDIR)/ostimer.o
 GENERATED += $(OBJDIR)/pandora.o
 GENERATED += $(OBJDIR)/pc080sn.o
 GENERATED += $(OBJDIR)/pc090oj.o
@@ -1527,7 +1527,7 @@ OBJECTS += $(OBJDIR)/neogeo.o
 OBJECTS += $(OBJDIR)/nes_apu.o
 OBJECTS += $(OBJDIR)/nmk004.o
 OBJECTS += $(OBJDIR)/nmk112.o
-OBJECTS += $(OBJDIR)/ostimer_core.o
+OBJECTS += $(OBJDIR)/ostimer.o
 OBJECTS += $(OBJDIR)/pandora.o
 OBJECTS += $(OBJDIR)/pc080sn.o
 OBJECTS += $(OBJDIR)/pc090oj.o
@@ -3869,10 +3869,10 @@ $(OBJDIR)/input.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/inpu
 $(OBJDIR)/mvsxled.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/mvsxled.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/ostimer_core.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/ostimer_core.cpp
+$(OBJDIR)/core.o: ../../src/burner/shock/core/platform/posix/shock/platform/core.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/core.o: ../../src/burner/shock/core/platform/posix/shock/platform/core.cpp
+$(OBJDIR)/ostimer.o: ../../src/burner/shock/core/platform/posix/shock/platform/ostimer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/thread.o: ../../src/burner/shock/core/platform/posix/shock/platform/thread.cpp

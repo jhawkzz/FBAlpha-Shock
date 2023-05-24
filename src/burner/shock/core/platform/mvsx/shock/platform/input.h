@@ -1,8 +1,10 @@
 
 // See License.md for license
 
-#ifndef INPUT_H_
-#define INPUT_H_
+#ifndef INPUT_IMPL_H_
+#define INPUT_IMPL_H_
+
+#include "shock/systems.h"
 
 // The path to the input device on the MVSX Linux OS. 
 // This represents the entire control deck (both players, all buttons)
@@ -88,13 +90,7 @@ struct MVSXInputState
 
 class Input
 {
-public:
-    static int  Create( );
-    static void Destroy( );
-    static int  GetValueForButton( ShockButton shockButton );
-    
-private:
-    static void  CreateLookup( );
+protected:
     static void *PollInput_ThreadProc( void *);
     static void  ReadInputs( );
 

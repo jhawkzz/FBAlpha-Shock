@@ -1,18 +1,19 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/includes.h"
+#include "shock/core/audio.h"
 
-int             Audio::mSamplesPerTick;
-char            Audio::mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];
-int             Audio::mDspHandle;
-RingBuffer      Audio::mDspRingBuffer;
-pthread_mutex_t Audio::mDspMutexLock;
-int             Audio::mDspMutexCreated;
-int             Audio::mDspThreadRunning;
-int             Audio::mVolume;
-int             Audio::mVolumeThreadRunning;
-UINT8           Audio::mVolumeLookup[ SPEAKER_MAX_VALUE + 1 ];
+int             AudioImpl::mSamplesPerTick;
+char            AudioImpl::mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];
+int             AudioImpl::mDspHandle;
+RingBuffer      AudioImpl::mDspRingBuffer;
+pthread_mutex_t AudioImpl::mDspMutexLock;
+int             AudioImpl::mDspMutexCreated;
+int             AudioImpl::mDspThreadRunning;
+int             AudioImpl::mVolume;
+int             AudioImpl::mVolumeThreadRunning;
+UINT8           AudioImpl::mVolumeLookup[ SPEAKER_MAX_VALUE + 1 ];
 
 int Audio::Create( )
 {
@@ -216,7 +217,7 @@ int Audio::SetBufferLength( int samplesPerFrame )
     return 0;
 }
 
-void *Audio::UpdateAudio_ThreadProc( void *pArg)
+void *AudioImpl::UpdateAudio_ThreadProc( void *pArg)
 {
     mDspThreadRunning = 1;
     
@@ -244,7 +245,7 @@ void *Audio::UpdateAudio_ThreadProc( void *pArg)
     return NULL;
 }
 
-void *Audio::UpdateVolume_ThreadProc( void *pArg )
+void *AudioImpl::UpdateVolume_ThreadProc( void *pArg )
 {
     mVolumeThreadRunning = 1;
     
@@ -290,7 +291,7 @@ void *Audio::UpdateVolume_ThreadProc( void *pArg )
     }
 }
 
-void Audio::CreateVolumeLookup( )
+void Audio::ImplCreateVolumeLookup( )
 {
     // the first half of the dial is just too low
     // so scale things up

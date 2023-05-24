@@ -3864,10 +3864,10 @@ $(OBJDIR)/framebuffer.o: ../../src/burner/shock/core/platform/lubuntu/shock/plat
 $(OBJDIR)/input.o: ../../src/burner/shock/core/platform/lubuntu/shock/platform/input.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/ostimer.o: ../../src/burner/shock/core/platform/lubuntu/shock/platform/ostimer.cpp
+$(OBJDIR)/core.o: ../../src/burner/shock/core/platform/posix/shock/platform/core.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/core.o: ../../src/burner/shock/core/platform/posix/shock/platform/core.cpp
+$(OBJDIR)/ostimer.o: ../../src/burner/shock/core/platform/posix/shock/platform/ostimer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/thread.o: ../../src/burner/shock/core/platform/posix/shock/platform/thread.cpp

@@ -1,7 +1,8 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/core/input.h"
+#include "shock/util/util.h"
 
 MVSXInput      Input::mMVSXInputLookup[ ShockButton_Count ];
 MVSXInputState Input::mMVSXInputState[ MVSXInput_Count ];
@@ -68,6 +69,7 @@ void Input::Destroy( )
     mThreadRunning = 0;
 }
 
+<<<<<<< HEAD
 void Input::CreateLookup( )
 {
     mMVSXInputLookup[ P1_Joy_Up     ] = MVSXInput_P1_Joy_Up;
@@ -103,6 +105,9 @@ void Input::CreateLookup( )
 }
 
 void *Input::PollInput_ThreadProc(void *data)
+=======
+void *InputImpl::PollInput_ThreadProc(void *data)
+>>>>>>> 29c723e (mvsx)
 {
     mThreadRunning = 1;
 	
@@ -128,7 +133,7 @@ void *Input::PollInput_ThreadProc(void *data)
     return NULL;
 }
 
-void Input::ReadInputs( )
+void InputImpl::ReadInputs( )
 {
 	input_event input;
 	int ret = read( mInputFileHandle, &input, sizeof( input_event ) );
