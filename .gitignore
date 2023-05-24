@@ -14,6 +14,9 @@ blend/
 eeprom/
 hiscore/
 
+projects/windows/
 projects/lubuntu/bin/
-proejcts/mvsx/bin/
+projects/lubuntu/obj/
+projects/mvsx/bin/
+projects/mvsx/obj/
 
