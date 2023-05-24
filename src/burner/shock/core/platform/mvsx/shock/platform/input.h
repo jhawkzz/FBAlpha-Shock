@@ -88,7 +88,7 @@ struct MVSXInputState
     int             value; // This is the action (0 is released, 1 is down)
 };
 
-class Input
+class InputImpl
 {
 protected:
     static void *PollInput_ThreadProc( void *);
