@@ -3,8 +3,8 @@
 
 #include "../includes.h"
 
-OSInputToBurnInput ShockPlayerInput::mOSInputToBurnInput[ MAX_SHOCK_PLAYERS ];
-int                ShockPlayerInput::mHardwareCode;
+ShockButtonToBurnInput ShockPlayerInput::mShockButtonToBurnInput[ MAX_SHOCK_PLAYERS ];
+int                    ShockPlayerInput::mHardwareCode;
 
 void ShockPlayerInput::Create( INT32 hardwareCode )
 {
@@ -16,22 +16,22 @@ void ShockPlayerInput::Create( INT32 hardwareCode )
     }
     
     // Player 1
-    mOSInputToBurnInput[ 0 ].osInputToCoinLookup  = OptionsBack;
-    mOSInputToBurnInput[ 0 ].osInputToStartLookup = P1_Start;
+    mShockButtonToBurnInput[ 0 ].coinLookup  = P1_InsertCoin;
+    mShockButtonToBurnInput[ 0 ].startLookup = P1_Start;
     
-    mOSInputToBurnInput[ 0 ].osInputToJoyLookup[ GameInp_Joy_Up ]    = P1_Joy_Up;
-    mOSInputToBurnInput[ 0 ].osInputToJoyLookup[ GameInp_Joy_Right ] = P1_Joy_Right;
-    mOSInputToBurnInput[ 0 ].osInputToJoyLookup[ GameInp_Joy_Down ]  = P1_Joy_Down;
-    mOSInputToBurnInput[ 0 ].osInputToJoyLookup[ GameInp_Joy_Left ]  = P1_Joy_Left;
+    mShockButtonToBurnInput[ 0 ].joyLookup[ GameInp_Joy_Up ]    = P1_Joy_Up;
+    mShockButtonToBurnInput[ 0 ].joyLookup[ GameInp_Joy_Right ] = P1_Joy_Right;
+    mShockButtonToBurnInput[ 0 ].joyLookup[ GameInp_Joy_Down ]  = P1_Joy_Down;
+    mShockButtonToBurnInput[ 0 ].joyLookup[ GameInp_Joy_Left ]  = P1_Joy_Left;
     
     // Player 2
-    mOSInputToBurnInput[ 1 ].osInputToCoinLookup  = SelectGame;
-    mOSInputToBurnInput[ 1 ].osInputToStartLookup = P2_Start;
+    mShockButtonToBurnInput[ 1 ].coinLookup  = P2_InsertCoin;
+    mShockButtonToBurnInput[ 1 ].startLookup = P2_Start;
     
-    mOSInputToBurnInput[ 1 ].osInputToJoyLookup[ GameInp_Joy_Up ]    = P2_Joy_Up;
-    mOSInputToBurnInput[ 1 ].osInputToJoyLookup[ GameInp_Joy_Right ] = P2_Joy_Right;
-    mOSInputToBurnInput[ 1 ].osInputToJoyLookup[ GameInp_Joy_Down ]  = P2_Joy_Down;
-    mOSInputToBurnInput[ 1 ].osInputToJoyLookup[ GameInp_Joy_Left ]  = P2_Joy_Left;
+    mShockButtonToBurnInput[ 1 ].joyLookup[ GameInp_Joy_Up ]    = P2_Joy_Up;
+    mShockButtonToBurnInput[ 1 ].joyLookup[ GameInp_Joy_Right ] = P2_Joy_Right;
+    mShockButtonToBurnInput[ 1 ].joyLookup[ GameInp_Joy_Down ]  = P2_Joy_Down;
+    mShockButtonToBurnInput[ 1 ].joyLookup[ GameInp_Joy_Left ]  = P2_Joy_Left;
     
     mHardwareCode = hardwareCode;
     
@@ -77,9 +77,9 @@ void ShockPlayerInput::LoadFireInputs( const char *pRomsetName )
     {
         for( int i = 0; i < MAX_SHOCK_PLAYERS; i++ )
         {
-            memcpy( mOSInputToBurnInput[ i ].osInputToFireButtonLookup,
-                    pFireInput->osInputToFireButtonLookup[ i ],
-                    sizeof( mOSInputToBurnInput[ i ].osInputToFireButtonLookup ) );
+            memcpy( mShockButtonToBurnInput[ i ].fireButtonLookup,
+                    pFireInput->fireButtonLookup[ i ],
+                    sizeof( mShockButtonToBurnInput[ i ].fireButtonLookup ) );
         }
     }
     else
@@ -95,9 +95,9 @@ void ShockPlayerInput::SaveFireInputs( const char *pRomsetName )
     // copy the values out
     for( int i = 0; i < MAX_SHOCK_PLAYERS; i++ )
     {
-        memcpy( fireInput.osInputToFireButtonLookup[ i ],
-                mOSInputToBurnInput[ i ].osInputToFireButtonLookup, 
-                sizeof( fireInput.osInputToFireButtonLookup[ i ] ) );
+        memcpy( fireInput.fireButtonLookup[ i ],
+                mShockButtonToBurnInput[ i ].fireButtonLookup, 
+                sizeof( fireInput.fireButtonLookup[ i ] ) );
     }
     
     ShockConfig::SaveFireInputs( pRomsetName, &fireInput );
@@ -113,10 +113,10 @@ void ShockPlayerInput::Update( )
         if( ShockBurnInput::mPlayerInputList[ i ].coinButton.pGameInp != NULL )
         {
             *ShockBurnInput::mPlayerInputList[ i ].coinButton.pGameInp->pVal = 
-                        (UINT8)ShockInput::GetInput( mOSInputToBurnInput[ i ].osInputToCoinLookup )->GetState();
+                        (UINT8)ShockInput::GetInput( mShockButtonToBurnInput[ i ].coinLookup )->GetState();
                        
 #ifdef MVSX
-            if( (UINT16)ShockInput::GetInput( mOSInputToBurnInput[ i ].osInputToCoinLookup )->WasPressed() )
+            if( (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].coinLookup )->WasPressed() )
             {
                 int playerLed = MVSXLed::GetLED( i );
                 playerLed++;
@@ -128,10 +128,10 @@ void ShockPlayerInput::Update( )
         if( ShockBurnInput::mPlayerInputList[ i ].startButton.pGameInp != NULL )
         {
             *ShockBurnInput::mPlayerInputList[ i ].startButton.pGameInp->pVal = 
-                        (UINT8)ShockInput::GetInput( mOSInputToBurnInput[ i ].osInputToStartLookup )->GetState( );
+                        (UINT8)ShockInput::GetInput( mShockButtonToBurnInput[ i ].startLookup )->GetState( );
                         
 #ifdef MVSX
-            if( (UINT16)ShockInput::GetInput( mOSInputToBurnInput[ i ].osInputToStartLookup )->WasReleased() )
+            if( (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].startLookup )->WasReleased() )
             {
                 int playerLed = MVSXLed::GetLED( i );
                 playerLed--;
@@ -146,7 +146,7 @@ void ShockPlayerInput::Update( )
             if( ShockBurnInput::mPlayerInputList[ i ].joyInput[ c ].pGameInp != NULL )
             {
                 *ShockBurnInput::mPlayerInputList[ i ].joyInput[ c ].pGameInp->pVal = 
-                        (UINT16)ShockInput::GetInput( mOSInputToBurnInput[ i ].osInputToJoyLookup[ c ] )->GetState();
+                        (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].joyLookup[ c ] )->GetState();
             }
         }
     
@@ -156,47 +156,47 @@ void ShockPlayerInput::Update( )
             if( ShockBurnInput::mPlayerInputList[ i ].fireInput[ k ].pGameInp != NULL )
             {
                 *ShockBurnInput::mPlayerInputList[ i ].fireInput[ k ].pGameInp->pVal = 
-                        (UINT16)ShockInput::GetInput( mOSInputToBurnInput[ i ].osInputToFireButtonLookup[ k ] )->GetState();
+                        (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].fireButtonLookup[ k ] )->GetState();
             }   
         }
     }
 }
 
-OSInputToBurnInput *ShockPlayerInput::GetInputMapForPlayer( int index )
+ShockButtonToBurnInput *ShockPlayerInput::GetInputMapForPlayer( int index )
 {
-    return &mOSInputToBurnInput[ index ];
+    return &mShockButtonToBurnInput[ index ];
 }
 
 void ShockPlayerInput::SetGameDefaults_SNKNeoGeo( )
 {
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 0 ] = P1_Red;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 1 ] = P1_Yellow;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 2 ] = P1_Green;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 3 ] = P1_Blue;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 4 ] = P1_MidBot;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 5 ] = P1_RightBot;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = P1_Button_1;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 1 ] = P1_Button_2;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 2 ] = P1_Button_3;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 3 ] = P1_Button_4;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 4 ] = P1_Button_5;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 5 ] = P1_Button_6;
     
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 0 ] = P2_Red;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 1 ] = P2_Yellow;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 2 ] = P2_Green;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 3 ] = P2_Blue;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 4 ] = P2_MidBot;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 5 ] = P2_RightBot;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = P2_Button_1;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 1 ] = P2_Button_2;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 2 ] = P2_Button_3;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 3 ] = P2_Button_4;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 4 ] = P2_Button_5;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 5 ] = P2_Button_6;
 }
 
 void ShockPlayerInput::SetGameDefaults_Capcom( )
 {
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 0 ] = P1_Yellow;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 1 ] = P1_Green;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 2 ] = P1_Blue;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 3 ] = P1_Red;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 4 ] = P1_MidBot;
-    mOSInputToBurnInput[ 0 ].osInputToFireButtonLookup[ 5 ] = P1_RightBot;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = P1_Button_2;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 1 ] = P1_Button_3;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 2 ] = P1_Button_4;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 3 ] = P1_Button_1;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 4 ] = P1_Button_5;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 5 ] = P1_Button_6;
     
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 0 ] = P2_Yellow;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 1 ] = P2_Green;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 2 ] = P2_Blue;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 3 ] = P2_Red;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 4 ] = P2_MidBot;
-    mOSInputToBurnInput[ 1 ].osInputToFireButtonLookup[ 5 ] = P2_RightBot;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = P2_Button_2;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 1 ] = P2_Button_3;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 2 ] = P2_Button_4;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 3 ] = P2_Button_1;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 4 ] = P2_Button_5;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 5 ] = P2_Button_6;
 }

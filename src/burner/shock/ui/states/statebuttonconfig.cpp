@@ -19,19 +19,19 @@ void StateButtonConfig::Create( )
     memset( mpButtonImageMap    , 0, sizeof( mpButtonImageMap ) );
     
     // setup an image map
-    mpButtonImageMap[ P1_Red ]      = (UINT16 *)gRedButtonBytes;
-    mpButtonImageMap[ P1_Yellow ]   = (UINT16 *)gYellowButtonBytes;
-    mpButtonImageMap[ P1_Green ]    = (UINT16 *)gGreenButtonBytes;
-    mpButtonImageMap[ P1_Blue ]     = (UINT16 *)gBlueButtonBytes;
-    mpButtonImageMap[ P1_MidBot ]   = (UINT16 *)gWhiteMButtonBytes;
-    mpButtonImageMap[ P1_RightBot ] = (UINT16 *)gWhiteRButtonBytes;
+    mpButtonImageMap[ P1_Button_1 ] = (UINT16 *)gRedButtonBytes;
+    mpButtonImageMap[ P1_Button_2 ] = (UINT16 *)gYellowButtonBytes;
+    mpButtonImageMap[ P1_Button_3 ] = (UINT16 *)gGreenButtonBytes;
+    mpButtonImageMap[ P1_Button_4 ] = (UINT16 *)gBlueButtonBytes;
+    mpButtonImageMap[ P1_Button_5 ] = (UINT16 *)gWhiteMButtonBytes;
+    mpButtonImageMap[ P1_Button_6 ] = (UINT16 *)gWhiteRButtonBytes;
     
-    mpButtonImageMap[ P2_Red ]      = (UINT16 *)gRedButtonBytes;
-    mpButtonImageMap[ P2_Yellow ]   = (UINT16 *)gYellowButtonBytes;
-    mpButtonImageMap[ P2_Green ]    = (UINT16 *)gGreenButtonBytes;
-    mpButtonImageMap[ P2_Blue ]     = (UINT16 *)gBlueButtonBytes;
-    mpButtonImageMap[ P2_MidBot ]   = (UINT16 *)gWhiteMButtonBytes;
-    mpButtonImageMap[ P2_RightBot ] = (UINT16 *)gWhiteRButtonBytes;
+    mpButtonImageMap[ P2_Button_1 ] = (UINT16 *)gRedButtonBytes;
+    mpButtonImageMap[ P2_Button_2 ] = (UINT16 *)gYellowButtonBytes;
+    mpButtonImageMap[ P2_Button_3 ] = (UINT16 *)gGreenButtonBytes;
+    mpButtonImageMap[ P2_Button_4 ] = (UINT16 *)gBlueButtonBytes;
+    mpButtonImageMap[ P2_Button_5 ] = (UINT16 *)gWhiteMButtonBytes;
+    mpButtonImageMap[ P2_Button_6 ] = (UINT16 *)gWhiteRButtonBytes;
     
     mRestoreDefaults.Create( "Press P2 Start to Restore Defaults", UI_X_POS_MENU, 600, 0xFFFF );
 }
@@ -124,26 +124,26 @@ UIState StateButtonConfig::Update( )
             if( ShockInput::GetInput( P1_Joy_Left )->WasReleased() )
             {
                 // get the index to the OS input currently mapped to this game input
-                OSInputToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
-                int buttonIndex = pInputMap->osInputToFireButtonLookup[ mButtonSelection ];
+                ShockButtonToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
+                int buttonIndex = pInputMap->fireButtonLookup[ mButtonSelection ];
                 
                 // go back to the prior input
-                int prevIndex = GetPrevButtonInput( (InputCodeToButtonMapping)buttonIndex );
-                pInputMap->osInputToFireButtonLookup[ mButtonSelection ] = (InputCodeToButtonMapping)prevIndex;
+                int prevIndex = GetPrevButtonInput( (ShockButton)buttonIndex );
+                pInputMap->fireButtonLookup[ mButtonSelection ] = (ShockButton)prevIndex;
             }
             else if( ShockInput::GetInput( P1_Joy_Right )->WasReleased() )
             {
                 // get the index to the OS input currently mapped to this game input
-                OSInputToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
-                int buttonIndex = pInputMap->osInputToFireButtonLookup[ mButtonSelection ];
+                ShockButtonToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
+                int buttonIndex = pInputMap->fireButtonLookup[ mButtonSelection ];
                 
                 // advance to the next input
-                int nextIndex = GetNextButtonInput( (InputCodeToButtonMapping)buttonIndex );
-                pInputMap->osInputToFireButtonLookup[ mButtonSelection ] = (InputCodeToButtonMapping)nextIndex;
+                int nextIndex = GetNextButtonInput( (ShockButton)buttonIndex );
+                pInputMap->fireButtonLookup[ mButtonSelection ] = (ShockButton)nextIndex;
             }
         }
 
-        if( ShockInput::GetInput( P1_Red )->WasReleased() )
+        if( ShockInput::GetInput( P1_Button_1 )->WasReleased() )
         {
             mConfiguringButton = !mConfiguringButton;
         }
@@ -185,8 +185,8 @@ void StateButtonConfig::DrawMenu( )
                 mButtonInputList[ i ][ c ].Draw( );
                 
                 // draw the associated button to the right
-                OSInputToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( i );
-                int buttonIndex = pInputMap->osInputToFireButtonLookup[ c ];
+                ShockButtonToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( i );
+                int buttonIndex = pInputMap->fireButtonLookup[ c ];
                 
                 int xPos = mButtonInputList[ i ][ c ].GetXPos( ) + UI_CURSOR_X_OFFSET + 225;
                 int yPos = mButtonInputList[ i ][ c ].GetYPos( ) - 25;
@@ -216,9 +216,9 @@ void StateButtonConfig::DrawMenu( )
     UIBaseState::RenderBackOption( "Return" );
 }
 
-int StateButtonConfig::GetPrevButtonInput( InputCodeToButtonMapping buttonIndex )
+int StateButtonConfig::GetPrevButtonInput( ShockButton buttonIndex )
 {
-    switch( buttonIndex )
+    /*switch( buttonIndex )
     {
         case P1_Red:      return P1_RightBot; break;
         case P1_Yellow:   return P1_Red;      break;
@@ -236,12 +236,18 @@ int StateButtonConfig::GetPrevButtonInput( InputCodeToButtonMapping buttonIndex 
     
         // for out of range buttons, return itself    
         default: return buttonIndex;
-    }
+    }*/
+    
+    int prevIndex = buttonIndex - 1;
+    if( prevIndex < 0 ) prevIndex = ShockButton_Count - 1;
+    
+    return prevIndex;
 }
 
-int StateButtonConfig::GetNextButtonInput( InputCodeToButtonMapping buttonIndex )
+int StateButtonConfig::GetNextButtonInput( ShockButton buttonIndex )
 {
-    switch( buttonIndex )
+    return (buttonIndex + 1) % ShockButton_Count;
+    /*switch( buttonIndex )
     {
         case P1_Red:      return P1_Yellow;   break;
         case P1_Yellow:   return P1_Green;    break;
@@ -259,5 +265,5 @@ int StateButtonConfig::GetNextButtonInput( InputCodeToButtonMapping buttonIndex 
     
         // for out of range buttons, return itself    
         default: return buttonIndex;
-    }
+    }*/
 }

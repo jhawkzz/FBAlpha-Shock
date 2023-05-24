@@ -44,8 +44,8 @@ UIState StateLoadError::Update( )
         RenderFatalError( );
         
         // check for player acknowledgement
-        if( ShockInput::GetInput( OptionsBack )->WasReleased( ) || 
-            ShockInput::GetInput( P1_Red )->WasReleased() )
+        if( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) || 
+            ShockInput::GetInput( P1_Button_1 )->WasReleased() )
         {
             mExitEmulator = 1;
         }
@@ -55,8 +55,8 @@ UIState StateLoadError::Update( )
         RenderWarning( );
         
         // check for player acknowledgement
-        if( ShockInput::GetInput( OptionsBack )->WasReleased( ) || 
-            ShockInput::GetInput( P1_Red )->WasReleased() )
+        if( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) || 
+            ShockInput::GetInput( P1_Button_1 )->WasReleased() )
         {
             mExitUI = 1;
         }

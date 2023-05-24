@@ -3,9 +3,10 @@
 
 #include "../../includes.h"
 
-ButtonState Input::mButtonState[ Button_Count ];
-int         Input::mInputFileHandle;
-int         Input::mThreadRunning;
+LubuntuInput      Input::mLubuntuInputLookup[ ShockButton_Count ];
+LubuntuInputState Input::mLubuntuInputState[ LubuntuInput_Count ];
+int               Input::mInputFileHandle;
+int               Input::mThreadRunning;
 
 int Input::Create( )
 {
@@ -19,12 +20,14 @@ int Input::Create( )
 	}
     
     // setup all our inputs
-    for( int i = 0; i < Button_Count; i++ )
+    for( int i = 0; i < LubuntuInput_Count; i++ )
     {
-        mButtonState[ i ].value = 0;
-        pthread_mutex_init( &mButtonState[ i ].mutexLock, NULL );
-        mButtonState[ i ].mutexCreated = 1;
+        mLubuntuInputState[ i ].value = 0;
+        pthread_mutex_init( &mLubuntuInputState[ i ].mutexLock, NULL );
+        mLubuntuInputState[ i ].mutexCreated = 1;
     }
+    
+    CreateLookup( );
 	
     // start the polling thread
 	pthread_t t;
@@ -44,15 +47,15 @@ int Input::Create( )
 
 void Input::Destroy( )
 {
-    for( int i = 0; i < Button_Count; i++ )
+    for( int i = 0; i < ShockButton_Count; i++ )
     {
-        if ( mButtonState[ i ].mutexCreated == 1 )
+        if ( mLubuntuInputState[ i ].mutexCreated == 1 )
         {
-            pthread_mutex_lock( &mButtonState[ i ].mutexLock );
-            pthread_mutex_unlock( &mButtonState[ i ].mutexLock );
-            pthread_mutex_destroy( &mButtonState[ i ].mutexLock );
+            pthread_mutex_lock( &mLubuntuInputState[ i ].mutexLock );
+            pthread_mutex_unlock( &mLubuntuInputState[ i ].mutexLock );
+            pthread_mutex_destroy( &mLubuntuInputState[ i ].mutexLock );
             
-            mButtonState[ i ].mutexCreated = 0;
+            mLubuntuInputState[ i ].mutexCreated = 0;
         }
     }
     
@@ -63,6 +66,40 @@ void Input::Destroy( )
     }
     
     mThreadRunning = 0;
+}
+
+void Input::CreateLookup( )
+{
+    mLubuntuInputLookup[ P1_Joy_Up     ] = LubuntuInput_KB_Up;
+    mLubuntuInputLookup[ P1_Joy_Left   ] = LubuntuInput_KB_Left,
+    mLubuntuInputLookup[ P1_Joy_Right  ] = LubuntuInput_KB_Right,
+    mLubuntuInputLookup[ P1_Joy_Down   ] = LubuntuInput_KB_Down,
+    
+    mLubuntuInputLookup[ P1_Button_1   ] = LubuntuInput_KB_Z;
+    mLubuntuInputLookup[ P1_Button_2   ] = LubuntuInput_KB_A;
+    mLubuntuInputLookup[ P1_Button_3   ] = LubuntuInput_KB_S;
+    mLubuntuInputLookup[ P1_Button_4   ] = LubuntuInput_KB_D;
+    mLubuntuInputLookup[ P1_Button_5   ] = LubuntuInput_KB_X;
+    mLubuntuInputLookup[ P1_Button_6   ] = LubuntuInput_KB_C;
+    
+    mLubuntuInputLookup[ P1_InsertCoin ] = LubuntuInput_KB_5;
+    mLubuntuInputLookup[ P1_Start      ] = LubuntuInput_KB_1;
+    
+    // Player 2
+    mLubuntuInputLookup[ P2_Joy_Up     ] = LubuntuInput_KB_Home;
+    mLubuntuInputLookup[ P2_Joy_Left   ] = LubuntuInput_KB_Delete;
+    mLubuntuInputLookup[ P2_Joy_Right  ] = LubuntuInput_KB_PgDn;
+    mLubuntuInputLookup[ P2_Joy_Down   ] = LubuntuInput_KB_End;
+    
+    mLubuntuInputLookup[ P2_Button_1   ] = LubuntuInput_KB_H;
+    mLubuntuInputLookup[ P2_Button_2   ] = LubuntuInput_KB_Y;
+    mLubuntuInputLookup[ P2_Button_3   ] = LubuntuInput_KB_U;
+    mLubuntuInputLookup[ P2_Button_4   ] = LubuntuInput_KB_I;
+    mLubuntuInputLookup[ P2_Button_5   ] = LubuntuInput_KB_J;
+    mLubuntuInputLookup[ P2_Button_6   ] = LubuntuInput_KB_K;
+    
+    mLubuntuInputLookup[ P2_InsertCoin ] = LubuntuInput_KB_6;
+    mLubuntuInputLookup[ P2_Start      ] = LubuntuInput_KB_2;
 }
 
 void *Input::PollInput_ThreadProc(void *data)
@@ -101,29 +138,28 @@ void Input::ReadInputs( )
         return;
 	}
     
-    //flushPrintf( "input.code: %d, value: %d\r\n", input.code, input.value );
-    
     // guard against inputs out of range
-    int buttonIndex = input.code;
-    if( buttonIndex >= P1_Start && buttonIndex < Button_Count )
+    if( input.code >= LubuntuInput_KB_1 && input.code < LubuntuInput_Count )
     {   
         // quickly lock, set the value, release
-        pthread_mutex_lock( &mButtonState[ buttonIndex ].mutexLock );
+        pthread_mutex_lock( &mLubuntuInputState[ input.code ].mutexLock );
         
-        mButtonState[ buttonIndex ].value = input.value;
+        mLubuntuInputState[ input.code ].value = input.value;
             
-        pthread_mutex_unlock( &mButtonState[ buttonIndex ].mutexLock );
+        pthread_mutex_unlock( &mLubuntuInputState[ input.code ].mutexLock );
     }
 }
 
-int Input::GetValueForInput( InputCodeToButtonMapping input )
+int Input::GetValueForButton( ShockButton shockButton )
 {
     // quickly lock around the value and copy it out
     int inputVal = 0;
     
-    pthread_mutex_lock( &mButtonState[ input ].mutexLock );
-    inputVal = mButtonState[ input ].value != 0;
-    pthread_mutex_unlock( &mButtonState[ input ].mutexLock );
+    LubuntuInput input = mLubuntuInputLookup[ shockButton ];
+    
+    pthread_mutex_lock( &mLubuntuInputState[ input ].mutexLock );
+    inputVal = mLubuntuInputState[ input ].value != 0;
+    pthread_mutex_unlock( &mLubuntuInputState[ input ].mutexLock );
     
     return inputVal;
 }

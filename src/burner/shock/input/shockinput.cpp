@@ -3,7 +3,7 @@
 
 #include "../includes.h"
 
-InputControl ShockInput::mInputState[ Button_Count ];
+InputControl ShockInput::mInputState[ ShockButton_Count ];
 
 // Input Control
 void InputControl::Create( )
@@ -69,7 +69,7 @@ void InputControl::Update( int newState )
 
 int ShockInput::Create( )
 {
-    for( int i = 0; i < Button_Count; i++ )
+    for( int i = 0; i < ShockButton_Count; i++ )
     {
         mInputState[ i ].Create( );
     }
@@ -83,14 +83,14 @@ void ShockInput::Destroy( )
 
 void ShockInput::Update( )
 {
-    for( int i = 0; i < Button_Count; i++ )
+    for( int i = 0; i < ShockButton_Count; i++ )
     {
-        int inputVal = Input::GetValueForInput( (InputCodeToButtonMapping) i );
+        int inputVal = Input::GetValueForButton( (ShockButton) i );
         mInputState[ i ].Update( inputVal );
     }
 }
 
-InputControl *ShockInput::GetInput( InputCodeToButtonMapping button )
+InputControl *ShockInput::GetInput( ShockButton button )
 {
     return &mInputState[ button ];
 }

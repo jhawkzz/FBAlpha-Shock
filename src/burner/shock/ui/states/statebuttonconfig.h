@@ -20,15 +20,15 @@ public:
     
 private:
     void      DrawMenu( );
-    int       GetPrevButtonInput( InputCodeToButtonMapping buttonIndex );
-    int       GetNextButtonInput( InputCodeToButtonMapping buttonIndex );
+    int       GetPrevButtonInput( ShockButton buttonIndex );
+    int       GetNextButtonInput( ShockButton buttonIndex );
 
 private:
     int       mConfiguringButton;
     MenuItem *mpSelectedItem;
     int       mNumButtonsPerPlayer[ MAX_SHOCK_PLAYERS ];
     MenuItem  mButtonInputList[ MAX_SHOCK_PLAYERS ][ GameInp_Fire_Count ];
-    UINT16   *mpButtonImageMap[ Button_Count ];
+    UINT16   *mpButtonImageMap[ ShockButton_Count ];
     MenuItem  mRestoreDefaults;
     int       mPlayerSelection;
     int       mButtonSelection;

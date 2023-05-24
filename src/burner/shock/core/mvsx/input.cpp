@@ -3,27 +3,28 @@
 
 #include "../../includes.h"
 
-ButtonState Input::mButtonState[ Button_Count ];
-int         Input::mInputFileHandle;
-int         Input::mThreadRunning;
+MVSXInput      Input::mMVSXInputLookup[ ShockButton_Count ];
+MVSXInputState Input::mMVSXInputState[ MVSXInput_Count ];
+int            Input::mInputFileHandle;
+int            Input::mThreadRunning;
 
 int Input::Create( )
 {
-	mInputFileHandle = open( SNK_JS_LOCAL_DEVICE, O_RDONLY );
+	mInputFileHandle = open( MVSX_INTEGRATED_DEVICE, O_RDONLY );
 	if( mInputFileHandle < 0 )
 	{
-		flushPrintf( "Failed to open SNK_JS_LOCAL_DEVICE\r\n" );
+		flushPrintf( "Failed to open MVSX_INTEGRATED_DEVICE\r\n" );
         
         Destroy( );
         return -1;
 	}
     
     // setup all our inputs
-    for( int i = 0; i < Button_Count; i++ )
+    for( int i = 0; i < MVSXInput_Count; i++ )
     {
-        mButtonState[ i ].value = 0;
-        pthread_mutex_init( &mButtonState[ i ].mutexLock, NULL );
-        mButtonState[ i ].mutexCreated = 1;
+        mMVSXInputState[ i ].value = 0;
+        pthread_mutex_init( &mMVSXInputState[ i ].mutexLock, NULL );
+        mMVSXInputState[ i ].mutexCreated = 1;
     }
 	
     // start the polling thread
@@ -44,15 +45,15 @@ int Input::Create( )
 
 void Input::Destroy( )
 {
-    for( int i = 0; i < Button_Count; i++ )
+    for( int i = 0; i < MVSXInput_Count; i++ )
     {
-        if ( mButtonState[ i ].mutexCreated == 1 )
+        if ( mMVSXInputState[ i ].mutexCreated == 1 )
         {
-            pthread_mutex_lock( &mButtonState[ i ].mutexLock );
-            pthread_mutex_unlock( &mButtonState[ i ].mutexLock );
-            pthread_mutex_destroy( &mButtonState[ i ].mutexLock );
+            pthread_mutex_lock( &mMVSXInputState[ i ].mutexLock );
+            pthread_mutex_unlock( &mMVSXInputState[ i ].mutexLock );
+            pthread_mutex_destroy( &mMVSXInputState[ i ].mutexLock );
             
-            mButtonState[ i ].mutexCreated = 0;
+            mMVSXInputState[ i ].mutexCreated = 0;
         }
     }
     
@@ -63,6 +64,40 @@ void Input::Destroy( )
     }
     
     mThreadRunning = 0;
+}
+
+void Input::CreateLookup( )
+{
+    mMVSXInputLookup[ P1_Joy_Up     ] = MVSXInput_P1_Joy_Up;
+    mMVSXInputLookup[ P1_Joy_Left   ] = MVSXInput_P1_Joy_Left;
+    mMVSXInputLookup[ P1_Joy_Right  ] = MVSXInput_P1_Joy_Right;
+    mMVSXInputLookup[ P1_Joy_Down   ] = MVSXInput_P1_Joy_Down;
+    
+    mMVSXInputLookup[ P1_Button_1   ] = MVSXInput_P1_Red;
+    mMVSXInputLookup[ P1_Button_2   ] = MVSXInput_P1_Yellow;
+    mMVSXInputLookup[ P1_Button_3   ] = MVSXInput_P1_Green;
+    mMVSXInputLookup[ P1_Button_4   ] = MVSXInput_P1_Blue;
+    mMVSXInputLookup[ P1_Button_5   ] = MVSXInput_P1_MidBot;
+    mMVSXInputLookup[ P1_Button_6   ] = MVSXInput_P1_RightBot;
+    
+    mMVSXInputLookup[ P1_InsertCoin ] = MVSXInput_OptionsBack;
+    mMVSXInputLookup[ P1_Start      ] = MVSXInput_P1_Start;
+    
+    // Player 2
+    mMVSXInputLookup[ P2_Joy_Up     ] = MVSXInput_P2_Joy_Up;
+    mMVSXInputLookup[ P2_Joy_Left   ] = MVSXInput_P2_Joy_Left;
+    mMVSXInputLookup[ P2_Joy_Right  ] = MVSXInput_P2_Joy_Right;
+    mMVSXInputLookup[ P2_Joy_Down   ] = MVSXInput_P2_Joy_Down;
+    
+    mMVSXInputLookup[ P2_Button_1   ] = MVSXInput_P2_Red;
+    mMVSXInputLookup[ P2_Button_2   ] = MVSXInput_P2_Yellow;
+    mMVSXInputLookup[ P2_Button_3   ] = MVSXInput_P2_Green;
+    mMVSXInputLookup[ P2_Button_4   ] = MVSXInput_P2_Blue;
+    mMVSXInputLookup[ P2_Button_5   ] = MVSXInput_P2_MidBot;
+    mMVSXInputLookup[ P2_Button_6   ] = MVSXInput_P2_RightBot;
+    
+    mMVSXInputLookup[ P2_InsertCoin ] = MVSXInput_SelectGame;
+    mMVSXInputLookup[ P2_Start      ] = MVSXInput_P2_Start;
 }
 
 void *Input::PollInput_ThreadProc(void *data)
@@ -102,27 +137,27 @@ void Input::ReadInputs( )
 	}
     
     // guard against inputs out of range
-    if( input.code >= INPUT_CODE_BASE_VALUE && input.code < INPUT_CODE_HIGH_VALUE )
+    if( input.code >= MVSXInput_P1_Green && input.code < MVSXInput_Count )
     {
-        int buttonIndex = INPUT_CODE_TO_BUTTON_INDEX(input.code);
-        
         // quickly lock, set the value, release
-        pthread_mutex_lock( &mButtonState[ buttonIndex ].mutexLock );
+        pthread_mutex_lock( &mMVSXInputState[ input.code ].mutexLock );
         
-        mButtonState[ buttonIndex ].value = input.value;
+        mMVSXInputState[ input.code ].value = input.value;
         
-        pthread_mutex_unlock( &mButtonState[ buttonIndex ].mutexLock );
+        pthread_mutex_unlock( &mMVSXInputState[ input.code ].mutexLock );
     }
 }
 
-int Input::GetValueForInput( InputCodeToButtonMapping input )
+int Input::GetValueForButton( ShockButton shockButton )
 {
     // quickly lock around the value and copy it out
     int inputVal = 0;
     
-    pthread_mutex_lock( &mButtonState[ input ].mutexLock );
-    inputVal = mButtonState[ input ].value;
-    pthread_mutex_unlock( &mButtonState[ input ].mutexLock );
+    MVSXInput input = mMVSXInputLookup[ shockButton ];
+    
+    pthread_mutex_lock( &mMVSXInputState[ input ].mutexLock );
+    inputVal = mMVSXInputState[ input ].value;
+    pthread_mutex_unlock( &mMVSXInputState[ input ].mutexLock );
     
     return inputVal;
 }

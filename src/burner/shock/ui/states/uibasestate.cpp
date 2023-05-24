@@ -27,7 +27,7 @@ UIState UIBaseState::Update( )
 
 UIState UIBaseState::HandleBackButton( )
 {
-    if( ShockInput::GetInput( OptionsBack )->WasReleased( ) )
+    if( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
     {
         return mLastState;
     }

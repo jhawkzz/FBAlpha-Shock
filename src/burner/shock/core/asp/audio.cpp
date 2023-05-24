@@ -10,9 +10,6 @@ RingBuffer      Audio::mDspRingBuffer;
 pthread_mutex_t Audio::mDspMutexLock;
 int             Audio::mDspMutexCreated;
 int             Audio::mDspThreadRunning;
-int             Audio::mVolume;
-int             Audio::mVolumeThreadRunning;
-UINT8           Audio::mVolumeLookup[ SPEAKER_MAX_VALUE + 1 ];
 
 int Audio::Create( )
 {
@@ -22,7 +19,7 @@ int Audio::Create( )
 
     if( result < 0 )
     {
-        flushPrintf( "ShockAudio::Create() - Failed to set ASP buffer length.\r\n" );
+        flushPrintf( "Audio::Create() - Failed to set ASP buffer length.\r\n" );
         return -1;
     }
 
@@ -35,8 +32,6 @@ int Audio::Create( )
 		return -1;
 	}
     
-    CreateVolumeLookup( );
-
 	// see http://manuals.opensound.com/developer/SNDCTL_DSP_SETFRAGMENT.html
     // the high 16 bits store the number of buffer fragments. The low 16 bits
     // is a selector that maps to a buffer size. There's no guarantee
@@ -65,8 +60,8 @@ int Audio::Create( )
     }
     
     // Configure Speaker State
-    // These setup audio to go out via speaker vs HDMI
-    int sOutMode = SNDRV_OUTMODE_SPEAKER;
+    // These setup audio to go out via HDMI vs speaker
+    int sOutMode = SNDRV_OUTMODE_HDMI;
 	result = ioctl(mDspHandle, SNDRV_OUTMODE, &sOutMode);
     if( result < 0 )
     {
@@ -76,7 +71,7 @@ int Audio::Create( )
         return -1;
     }
     
-    int sh2DeviceState = SNDRV_SH2WDEVICE_SPEAKER;
+    int sh2DeviceState = SNDRV_SH2WDEVICE_HDMI;
 	ioctl(mDspHandle, SNDRV_SH2WDEVICE, &sh2DeviceState);
     if( result < 0 )
     {
@@ -86,7 +81,7 @@ int Audio::Create( )
         return -1;
     }
     
-    int hwInitVal = SNDRV_PLAY_HWINIT_SPEAKER;
+    int hwInitVal = SNDRV_PLAY_HWINIT_HDMI;
 	ioctl(mDspHandle, SNDRV_PLAY_HWINIT, &hwInitVal);
     if( result < 0 )
     {
@@ -96,8 +91,8 @@ int Audio::Create( )
         return -1;
     }
     
-    // This one turns ON said speaker
-    int speakerOn = SNDRV_SPEAKER_ON;
+    // This one turns off said speaker (not sure if its needed)
+    int speakerOn = SNDRV_SPEAKER_OFF;
 	ioctl(mDspHandle, SNDRV_SPEAKER, &speakerOn);
     if( result < 0 )
     {
@@ -153,18 +148,6 @@ int Audio::Create( )
     
     pthread_detach( audioT );
     
-    pthread_t volumeT;
-    result = pthread_create( &volumeT, NULL, UpdateVolume_ThreadProc, NULL );
-    if( result != 0 )
-    {
-        flushPrintf( "Audio::Create() pthread_create failed with error: %d\r\n", result );
-        
-        Destroy( );
-        return -1;
-    }
-    
-    pthread_detach( volumeT );
-    
     return 0;
 }
 
@@ -186,7 +169,6 @@ void Audio::Destroy( )
     }
     
     mDspThreadRunning    = 0;
-    mVolumeThreadRunning = 0;
 }
 
 void Audio::PlayBuffer( char *pBuffer, int bytes )
@@ -196,11 +178,6 @@ void Audio::PlayBuffer( char *pBuffer, int bytes )
     mDspRingBuffer.FillBuffer( pBuffer, bytes );
     
     pthread_mutex_unlock( &mDspMutexLock );
-}
-
-int Audio::GetVolume( )
-{
-    return mVolume;
 }
 
 int Audio::SetBufferLength( int samplesPerFrame )
@@ -247,97 +224,4 @@ void *Audio::UpdateAudio_ThreadProc( void *pArg)
     }
     
     return NULL;
-}
-
-void *Audio::UpdateVolume_ThreadProc( void *pArg )
-{
-    mVolumeThreadRunning = 1;
-    
-    while( mVolumeThreadRunning )
-    {   
-        // we have to open / close each loop iteration so we 
-        // dont hold a lock and prevent the knob from updating.
-        int volumeHandle = open( VOLUME_DEVICE, O_RDONLY );
-        if( volumeHandle > -1 )
-        {
-            // poll the volume device 
-            char buffer[ 32 ] = { 0 };
-            int result = read( volumeHandle, buffer, sizeof( buffer ) );
-            if( result > 0 )
-            {
-                int rawVolumeVal = atoi( buffer );
-                
-                // Volume is held in reverse, so flip, then convert to %, then scale to speaker vals
-                float inverseVolume = (float) VOLUME_KNOB_MAX_VALUE - rawVolumeVal;
-                float volPerc       = inverseVolume / VOLUME_KNOB_MAX_VALUE;
-                int newVolume       = (int) (volPerc * SPEAKER_MAX_VALUE);
-                
-                if ( newVolume != mVolume )
-                {
-                    newVolume = min( newVolume, SPEAKER_MAX_VALUE );
-                    mVolume = mVolumeLookup[ newVolume ];
-                    
-                    if ( ioctl( mDspHandle, SOUND_MIXER_WRITE_VOLUME, &mVolume ) == -1) 
-                    {
-                        flushPrintf("Audio::UpdateVolume_ThreadProc() SOUND_MIXER_WRITE_VOLUME failed!\r\n");
-                    }
-                }
-            }
-            
-            close( volumeHandle );
-        }
-        else
-        {
-            flushPrintf( "Audio::UpdateVolume_ThreadProc() Failed to open volume handle!\r\n" );
-        }
-        
-        usleep( 200 * MILLI_TO_MICROSECONDS );
-    }
-}
-
-void Audio::CreateVolumeLookup( )
-{
-    // the first half of the dial is just too low
-    // so scale things up
-    mVolumeLookup[ 0 ] = 0;
-    mVolumeLookup[ 1 ] = 10;
-    mVolumeLookup[ 2 ] = 14;
-    mVolumeLookup[ 3 ] = 16;
-    mVolumeLookup[ 4 ] = 18;
-    mVolumeLookup[ 5 ] = 20;
-    mVolumeLookup[ 6 ] = 22;
-    mVolumeLookup[ 7 ] = 23;
-    mVolumeLookup[ 8 ] = 23;
-    mVolumeLookup[ 9 ] = 24;
-    mVolumeLookup[ 10 ] = 24;
-    mVolumeLookup[ 11 ] = 25;
-    mVolumeLookup[ 12 ] = 25;
-    mVolumeLookup[ 13 ] = 26;
-    mVolumeLookup[ 14 ] = 26;
-    mVolumeLookup[ 15 ] = 27;
-    mVolumeLookup[ 16 ] = 27;
-    mVolumeLookup[ 17 ] = 28;
-    mVolumeLookup[ 18 ] = 28;
-    mVolumeLookup[ 19 ] = 29;
-    mVolumeLookup[ 20 ] = 29;
-    mVolumeLookup[ 21 ] = 30;
-    mVolumeLookup[ 22 ] = 30;
-    mVolumeLookup[ 23 ] = 31;
-    mVolumeLookup[ 24 ] = 31;
-    mVolumeLookup[ 25 ] = 32;
-    mVolumeLookup[ 26 ] = 32;
-    mVolumeLookup[ 27 ] = 33;
-    mVolumeLookup[ 28 ] = 33;
-    mVolumeLookup[ 29 ] = 34;
-    mVolumeLookup[ 30 ] = 34;
-    mVolumeLookup[ 31 ] = 35;
-    mVolumeLookup[ 32 ] = 35;
-    mVolumeLookup[ 33 ] = 36;
-    mVolumeLookup[ 34 ] = 36;
-    mVolumeLookup[ 35 ] = 37;
-    mVolumeLookup[ 36 ] = 37;
-    mVolumeLookup[ 37 ] = 37;
-    mVolumeLookup[ 38 ] = 38;
-    mVolumeLookup[ 39 ] = 38;
-    mVolumeLookup[ 40 ] = 40;
 }
