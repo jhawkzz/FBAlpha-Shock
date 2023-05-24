@@ -7,8 +7,8 @@ workspace "FBAlpha-Shock"
       platforms { platform }
    end
    systemversion "latest"
-   --location "../projects"
    set_location()
+   
    filter { "platforms:asp" }
       architecture "ARM"
       system "linux"
@@ -26,7 +26,7 @@ project "FBAlpha-Shock"
    language "C++"
    characterset ("MBCS")
    set_location()
-   --location "../projects"
+   
    filter { "platforms:asp" }
       kind "ConsoleApp"
       targetdir "../projects/asp/bin/%{cfg.buildcfg}"
