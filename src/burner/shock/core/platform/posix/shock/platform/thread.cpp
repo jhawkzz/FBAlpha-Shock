@@ -3,7 +3,7 @@
 
 #include "shock/core/thread.h"
 
-ThreadImpl::~ThreadImpl()
+Thread::~Thread()
 {
     if ( mThread > -1 )
     {

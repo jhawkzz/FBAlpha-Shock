@@ -22,8 +22,7 @@ build =
    
    buildoptions = 
    {
-      "-Wl",
-      "-Bdynamic",
+      "-Wl,-Bdynamic",
       "-s",
    },
 
