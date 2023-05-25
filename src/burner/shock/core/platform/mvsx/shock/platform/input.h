@@ -56,6 +56,7 @@ struct MVSXInputState
 class InputCore
 {
 protected:
+    static void CreateLookup( );
     static void *PollInput_ThreadProc( void *);
     static void  ReadInputs( );
 

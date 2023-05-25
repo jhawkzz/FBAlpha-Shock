@@ -41,12 +41,7 @@ struct ASPInputState
 
 class Input
 {
-public:
-    static int  Create( );
-    static void Destroy( );
-    static int  GetValueForButton( ShockButton shockButton );
-    
-private:
+protected:
     static void  CreateLookup( );
     static void *PollInput_ThreadProc( void *);
     static void  ReadInputs( );

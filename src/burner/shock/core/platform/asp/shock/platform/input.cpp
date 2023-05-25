@@ -3,10 +3,10 @@
 
 #include "../../includes.h"
 
-ASPInput      Input::mASPInputLookup[ ShockButton_Count ];
-ASPInputState Input::mASPInputState[ ASPInput_Count ];
-int           Input::mInputFileHandle;
-int           Input::mThreadRunning;
+ASPInput      InputCore::mASPInputLookup[ ShockButton_Count ];
+ASPInputState InputCore::mASPInputState[ ASPInput_Count ];
+int           InputCore::mInputFileHandle;
+int           InputCore::mThreadRunning;
 
 int Input::Create( )
 {
@@ -68,7 +68,7 @@ void Input::Destroy( )
     mThreadRunning = 0;
 }
 
-void Input::CreateLookup( )
+void InputCore::CreateLookup( )
 {
     mASPInputLookup[ P1_Joy_Up     ] = ASPInput_P1_Joy_Up;
     mASPInputLookup[ P1_Joy_Left   ] = ASPInput_P1_Joy_Left;
@@ -90,7 +90,7 @@ void Input::CreateLookup( )
     mASPInputLookup[ P2_InsertCoin ] = ASPInput_Select;
 }
 
-void *Input::PollInput_ThreadProc(void *data)
+void *InputCore::PollInput_ThreadProc(void *data)
 {
     mThreadRunning = 1;
 	
@@ -116,7 +116,7 @@ void *Input::PollInput_ThreadProc(void *data)
     return NULL;
 }
 
-void Input::ReadInputs( )
+void InputCore::ReadInputs( )
 {
 	input_event input;
 	int ret = read( mInputFileHandle, &input, sizeof( input_event ) );
@@ -138,7 +138,7 @@ void Input::ReadInputs( )
     }
 }
 
-int Input::GetValueForButton( ShockButton shockButton )
+int InputCore::GetValueForButton( ShockButton shockButton )
 {
     // quickly lock around the value and copy it out
     int inputVal = 0;
