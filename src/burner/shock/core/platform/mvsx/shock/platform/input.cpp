@@ -69,7 +69,7 @@ void Input::Destroy( )
     mThreadRunning = 0;
 }
 
-void Input::CreateLookup( )
+void InputCore::CreateLookup( )
 {
     mMVSXInputLookup[ P1_Joy_Up     ] = MVSXInput_P1_Joy_Up;
     mMVSXInputLookup[ P1_Joy_Left   ] = MVSXInput_P1_Joy_Left;
