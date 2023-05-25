@@ -28,7 +28,7 @@ int Input::Create( )
         mLubuntuInputState[ i ].mutexCreated = 1;
     }
     
-    CreateLookup( );
+    InputCore::CreateLookup( );
 	
     // start the polling thread
 	pthread_t t;
@@ -69,7 +69,7 @@ void Input::Destroy( )
     mThreadRunning = 0;
 }
 
-void Input::CreateLookup( )
+void InputCore::CreateLookup( )
 {
     mLubuntuInputLookup[ P1_Joy_Up     ] = LubuntuInput_KB_Up;
     mLubuntuInputLookup[ P1_Joy_Left   ] = LubuntuInput_KB_Left,
