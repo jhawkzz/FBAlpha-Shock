@@ -256,7 +256,6 @@
     <ClInclude Include="..\..\src\burner\shock\core\framebuffer.h" />
     <ClInclude Include="..\..\src\burner\shock\core\input.h" />
     <ClInclude Include="..\..\src\burner\shock\core\ostimer.h" />
-    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\input.h" />
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\audio.h" />
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core.h" />
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\framebuffer.h" />
@@ -273,7 +272,6 @@
     <ClInclude Include="..\..\src\burner\shock\input\shockburninput.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockinput.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockplayerinput.h" />
-    <ClInclude Include="..\..\src\burner\shock\platform\posix\shockmain_impl.h" />
     <ClInclude Include="..\..\src\burner\shock\shockaudio.h" />
     <ClInclude Include="..\..\src\burner\shock\shockconfig.h" />
     <ClInclude Include="..\..\src\burner\shock\shockgame.h" />
@@ -1119,16 +1117,12 @@
     <ClCompile Include="..\..\src\burn\vector.cpp" />
     <ClCompile Include="..\..\src\burner\ioapi.c" />
     <ClCompile Include="..\..\src\burner\misc.cpp" />
-    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\input.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\audio.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\framebuffer.cpp" />
-    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\input.cpp">
-      <ObjectFileName>$(IntDir)\input1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\input.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\ostimer.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\thread.cpp" />
-    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\thread_core.cpp" />
     <ClCompile Include="..\..\src\burner\shock\font\font.cpp" />
     <ClCompile Include="..\..\src\burner\shock\input\shockburninput.cpp" />
     <ClCompile Include="..\..\src\burner\shock\input\shockinput.cpp" />

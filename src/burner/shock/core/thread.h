@@ -8,7 +8,6 @@ typedef void *(*ShockThreadProc)(void *);
 class Thread : public ThreadCore
 {
 public:
-    Thread();
    ~Thread();
 
    int Create(ShockThreadProc, void* param);

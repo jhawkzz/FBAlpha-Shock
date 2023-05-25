@@ -4,6 +4,8 @@
 #ifndef SHOCKPLAYERINPUT_H_
 #define SHOCKPLAYERINPUT_H_
 
+#include "shock/core/input.h"
+
 struct ShockButtonToBurnInput
 {
     ShockButton joyLookup[ GameInp_Joy_Count ];
