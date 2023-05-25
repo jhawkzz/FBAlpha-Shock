@@ -26,6 +26,8 @@ int Input::Create( )
         pthread_mutex_init( &mMVSXInputState[ i ].mutexLock, NULL );
         mMVSXInputState[ i ].mutexCreated = 1;
     }
+    
+    CreateLookup( );
 	
     // start the polling thread
 	pthread_t t;
