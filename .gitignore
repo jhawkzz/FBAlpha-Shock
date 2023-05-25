@@ -8,12 +8,14 @@ blend/
 eeprom/
 hiscore/
 
-projects/windows/*.user
-projects/windows/bin/
-projects/windows/obj/
-projects/windows/.vs/
+projects/asp/bin/
+projects/asp/obj/
 projects/lubuntu/bin/
 projects/lubuntu/obj/
 projects/mvsx/bin/
 projects/mvsx/obj/
+projects/windows/bin/
+projects/windows/obj/
+projects/windows/.vs/
+projects/windows/*.user
 
