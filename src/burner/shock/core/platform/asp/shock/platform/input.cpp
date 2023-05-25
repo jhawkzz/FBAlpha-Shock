@@ -139,7 +139,7 @@ void InputCore::ReadInputs( )
     }
 }
 
-int InputCore::GetValueForButton( ShockButton shockButton )
+int Input::GetValueForButton( ShockButton shockButton )
 {
     // quickly lock around the value and copy it out
     int inputVal = 0;
