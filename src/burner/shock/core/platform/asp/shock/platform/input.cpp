@@ -1,7 +1,8 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/core/input.h"
+#include "shock/util/util.h"
 
 ASPInput      InputCore::mASPInputLookup[ ShockButton_Count ];
 ASPInputState InputCore::mASPInputState[ ASPInput_Count ];

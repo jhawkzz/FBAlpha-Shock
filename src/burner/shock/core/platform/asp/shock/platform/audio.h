@@ -25,16 +25,10 @@
 
 class Audio
 {
-public:
-    static int  Create( );
-    static void Destroy( );
-    static void PlayBuffer( char *pBuffer, int bytes );
+protected:
     static int  SetBufferLength( int samplesPerFrame );
-    
-private:
     static void *UpdateAudio_ThreadProc( void *pArg );
 
-private:
     static int             mSamplesPerTick;
     static char            mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];
     

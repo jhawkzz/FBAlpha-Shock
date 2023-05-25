@@ -1,8 +1,10 @@
 
 // See License.md for license
 
-#ifndef INPUT_H_
-#define INPUT_H_
+#ifndef INPUT_CORE_H_
+#define INPUT_CORE_H_
+
+#include "shock/systems.h"
 
 // The path to the input device on the ASP Linux OS. 
 #define ASP_INTEGRATED_DEVICE "/dev/input/event1"
@@ -39,7 +41,7 @@ struct ASPInputState
     int             value; // This is the action (0 is released, 1 is down)
 };
 
-class Input
+class InputCore
 {
 protected:
     static void  CreateLookup( );

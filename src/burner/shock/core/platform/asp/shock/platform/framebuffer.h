@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef FRAMEBUFFER_H_
-#define FRAMEBUFFER_H_
+#ifndef FRAMEBUFFER_CORE_H_
+#define FRAMEBUFFER_CORE_H_
 
 // the amount of bytes from the base frame buffer for the start of the double buffer
 #define FB_DOUBLE_BUFFER_OFFSET_BYTES (PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH)
@@ -10,17 +10,9 @@
 //The path to the frame buffer out on the ASP Linux OS
 #define FB_DEVICE "/dev/graphics/fb0"
 
-class FrameBuffer
+class FrameBufferCore
 {
-public:
-		static int    Create( );
-		static void   Destroy( );
-		
-        static void   ClearFrameBuffer( );
-        static short *GetBackBuffer( );
-        static void   Flip( );
-        
-private:
+protected:
         static int    MVSXEnableHCD( );
         static void   PrintMode( fb_var_screeninfo *pfbVScreenInfo );
         static void   PrintVScreenInfo( fb_var_screeninfo *pVScreenInfo );

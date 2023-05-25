@@ -1,15 +1,16 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/includes.h"
+#include "shock/core/audio.h"
 
-int             Audio::mSamplesPerTick;
-char            Audio::mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];
-int             Audio::mDspHandle;
-RingBuffer      Audio::mDspRingBuffer;
-pthread_mutex_t Audio::mDspMutexLock;
-int             Audio::mDspMutexCreated;
-int             Audio::mDspThreadRunning;
+int             AudioCore::mSamplesPerTick;
+char            AudioCore::mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];
+int             AudioCore::mDspHandle;
+RingBuffer      AudioCore::mDspRingBuffer;
+pthread_mutex_t AudioCore::mDspMutexLock;
+int             AudioCore::mDspMutexCreated;
+int             AudioCore::mDspThreadRunning;
 
 int Audio::Create( )
 {
@@ -180,7 +181,7 @@ void Audio::PlayBuffer( char *pBuffer, int bytes )
     pthread_mutex_unlock( &mDspMutexLock );
 }
 
-int Audio::SetBufferLength( int samplesPerFrame )
+int AudioCore::SetBufferLength( int samplesPerFrame )
 {
     mSamplesPerTick = samplesPerFrame;
     
@@ -198,7 +199,7 @@ int Audio::SetBufferLength( int samplesPerFrame )
     return 0;
 }
 
-void *Audio::UpdateAudio_ThreadProc( void *pArg)
+void *AudioCore::UpdateAudio_ThreadProc( void *pArg)
 {
     mDspThreadRunning = 1;
     
