@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#ifndef AUDIO_H_
-#define AUDIO_H_
+#ifndef AUDIO_CORE_H_
+#define AUDIO_CORE_H_
 
 // The path to the sound device on the ASP Linux OS.
 #define SOUND_DEVICE	          "/dev/snd/actsnd"
@@ -23,7 +23,7 @@
 #define SNDRV_SPEAKER_OFF         (0)
 #define SNDRV_SPEAKER_ON          (1) //Any non-zero value works
 
-class Audio
+class AudioCore
 {
 protected:
     static int  SetBufferLength( int samplesPerFrame );
