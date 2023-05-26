@@ -12,7 +12,7 @@ project "FBAlpha-Shock"
    set_targetdir()
    set_defines()
    set_kind()
-
+   
    -- Set the directories containing source files
    local sourceDirs = {
       "../src",

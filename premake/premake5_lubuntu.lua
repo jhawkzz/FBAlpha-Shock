@@ -43,9 +43,11 @@ function set_buildoptions()
       "-s",
       "-fsigned-char",
       "-Wno-write-strings",
-      "-std=gnu99",
    }
-   
+      
+   filter {"files:**.c"}
+      buildoptions {"-std=gnu99"}
+
    filter {"configurations:Debug"}
       buildoptions { "-O0", "-g" }
    filter {"configurations:Release"}
