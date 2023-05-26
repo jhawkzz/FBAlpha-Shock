@@ -1398,6 +1398,8 @@
     <File Name="burner/misc.cpp"/>
     <File Name="burner/neocdlist.h"/>
     <File Name="burner/tchar.h"/>
+    <File Name="burner/state.cpp"/>
+    <File Name="burner/statec.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="dep">
     <VirtualDirectory Name="generated">

@@ -183,7 +183,7 @@ INT32 create_datfile(TCHAR* szFilename, INT32 bType);
 
 // sshot.cpp
 INT32 MakeScreenShot();
-
+*/
 
 // state.cpp
 INT32 BurnStateLoadEmbed(FILE* fp, INT32 nOffset, INT32 bAll, INT32 (*pLoadGame)());
@@ -195,7 +195,6 @@ INT32 BurnStateUNDO(TCHAR* szName);
 // statec.cpp
 INT32 BurnStateCompress(UINT8** pDef, INT32* pnDefLen, INT32 bAll);
 INT32 BurnStateDecompress(UINT8* Def, INT32 nDefLen, INT32 bAll);
-*/
 
 // zipfn.cpp
 struct ZipEntry { char* szName;	UINT32 nLen; UINT32 nCrc; };
