@@ -4,6 +4,8 @@
 #ifndef INPUT_H_
 #define INPUT_H_
 
+#include "shock/platform/core/input.h"
+
 enum ShockButton
 {
     P1_Joy_Up = 0,
@@ -38,8 +40,6 @@ enum ShockButton
 
     ShockButton_Count = 24
 };
-
-#include "shock/platform/core/input.h"
 
 class Input : public InputCore
 {
