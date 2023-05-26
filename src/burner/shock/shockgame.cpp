@@ -484,6 +484,11 @@ void ShockGame::UpdateResetMode( )
     }
 }
 
+void ShockGame::SaveState( )
+{
+    BurnStateSave( ShockRomLoader::GetRomsetName(), 1 );
+}
+
 void ShockGame::ResetFBATickTime( )
 {
     // reset our game tick timing. These are used to monitor drift
