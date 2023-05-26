@@ -6,9 +6,12 @@
 class ThreadCore
 {
 public:
+   ThreadCore()
+      : mThread(-1) {}
+
    virtual ~ThreadCore() {}
 
-   pthread_t mThread = -1;
+   pthread_t mThread;
 };
 
 #endif
