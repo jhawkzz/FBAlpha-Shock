@@ -44,7 +44,6 @@ function set_buildoptions()
       "-fsigned-char",
       "-fsigned-char",
       "-Wno-write-strings",
-      "-std=gnu99",
    }
 
    filter {"files:**.c"}
