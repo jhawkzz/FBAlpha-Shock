@@ -39,15 +39,15 @@ ifeq ($(config),debug)
 TARGETDIR = bin/Debug
 TARGET = $(TARGETDIR)/FBAlpha-Shock
 OBJDIR = obj/Debug
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -mfloat-abi=soft -O0 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -mfloat-abi=soft -O0 -g
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -msoft-float -O0 -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -msoft-float -O0 -g
 
 else ifeq ($(config),release)
 TARGETDIR = bin/Release
 TARGET = $(TARGETDIR)/FBAlpha-Shock
 OBJDIR = obj/Release
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -mfloat-abi=soft -O3
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -mfloat-abi=soft -O3
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -msoft-float -O3
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -msoft-float -O3
 
 endif
 
