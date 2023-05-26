@@ -3857,25 +3857,25 @@ $(OBJDIR)/main.o: ../../src/burner/main.cpp
 $(OBJDIR)/misc.o: ../../src/burner/misc.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/audio.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/audio.cpp
+$(OBJDIR)/audio.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/core/audio.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/framebuffer.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/framebuffer.cpp
+$(OBJDIR)/framebuffer.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/core/framebuffer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/input.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/input.cpp
+$(OBJDIR)/input.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/core/input.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/mvsxled.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/mvsxled.cpp
+$(OBJDIR)/mvsxled.o: ../../src/burner/shock/core/platform/mvsx/shock/platform/core/mvsxled.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/core.o: ../../src/burner/shock/core/platform/posix/shock/platform/core.cpp
+$(OBJDIR)/core.o: ../../src/burner/shock/core/platform/posix/shock/platform/core/core.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/ostimer.o: ../../src/burner/shock/core/platform/posix/shock/platform/ostimer.cpp
+$(OBJDIR)/ostimer.o: ../../src/burner/shock/core/platform/posix/shock/platform/core/ostimer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/thread.o: ../../src/burner/shock/core/platform/posix/shock/platform/thread.cpp
+$(OBJDIR)/thread.o: ../../src/burner/shock/core/platform/posix/shock/platform/core/thread.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/font.o: ../../src/burner/shock/font/font.cpp

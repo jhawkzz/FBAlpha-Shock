@@ -3,7 +3,7 @@
 
 typedef void *(*ShockThreadProc)(void *);
 
-#include "shock/platform/thread.h"
+#include "shock/platform/core/thread.h"
 
 class Thread : public ThreadCore
 {

@@ -2,7 +2,7 @@
 // See License.md for license
 
 #include "shock/includes.h"
-#include "shock/platform/mvsxled.h"
+#include "shock/platform/core/mvsxled.h"
 
 int MVSXLed::mP1Led;
 int MVSXLed::mP2Led;

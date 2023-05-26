@@ -103,6 +103,9 @@
     <Filter Include="burner\shock\core\platform\windows\shock\platform">
       <UniqueIdentifier>{DB522004-4719-7D20-9074-0B83FC79EB84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="burner\shock\core\platform\windows\shock\platform\core">
+      <UniqueIdentifier>{330488E1-1FAE-BDF0-087F-C50BF4C75DDF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="burner\shock\font">
       <UniqueIdentifier>{E0A9FB5C-4CC0-F9F2-9537-8514018DCA7A}</UniqueIdentifier>
     </Filter>
@@ -753,23 +756,23 @@
     <ClInclude Include="..\..\src\burner\shock\core\ostimer.h">
       <Filter>burner\shock\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\audio.h">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\audio.h">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core.h">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\core.h">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\framebuffer.h">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\framebuffer.h">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\input.h">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\input.h">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\ostimer.h">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\ostimer.h">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\thread.h">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\thread.h">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\core\thread.h">
       <Filter>burner\shock\core</Filter>
@@ -3332,23 +3335,23 @@
     <ClCompile Include="..\..\src\burner\misc.cpp">
       <Filter>burner</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\audio.cpp">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\audio.cpp">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core.cpp">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\core.cpp">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\framebuffer.cpp">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\framebuffer.cpp">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\input.cpp">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\input.cpp">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\ostimer.cpp">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\ostimer.cpp">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\thread.cpp">
-      <Filter>burner\shock\core\platform\windows\shock\platform</Filter>
+    <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\thread.cpp">
+      <Filter>burner\shock\core\platform\windows\shock\platform\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\font\font.cpp">
       <Filter>burner\shock\font</Filter>

@@ -5,7 +5,7 @@
 #include "shock/input/shockinput.h"
 
 #ifdef MVSX
-   #include "shock/platform/mvsxled.h"
+   #include "shock/platform/core/mvsxled.h"
 #endif
 
 ShockButtonToBurnInput ShockPlayerInput::mShockButtonToBurnInput[ MAX_SHOCK_PLAYERS ];

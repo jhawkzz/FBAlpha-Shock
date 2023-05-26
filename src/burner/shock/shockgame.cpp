@@ -5,7 +5,7 @@
 #include "shock/core/audio.h"
 
 #ifdef MVSX
-   #include "shock/platform/mvsxled.h"
+   #include "shock/platform/core/mvsxled.h"
 #endif
 
 int  ShockGame::mGameLoaded;

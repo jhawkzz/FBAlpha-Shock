@@ -39,7 +39,7 @@ enum ShockButton
     ShockButton_Count = 24
 };
 
-#include "shock/platform/input.h"
+#include "shock/platform/core/input.h"
 
 class Input : public InputCore
 {
