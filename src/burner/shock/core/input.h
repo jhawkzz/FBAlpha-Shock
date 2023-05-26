@@ -46,7 +46,7 @@ class Input : public InputCore
 public:
     static int  Create( );
     static void Destroy( );
-    int static GetValueForButton( ShockButton shockButton );
+    static int GetValueForButton( ShockButton shockButton );
 };
 
 #endif

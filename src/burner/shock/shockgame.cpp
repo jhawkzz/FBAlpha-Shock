@@ -361,7 +361,7 @@ int ShockGame::PrepareAudio( )
         return -1;
     }
 
-#ifdef MVSX
+#ifdef MVSX || defined ASP
     result = Audio::SetBufferLength( nBurnSoundLen );
     if( result < 0 )
     {

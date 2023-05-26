@@ -9,7 +9,7 @@
 
 // The path to the sound device and volume knob on the MVSX Linux OS.
 // We read the value at VOLUME_DEVICE and multiply the sound we write to SOUND_DEVICE to effect volume.
-#define SOUND_DEVICE	             "/dev/snd/actsnd"
+#define SOUND_DEVICE	          "/dev/snd/actsnd"
 #define VOLUME_DEVICE             "/sys/class/volume/value"
 
 #define SNDRV_OUTMODE             (0xFFFF0000)
@@ -36,7 +36,6 @@ public:
     static int SetBufferLength( int samplesPerFrame );
 
 protected:
-    static int GetVolume( );
     static void *UpdateAudio_ThreadProc( void *pArg );
     static void *UpdateVolume_ThreadProc( void *pArg );
     static void  CreateVolumeLookup( );

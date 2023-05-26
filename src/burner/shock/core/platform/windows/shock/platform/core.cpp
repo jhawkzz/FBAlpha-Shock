@@ -5,11 +5,6 @@
 #include "shock/core/framebuffer.h"
 #include "shock/includes.h"
 
-void CoreCore::SetWindow(HWND hwnd)
-{
-    FrameBufferCore::SetWindow(hwnd);
-}
-
 Core::~Core()
 {}
 

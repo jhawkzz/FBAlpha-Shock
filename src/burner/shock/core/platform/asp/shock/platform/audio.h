@@ -25,8 +25,10 @@
 
 class AudioCore
 {
-protected:
+public:
     static int  SetBufferLength( int samplesPerFrame );
+
+protected:
     static void *UpdateAudio_ThreadProc( void *pArg );
 
     static int             mSamplesPerTick;
