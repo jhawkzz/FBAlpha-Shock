@@ -44,6 +44,7 @@ function set_buildoptions()
       "-fsigned-char",
       "-fsigned-char",
       "-Wno-write-strings",
+      "-mfloat-abi=soft",
    }
 
    filter {"files:**.c"}
