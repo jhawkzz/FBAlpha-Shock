@@ -8,6 +8,7 @@ end
 
 function set_defines()
    defines { "INLINE static inline", "SH2_INLINE static inline", "LSB_FIRST", "BUILD_WIN32" }
+   defines { "USE_SPEEDHACKS" }
 end
 
 function set_kind()

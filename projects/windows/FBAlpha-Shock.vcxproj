@@ -58,7 +58,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>INLINE static inline;SH2_INLINE static inline;LSB_FIRST;BUILD_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>INLINE static inline;SH2_INLINE static inline;LSB_FIRST;BUILD_WIN32;USE_SPEEDHACKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\src\burn;..\..\src\burn\devices;..\..\src\burn\drv\capcom;..\..\src\burn\drv\cave;..\..\src\burn\drv\dataeast;..\..\src\burn\drv\konami;..\..\src\burn\drv\neogeo;..\..\src\burn\drv\psikyo;..\..\src\burn\drv\sega;..\..\src\burn\drv\taito;..\..\src\burn\drv\toaplan;..\..\src\burner;..\..\src\burn\snd;..\..\src\cpu;..\..\src\cpu\i8039;..\..\src\cpu\i8051;..\..\src\cpu\i8x41;..\..\src\cpu\m6805;..\..\src\cpu\tms32010;..\..\src\cpu\upd7725;..\..\src\cpu\upd7810;..\..\src\cpu\v60;..\..\src\cpu\z180;..\..\src\cpu\z80;..\..\src\dep\generated;..\..\src\dep\libs\zlib;..\..\src\intf;..\..\src\intf\audio;..\..\src\intf\cd;..\..\src\burner\shock\core\platform\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -71,7 +71,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>INLINE static inline;SH2_INLINE static inline;LSB_FIRST;BUILD_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>INLINE static inline;SH2_INLINE static inline;LSB_FIRST;BUILD_WIN32;USE_SPEEDHACKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\src\burn;..\..\src\burn\devices;..\..\src\burn\drv\capcom;..\..\src\burn\drv\cave;..\..\src\burn\drv\dataeast;..\..\src\burn\drv\konami;..\..\src\burn\drv\neogeo;..\..\src\burn\drv\psikyo;..\..\src\burn\drv\sega;..\..\src\burn\drv\taito;..\..\src\burn\drv\toaplan;..\..\src\burner;..\..\src\burn\snd;..\..\src\cpu;..\..\src\cpu\i8039;..\..\src\cpu\i8051;..\..\src\cpu\i8x41;..\..\src\cpu\m6805;..\..\src\cpu\tms32010;..\..\src\cpu\upd7725;..\..\src\cpu\upd7810;..\..\src\cpu\v60;..\..\src\cpu\z180;..\..\src\cpu\z80;..\..\src\dep\generated;..\..\src\dep\libs\zlib;..\..\src\intf;..\..\src\intf\audio;..\..\src\intf\cd;..\..\src\burner\shock\core\platform\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>

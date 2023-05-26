@@ -5,13 +5,6 @@ workspace "FBAlpha-Shock"
    set_architecture()
    set_system()
    
-   filter { "platforms:asp" }
-      architecture "ARM"
-      system "linux"
-   filter { "platforms:mvsx" }
-      architecture "ARM"
-      system "linux"
-
 project "FBAlpha-Shock"
    language "C++"
    characterset ("MBCS")
@@ -19,15 +12,6 @@ project "FBAlpha-Shock"
    set_targetdir()
    set_defines()
    set_kind()
-   
-   filter { "platforms:asp" }
-      kind "ConsoleApp"
-      defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "ASP" }
-   filter { "platforms:mvsx" }
-      kind "ConsoleApp"
-      defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "MVSX" }
-   
-   filter {}
 
    -- Set the directories containing source files
    local sourceDirs = {

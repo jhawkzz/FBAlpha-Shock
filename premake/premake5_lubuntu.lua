@@ -8,6 +8,7 @@ end
 
 function set_defines()
    defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "LUBUNTU" }
+   defines { "USE_SPEEDHACKS" }
 end
 
 function set_kind()
@@ -40,7 +41,16 @@ function set_buildoptions()
    {
       "-Wl,-Bdynamic",
       "-s",
+      "-fsigned-char",
+      "-Wno-write-strings",
+      "-std=gnu99",
    }
+   
+   filter {"configurations:Debug"}
+      buildoptions { "-O0", "-g" }
+   filter {"configurations:Release"}
+      buildoptions { "-O3" }
+   filter {}
 end
 
 function set_additional_includedirs()
