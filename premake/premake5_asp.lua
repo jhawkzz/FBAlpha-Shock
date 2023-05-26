@@ -33,6 +33,7 @@ function set_links()
       "pthread",
       "rt",
       "asound",
+      "soft-fp",
    }
 end
 
