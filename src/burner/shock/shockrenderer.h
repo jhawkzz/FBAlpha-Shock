@@ -27,6 +27,13 @@ public:
     static void    ClearBackBuffer( );
     static void    RenderFBA( UINT16 *pBuffer, int width, int height, int driverFlags, int framesPerSec );
     static void    Flip( );
+    static void    CreateThumbnail(UINT16* pBuffer,
+                                   int width,
+                                   int height,
+                                   UINT16* pThumbnail,
+                                   int thumbWidth,
+                                   int thumbHeight,
+                                   int driverFlags);
     
 private:
     static void RenderFPS( UINT16 *pBackBuffer, int framesPerSec );

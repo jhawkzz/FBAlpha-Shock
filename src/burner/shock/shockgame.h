@@ -64,13 +64,6 @@ private:
     static void CreateGameAssetFolder( );
     static void InitHiscoreSupport( );
 
-    static void ScaleToSize(UINT16* pSource,
-        int srcWidth,
-        int srcHeight,
-        UINT16* pDest,
-        int destScaledWidth,
-        int destScaledHeight);
-
 private:
     static int  mGameLoaded;
     static char mGameAssetFolder[ MAX_PATH ];
