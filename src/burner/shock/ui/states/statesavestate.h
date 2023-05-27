@@ -4,6 +4,8 @@
 #ifndef STATESAVESTATE_H_
 #define STATESAVESTATE_H_
 
+#define THUMB_IMAGE_SPACING (50)
+
 class StateSaveState: public UIBaseState
 {
 public:
@@ -26,6 +28,7 @@ private:
 
     int       mMenuSelection;
     char      mResultStr[ MAX_PATH ];
+    int       mMenuItemFullWidth;
 };
 
 #endif

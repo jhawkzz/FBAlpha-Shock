@@ -16,7 +16,11 @@
 // Although games could theoretically support more, we'll only ever support 2
 #define MAX_SHOCK_PLAYERS (2)
 
+#ifdef MVSX
 #define ASSET_ROOT_PATH     "/mnt/hdisk/fbashock"
+#elif ASP
+#define ASSET_ROOT_PATH     "/mnt/usb/fbashock"
+#endif
 
 // IO for FBA to write game files
 #define EEPROM_PATH          "eeprom/" 
@@ -25,9 +29,9 @@
 #define HISCORE_DAT_FILENAME "hiscore.dat"
 
 // The size of the FBA back buffer that Burn itself renders to
-#define STATE_THUMBNAIL_WIDTH  (50)
-#define STATE_THUMBNAIL_HEIGHT (50)
-#define MAX_SAVE_STATES       (6)
+#define STATE_THUMBNAIL_WIDTH  (125)
+#define STATE_THUMBNAIL_HEIGHT (100)
+#define MAX_SAVE_STATES        (10)
 
 // Graphics
 #ifdef LUBUNTU
