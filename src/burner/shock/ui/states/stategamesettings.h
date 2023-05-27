@@ -4,6 +4,8 @@
 #ifndef STATEGAMESETTINGS_H_
 #define STATEGAMESETTINGS_H_
 
+#include "shock/ui/states/uibasestate.h"
+#include "shock/ui/render/menuitem.h"
 
 class StateGameSettings : public UIBaseState
 {

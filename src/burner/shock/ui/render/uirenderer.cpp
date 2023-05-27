@@ -1,7 +1,10 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/shockrenderer.h"
+#include "shock/ui/render/drawlistobject.h"
+#include "shock/ui/render/uirenderer.h"
+#include "shock/util/util.h"
 
 int            UIRenderer::mDrawListCount;
 DrawListObject UIRenderer::mDrawList[ MAX_DRAWLIST_OBJECTS ];

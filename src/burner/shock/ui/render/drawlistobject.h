@@ -4,6 +4,9 @@
 #ifndef DRAW_LIST_OBJECT_H_
 #define DRAW_LIST_OBJECT_H_
 
+#include "shock/font/font.h"
+#include "burner.h"
+
 class DrawListObject
 {
 public:

@@ -1,9 +1,11 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/defines.h"
+#include "shock/font/font.h"
 #include "shock/font/metfontbinary.h"
 #include "shock/font/upheavalfontbinary.h"
+#include "shock/util/util.h"
 
 //todo: bug when rendering the &, its rendering the top line of '9' as the last line of &
 // proably wrapping the buffer somehow. i notice it whenever rendering any certain letters on the bottom row.

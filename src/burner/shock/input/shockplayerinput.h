@@ -5,6 +5,8 @@
 #define SHOCKPLAYERINPUT_H_
 
 #include "shock/core/input.h"
+#include "shock/defines.h"
+#include "shock/input/shockburninput.h"
 
 struct ShockButtonToBurnInput
 {

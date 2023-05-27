@@ -8,6 +8,8 @@
 #define BUTTON_HEIGHT (55)
 
 #include "shock/input/shockplayerinput.h"
+#include "shock/ui/states/uibasestate.h"
+#include "shock/ui/render/menuitem.h"
 
 class StateButtonConfig : public UIBaseState
 {

@@ -1,7 +1,11 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/input/shockinput.h"
+#include "shock/shockconfig.h"
+#include "shock/ui/render/uirenderer.h"
+#include "shock/ui/states/stateemulatorsettings.h"
+#include "shock/util/util.h"
 
 void StateEmulatorSettings::Create( )
 {

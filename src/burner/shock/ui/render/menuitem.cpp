@@ -1,7 +1,8 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/ui/render/menuitem.h"
+#include "shock/ui/render/uirenderer.h"
 
 void MenuItem::Create( const char *pText, int xPos, int yPos, short textColor )
 {

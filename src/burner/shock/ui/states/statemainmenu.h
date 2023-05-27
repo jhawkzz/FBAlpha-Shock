@@ -4,6 +4,9 @@
 #ifndef STATEMAINMENU_H_
 #define STATEMAINMENU_H_
 
+#include "shock/ui/render/menuitem.h"
+#include "shock/ui/states/uibasestate.h"
+
 struct MenuItemUIState
 {
     MenuItem menuItem;

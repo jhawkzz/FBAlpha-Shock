@@ -1,7 +1,11 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/input/shockinput.h"
+#include "shock/ui/imagebinaries.h"
+#include "shock/ui/render/uirenderer.h"
+#include "shock/ui/states/statemainmenu.h"
+#include "shock/util/util.h"
 
 void StateMainMenu::Create( )
 {

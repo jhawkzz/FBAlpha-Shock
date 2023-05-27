@@ -1,6 +1,9 @@
 
 #include "shock/core/core.h"
 #include "shock/core/framebuffer.h"
+#include "shock/shockmain.h"
+
+#include "../intf/interface.h"
 
 HINSTANCE hAppInst;
 HWND hwndMain;

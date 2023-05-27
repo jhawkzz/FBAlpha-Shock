@@ -24,6 +24,8 @@
 #define UPHEAVAL_FONT_LETTER_WIDTH  (47)
 #define UPHEAVAL_FONT_LETTER_HEIGHT (44)
 
+#include "shock/systems.h"
+
 struct Letter
 {
    UINT16 xPos;

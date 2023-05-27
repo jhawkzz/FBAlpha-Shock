@@ -4,6 +4,8 @@
 #ifndef SHOCKROMLOADER_H_
 #define SHOCKROMLOADER_H_
 
+#include "burner.h"
+
 #define MAX_ROMS        (256)
 #define MAX_ROMSET_ZIPS (64) //Struggling to imagine a game split into more zips than this.
 

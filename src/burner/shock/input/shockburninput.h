@@ -4,6 +4,11 @@
 #ifndef SHOCKBURNINPUT_H_
 #define SHOCKBURNINPUT_H_
 
+#include "shock/systems.h"
+
+struct BurnDIPInfo;
+struct BurnInputInfo;
+
 // Trying to think of a game with more than _NINE_ players and _NINE_ fire buttons. 
 // X-Men arcade has 6 and THAT'S a lot.
 #define MAX_NUM_PLAYERS (9)

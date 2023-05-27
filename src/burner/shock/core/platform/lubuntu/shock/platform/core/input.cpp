@@ -1,8 +1,11 @@
 
 // See License.md for license
 
+#include "shock/core/button.h"
 #include "shock/core/input.h"
+#include "shock/systems.h"
 #include "shock/util/util.h"
+#include "burner.h"
 
 LubuntuInput      InputCore::mLubuntuInputLookup[ ShockButton_Count ];
 LubuntuInputState InputCore::mLubuntuInputState[ LubuntuInput_Count ];

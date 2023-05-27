@@ -1,7 +1,9 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/shockconfig.h"
+#include "shock/shockrenderer.h"
+#include "shock/util/util.h"
 
 ConfigSettings ShockConfig::mConfigSettings;
 

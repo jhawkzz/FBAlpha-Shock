@@ -7,6 +7,8 @@
 #define ROTATE_BUFFER_WIDTH  (512)
 #define ROTATE_BUFFER_HEIGHT (512)
 
+#include "burner.h"
+
 enum ShockDisplayMode
 {
     ShockDisplayMode_Original,

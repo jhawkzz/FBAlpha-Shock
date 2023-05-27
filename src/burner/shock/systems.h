@@ -9,7 +9,6 @@
     #include <io.h>
     #define _USE_MATH_DEFINES
     #include <math.h>
-    #define INLINE inline
 #else
     #include <unistd.h> //JHM: Fix implicit declaration warnings
     #include <sys/ioctl.h>
@@ -37,5 +36,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <tchar.h>
 
 #endif

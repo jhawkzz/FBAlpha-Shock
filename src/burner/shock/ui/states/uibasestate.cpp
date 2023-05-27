@@ -1,7 +1,10 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/defines.h"
+#include "shock/input/shockinput.h"
+#include "shock/ui/states/uibasestate.h"
+#include "shock/ui/render/uirenderer.h"
 
 void UIBaseState::Create( )
 {

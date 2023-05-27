@@ -4,6 +4,9 @@
 #ifndef STATEDISPLAYSETTINGS_H_
 #define STATEDISPLAYSETTINGS_H_
 
+#include "shock/ui/render/menuitem.h"
+#include "shock/ui/states/uibasestate.h"
+
 class StateDisplaySettings : public UIBaseState
 {
 public:
