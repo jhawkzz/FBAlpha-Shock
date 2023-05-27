@@ -855,6 +855,9 @@
     <ClInclude Include="..\..\src\burner\shock\ui\states\stategamesettings.h">
       <Filter>burner\shock\ui\states</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\ui\states\stategamestatebase.h">
+      <Filter>burner\shock\ui\states</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\ui\states\stateloaderror.h">
       <Filter>burner\shock\ui\states</Filter>
     </ClInclude>
@@ -3414,6 +3417,9 @@
       <Filter>burner\shock\ui\states</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\ui\states\stategamesettings.cpp">
+      <Filter>burner\shock\ui\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burner\shock\ui\states\stategamestatebase.cpp">
       <Filter>burner\shock\ui\states</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\ui\states\stateloaderror.cpp">

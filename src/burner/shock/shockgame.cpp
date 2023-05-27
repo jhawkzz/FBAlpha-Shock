@@ -12,6 +12,7 @@ int  ShockGame::mGameLoaded;
 char ShockGame::mGameAssetFolder[ MAX_PATH ];
 char ShockGame::mBurnAudioBuffer[ MAX_AUDIO_BUFFER_BYTES ];
 char ShockGame::mGameBackBuffer[ GAME_BUFFER_WIDTH * GAME_BUFFER_HEIGHT * GAME_BUFFER_BPP ];
+char ShockGame::mThumbImageBuffer[STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT * GAME_BUFFER_BPP];
 int  ShockGame::mGameDriverFlags;
 int  ShockGame::mGameHardwareCode;
 int  ShockGame::mGameWidth;
@@ -508,15 +509,14 @@ int ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage )
         FILE* pFile = fopen(thumbFilename, "wb");
         if (pFile != NULL)
         {
-            UINT16 thumbImg[STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT] = { 0 };
-            ShockRenderer::CreateThumbnail((UINT16*)mGameBackBuffer, mGameWidth, mGameHeight, thumbImg, STATE_THUMBNAIL_WIDTH, STATE_THUMBNAIL_HEIGHT, mGameDriverFlags);
+            ShockRenderer::CreateThumbnail((UINT16*)mGameBackBuffer, mGameWidth, mGameHeight, (UINT16 *)mThumbImageBuffer, STATE_THUMBNAIL_WIDTH, STATE_THUMBNAIL_HEIGHT, mGameDriverFlags);
 
-            fwrite(thumbImg, 1, sizeof(thumbImg), pFile);
+            fwrite(mThumbImageBuffer, 1, sizeof(mThumbImageBuffer), pFile);
 
             // for convenience, if they want the game's screenshot, copy it
             if (pThumbImage != NULL)
             {
-                memcpy(pThumbImage, thumbImg, sizeof(thumbImg));
+                memcpy(pThumbImage, mThumbImageBuffer, sizeof(mThumbImageBuffer));
             }
 
             fclose(pFile);
