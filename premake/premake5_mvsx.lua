@@ -35,6 +35,8 @@ function set_configurations()
 end
 
 function set_links()
+   linkoptions { "-static" }
+
    links {
       "m",
       "pthread",
