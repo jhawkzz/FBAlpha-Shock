@@ -24,7 +24,7 @@ INCLUDES += -I../../src/burn -I../../src/burn/devices -I../../src/burn/drv/capco
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LIBS += -lm -lpthread -lrt -lasound
+LIBS += -lm -lpthread -lrt -lasound -lsoft-fp
 LDDEPS +=
 ALL_LDFLAGS += $(LDFLAGS) -s
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
@@ -328,7 +328,6 @@ GENERATED += $(OBJDIR)/d_karnov.o
 GENERATED += $(OBJDIR)/d_kbash.o
 GENERATED += $(OBJDIR)/d_kbash2.o
 GENERATED += $(OBJDIR)/d_kchamp.o
-GENERATED += $(OBJDIR)/d_kinst.o
 GENERATED += $(OBJDIR)/d_kncljoe.o
 GENERATED += $(OBJDIR)/d_kontest.o
 GENERATED += $(OBJDIR)/d_korokoro.o
@@ -577,7 +576,6 @@ GENERATED += $(OBJDIR)/d_welltris.o
 GENERATED += $(OBJDIR)/d_wiping.o
 GENERATED += $(OBJDIR)/d_wiz.o
 GENERATED += $(OBJDIR)/d_wrally.o
-GENERATED += $(OBJDIR)/d_wunit.o
 GENERATED += $(OBJDIR)/d_wwfsstar.o
 GENERATED += $(OBJDIR)/d_wwfwfest.o
 GENERATED += $(OBJDIR)/d_wyvernf0.o
@@ -596,7 +594,6 @@ GENERATED += $(OBJDIR)/d_zaxxon.o
 GENERATED += $(OBJDIR)/d_zerozone.o
 GENERATED += $(OBJDIR)/d_zodiack.o
 GENERATED += $(OBJDIR)/dac.o
-GENERATED += $(OBJDIR)/dcs2k.o
 GENERATED += $(OBJDIR)/debug_track.o
 GENERATED += $(OBJDIR)/deco146.o
 GENERATED += $(OBJDIR)/deco16ic.o
@@ -635,7 +632,6 @@ GENERATED += $(OBJDIR)/hiscore.o
 GENERATED += $(OBJDIR)/i8039.o
 GENERATED += $(OBJDIR)/i8x41.o
 GENERATED += $(OBJDIR)/ics2115.o
-GENERATED += $(OBJDIR)/ide.o
 GENERATED += $(OBJDIR)/imagebinaries.o
 GENERATED += $(OBJDIR)/infback.o
 GENERATED += $(OBJDIR)/inffast.o
@@ -693,8 +689,6 @@ GENERATED += $(OBJDIR)/mcs51.o
 GENERATED += $(OBJDIR)/megadrive.o
 GENERATED += $(OBJDIR)/menuitem.o
 GENERATED += $(OBJDIR)/mermaid.o
-GENERATED += $(OBJDIR)/midwayic.o
-GENERATED += $(OBJDIR)/midwunit.o
 GENERATED += $(OBJDIR)/mips3.o
 GENERATED += $(OBJDIR)/mips3_intf.o
 GENERATED += $(OBJDIR)/misc.o
@@ -1138,7 +1132,6 @@ OBJECTS += $(OBJDIR)/d_karnov.o
 OBJECTS += $(OBJDIR)/d_kbash.o
 OBJECTS += $(OBJDIR)/d_kbash2.o
 OBJECTS += $(OBJDIR)/d_kchamp.o
-OBJECTS += $(OBJDIR)/d_kinst.o
 OBJECTS += $(OBJDIR)/d_kncljoe.o
 OBJECTS += $(OBJDIR)/d_kontest.o
 OBJECTS += $(OBJDIR)/d_korokoro.o
@@ -1387,7 +1380,6 @@ OBJECTS += $(OBJDIR)/d_welltris.o
 OBJECTS += $(OBJDIR)/d_wiping.o
 OBJECTS += $(OBJDIR)/d_wiz.o
 OBJECTS += $(OBJDIR)/d_wrally.o
-OBJECTS += $(OBJDIR)/d_wunit.o
 OBJECTS += $(OBJDIR)/d_wwfsstar.o
 OBJECTS += $(OBJDIR)/d_wwfwfest.o
 OBJECTS += $(OBJDIR)/d_wyvernf0.o
@@ -1406,7 +1398,6 @@ OBJECTS += $(OBJDIR)/d_zaxxon.o
 OBJECTS += $(OBJDIR)/d_zerozone.o
 OBJECTS += $(OBJDIR)/d_zodiack.o
 OBJECTS += $(OBJDIR)/dac.o
-OBJECTS += $(OBJDIR)/dcs2k.o
 OBJECTS += $(OBJDIR)/debug_track.o
 OBJECTS += $(OBJDIR)/deco146.o
 OBJECTS += $(OBJDIR)/deco16ic.o
@@ -1445,7 +1436,6 @@ OBJECTS += $(OBJDIR)/hiscore.o
 OBJECTS += $(OBJDIR)/i8039.o
 OBJECTS += $(OBJDIR)/i8x41.o
 OBJECTS += $(OBJDIR)/ics2115.o
-OBJECTS += $(OBJDIR)/ide.o
 OBJECTS += $(OBJDIR)/imagebinaries.o
 OBJECTS += $(OBJDIR)/infback.o
 OBJECTS += $(OBJDIR)/inffast.o
@@ -1503,8 +1493,6 @@ OBJECTS += $(OBJDIR)/mcs51.o
 OBJECTS += $(OBJDIR)/megadrive.o
 OBJECTS += $(OBJDIR)/menuitem.o
 OBJECTS += $(OBJDIR)/mermaid.o
-OBJECTS += $(OBJDIR)/midwayic.o
-OBJECTS += $(OBJDIR)/midwunit.o
 OBJECTS += $(OBJDIR)/mips3.o
 OBJECTS += $(OBJDIR)/mips3_intf.o
 OBJECTS += $(OBJDIR)/misc.o
@@ -2418,24 +2406,6 @@ $(OBJDIR)/megadrive.o: ../../src/burn/drv/megadrive/megadrive.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/stm95.o: ../../src/burn/drv/megadrive/stm95.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/d_kinst.o: ../../src/burn/drv/midway/d_kinst.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/d_wunit.o: ../../src/burn/drv/midway/d_wunit.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/dcs2k.o: ../../src/burn/drv/midway/dcs2k.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/ide.o: ../../src/burn/drv/midway/ide.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/midwayic.o: ../../src/burn/drv/midway/midwayic.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/midwunit.o: ../../src/burn/drv/midway/midwunit.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/d_msx.o: ../../src/burn/drv/msx/d_msx.cpp

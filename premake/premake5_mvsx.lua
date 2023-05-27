@@ -72,6 +72,7 @@ function set_exclude_files()
          "../src/burner/shock/core/platform/lubuntu",
          "../src/burner/shock/core/platform/windows",
          "../src/burner/shock/core/platform/asp",
+         "../src/burn/drv/midway",
    }
 
    for _, excludedir in ipairs(excludedirs) do

@@ -257,7 +257,6 @@
     <ClInclude Include="..\..\src\burner\shock\core\input.h" />
     <ClInclude Include="..\..\src\burner\shock\core\ostimer.h" />
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\audio.h" />
-    <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\core.h" />
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\framebuffer.h" />
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\input.h" />
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\ostimer.h" />
