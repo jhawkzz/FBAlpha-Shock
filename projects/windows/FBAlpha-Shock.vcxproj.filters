@@ -744,6 +744,9 @@
     <ClInclude Include="..\..\src\burner\shock\core\audio.h">
       <Filter>burner\shock\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\core\button.h">
+      <Filter>burner\shock\core</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\core\core.h">
       <Filter>burner\shock\core</Filter>
     </ClInclude>

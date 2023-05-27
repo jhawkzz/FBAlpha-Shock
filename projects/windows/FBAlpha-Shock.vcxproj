@@ -252,6 +252,7 @@
     <ClInclude Include="..\..\src\burner\ioapi.h" />
     <ClInclude Include="..\..\src\burner\neocdlist.h" />
     <ClInclude Include="..\..\src\burner\shock\core\audio.h" />
+    <ClInclude Include="..\..\src\burner\shock\core\button.h" />
     <ClInclude Include="..\..\src\burner\shock\core\core.h" />
     <ClInclude Include="..\..\src\burner\shock\core\framebuffer.h" />
     <ClInclude Include="..\..\src\burner\shock\core\input.h" />

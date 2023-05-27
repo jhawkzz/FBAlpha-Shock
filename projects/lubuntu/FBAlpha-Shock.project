@@ -1,0 +1,1445 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="FBAlpha-Shock" InternalType="Console">
+  <Plugins/>
+  <Description/>
+<VirtualDirectory Name="FBAlpha-Shock">
+  <VirtualDirectory Name="burn">
+    <File Name="../../src/burn/bitswap.h"/>
+    <File Name="../../src/burn/burn.cpp"/>
+    <File Name="../../src/burn/burn.h"/>
+    <File Name="../../src/burn/burn_gun.cpp"/>
+    <File Name="../../src/burn/burn_gun.h"/>
+    <File Name="../../src/burn/burn_led.cpp"/>
+    <File Name="../../src/burn/burn_led.h"/>
+    <File Name="../../src/burn/burn_memory.cpp"/>
+    <File Name="../../src/burn/burn_pal.cpp"/>
+    <File Name="../../src/burn/burn_pal.h"/>
+    <File Name="../../src/burn/burn_shift.cpp"/>
+    <File Name="../../src/burn/burn_shift.h"/>
+    <File Name="../../src/burn/burn_sound.cpp"/>
+    <File Name="../../src/burn/burn_sound.h"/>
+    <File Name="../../src/burn/burn_sound_c.cpp"/>
+    <File Name="../../src/burn/burnint.h"/>
+    <File Name="../../src/burn/cheat.cpp"/>
+    <File Name="../../src/burn/cheat.h"/>
+    <File Name="../../src/burn/debug_track.cpp"/>
+    <VirtualDirectory Name="devices">
+      <File Name="../../src/burn/devices/6821pia.cpp"/>
+      <File Name="../../src/burn/devices/6821pia.h"/>
+      <File Name="../../src/burn/devices/8255ppi.cpp"/>
+      <File Name="../../src/burn/devices/8255ppi.h"/>
+      <File Name="../../src/burn/devices/8257dma.cpp"/>
+      <File Name="../../src/burn/devices/8257dma.h"/>
+      <File Name="../../src/burn/devices/bsmt2000.cpp"/>
+      <File Name="../../src/burn/devices/bsmt2000.h"/>
+      <File Name="../../src/burn/devices/c169.cpp"/>
+      <File Name="../../src/burn/devices/c169.h"/>
+      <File Name="../../src/burn/devices/decobsmt.cpp"/>
+      <File Name="../../src/burn/devices/decobsmt.h"/>
+      <File Name="../../src/burn/devices/eeprom.cpp"/>
+      <File Name="../../src/burn/devices/eeprom.h"/>
+      <File Name="../../src/burn/devices/gaelco_crypt.cpp"/>
+      <File Name="../../src/burn/devices/gaelco_crypt.h"/>
+      <File Name="../../src/burn/devices/joyprocess.cpp"/>
+      <File Name="../../src/burn/devices/joyprocess.h"/>
+      <File Name="../../src/burn/devices/kaneko_tmap.cpp"/>
+      <File Name="../../src/burn/devices/kaneko_tmap.h"/>
+      <File Name="../../src/burn/devices/mb87078.cpp"/>
+      <File Name="../../src/burn/devices/mb87078.h"/>
+      <File Name="../../src/burn/devices/mermaid.cpp"/>
+      <File Name="../../src/burn/devices/mermaid.h"/>
+      <File Name="../../src/burn/devices/namco_c45.cpp"/>
+      <File Name="../../src/burn/devices/namco_c45.h"/>
+      <File Name="../../src/burn/devices/namcoio.cpp"/>
+      <File Name="../../src/burn/devices/namcoio.h"/>
+      <File Name="../../src/burn/devices/nb1414m4.cpp"/>
+      <File Name="../../src/burn/devices/nb1414m4.h"/>
+      <File Name="../../src/burn/devices/nb1414m4_8bit.cpp"/>
+      <File Name="../../src/burn/devices/nb1414m4_8bit.h"/>
+      <File Name="../../src/burn/devices/nmk004.cpp"/>
+      <File Name="../../src/burn/devices/nmk004.h"/>
+      <File Name="../../src/burn/devices/nmk112.cpp"/>
+      <File Name="../../src/burn/devices/nmk112.h"/>
+      <File Name="../../src/burn/devices/pandora.cpp"/>
+      <File Name="../../src/burn/devices/pandora.h"/>
+      <File Name="../../src/burn/devices/resnet.cpp"/>
+      <File Name="../../src/burn/devices/resnet.h"/>
+      <File Name="../../src/burn/devices/seibusnd.cpp"/>
+      <File Name="../../src/burn/devices/seibusnd.h"/>
+      <File Name="../../src/burn/devices/sknsspr.cpp"/>
+      <File Name="../../src/burn/devices/sknsspr.h"/>
+      <File Name="../../src/burn/devices/slapstic.cpp"/>
+      <File Name="../../src/burn/devices/slapstic.h"/>
+      <File Name="../../src/burn/devices/st0020.cpp"/>
+      <File Name="../../src/burn/devices/st0020.h"/>
+      <File Name="../../src/burn/devices/t5182.cpp"/>
+      <File Name="../../src/burn/devices/t5182.h"/>
+      <File Name="../../src/burn/devices/timekpr.cpp"/>
+      <File Name="../../src/burn/devices/timekpr.h"/>
+      <File Name="../../src/burn/devices/tms34061.cpp"/>
+      <File Name="../../src/burn/devices/tms34061.h"/>
+      <File Name="../../src/burn/devices/tms9928a.cpp"/>
+      <File Name="../../src/burn/devices/tms9928a.h"/>
+      <File Name="../../src/burn/devices/v3021.cpp"/>
+      <File Name="../../src/burn/devices/v3021.h"/>
+      <File Name="../../src/burn/devices/vdc.cpp"/>
+      <File Name="../../src/burn/devices/vdc.h"/>
+      <File Name="../../src/burn/devices/watchdog.cpp"/>
+      <File Name="../../src/burn/devices/watchdog.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/burn/driver.h"/>
+    <VirtualDirectory Name="drv">
+      <VirtualDirectory Name="capcom">
+        <File Name="../../src/burn/drv/capcom/cps.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cps.h"/>
+        <File Name="../../src/burn/drv/capcom/cps2_crpt.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cps_config.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cps_draw.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cps_mem.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cps_obj.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cps_pal.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cps_run.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cps_rw.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cps_scr.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cpsr.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cpsrd.cpp"/>
+        <File Name="../../src/burn/drv/capcom/cpst.cpp"/>
+        <File Name="../../src/burn/drv/capcom/ctv.cpp"/>
+        <File Name="../../src/burn/drv/capcom/ctv_do.h"/>
+        <File Name="../../src/burn/drv/capcom/d_cps1.cpp"/>
+        <File Name="../../src/burn/drv/capcom/d_cps2.cpp"/>
+        <File Name="../../src/burn/drv/capcom/d_kenseim.h"/>
+        <File Name="../../src/burn/drv/capcom/fcrash_snd.cpp"/>
+        <File Name="../../src/burn/drv/capcom/kabuki.cpp"/>
+        <File Name="../../src/burn/drv/capcom/ps.cpp"/>
+        <File Name="../../src/burn/drv/capcom/ps_m.cpp"/>
+        <File Name="../../src/burn/drv/capcom/ps_z.cpp"/>
+        <File Name="../../src/burn/drv/capcom/qs.cpp"/>
+        <File Name="../../src/burn/drv/capcom/qs_c.cpp"/>
+        <File Name="../../src/burn/drv/capcom/qs_z.cpp"/>
+        <File Name="../../src/burn/drv/capcom/sf2mdt_snd.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="cave">
+        <File Name="../../src/burn/drv/cave/cave.cpp"/>
+        <File Name="../../src/burn/drv/cave/cave.h"/>
+        <File Name="../../src/burn/drv/cave/cave_palette.cpp"/>
+        <File Name="../../src/burn/drv/cave/cave_sprite.cpp"/>
+        <File Name="../../src/burn/drv/cave/cave_sprite_render.h"/>
+        <File Name="../../src/burn/drv/cave/cave_sprite_render_zoom.h"/>
+        <File Name="../../src/burn/drv/cave/cave_tile.cpp"/>
+        <File Name="../../src/burn/drv/cave/cave_tile_render.h"/>
+        <File Name="../../src/burn/drv/cave/d_dodonpachi.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_donpachi.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_esprade.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_feversos.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_gaia.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_guwange.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_hotdogst.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_korokoro.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_mazinger.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_metmqstr.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_pwrinst2.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_sailormn.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_tjumpman.cpp"/>
+        <File Name="../../src/burn/drv/cave/d_uopoko.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="coleco">
+        <File Name="../../src/burn/drv/coleco/d_coleco.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="cps3">
+        <File Name="../../src/burn/drv/cps3/cps3.h"/>
+        <File Name="../../src/burn/drv/cps3/cps3run.cpp"/>
+        <File Name="../../src/burn/drv/cps3/cps3snd.cpp"/>
+        <File Name="../../src/burn/drv/cps3/d_cps3.cpp"/>
+      </VirtualDirectory>
+      <File Name="../../src/burn/drv/d_parent.cpp"/>
+      <VirtualDirectory Name="dataeast">
+        <File Name="../../src/burn/drv/dataeast/d_actfancr.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_backfire.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_boogwing.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_brkthru.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_bwing.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_cbuster.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_chanbara.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_cninja.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_darkseal.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_dassault.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_dblewing.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_dec0.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_dec8.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_deco156.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_deco32.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_decocass.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_decomlc.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_dietgogo.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_dreambal.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_funkyjet.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_karnov.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_kchamp.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_lemmings.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_metlclsh.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_pktgaldx.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_progolf.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_rohga.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_shootout.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_sidepckt.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_simpl156.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_supbtime.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_tumblep.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/d_vaportra.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/deco146.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/deco146.h"/>
+        <File Name="../../src/burn/drv/dataeast/deco16ic.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/deco16ic.h"/>
+        <File Name="../../src/burn/drv/dataeast/decobac06.cpp"/>
+        <File Name="../../src/burn/drv/dataeast/decobac06.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="galaxian">
+        <File Name="../../src/burn/drv/galaxian/d_galaxian.cpp"/>
+        <File Name="../../src/burn/drv/galaxian/gal.h"/>
+        <File Name="../../src/burn/drv/galaxian/gal_gfx.cpp"/>
+        <File Name="../../src/burn/drv/galaxian/gal_run.cpp"/>
+        <File Name="../../src/burn/drv/galaxian/gal_sound.cpp"/>
+        <File Name="../../src/burn/drv/galaxian/gal_stars.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="irem">
+        <File Name="../../src/burn/drv/irem/d_m107.cpp"/>
+        <File Name="../../src/burn/drv/irem/d_m62.cpp"/>
+        <File Name="../../src/burn/drv/irem/d_m63.cpp"/>
+        <File Name="../../src/burn/drv/irem/d_m72.cpp"/>
+        <File Name="../../src/burn/drv/irem/d_m90.cpp"/>
+        <File Name="../../src/burn/drv/irem/d_m92.cpp"/>
+        <File Name="../../src/burn/drv/irem/d_vigilant.cpp"/>
+        <File Name="../../src/burn/drv/irem/irem_cpu.cpp"/>
+        <File Name="../../src/burn/drv/irem/irem_cpu.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="konami">
+        <File Name="../../src/burn/drv/konami/d_88games.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_ajax.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_aliens.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_asterix.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_battlnts.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_bishi.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_bladestl.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_blockhl.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_bottom9.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_chqflag.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_circusc.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_combatsc.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_contra.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_crimfght.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_dbz.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_ddribble.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_fastlane.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_finalzr.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_flkatck.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_gberet.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_gbusters.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_gijoe.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_gradius3.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_gyruss.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_hcastle.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_hexion.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_hyperspt.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_ironhors.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_jackal.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_jailbrek.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_junofrst.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_kontest.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_labyrunr.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_lethal.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_mainevt.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_megazone.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_mikie.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_mogura.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_moo.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_mystwarr.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_nemesis.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_pandoras.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_parodius.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_pingpong.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_pooyan.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_rockrage.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_rocnrope.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_rollerg.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_sbasketb.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_scotrsht.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_shaolins.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_simpsons.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_spy.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_surpratk.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_thunderx.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_timeplt.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_tmnt.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_tp84.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_trackfld.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_tutankhm.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_twin16.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_ultraman.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_vendetta.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_xexex.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_xmen.cpp"/>
+        <File Name="../../src/burn/drv/konami/d_yiear.cpp"/>
+        <File Name="../../src/burn/drv/konami/k007121.cpp"/>
+        <File Name="../../src/burn/drv/konami/k007121.h"/>
+        <File Name="../../src/burn/drv/konami/k007342_k007420.cpp"/>
+        <File Name="../../src/burn/drv/konami/k007342_k007420.h"/>
+        <File Name="../../src/burn/drv/konami/k051316.cpp"/>
+        <File Name="../../src/burn/drv/konami/k051733.cpp"/>
+        <File Name="../../src/burn/drv/konami/k051960.cpp"/>
+        <File Name="../../src/burn/drv/konami/k052109.cpp"/>
+        <File Name="../../src/burn/drv/konami/k053245.cpp"/>
+        <File Name="../../src/burn/drv/konami/k053247.cpp"/>
+        <File Name="../../src/burn/drv/konami/k053250.cpp"/>
+        <File Name="../../src/burn/drv/konami/k053251.cpp"/>
+        <File Name="../../src/burn/drv/konami/k053936.cpp"/>
+        <File Name="../../src/burn/drv/konami/k054000.cpp"/>
+        <File Name="../../src/burn/drv/konami/k054338.cpp"/>
+        <File Name="../../src/burn/drv/konami/k055555.cpp"/>
+        <File Name="../../src/burn/drv/konami/k056832.cpp"/>
+        <File Name="../../src/burn/drv/konami/konamigx.cpp"/>
+        <File Name="../../src/burn/drv/konami/konamiic.cpp"/>
+        <File Name="../../src/burn/drv/konami/konamiic.h"/>
+        <File Name="../../src/burn/drv/konami/timeplt_snd.cpp"/>
+        <File Name="../../src/burn/drv/konami/timeplt_snd.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="megadrive">
+        <File Name="../../src/burn/drv/megadrive/d_megadrive.cpp"/>
+        <File Name="../../src/burn/drv/megadrive/megadrive.cpp"/>
+        <File Name="../../src/burn/drv/megadrive/megadrive.h"/>
+        <File Name="../../src/burn/drv/megadrive/stm95.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="midway">
+        <File Name="../../src/burn/drv/midway/d_kinst.cpp"/>
+        <File Name="../../src/burn/drv/midway/d_wunit.cpp"/>
+        <File Name="../../src/burn/drv/midway/dcs2k.cpp"/>
+        <File Name="../../src/burn/drv/midway/dcs2k.h"/>
+        <File Name="../../src/burn/drv/midway/ide.cpp"/>
+        <File Name="../../src/burn/drv/midway/ide.h"/>
+        <File Name="../../src/burn/drv/midway/midtunit_dma.h"/>
+        <File Name="../../src/burn/drv/midway/midwayic.cpp"/>
+        <File Name="../../src/burn/drv/midway/midwayic.h"/>
+        <File Name="../../src/burn/drv/midway/midwunit.cpp"/>
+        <File Name="../../src/burn/drv/midway/midwunit.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="msx">
+        <File Name="../../src/burn/drv/msx/d_msx.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="neogeo">
+        <File Name="../../src/burn/drv/neogeo/d_neogeo.cpp"/>
+        <File Name="../../src/burn/drv/neogeo/neo_decrypt.cpp"/>
+        <File Name="../../src/burn/drv/neogeo/neo_palette.cpp"/>
+        <File Name="../../src/burn/drv/neogeo/neo_run.cpp"/>
+        <File Name="../../src/burn/drv/neogeo/neo_sprite.cpp"/>
+        <File Name="../../src/burn/drv/neogeo/neo_sprite_render.h"/>
+        <File Name="../../src/burn/drv/neogeo/neo_text.cpp"/>
+        <File Name="../../src/burn/drv/neogeo/neo_text_render.h"/>
+        <File Name="../../src/burn/drv/neogeo/neo_upd4990a.cpp"/>
+        <File Name="../../src/burn/drv/neogeo/neocdlist.cpp"/>
+        <File Name="../../src/burn/drv/neogeo/neocdlist.h"/>
+        <File Name="../../src/burn/drv/neogeo/neogeo.cpp"/>
+        <File Name="../../src/burn/drv/neogeo/neogeo.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="pce">
+        <File Name="../../src/burn/drv/pce/d_pce.cpp"/>
+        <File Name="../../src/burn/drv/pce/pce.cpp"/>
+        <File Name="../../src/burn/drv/pce/pce.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="pgm">
+        <File Name="../../src/burn/drv/pgm/d_pgm.cpp"/>
+        <File Name="../../src/burn/drv/pgm/pgm.h"/>
+        <File Name="../../src/burn/drv/pgm/pgm_asic25.cpp"/>
+        <File Name="../../src/burn/drv/pgm/pgm_asic27a_type1.cpp"/>
+        <File Name="../../src/burn/drv/pgm/pgm_asic27a_type2.cpp"/>
+        <File Name="../../src/burn/drv/pgm/pgm_asic27a_type3.cpp"/>
+        <File Name="../../src/burn/drv/pgm/pgm_asic3.cpp"/>
+        <File Name="../../src/burn/drv/pgm/pgm_crypt.cpp"/>
+        <File Name="../../src/burn/drv/pgm/pgm_draw.cpp"/>
+        <File Name="../../src/burn/drv/pgm/pgm_run.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="pre90s">
+        <File Name="../../src/burn/drv/pre90s/d_1942.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_1943.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_4enraya.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_aeroboto.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_alinvade.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_alpha68k.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_alpha68k1.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_alpha68k2.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_ambush.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_amspdwy.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_arabian.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_armedf.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_atetris.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_aztarac.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_baraduke.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_battlane.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_battlex.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_bbusters.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_beaminv.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_bionicc.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_blktiger.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_blockout.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_blueprnt.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_bogeyman.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_bombjack.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_btime.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_cabal.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_calorie.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_canyon.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_capbowl.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_carjmbre.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_cclimber.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_cheekyms.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_chinagat.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_citycon.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_cloak.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_clshroad.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_commando.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_cop01.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_copsnrob.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_cybertnk.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_dacholer.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_ddragon.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_djboy.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_dkong.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_docastle.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_dogfgt.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_dorachan.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_dribling.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_drmicro.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_dynduke.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_epos.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_exedexes.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_fantland.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_fastfred.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_firetrap.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_flower.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_foodf.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_freekick.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_funkybee.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_galaga.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_galivan.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_gaplus.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_gauntlet.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_ginganin.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_gng.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_gunsmoke.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_higemaru.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_himesiki.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_hvyunit.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_ikki.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_invaders.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_jack.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_jrpacman.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_kangaroo.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_kncljoe.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_kyugo.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_ladybug.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_lasso.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_lastduel.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_lwings.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_madmotor.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mainsnk.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mappy.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_marineb.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mario.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_markham.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mastboyo.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_megasys1.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_meijinsn.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_metlfrzr.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_millipede.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mirax.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mitchell.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mmagic.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mole.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_momoko.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mouser.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mrdo.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mrflea.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mrjong.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_munchmo.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mustache.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_mystston.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_namcos1.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_namcos86.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_naughtyb.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_ninjakd2.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_olibochu.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_pac2650.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_pacland.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_pacman.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_pengadvb.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_phoenix.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_pitnrun.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_pkunwar.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_popeye.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_popper.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_prehisle.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_psychic5.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_pturn.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_punchout.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_qbert.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_quizo.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_rallyx.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_renegade.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_route16.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_rpunch.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_safarir.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_sauro.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_scregg.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_seicross.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_sf.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_sidearms.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_skyarmy.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_skyfox.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_skykid.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_snk.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_snk6502.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_snk68.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_solomon.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_sonson.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_sprcros2.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_srumbler.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_ssozumo.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_sstrangr.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_sub.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_suna8.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_tail2nose.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_tbowl.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_tecmo.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_terracre.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_thedeep.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_thepit.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_tigeroad.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_timelimt.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_toki.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_toypop.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_travrusa.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_tsamurai.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_usgames.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_vastar.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_vball.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_vicdual.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_vulgus.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_wallc.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_warpsped.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_warpwarp.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_wc90.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_wc90b.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_wiping.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_wiz.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_wwfsstar.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_xain.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_xxmissio.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_xyonix.cpp"/>
+        <File Name="../../src/burn/drv/pre90s/d_zodiack.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="psikyo">
+        <File Name="../../src/burn/drv/psikyo/d_psikyo.cpp"/>
+        <File Name="../../src/burn/drv/psikyo/d_psikyo4.cpp"/>
+        <File Name="../../src/burn/drv/psikyo/d_psikyosh.cpp"/>
+        <File Name="../../src/burn/drv/psikyo/psikyo.h"/>
+        <File Name="../../src/burn/drv/psikyo/psikyo_palette.cpp"/>
+        <File Name="../../src/burn/drv/psikyo/psikyo_render.h"/>
+        <File Name="../../src/burn/drv/psikyo/psikyo_sprite.cpp"/>
+        <File Name="../../src/burn/drv/psikyo/psikyo_sprite_func.h"/>
+        <File Name="../../src/burn/drv/psikyo/psikyo_tile.cpp"/>
+        <File Name="../../src/burn/drv/psikyo/psikyosh_render.cpp"/>
+        <File Name="../../src/burn/drv/psikyo/psikyosh_render.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="pst90s">
+        <File Name="../../src/burn/drv/pst90s/d_1945kiii.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_20pacgal.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_3x3puzzl.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_aerofgt.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_airbustr.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_aquarium.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_bestleag.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_bigstrkb.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_blmbycar.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_bloodbro.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_crospang.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_crshrace.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_cultures.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_dcon.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_ddragon3.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_deniam.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_diverboy.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_dooyong.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_dreamwld.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_drgnmst.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_drtomy.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_egghunt.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_esd16.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_f1gp.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_funybubl.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_fuukifg2.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_fuukifg3.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_gaelco.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_gaelco2.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_gaiden.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_galpanic.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_galspnbl.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_glass.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_gotcha.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_gumbo.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_hyperpac.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_jchan.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_kaneko16.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_lordgun.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_macrossp.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_mcatadv.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_metro.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_midas.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_mosaic.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_mugsmash.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_mwarr.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_namcos2.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_news.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_nmg5.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_nmk16.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_ohmygod.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_onetwo.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_pass.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_patapata.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_pipedrm.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_pirates.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_pkscram.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_playmark.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_powerins.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_pushman.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_raiden.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_raiden2.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_sandscrp.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_seta.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_seta2.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_shadfrce.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_silkroad.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_silvmil.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_speedspn.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_ssv.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_suna16.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_suprnova.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_taotaido.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_tecmo16.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_tecmosys.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_tetrisp2.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_thoop2.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_tumbleb.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_unico.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_vmetal.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_welltris.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_wrally.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_wwfwfest.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_xorworld.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_yunsun16.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_yunsung8.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/d_zerozone.cpp"/>
+        <File Name="../../src/burn/drv/pst90s/kanekotb.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="sega">
+        <File Name="../../src/burn/drv/sega/d_angelkds.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_appoooh.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_bankp.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_dotrikun.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_hangon.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_outrun.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_segae.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_suprloco.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_sys1.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_sys16a.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_sys16b.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_sys18.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_xbrd.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_ybrd.cpp"/>
+        <File Name="../../src/burn/drv/sega/d_zaxxon.cpp"/>
+        <File Name="../../src/burn/drv/sega/fd1089.cpp"/>
+        <File Name="../../src/burn/drv/sega/fd1094.cpp"/>
+        <File Name="../../src/burn/drv/sega/fd1094.h"/>
+        <File Name="../../src/burn/drv/sega/genesis_vid.cpp"/>
+        <File Name="../../src/burn/drv/sega/genesis_vid.h"/>
+        <File Name="../../src/burn/drv/sega/mc8123.cpp"/>
+        <File Name="../../src/burn/drv/sega/mc8123.h"/>
+        <File Name="../../src/burn/drv/sega/sega_315_5195.cpp"/>
+        <File Name="../../src/burn/drv/sega/sys16.h"/>
+        <File Name="../../src/burn/drv/sega/sys16_fd1094.cpp"/>
+        <File Name="../../src/burn/drv/sega/sys16_gfx.cpp"/>
+        <File Name="../../src/burn/drv/sega/sys16_run.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="sg1000">
+        <File Name="../../src/burn/drv/sg1000/d_sg1000.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="sms">
+        <File Name="../../src/burn/drv/sms/d_sms.cpp"/>
+        <File Name="../../src/burn/drv/sms/sms.cpp"/>
+        <File Name="../../src/burn/drv/sms/sms.h"/>
+        <File Name="../../src/burn/drv/sms/smsfmintf.cpp"/>
+        <File Name="../../src/burn/drv/sms/smsfmintf.h"/>
+        <File Name="../../src/burn/drv/sms/smshvc.h"/>
+        <File Name="../../src/burn/drv/sms/smspio.cpp"/>
+        <File Name="../../src/burn/drv/sms/smspio.h"/>
+        <File Name="../../src/burn/drv/sms/smsrender.cpp"/>
+        <File Name="../../src/burn/drv/sms/smsrender.h"/>
+        <File Name="../../src/burn/drv/sms/smsshared.h"/>
+        <File Name="../../src/burn/drv/sms/smssound.cpp"/>
+        <File Name="../../src/burn/drv/sms/smssound.h"/>
+        <File Name="../../src/burn/drv/sms/smssystem.cpp"/>
+        <File Name="../../src/burn/drv/sms/smssystem.h"/>
+        <File Name="../../src/burn/drv/sms/smstms.cpp"/>
+        <File Name="../../src/burn/drv/sms/smstms.h"/>
+        <File Name="../../src/burn/drv/sms/smsvdp.cpp"/>
+        <File Name="../../src/burn/drv/sms/smsvdp.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="snes">
+        <File Name="../../src/burn/drv/snes/d_snes.cpp"/>
+        <File Name="../../src/burn/drv/snes/snes.h"/>
+        <File Name="../../src/burn/drv/snes/snes_65816.cpp"/>
+        <File Name="../../src/burn/drv/snes/snes_io.cpp"/>
+        <File Name="../../src/burn/drv/snes/snes_main.cpp"/>
+        <File Name="../../src/burn/drv/snes/snes_ppu.cpp"/>
+        <File Name="../../src/burn/drv/snes/snes_spc700.cpp"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="taito">
+        <File Name="../../src/burn/drv/taito/cc.cpp"/>
+        <File Name="../../src/burn/drv/taito/cc.h"/>
+        <File Name="../../src/burn/drv/taito/cchip.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_arkanoid.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_ashnojoe.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_asuka.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_bublbobl.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_chaknpop.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_crbaloon.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_darius2.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_darkmist.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_exzisus.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_flstory.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_ksayakyu.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_lkage.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_minivdr.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_msisaac.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_othunder.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_retofinv.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_rollrace.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_slapshot.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_ssrj.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_superchs.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_supridr.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_taitob.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_taitof2.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_taitof3.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_taitoh.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_taitol.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_taitomisc.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_taitox.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_taitoz.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_tnzs.cpp"/>
+        <File Name="../../src/burn/drv/taito/d_wyvernf0.cpp"/>
+        <File Name="../../src/burn/drv/taito/pc080sn.cpp"/>
+        <File Name="../../src/burn/drv/taito/pc090oj.cpp"/>
+        <File Name="../../src/burn/drv/taito/taito.cpp"/>
+        <File Name="../../src/burn/drv/taito/taito.h"/>
+        <File Name="../../src/burn/drv/taito/taito_ic.cpp"/>
+        <File Name="../../src/burn/drv/taito/taito_ic.h"/>
+        <File Name="../../src/burn/drv/taito/taito_m68705.cpp"/>
+        <File Name="../../src/burn/drv/taito/taito_m68705.h"/>
+        <File Name="../../src/burn/drv/taito/taitof3_snd.cpp"/>
+        <File Name="../../src/burn/drv/taito/taitof3_snd.h"/>
+        <File Name="../../src/burn/drv/taito/taitof3_video.cpp"/>
+        <File Name="../../src/burn/drv/taito/taitof3_video.h"/>
+        <File Name="../../src/burn/drv/taito/tc0100scn.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0110pcr.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0140syt.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0150rod.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0180vcu.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0220ioc.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0280grd.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0360pri.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0480scp.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0510nio.cpp"/>
+        <File Name="../../src/burn/drv/taito/tc0640fio.cpp"/>
+        <File Name="../../src/burn/drv/taito/tnzs_prot.cpp"/>
+        <File Name="../../src/burn/drv/taito/tnzs_prot.h"/>
+      </VirtualDirectory>
+      <VirtualDirectory Name="toaplan">
+        <File Name="../../src/burn/drv/toaplan/d_batrider.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_batsugun.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_battleg.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_bbakraid.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_dogyuun.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_fixeight.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_ghox.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_kbash.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_kbash2.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_mahoudai.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_pipibibs.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_shippumd.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_slapfght.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_snowbro2.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_tekipaki.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_toaplan1.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_truxton2.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_twincobr.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_vfive.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/d_wardner.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/toa_bcu2.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/toa_extratext.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/toa_extratext.h"/>
+        <File Name="../../src/burn/drv/toaplan/toa_gp9001.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/toa_gp9001_render.h"/>
+        <File Name="../../src/burn/drv/toaplan/toa_palette.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/toaplan.cpp"/>
+        <File Name="../../src/burn/drv/toaplan/toaplan.h"/>
+        <File Name="../../src/burn/drv/toaplan/toaplan1.cpp"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <File Name="../../src/burn/hiscore.cpp"/>
+    <File Name="../../src/burn/hiscore.h"/>
+    <File Name="../../src/burn/load.cpp"/>
+    <VirtualDirectory Name="snd">
+      <File Name="../../src/burn/snd/ay8910.c"/>
+      <File Name="../../src/burn/snd/ay8910.h"/>
+      <File Name="../../src/burn/snd/burn_md2612.cpp"/>
+      <File Name="../../src/burn/snd/burn_md2612.h"/>
+      <File Name="../../src/burn/snd/burn_y8950.cpp"/>
+      <File Name="../../src/burn/snd/burn_y8950.h"/>
+      <File Name="../../src/burn/snd/burn_ym2151.cpp"/>
+      <File Name="../../src/burn/snd/burn_ym2151.h"/>
+      <File Name="../../src/burn/snd/burn_ym2203.cpp"/>
+      <File Name="../../src/burn/snd/burn_ym2203.h"/>
+      <File Name="../../src/burn/snd/burn_ym2413.cpp"/>
+      <File Name="../../src/burn/snd/burn_ym2413.h"/>
+      <File Name="../../src/burn/snd/burn_ym2608.cpp"/>
+      <File Name="../../src/burn/snd/burn_ym2608.h"/>
+      <File Name="../../src/burn/snd/burn_ym2610.cpp"/>
+      <File Name="../../src/burn/snd/burn_ym2610.h"/>
+      <File Name="../../src/burn/snd/burn_ym2612.cpp"/>
+      <File Name="../../src/burn/snd/burn_ym2612.h"/>
+      <File Name="../../src/burn/snd/burn_ym3526.cpp"/>
+      <File Name="../../src/burn/snd/burn_ym3526.h"/>
+      <File Name="../../src/burn/snd/burn_ym3812.cpp"/>
+      <File Name="../../src/burn/snd/burn_ym3812.h"/>
+      <File Name="../../src/burn/snd/burn_ymf278b.cpp"/>
+      <File Name="../../src/burn/snd/burn_ymf278b.h"/>
+      <File Name="../../src/burn/snd/c140.cpp"/>
+      <File Name="../../src/burn/snd/c140.h"/>
+      <File Name="../../src/burn/snd/c6280.cpp"/>
+      <File Name="../../src/burn/snd/c6280.h"/>
+      <File Name="../../src/burn/snd/dac.cpp"/>
+      <File Name="../../src/burn/snd/dac.h"/>
+      <File Name="../../src/burn/snd/es5506.cpp"/>
+      <File Name="../../src/burn/snd/es5506.h"/>
+      <File Name="../../src/burn/snd/es8712.cpp"/>
+      <File Name="../../src/burn/snd/es8712.h"/>
+      <File Name="../../src/burn/snd/flower.cpp"/>
+      <File Name="../../src/burn/snd/flower.h"/>
+      <File Name="../../src/burn/snd/flt_rc.cpp"/>
+      <File Name="../../src/burn/snd/flt_rc.h"/>
+      <File Name="../../src/burn/snd/fm.c"/>
+      <File Name="../../src/burn/snd/fm.h"/>
+      <File Name="../../src/burn/snd/fmopl.c"/>
+      <File Name="../../src/burn/snd/fmopl.h"/>
+      <File Name="../../src/burn/snd/gaelco.cpp"/>
+      <File Name="../../src/burn/snd/gaelco.h"/>
+      <File Name="../../src/burn/snd/ics2115.cpp"/>
+      <File Name="../../src/burn/snd/ics2115.h"/>
+      <File Name="../../src/burn/snd/iremga20.cpp"/>
+      <File Name="../../src/burn/snd/iremga20.h"/>
+      <File Name="../../src/burn/snd/k005289.cpp"/>
+      <File Name="../../src/burn/snd/k005289.h"/>
+      <File Name="../../src/burn/snd/k007232.cpp"/>
+      <File Name="../../src/burn/snd/k007232.h"/>
+      <File Name="../../src/burn/snd/k051649.cpp"/>
+      <File Name="../../src/burn/snd/k051649.h"/>
+      <File Name="../../src/burn/snd/k053260.cpp"/>
+      <File Name="../../src/burn/snd/k053260.h"/>
+      <File Name="../../src/burn/snd/k054539.cpp"/>
+      <File Name="../../src/burn/snd/k054539.h"/>
+      <File Name="../../src/burn/snd/msm5205.cpp"/>
+      <File Name="../../src/burn/snd/msm5205.h"/>
+      <File Name="../../src/burn/snd/msm5232.cpp"/>
+      <File Name="../../src/burn/snd/msm5232.h"/>
+      <File Name="../../src/burn/snd/msm6295.cpp"/>
+      <File Name="../../src/burn/snd/msm6295.h"/>
+      <File Name="../../src/burn/snd/namco_snd.cpp"/>
+      <File Name="../../src/burn/snd/namco_snd.h"/>
+      <File Name="../../src/burn/snd/nes_apu.cpp"/>
+      <File Name="../../src/burn/snd/nes_apu.h"/>
+      <File Name="../../src/burn/snd/nes_defs.h"/>
+      <File Name="../../src/burn/snd/phoenixsound.cpp"/>
+      <File Name="../../src/burn/snd/phoenixsound.h"/>
+      <File Name="../../src/burn/snd/pleiadssound.cpp"/>
+      <File Name="../../src/burn/snd/pleiadssound.h"/>
+      <File Name="../../src/burn/snd/pokey.cpp"/>
+      <File Name="../../src/burn/snd/pokey.h"/>
+      <File Name="../../src/burn/snd/rescap.h"/>
+      <File Name="../../src/burn/snd/rf5c68.cpp"/>
+      <File Name="../../src/burn/snd/rf5c68.h"/>
+      <File Name="../../src/burn/snd/saa1099.cpp"/>
+      <File Name="../../src/burn/snd/saa1099.h"/>
+      <File Name="../../src/burn/snd/samples.cpp"/>
+      <File Name="../../src/burn/snd/samples.h"/>
+      <File Name="../../src/burn/snd/segapcm.cpp"/>
+      <File Name="../../src/burn/snd/segapcm.h"/>
+      <File Name="../../src/burn/snd/sn76477.cpp"/>
+      <File Name="../../src/burn/snd/sn76477.h"/>
+      <File Name="../../src/burn/snd/sn76496.cpp"/>
+      <File Name="../../src/burn/snd/sn76496.h"/>
+      <File Name="../../src/burn/snd/snk6502_sound.cpp"/>
+      <File Name="../../src/burn/snd/snk6502_sound.h"/>
+      <File Name="../../src/burn/snd/tms36xx.cpp"/>
+      <File Name="../../src/burn/snd/tms36xx.h"/>
+      <File Name="../../src/burn/snd/tms5220.cpp"/>
+      <File Name="../../src/burn/snd/tms5220.h"/>
+      <File Name="../../src/burn/snd/tms5220_tables.h"/>
+      <File Name="../../src/burn/snd/upd7759.cpp"/>
+      <File Name="../../src/burn/snd/upd7759.h"/>
+      <File Name="../../src/burn/snd/vlm5030.cpp"/>
+      <File Name="../../src/burn/snd/vlm5030.h"/>
+      <File Name="../../src/burn/snd/wiping.cpp"/>
+      <File Name="../../src/burn/snd/wiping.h"/>
+      <File Name="../../src/burn/snd/x1010.cpp"/>
+      <File Name="../../src/burn/snd/x1010.h"/>
+      <File Name="../../src/burn/snd/ym2151.c"/>
+      <File Name="../../src/burn/snd/ym2151.h"/>
+      <File Name="../../src/burn/snd/ym2413.c"/>
+      <File Name="../../src/burn/snd/ym2413.h"/>
+      <File Name="../../src/burn/snd/ym2612.c"/>
+      <File Name="../../src/burn/snd/ym2612.h"/>
+      <File Name="../../src/burn/snd/ymdeltat.c"/>
+      <File Name="../../src/burn/snd/ymdeltat.h"/>
+      <File Name="../../src/burn/snd/ymf278b.c"/>
+      <File Name="../../src/burn/snd/ymf278b.h"/>
+      <File Name="../../src/burn/snd/ymz280b.cpp"/>
+      <File Name="../../src/burn/snd/ymz280b.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/burn/state.h"/>
+    <File Name="../../src/burn/stdfunc.h"/>
+    <File Name="../../src/burn/tilemap_generic.cpp"/>
+    <File Name="../../src/burn/tilemap_generic.h"/>
+    <File Name="../../src/burn/tiles_generic.cpp"/>
+    <File Name="../../src/burn/tiles_generic.h"/>
+    <File Name="../../src/burn/timer.cpp"/>
+    <File Name="../../src/burn/timer.h"/>
+    <File Name="../../src/burn/vector.cpp"/>
+    <File Name="../../src/burn/vector.h"/>
+    <File Name="../../src/burn/version.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="burner">
+    <File Name="../../src/burner/burner.h"/>
+    <File Name="../../src/burner/ioapi.c"/>
+    <File Name="../../src/burner/ioapi.h"/>
+    <File Name="../../src/burner/main.cpp"/>
+    <File Name="../../src/burner/misc.cpp"/>
+    <File Name="../../src/burner/neocdlist.h"/>
+    <VirtualDirectory Name="shock">
+      <VirtualDirectory Name="core">
+        <File Name="../../src/burner/shock/core/audio.h"/>
+        <File Name="../../src/burner/shock/core/button.h"/>
+        <File Name="../../src/burner/shock/core/core.h"/>
+        <File Name="../../src/burner/shock/core/framebuffer.h"/>
+        <File Name="../../src/burner/shock/core/input.h"/>
+        <File Name="../../src/burner/shock/core/ostimer.h"/>
+        <VirtualDirectory Name="platform">
+          <VirtualDirectory Name="lubuntu">
+            <VirtualDirectory Name="shock">
+              <VirtualDirectory Name="platform">
+                <VirtualDirectory Name="core">
+                  <File Name="../../src/burner/shock/core/platform/lubuntu/shock/platform/core/audio.cpp"/>
+                  <File Name="../../src/burner/shock/core/platform/lubuntu/shock/platform/core/audio.h"/>
+                  <File Name="../../src/burner/shock/core/platform/lubuntu/shock/platform/core/framebuffer.cpp"/>
+                  <File Name="../../src/burner/shock/core/platform/lubuntu/shock/platform/core/framebuffer.h"/>
+                  <File Name="../../src/burner/shock/core/platform/lubuntu/shock/platform/core/input.cpp"/>
+                  <File Name="../../src/burner/shock/core/platform/lubuntu/shock/platform/core/input.h"/>
+                </VirtualDirectory>
+              </VirtualDirectory>
+            </VirtualDirectory>
+          </VirtualDirectory>
+          <VirtualDirectory Name="posix">
+            <VirtualDirectory Name="shock">
+              <VirtualDirectory Name="platform">
+                <VirtualDirectory Name="core">
+                  <File Name="../../src/burner/shock/core/platform/posix/shock/platform/core/core.cpp"/>
+                  <File Name="../../src/burner/shock/core/platform/posix/shock/platform/core/ostimer.cpp"/>
+                  <File Name="../../src/burner/shock/core/platform/posix/shock/platform/core/ostimer.h"/>
+                  <File Name="../../src/burner/shock/core/platform/posix/shock/platform/core/thread.cpp"/>
+                  <File Name="../../src/burner/shock/core/platform/posix/shock/platform/core/thread.h"/>
+                </VirtualDirectory>
+              </VirtualDirectory>
+            </VirtualDirectory>
+          </VirtualDirectory>
+        </VirtualDirectory>
+        <File Name="../../src/burner/shock/core/thread.h"/>
+      </VirtualDirectory>
+      <File Name="../../src/burner/shock/defines.h"/>
+      <VirtualDirectory Name="font">
+        <File Name="../../src/burner/shock/font/font.cpp"/>
+        <File Name="../../src/burner/shock/font/font.h"/>
+        <File Name="../../src/burner/shock/font/metfontbinary.h"/>
+        <File Name="../../src/burner/shock/font/upheavalfontbinary.h"/>
+      </VirtualDirectory>
+      <File Name="../../src/burner/shock/hiscoredat.h"/>
+      <File Name="../../src/burner/shock/includes.h"/>
+      <VirtualDirectory Name="input">
+        <File Name="../../src/burner/shock/input/shockburninput.cpp"/>
+        <File Name="../../src/burner/shock/input/shockburninput.h"/>
+        <File Name="../../src/burner/shock/input/shockinput.cpp"/>
+        <File Name="../../src/burner/shock/input/shockinput.h"/>
+        <File Name="../../src/burner/shock/input/shockplayerinput.cpp"/>
+        <File Name="../../src/burner/shock/input/shockplayerinput.h"/>
+      </VirtualDirectory>
+      <File Name="../../src/burner/shock/shockaudio.cpp"/>
+      <File Name="../../src/burner/shock/shockaudio.h"/>
+      <File Name="../../src/burner/shock/shockconfig.cpp"/>
+      <File Name="../../src/burner/shock/shockconfig.h"/>
+      <File Name="../../src/burner/shock/shockgame.cpp"/>
+      <File Name="../../src/burner/shock/shockgame.h"/>
+      <File Name="../../src/burner/shock/shockmain.cpp"/>
+      <File Name="../../src/burner/shock/shockmain.h"/>
+      <File Name="../../src/burner/shock/shockrenderer.cpp"/>
+      <File Name="../../src/burner/shock/shockrenderer.h"/>
+      <File Name="../../src/burner/shock/shockromloader.cpp"/>
+      <File Name="../../src/burner/shock/shockromloader.h"/>
+      <File Name="../../src/burner/shock/systems.h"/>
+      <File Name="../../src/burner/shock/tchar.h"/>
+      <VirtualDirectory Name="ui">
+        <File Name="../../src/burner/shock/ui/imagebinaries.cpp"/>
+        <File Name="../../src/burner/shock/ui/imagebinaries.h"/>
+        <VirtualDirectory Name="render">
+          <File Name="../../src/burner/shock/ui/render/drawlistobject.cpp"/>
+          <File Name="../../src/burner/shock/ui/render/drawlistobject.h"/>
+          <File Name="../../src/burner/shock/ui/render/menuitem.cpp"/>
+          <File Name="../../src/burner/shock/ui/render/menuitem.h"/>
+          <File Name="../../src/burner/shock/ui/render/uirenderer.cpp"/>
+          <File Name="../../src/burner/shock/ui/render/uirenderer.h"/>
+        </VirtualDirectory>
+        <File Name="../../src/burner/shock/ui/shockui.cpp"/>
+        <File Name="../../src/burner/shock/ui/shockui.h"/>
+        <VirtualDirectory Name="states">
+          <File Name="../../src/burner/shock/ui/states/statebuttonconfig.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/statebuttonconfig.h"/>
+          <File Name="../../src/burner/shock/ui/states/statecredits.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/statecredits.h"/>
+          <File Name="../../src/burner/shock/ui/states/statedisplaysettings.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/statedisplaysettings.h"/>
+          <File Name="../../src/burner/shock/ui/states/stateemulatorsettings.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/stateemulatorsettings.h"/>
+          <File Name="../../src/burner/shock/ui/states/stategamesettings.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/stategamesettings.h"/>
+          <File Name="../../src/burner/shock/ui/states/stateloaderror.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/stateloaderror.h"/>
+          <File Name="../../src/burner/shock/ui/states/stateloading.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/stateloading.h"/>
+          <File Name="../../src/burner/shock/ui/states/statemainmenu.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/statemainmenu.h"/>
+          <File Name="../../src/burner/shock/ui/states/uibasestate.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/uibasestate.h"/>
+        </VirtualDirectory>
+      </VirtualDirectory>
+      <VirtualDirectory Name="util">
+        <File Name="../../src/burner/shock/util/ringbuffer.cpp"/>
+        <File Name="../../src/burner/shock/util/ringbuffer.h"/>
+        <File Name="../../src/burner/shock/util/util.cpp"/>
+        <File Name="../../src/burner/shock/util/util.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+    <File Name="../../src/burner/tchar.h"/>
+    <File Name="../../src/burner/unzip.c"/>
+    <File Name="../../src/burner/unzip.h"/>
+    <File Name="../../src/burner/zipfn.cpp"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="cpu">
+    <VirtualDirectory Name="adsp2100">
+      <File Name="../../src/cpu/adsp2100/adsp2100.cpp"/>
+      <File Name="../../src/cpu/adsp2100/adsp2100.h"/>
+      <File Name="../../src/cpu/adsp2100/adsp2100_defs.h"/>
+      <File Name="../../src/cpu/adsp2100/cpuintrf.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/adsp2100_intf.cpp"/>
+    <File Name="../../src/cpu/adsp2100_intf.h"/>
+    <VirtualDirectory Name="arm">
+      <File Name="../../src/cpu/arm/arm.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="arm7">
+      <File Name="../../src/cpu/arm7/arm7.cpp"/>
+      <File Name="../../src/cpu/arm7/arm7core.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/arm7_intf.cpp"/>
+    <File Name="../../src/cpu/arm7_intf.h"/>
+    <File Name="../../src/cpu/arm_intf.cpp"/>
+    <File Name="../../src/cpu/arm_intf.h"/>
+    <VirtualDirectory Name="h6280">
+      <File Name="../../src/cpu/h6280/h6280.cpp"/>
+      <File Name="../../src/cpu/h6280/h6280.h"/>
+      <File Name="../../src/cpu/h6280/h6280ops.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/h6280_intf.cpp"/>
+    <File Name="../../src/cpu/h6280_intf.h"/>
+    <VirtualDirectory Name="hd6309">
+      <File Name="../../src/cpu/hd6309/hd6309.cpp"/>
+      <File Name="../../src/cpu/hd6309/hd6309.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/hd6309_intf.cpp"/>
+    <File Name="../../src/cpu/hd6309_intf.h"/>
+    <VirtualDirectory Name="i8039">
+      <File Name="../../src/cpu/i8039/i8039.cpp"/>
+      <File Name="../../src/cpu/i8039/i8039.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="i8051">
+      <File Name="../../src/cpu/i8051/mcs51.cpp"/>
+      <File Name="../../src/cpu/i8051/mcs51.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="i8x41">
+      <File Name="../../src/cpu/i8x41/i8x41.cpp"/>
+      <File Name="../../src/cpu/i8x41/i8x41.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="konami">
+      <File Name="../../src/cpu/konami/konami.cpp"/>
+      <File Name="../../src/cpu/konami/konami.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/konami_intf.cpp"/>
+    <File Name="../../src/cpu/konami_intf.h"/>
+    <VirtualDirectory Name="m6502">
+      <File Name="../../src/cpu/m6502/ill02.h"/>
+      <File Name="../../src/cpu/m6502/m6502.cpp"/>
+      <File Name="../../src/cpu/m6502/m6502.h"/>
+      <File Name="../../src/cpu/m6502/ops02.h"/>
+      <File Name="../../src/cpu/m6502/opsc02.h"/>
+      <File Name="../../src/cpu/m6502/opsn2a03.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/m6502_intf.cpp"/>
+    <File Name="../../src/cpu/m6502_intf.h"/>
+    <VirtualDirectory Name="m6800">
+      <File Name="../../src/cpu/m6800/m6800.cpp"/>
+      <File Name="../../src/cpu/m6800/m6800.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/m68000_debug.h"/>
+    <File Name="../../src/cpu/m68000_intf.cpp"/>
+    <File Name="../../src/cpu/m68000_intf.h"/>
+    <File Name="../../src/cpu/m6800_intf.cpp"/>
+    <File Name="../../src/cpu/m6800_intf.h"/>
+    <VirtualDirectory Name="m6805">
+      <File Name="../../src/cpu/m6805/m6805.cpp"/>
+      <File Name="../../src/cpu/m6805/m6805.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/m6805_intf.cpp"/>
+    <File Name="../../src/cpu/m6805_intf.h"/>
+    <VirtualDirectory Name="m6809">
+      <File Name="../../src/cpu/m6809/m6809.cpp"/>
+      <File Name="../../src/cpu/m6809/m6809.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/m6809_intf.cpp"/>
+    <File Name="../../src/cpu/m6809_intf.h"/>
+    <VirtualDirectory Name="m68k">
+      <File Name="../../src/cpu/m68k/m68k.h"/>
+      <File Name="../../src/cpu/m68k/m68kconf.h"/>
+      <File Name="../../src/cpu/m68k/m68kcpu.c"/>
+      <File Name="../../src/cpu/m68k/m68kcpu.h"/>
+      <File Name="../../src/cpu/m68k/m68kops.c"/>
+      <File Name="../../src/cpu/m68k/m68kops.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="mips3">
+      <File Name="../../src/cpu/mips3/cop0.cpp"/>
+      <File Name="../../src/cpu/mips3/cop1.cpp"/>
+      <File Name="../../src/cpu/mips3/mips3.cpp"/>
+      <File Name="../../src/cpu/mips3/mips3.h"/>
+      <File Name="../../src/cpu/mips3/mips3_arithm.h"/>
+      <File Name="../../src/cpu/mips3/mips3_bitops.h"/>
+      <File Name="../../src/cpu/mips3/mips3_branch.h"/>
+      <File Name="../../src/cpu/mips3/mips3_common.h"/>
+      <File Name="../../src/cpu/mips3/mips3_memory.h"/>
+      <File Name="../../src/cpu/mips3/mips3_misc.h"/>
+      <File Name="../../src/cpu/mips3/mips3_rw.h"/>
+      <File Name="../../src/cpu/mips3/mips3_shift.h"/>
+      <File Name="../../src/cpu/mips3/mipsdef.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/mips3_intf.cpp"/>
+    <File Name="../../src/cpu/mips3_intf.h"/>
+    <VirtualDirectory Name="nec">
+      <File Name="../../src/cpu/nec/nec.cpp"/>
+      <File Name="../../src/cpu/nec/nec.h"/>
+      <File Name="../../src/cpu/nec/necea.h"/>
+      <File Name="../../src/cpu/nec/necinstr.h"/>
+      <File Name="../../src/cpu/nec/necmacro.h"/>
+      <File Name="../../src/cpu/nec/necmodrm.h"/>
+      <File Name="../../src/cpu/nec/necpriv.h"/>
+      <File Name="../../src/cpu/nec/v25.cpp"/>
+      <File Name="../../src/cpu/nec/v25instr.h"/>
+      <File Name="../../src/cpu/nec/v25priv.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/nec_intf.cpp"/>
+    <File Name="../../src/cpu/nec_intf.h"/>
+    <VirtualDirectory Name="pic16c5x">
+      <File Name="../../src/cpu/pic16c5x/pic16c5x.cpp"/>
+      <File Name="../../src/cpu/pic16c5x/pic16c5x.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/pic16c5x_intf.cpp"/>
+    <File Name="../../src/cpu/pic16c5x_intf.h"/>
+    <VirtualDirectory Name="s2650">
+      <File Name="../../src/cpu/s2650/s2650.cpp"/>
+      <File Name="../../src/cpu/s2650/s2650.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/s2650_intf.cpp"/>
+    <File Name="../../src/cpu/s2650_intf.h"/>
+    <VirtualDirectory Name="sh2">
+      <File Name="../../src/cpu/sh2/sh2.cpp"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/sh2_intf.h"/>
+    <VirtualDirectory Name="tlcs90">
+      <File Name="../../src/cpu/tlcs90/tlcs90.cpp"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/tlcs90_intf.cpp"/>
+    <File Name="../../src/cpu/tlcs90_intf.h"/>
+    <VirtualDirectory Name="tms32010">
+      <File Name="../../src/cpu/tms32010/tms32010.cpp"/>
+      <File Name="../../src/cpu/tms32010/tms32010.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="tms34010">
+      <File Name="../../src/cpu/tms34010/tms34010.cpp"/>
+      <File Name="../../src/cpu/tms34010/tms34010.h"/>
+      <File Name="../../src/cpu/tms34010/tms34010_arithm.h"/>
+      <File Name="../../src/cpu/tms34010/tms34010_ctrl.h"/>
+      <File Name="../../src/cpu/tms34010/tms34010_defs.h"/>
+      <File Name="../../src/cpu/tms34010/tms34010_gfx.h"/>
+      <File Name="../../src/cpu/tms34010/tms34010_jump.h"/>
+      <File Name="../../src/cpu/tms34010/tms34010_memacc.h"/>
+      <File Name="../../src/cpu/tms34010/tms34010_mov.h"/>
+      <File Name="../../src/cpu/tms34010/tms34010_optable.cpp"/>
+      <File Name="../../src/cpu/tms34010/tms34010_shift.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/tms34010_intf.cpp"/>
+    <File Name="../../src/cpu/tms34010_intf.h"/>
+    <VirtualDirectory Name="upd7725">
+      <File Name="../../src/cpu/upd7725/upd7725.cpp"/>
+      <File Name="../../src/cpu/upd7725/upd7725.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="upd7810">
+      <File Name="../../src/cpu/upd7810/upd7810.cpp"/>
+      <File Name="../../src/cpu/upd7810/upd7810.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/upd7810_intf.h"/>
+    <VirtualDirectory Name="v60">
+      <File Name="../../src/cpu/v60/v60.cpp"/>
+      <File Name="../../src/cpu/v60/v60.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/v60_intf.h"/>
+    <VirtualDirectory Name="z180">
+      <File Name="../../src/cpu/z180/z180.cpp"/>
+      <File Name="../../src/cpu/z180/z180.h"/>
+      <File Name="../../src/cpu/z180/z180daa.h"/>
+      <File Name="../../src/cpu/z180/z180ops.h"/>
+      <File Name="../../src/cpu/z180/z180tbl.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/z180_intf.cpp"/>
+    <File Name="../../src/cpu/z180_intf.h"/>
+    <VirtualDirectory Name="z80">
+      <File Name="../../src/cpu/z80/z80.cpp"/>
+      <File Name="../../src/cpu/z80/z80.h"/>
+      <File Name="../../src/cpu/z80/z80daisy.cpp"/>
+      <File Name="../../src/cpu/z80/z80daisy.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/cpu/z80_intf.cpp"/>
+    <File Name="../../src/cpu/z80_intf.h"/>
+  </VirtualDirectory>
+  <VirtualDirectory Name="dep">
+    <VirtualDirectory Name="generated">
+      <File Name="../../src/dep/generated/cave_sprite_func.h"/>
+      <File Name="../../src/dep/generated/cave_sprite_func_table.h"/>
+      <File Name="../../src/dep/generated/cave_tile_func.h"/>
+      <File Name="../../src/dep/generated/cave_tile_func_table.h"/>
+      <File Name="../../src/dep/generated/ctv.h"/>
+      <File Name="../../src/dep/generated/driverlist.h"/>
+      <File Name="../../src/dep/generated/neo_sprite_func.h"/>
+      <File Name="../../src/dep/generated/neo_sprite_func_table.h"/>
+      <File Name="../../src/dep/generated/nosmsgg_driverlist.h"/>
+      <File Name="../../src/dep/generated/pgm_sprite.h"/>
+      <File Name="../../src/dep/generated/psikyo_tile_func.h"/>
+      <File Name="../../src/dep/generated/psikyo_tile_func_table.h"/>
+      <File Name="../../src/dep/generated/toa_gp9001_func.h"/>
+      <File Name="../../src/dep/generated/toa_gp9001_func_table.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="libs">
+      <VirtualDirectory Name="zlib">
+        <File Name="../../src/dep/libs/zlib/adler32.c"/>
+        <File Name="../../src/dep/libs/zlib/compress.c"/>
+        <File Name="../../src/dep/libs/zlib/crc32.c"/>
+        <File Name="../../src/dep/libs/zlib/crc32.h"/>
+        <File Name="../../src/dep/libs/zlib/deflate.c"/>
+        <File Name="../../src/dep/libs/zlib/deflate.h"/>
+        <File Name="../../src/dep/libs/zlib/gzclose.c"/>
+        <File Name="../../src/dep/libs/zlib/gzguts.h"/>
+        <File Name="../../src/dep/libs/zlib/gzlib.c"/>
+        <File Name="../../src/dep/libs/zlib/gzread.c"/>
+        <File Name="../../src/dep/libs/zlib/gzwrite.c"/>
+        <File Name="../../src/dep/libs/zlib/infback.c"/>
+        <File Name="../../src/dep/libs/zlib/inffast.c"/>
+        <File Name="../../src/dep/libs/zlib/inffast.h"/>
+        <File Name="../../src/dep/libs/zlib/inffixed.h"/>
+        <File Name="../../src/dep/libs/zlib/inflate.c"/>
+        <File Name="../../src/dep/libs/zlib/inflate.h"/>
+        <File Name="../../src/dep/libs/zlib/inftrees.c"/>
+        <File Name="../../src/dep/libs/zlib/inftrees.h"/>
+        <File Name="../../src/dep/libs/zlib/trees.c"/>
+        <File Name="../../src/dep/libs/zlib/trees.h"/>
+        <File Name="../../src/dep/libs/zlib/uncompr.c"/>
+        <File Name="../../src/dep/libs/zlib/zconf.h"/>
+        <File Name="../../src/dep/libs/zlib/zlib.h"/>
+        <File Name="../../src/dep/libs/zlib/zutil.c"/>
+        <File Name="../../src/dep/libs/zlib/zutil.h"/>
+      </VirtualDirectory>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="intf">
+    <VirtualDirectory Name="audio">
+      <File Name="../../src/intf/audio/lowpass2.cpp"/>
+      <File Name="../../src/intf/audio/lowpass2.h"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="cd">
+      <File Name="../../src/intf/cd/cd_interface.cpp"/>
+      <File Name="../../src/intf/cd/cd_interface.h"/>
+    </VirtualDirectory>
+    <File Name="../../src/intf/interface.cpp"/>
+    <File Name="../../src/intf/interface.h"/>
+  </VirtualDirectory>
+</VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="" Assembler="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-m32;-Wl,-Bdynamic;-s;-fsigned-char;-Wno-write-strings;-O0;-g" C_Options="-m32;-Wl,-Bdynamic;-s;-fsigned-char;-Wno-write-strings;-O0;-g" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlagsPolicy="1" PCHFlags="">
+        <IncludePath Value="../../src/burn"/>
+        <IncludePath Value="../../src/burn/devices"/>
+        <IncludePath Value="../../src/burn/drv/capcom"/>
+        <IncludePath Value="../../src/burn/drv/cave"/>
+        <IncludePath Value="../../src/burn/drv/dataeast"/>
+        <IncludePath Value="../../src/burn/drv/konami"/>
+        <IncludePath Value="../../src/burn/drv/neogeo"/>
+        <IncludePath Value="../../src/burn/drv/psikyo"/>
+        <IncludePath Value="../../src/burn/drv/sega"/>
+        <IncludePath Value="../../src/burn/drv/taito"/>
+        <IncludePath Value="../../src/burn/drv/toaplan"/>
+        <IncludePath Value="../../src/burner"/>
+        <IncludePath Value="../../src/burn/snd"/>
+        <IncludePath Value="../../src/cpu"/>
+        <IncludePath Value="../../src/cpu/i8039"/>
+        <IncludePath Value="../../src/cpu/i8051"/>
+        <IncludePath Value="../../src/cpu/i8x41"/>
+        <IncludePath Value="../../src/cpu/m6805"/>
+        <IncludePath Value="../../src/cpu/tms32010"/>
+        <IncludePath Value="../../src/cpu/upd7725"/>
+        <IncludePath Value="../../src/cpu/upd7810"/>
+        <IncludePath Value="../../src/cpu/v60"/>
+        <IncludePath Value="../../src/cpu/z180"/>
+        <IncludePath Value="../../src/cpu/z80"/>
+        <IncludePath Value="../../src/dep/generated"/>
+        <IncludePath Value="../../src/dep/libs/zlib"/>
+        <IncludePath Value="../../src/intf"/>
+        <IncludePath Value="../../src/intf/audio"/>
+        <IncludePath Value="../../src/intf/cd"/>
+        <IncludePath Value="../../src/burner/shock/core/platform/lubuntu"/>
+        <IncludePath Value="../../src/burner/shock/core/platform/posix"/>
+        <Preprocessor Value="INLINE\ =\ static\ inline"/>
+        <Preprocessor Value="SH2_INLINE\ =\ static\ inline"/>
+        <Preprocessor Value="LSB_FIRST"/>
+        <Preprocessor Value="LUBUNTU"/>
+        <Preprocessor Value="USE_SPEEDHACKS"/>
+      </Compiler>
+      <Linker Required="yes" Options="-m32;-lm;-lpthread;-lrt;-lasound">
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="bin/Debug/fba029743" IntermediateDirectory="obj/Debug" Command="bin/Debug/fba029743" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <CustomBuild Enabled="no"/>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="clang++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-m32;-Wl,-Bdynamic;-s;-fsigned-char;-Wno-write-strings;-O3" C_Options="-m32;-Wl,-Bdynamic;-s;-fsigned-char;-Wno-write-strings;-O3" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlagsPolicy="1" PCHFlags="">
+        <IncludePath Value="../../src/burn"/>
+        <IncludePath Value="../../src/burn/devices"/>
+        <IncludePath Value="../../src/burn/drv/capcom"/>
+        <IncludePath Value="../../src/burn/drv/cave"/>
+        <IncludePath Value="../../src/burn/drv/dataeast"/>
+        <IncludePath Value="../../src/burn/drv/konami"/>
+        <IncludePath Value="../../src/burn/drv/neogeo"/>
+        <IncludePath Value="../../src/burn/drv/psikyo"/>
+        <IncludePath Value="../../src/burn/drv/sega"/>
+        <IncludePath Value="../../src/burn/drv/taito"/>
+        <IncludePath Value="../../src/burn/drv/toaplan"/>
+        <IncludePath Value="../../src/burner"/>
+        <IncludePath Value="../../src/burn/snd"/>
+        <IncludePath Value="../../src/cpu"/>
+        <IncludePath Value="../../src/cpu/i8039"/>
+        <IncludePath Value="../../src/cpu/i8051"/>
+        <IncludePath Value="../../src/cpu/i8x41"/>
+        <IncludePath Value="../../src/cpu/m6805"/>
+        <IncludePath Value="../../src/cpu/tms32010"/>
+        <IncludePath Value="../../src/cpu/upd7725"/>
+        <IncludePath Value="../../src/cpu/upd7810"/>
+        <IncludePath Value="../../src/cpu/v60"/>
+        <IncludePath Value="../../src/cpu/z180"/>
+        <IncludePath Value="../../src/cpu/z80"/>
+        <IncludePath Value="../../src/dep/generated"/>
+        <IncludePath Value="../../src/dep/libs/zlib"/>
+        <IncludePath Value="../../src/intf"/>
+        <IncludePath Value="../../src/intf/audio"/>
+        <IncludePath Value="../../src/intf/cd"/>
+        <IncludePath Value="../../src/burner/shock/core/platform/lubuntu"/>
+        <IncludePath Value="../../src/burner/shock/core/platform/posix"/>
+        <Preprocessor Value="INLINE\ =\ static\ inline"/>
+        <Preprocessor Value="SH2_INLINE\ =\ static\ inline"/>
+        <Preprocessor Value="LSB_FIRST"/>
+        <Preprocessor Value="LUBUNTU"/>
+        <Preprocessor Value="USE_SPEEDHACKS"/>
+      </Compiler>
+      <Linker Required="yes" Options="-m32;-lm;-lpthread;-lrt;-lasound">
+      </Linker>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="bin/Release/fba029743" IntermediateDirectory="obj/Release" Command="bin/Release/fba029743" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <CustomBuild Enabled="no"/>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>
