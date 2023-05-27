@@ -4,8 +4,8 @@
 #ifndef OSTIMER_H_
 #define OSTIMER_H_
 
-#include "../includes.h"
-#include "ostimer_core.h"
+#include "shock/includes.h"
+#include "shock/platform/core/ostimer.h"
 
 class OSTimer : public OSTimerCore
 {

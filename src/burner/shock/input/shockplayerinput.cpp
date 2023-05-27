@@ -1,7 +1,12 @@
 
 // See License.md for license
 
-#include "../includes.h"
+#include "shock/includes.h"
+#include "shock/input/shockinput.h"
+
+#ifdef MVSX
+   #include "shock/platform/core/mvsxled.h"
+#endif
 
 ShockButtonToBurnInput ShockPlayerInput::mShockButtonToBurnInput[ MAX_SHOCK_PLAYERS ];
 int                    ShockPlayerInput::mHardwareCode;

@@ -1,7 +1,12 @@
 
 // See License.md for license
 
-#include "includes.h"
+#include "shock/includes.h"
+#include "shock/core/audio.h"
+
+#ifdef MVSX
+   #include "shock/platform/core/mvsxled.h"
+#endif
 
 int  ShockGame::mGameLoaded;
 char ShockGame::mBurnAudioBuffer[ MAX_AUDIO_BUFFER_BYTES ];
@@ -356,7 +361,7 @@ int ShockGame::PrepareAudio( )
         return -1;
     }
 
-#ifdef MVSX
+#if defined MVSX || defined ASP
     result = Audio::SetBufferLength( nBurnSoundLen );
     if( result < 0 )
     {

@@ -1,7 +1,7 @@
 
 // See License.md for license
 
-#include "../includes.h"
+#include "shock/includes.h"
 
 InputControl ShockInput::mInputState[ ShockButton_Count ];
 

@@ -1,9 +1,14 @@
 
 // See License.md for license
 
-#include "includes.h"
+#include "shock/core/core.h"
+#include "shock/includes.h"
 
-ShockThread ShockMain::mLoadThread;
+#ifdef MVSX
+   #include "shock/platform/core/mvsxled.h"
+#endif
+
+Thread      ShockMain::mLoadThread;
 ShockState  ShockMain::mState;
 LoadResult  ShockMain::mLoadResult;
 char        ShockMain::mRomsetName[ MAX_PATH ];
@@ -260,7 +265,7 @@ void ShockMain::UpdateState_Emulator( )
 
 void ShockMain::Update()
 {
-    int result = ShockMainCore::Update( );
+    int result = Core::Update();
 
     if (result == -1)
     {

@@ -1,4 +1,6 @@
-#include "shock/includes.h"
+
+#include "shock/core/core.h"
+#include "shock/core/framebuffer.h"
 
 HINSTANCE hAppInst;
 HWND hwndMain;
@@ -54,8 +56,6 @@ LRESULT CALLBACK WndProc(
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, 
     LPSTR lpszCmdLine, int nCmdShow) 
 { 
-    MSG msg;
-    BOOL bRet; 
     WNDCLASS wc = {}; 
     UNREFERENCED_PARAMETER(lpszCmdLine); 
 
@@ -95,7 +95,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     ShowWindow(hwndMain, nCmdShow); 
     UpdateWindow(hwndMain); 
 
-    ShockMain::SetWindow(hwndMain);
+    FrameBufferCore::SetWindow(hwndMain);
 
     int count;
 

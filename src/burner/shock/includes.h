@@ -4,40 +4,7 @@
 #ifndef INCLUDES_H_
 #define INCLUDES_H_
 
-#if defined(_WIN32)
-    #define WIN32_LEAN_AND_MEAN
-    #include <windows.h>
-    #include <io.h>
-    #define _USE_MATH_DEFINES
-    #include <math.h>
-    #define INLINE inline
-#else
-    #include <unistd.h> //JHM: Fix implicit declaration warnings
-    #include <sys/ioctl.h>
-    #include <sys/mman.h>
-    #include <sys/wait.h>
-    #include <libgen.h>
-    #include <pthread.h>
-    #include <linux/soundcard.h>
-    #include <linux/input.h>
-    #include <poll.h>
-    #include <sys/mount.h>
-    #include <sys/reboot.h>
-    #include <dirent.h>
-    #include <linux/fb.h>
-#endif
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-#include <errno.h>
-#include <signal.h>
-#include <string.h>
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
+#include "systems.h"
 
 // FBA Includes
 #include "burner.h"
@@ -48,19 +15,9 @@
 #include "shock/util/ringbuffer.h"
 #include "core/ostimer.h"
 
-#ifdef MVSX
-#include "shock/core/mvsx/mvsxled.h"
-#endif
-
 #ifdef LUBUNTU
 #include <alsa/asoundlib.h>
 #endif
-
-#include "audio.h"
-#include "framebuffer.h"
-#include "input.h"
-
-#include "shock/core/thread.h"
 
 #include "shock/shockrenderer.h"
 #include "shock/shockaudio.h"
@@ -68,7 +25,6 @@
 
 #include "shock/input/shockinput.h"
 #include "shock/input/shockburninput.h"
-#include "shock/input/shockplayerinput.h"
 
 #include "shock/shockconfig.h"
 

@@ -3,13 +3,12 @@
 
 typedef void *(*ShockThreadProc)(void *);
 
-#include "thread_core.h"
+#include "shock/platform/core/thread.h"
 
-class ShockThread : public ShockThreadCore
+class Thread : public ThreadCore
 {
 public:
-    ShockThread();
-   ~ShockThread();
+   ~Thread();
 
    int Create(ShockThreadProc, void* param);
 };

@@ -2,16 +2,20 @@
 fbaconfig.dat
 *.zip
 
-build_mvsx/
-build_mvsx_debug/
-build_lubuntu/
-build_lubuntu_debug/
-build_asp_debug/
-build_asp/
 src/.clang/
 src/.codelite/
 blend/
 eeprom/
 hiscore/
 
-projects/
+projects/asp/bin/
+projects/asp/obj/
+projects/lubuntu/bin/
+projects/lubuntu/obj/
+projects/mvsx/bin/
+projects/mvsx/obj/
+projects/windows/bin/
+projects/windows/obj/
+projects/windows/.vs/
+projects/windows/*.user
+
