@@ -44,14 +44,14 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>bin\Debug\</OutDir>
     <IntDir>obj\Debug\</IntDir>
-    <TargetName>FBAlpha-Shock</TargetName>
+    <TargetName>fba029743</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>bin\Release\</OutDir>
     <IntDir>obj\Release\</IntDir>
-    <TargetName>FBAlpha-Shock</TargetName>
+    <TargetName>fba029743</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

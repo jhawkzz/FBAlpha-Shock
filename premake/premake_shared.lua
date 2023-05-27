@@ -7,6 +7,7 @@ workspace "FBAlpha-Shock"
    
 project "FBAlpha-Shock"
    language "C++"
+   targetname "fba029743"
    characterset ("MBCS")
    set_location()
    set_targetdir()

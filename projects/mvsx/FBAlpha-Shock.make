@@ -43,14 +43,14 @@ endef
 
 ifeq ($(config),debug)
 TARGETDIR = bin/Debug
-TARGET = $(TARGETDIR)/FBAlpha-Shock
+TARGET = $(TARGETDIR)/fba029743
 OBJDIR = obj/Debug
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -static -s -fsigned-char -Wno-write-strings -O0 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -static -s -fsigned-char -Wno-write-strings -O0 -g
 
 else ifeq ($(config),release)
 TARGETDIR = bin/Release
-TARGET = $(TARGETDIR)/FBAlpha-Shock
+TARGET = $(TARGETDIR)/fba029743
 OBJDIR = obj/Release
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -static -s -fsigned-char -Wno-write-strings -O3
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -static -s -fsigned-char -Wno-write-strings -O3
