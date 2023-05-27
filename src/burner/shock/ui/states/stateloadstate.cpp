@@ -9,19 +9,43 @@ void StateLoadState::Create()
 
     mNumMenuItems = 0;
 
+    // store the full width for easier rendering
+    mMenuItemFullWidth = Font::MeasureStringWidth("Slot 8") + THUMB_IMAGE_SPACING + STATE_THUMBNAIL_WIDTH;
+
     int xPos = UI_X_POS_MENU;
-    int yPos = UI_Y_POS_MENU;
-    for (int i = 0; i < MAX_SAVE_STATES; i++)
+    int yPos = UI_Y_POS_MENU + STATE_THUMBNAIL_HEIGHT / 2;
+    int i = 0;
+    for (i = 0; i < MAX_SAVE_STATES / 2; i++)
     {
         char menuTitle[MAX_PATH] = { 0 };
         snprintf(menuTitle, sizeof(menuTitle), "Slot %d", i + 1);
         mMenuItemList[mNumMenuItems++].Create(menuTitle, xPos, yPos, 0xFFFF);
 
-        yPos += 100;
+        yPos += STATE_THUMBNAIL_HEIGHT + STATE_THUMBNAIL_HEIGHT / 2;
 
         if (mNumMenuItems > MAX_MENU_ITEMS)
         {
-            flushPrintf("StateLoadState::Create() ERROR!!! mNumMenuItems too large at %d."
+            flushPrintf("StateSaveState::Create() ERROR!!! mNumMenuItems too large at %d."
+                "MAX_MENU_ITEMS is only: %d\r\n",
+                mNumMenuItems,
+                MAX_MENU_ITEMS);
+            exit(0);
+        }
+    }
+
+    xPos = PLATFORM_LCD_WIDTH - mMenuItemFullWidth - UI_X_POS_MENU;
+    yPos = UI_Y_POS_MENU + STATE_THUMBNAIL_HEIGHT / 2;
+    for (; i < MAX_SAVE_STATES; i++)
+    {
+        char menuTitle[MAX_PATH] = { 0 };
+        snprintf(menuTitle, sizeof(menuTitle), "Slot %d", i + 1);
+        mMenuItemList[mNumMenuItems++].Create(menuTitle, xPos, yPos, 0xFFFF);
+
+        yPos += STATE_THUMBNAIL_HEIGHT + STATE_THUMBNAIL_HEIGHT / 2;
+
+        if (mNumMenuItems > MAX_MENU_ITEMS)
+        {
+            flushPrintf("StateSaveState::Create() ERROR!!! mNumMenuItems too large at %d."
                 "MAX_MENU_ITEMS is only: %d\r\n",
                 mNumMenuItems,
                 MAX_MENU_ITEMS);
@@ -90,7 +114,7 @@ UIState StateLoadState::Update()
             int result = ShockGame::LoadGameState(mMenuSelection);
             if (result == 0)
             {
-                snprintf(mResultStr, sizeof(mResultStr), "State for slot: %d loaded", mMenuSelection + 1);
+                snprintf(mResultStr, sizeof(mResultStr), "State for slot %d loaded. Return to game to play.", mMenuSelection + 1);
             }
             else
             {
@@ -107,16 +131,26 @@ void StateLoadState::DrawMenu()
 {
     UIBaseState::RenderTitle("LOAD STATE");
 
+    int titleWidth = Font::MeasureStringWidth(mMenuItemList[0].GetText());
+
     for (int i = 0; i < MAX_SAVE_STATES; i++)
     {
         if (mStateExists[i])
         {
-            UIRenderer::DrawSprite(mStateThumb[i], PLATFORM_LCD_WIDTH - 100, mMenuItemList[i].GetYPos(), STATE_THUMBNAIL_WIDTH, STATE_THUMBNAIL_HEIGHT);
+            UIRenderer::DrawSprite(mStateThumb[i], 
+                                   mMenuItemList[i].GetXPos() + titleWidth + THUMB_IMAGE_SPACING,
+                                   mMenuItemList[i].GetYPos() - STATE_THUMBNAIL_HEIGHT / 2, 
+                                   STATE_THUMBNAIL_WIDTH, 
+                                   STATE_THUMBNAIL_HEIGHT);
             mMenuItemList[i].SetColor(UI_COLOR_ENABLED);
         }
         else
         {
-            UIRenderer::DrawSprite(mStateBlankImg, PLATFORM_LCD_WIDTH - 100, mMenuItemList[i].GetYPos(), STATE_THUMBNAIL_WIDTH, STATE_THUMBNAIL_HEIGHT);
+            UIRenderer::DrawSprite(mStateBlankImg, 
+                                   mMenuItemList[i].GetXPos() + titleWidth + THUMB_IMAGE_SPACING,
+                                   mMenuItemList[i].GetYPos() - STATE_THUMBNAIL_HEIGHT / 2, 
+                                   STATE_THUMBNAIL_WIDTH, 
+                                   STATE_THUMBNAIL_HEIGHT);
             mMenuItemList[i].SetColor(UI_COLOR_DISABLED);
         }
 

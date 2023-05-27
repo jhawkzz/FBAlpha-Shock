@@ -21,6 +21,7 @@ int ShockMain::Create( )
     mLoadResult = LoadResult_None;
 
     // Create assets root
+#ifndef _WIN32
     struct stat st = { 0 };
     if (stat(ASSET_ROOT_PATH, &st) == -1)
     {
@@ -30,6 +31,7 @@ int ShockMain::Create( )
             flushPrintf("ShockMain::Create() - WARNING, Unable to create ASSET_ROOT_PATH: %s\r\n", ASSET_ROOT_PATH);
         }
     }
+#endif
     
     // Setup Audio
     int result = ShockAudio::Create( );
