@@ -647,7 +647,7 @@ void ShockGame::InitHiscoreSupport( )
         
     // does the hiscore.dat file exist?
     char hiscoreDatFilePath[ MAX_PATH ] = { 0 };
-    snprintf( hiscoreDatFilePath, sizeof( hiscoreDatFilePath ), "%s%s" szAppHiscorePath, HISCORE_DAT_FILENAME );
+    snprintf( hiscoreDatFilePath, sizeof( hiscoreDatFilePath ), "%s%s", szAppHiscorePath, HISCORE_DAT_FILENAME );
     
     FILE *pFile = fopen( hiscoreDatFilePath, "r" );
     if( pFile == NULL )

@@ -31,6 +31,7 @@ int ShockMain::Create( )
     mLoadResult = LoadResult_None;
 
     // Create assets root
+    struct stat st = { 0 };
     if (stat(ASSET_ROOT_PATH, &st) == -1)
     {
         int result = ShockCreateDir(ASSET_ROOT_PATH);
