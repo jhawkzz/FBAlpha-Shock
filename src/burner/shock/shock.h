@@ -16,6 +16,8 @@
 // Although games could theoretically support more, we'll only ever support 2
 #define MAX_SHOCK_PLAYERS (2)
 
+#define ASSET_ROOT_PATH     "/mnt/hdisk/fbashock"
+
 // IO for FBA to write game files
 #define EEPROM_PATH          "eeprom/" 
 #define BLEND_PATH           "blend/"

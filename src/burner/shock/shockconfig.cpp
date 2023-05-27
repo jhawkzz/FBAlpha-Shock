@@ -19,13 +19,13 @@ void ShockConfig::Destroy( )
 int ShockConfig::GetConfigFilePath( char *pFilePath, int size )
 {
     char path[ MAX_PATH ] = { 0 };
-    int result = getExeDirectory( path, size );
+    int result = getAssetDirectory( path, size );
     if( result == -1 )
     {
         return result;
     }
-    
-    snprintf( pFilePath, size, "%s/" CONFIG_FILE, path );
+
+    snprintf( pFilePath, size, "%s/%s", path, CONFIG_FILE );
     
     return 0;
 }

@@ -29,6 +29,16 @@ int ShockMain::Create( )
 {
     mState      = ShockState_Loading;
     mLoadResult = LoadResult_None;
+
+    // Create assets root
+    if (stat(ASSET_ROOT_PATH, &st) == -1)
+    {
+        int result = ShockCreateDir(ASSET_ROOT_PATH);
+        if (result == -1)
+        {
+            flushPrintf("ShockMain::Create() - WARNING, Unable to create ASSET_ROOT_PATH: %s\r\n", ASSET_ROOT_PATH);
+        }
+    }
     
     // Setup Audio
     int result = ShockAudio::Create( );
