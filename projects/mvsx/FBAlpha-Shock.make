@@ -28,6 +28,12 @@ LIBS += -lm -lpthread -lrt
 LDDEPS +=
 ALL_LDFLAGS += $(LDFLAGS) -s
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+BINPATH := ../../../toolchain-mvsx/arm-2011.09/bin
+CC      := ${BINPATH}/arm-none-linux-gnueabi-gcc
+CXX     := ${BINPATH}/arm-none-linux-gnueabi-g++
+STRIP	  := ${BINPATH}/arm-none-linux-gnueabi-strip -s
+
+
 define PREBUILDCMDS
 endef
 define PRELINKCMDS

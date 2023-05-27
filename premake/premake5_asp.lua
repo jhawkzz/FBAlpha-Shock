@@ -1,3 +1,10 @@
+makesettings [[
+BINPATH := ../../../toolchain-mvsx/arm-2011.09/bin
+CC      := ${BINPATH}/arm-none-linux-gnueabi-gcc
+CXX     := ${BINPATH}/arm-none-linux-gnueabi-g++
+STRIP	  := ${BINPATH}/arm-none-linux-gnueabi-strip -s
+]]
+
 function set_location()
    location "../projects/asp"
 end
