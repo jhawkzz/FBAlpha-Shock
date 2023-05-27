@@ -109,5 +109,6 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     LocalFree(argList);
 
     ShockMain::Run(str);
-    return 1;
+
+    return 0;
 } 
