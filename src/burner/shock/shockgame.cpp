@@ -508,14 +508,8 @@ int ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage )
         FILE* pFile = fopen(thumbFilename, "wb");
         if (pFile != NULL)
         {
-            //todo: scale down the image
             UINT16 thumbImg[STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT] = { 0 };
-            ScaleToSize( (UINT16 *)mGameBackBuffer, 
-                                        GAME_BUFFER_WIDTH, 
-                                        GAME_BUFFER_HEIGHT, 
-                                        thumbImg, 
-                                        STATE_THUMBNAIL_WIDTH, 
-                                        STATE_THUMBNAIL_HEIGHT);
+            ShockRenderer::CreateThumbnail((UINT16*)mGameBackBuffer, mGameWidth, mGameHeight, thumbImg, STATE_THUMBNAIL_WIDTH, STATE_THUMBNAIL_HEIGHT, mGameDriverFlags);
 
             fwrite(thumbImg, 1, sizeof(thumbImg), pFile);
 
@@ -531,46 +525,6 @@ int ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage )
 
     return result;
 }
-
-//todo: move this into a rendering library, along with the ones Shock is using.
-// also - fix it. its not scaling down correctly at all (no surprise)
-// but could be the game back buffer, im not sure
-void ShockGame::ScaleToSize(UINT16* pSource,
-    int srcWidth,
-    int srcHeight,
-    UINT16* pDest,
-    int destScaledWidth,
-    int destScaledHeight )
-{
-    // given a source, scale it to dest width/height with no regard for aspect ratio.
-    // it will be centered on screen
-
-    int startX = 0;
-    int startY = 0;
-
-    // calculate the ratio in the high 16 bits so we can do it in whole numbers
-    float xRatio = (float)srcWidth / (float)destScaledWidth;
-    float yRatio = (float)srcHeight / (float)destScaledHeight;
-
-    UINT16* pCurrSource = pSource;
-
-    int sourceY = 0;
-    for (int destY = 0; destY < destScaledHeight; destY++)
-    {
-        int sourceX = 0;
-        for (int destX = 0; destX < destScaledWidth; destX++)
-        {
-            pDest[destX] = pCurrSource[sourceX];
-            sourceX += xRatio;
-        }
-
-        pDest += destScaledWidth;
-
-        sourceY += yRatio;
-        pCurrSource = pSource + (sourceY * srcWidth);
-    }
-}
-//
 
 int ShockGame::LoadGameStateThumbnail( int stateSlot, UINT16* pThumbImage )
 {

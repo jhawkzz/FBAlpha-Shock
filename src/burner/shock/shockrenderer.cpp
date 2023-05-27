@@ -72,6 +72,18 @@ void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
     Font::Print( pBackBuffer, fpsStr, PLATFORM_LCD_WIDTH - fontWidth, PLATFORM_LCD_HEIGHT - MET_FONT_LETTER_HEIGHT, 0xFFFF );
 }
 
+void ShockRenderer::CreateThumbnail(UINT16* pBuffer,
+                                    int width,
+                                    int height,
+                                    UINT16 *pThumbnail,
+                                    int thumbWidth,
+                                    int thumbHeight,
+                                    int driverFlags )
+{
+    //todo: override rendering preferences (so we dont show scanlines, etc.)
+    RenderImage(pBuffer, width, height, pThumbnail, thumbWidth, thumbHeight, driverFlags);
+}
+
 void ShockRenderer::RenderImage( UINT16 *pBackBuffer, 
                                  int width, 
                                  int height, 
