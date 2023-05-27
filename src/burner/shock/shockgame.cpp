@@ -565,15 +565,15 @@ void ShockGame::ConfigurePaths( )
     struct stat st = { 0 };
     
     char path[ MAX_PATH ] = { 0 };
-    int result = getExeDirectory( path, MAX_PATH );
+    int result = getAssetDirectory( path, MAX_PATH );
     if( result == -1 )
     {
-        flushPrintf( "ShockGame::ConfigurePaths() - ERROR, Unable to get exe path\r\n" );
+        flushPrintf( "ShockGame::ConfigurePaths() - ERROR, Unable to get asset path\r\n" );
         return;
     }
 
     // EEPROM
-    snprintf( szAppEEPROMPath, sizeof( szAppEEPROMPath ), "%s/" EEPROM_PATH, path );
+    snprintf( szAppEEPROMPath, sizeof( szAppEEPROMPath ), "%s/%s", path, EEPROM_PATH );
     if ( stat( szAppEEPROMPath, &st ) == -1 ) 
     {
         int result = ShockCreateDir( szAppEEPROMPath );
@@ -584,7 +584,7 @@ void ShockGame::ConfigurePaths( )
     }
     
     // Hiscore
-    snprintf( szAppHiscorePath, sizeof( szAppHiscorePath ), "%s/" HISCORE_PATH, path );
+    snprintf( szAppHiscorePath, sizeof( szAppHiscorePath ), "%s/%s", path, HISCORE_PATH );
     if ( stat( szAppHiscorePath, &st ) == -1 ) 
     {
         int result = ShockCreateDir( szAppHiscorePath );
@@ -596,7 +596,7 @@ void ShockGame::ConfigurePaths( )
     
     // JHM: TODO - Add these tables
     // Blend
-    snprintf( szAppBlendPath, sizeof( szAppBlendPath ), "%s/" BLEND_PATH, path );
+    snprintf( szAppBlendPath, sizeof( szAppBlendPath ), "%s/%s", path, BLEND_PATH );
     if ( stat( szAppBlendPath, &st ) == -1 ) 
     {
         int result = ShockCreateDir( szAppBlendPath );
@@ -612,10 +612,10 @@ void ShockGame::CreateGameAssetFolder( )
     struct stat st = { 0 };
 
     char path[MAX_PATH] = { 0 };
-    int result = getExeDirectory(path, MAX_PATH);
+    int result = getAssetDirectory(path, MAX_PATH);
     if (result == -1)
     {
-        flushPrintf("ShockGame::CreateGameFolder() - ERROR, Unable to get exe path\r\n");
+        flushPrintf("ShockGame::CreateGameFolder() - ERROR, Unable to get asset path\r\n");
         return;
     }
 
@@ -637,18 +637,10 @@ void ShockGame::InitHiscoreSupport( )
     // contains per-game memory mappings for hiscores. For portability,
     // we bundle it in hiscoredat.h and write it out if it doesn't exist on the
     // system.
-    
-    char path[ MAX_PATH ] = { 0 };
-    int result = getExeDirectory( path, MAX_PATH );
-    if( result == -1 )
-    {
-        flushPrintf( "ShockGame::InitHiscoreSupport() - ERROR, Unable to get exe path\r\n" );
-        return;
-    }
         
     // does the hiscore.dat file exist?
     char hiscoreDatFilePath[ MAX_PATH ] = { 0 };
-    snprintf( hiscoreDatFilePath, sizeof( hiscoreDatFilePath ), "%s" HISCORE_DAT_FILENAME, szAppHiscorePath );
+    snprintf( hiscoreDatFilePath, sizeof( hiscoreDatFilePath ), "%s%s" szAppHiscorePath, HISCORE_DAT_FILENAME );
     
     FILE *pFile = fopen( hiscoreDatFilePath, "r" );
     if( pFile == NULL )

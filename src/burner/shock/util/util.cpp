@@ -77,7 +77,18 @@ int getExeDirectory( char *pFilePath, int size )
     }
 }
 
+int getAssetDirectory(char* pFilePath, int size)
+{
+    snprintf(pFilePath, size, "%s", ASSET_ROOT_PATH);
+    return 0;
+}
+
 #else
+int getAssetDirectory(char* pFilePath, int size)
+{
+    return getExeDirectory(pFilePath, size);
+}
+
 int getExeDirectory( char *pFilePath, int size )
 {
     if (GetModuleFileName(NULL, pFilePath, size) == ERROR_INSUFFICIENT_BUFFER)
