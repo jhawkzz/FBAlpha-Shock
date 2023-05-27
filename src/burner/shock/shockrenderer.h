@@ -54,14 +54,15 @@ private:
                            int srcHeight,
                            UINT16 *pDest );
 
-    static void ScaleToSize( UINT16 *pSource, 
-                             int srcWidth, 
-                             int srcHeight,
-                             UINT16 *pDest,
-                             int destScaledWidth,
-                             int destScaledHeight,
-                             int destRealWidth,
-                             int destRealHeight );
+    static void ScaleToSize( UINT16* pSource,
+                            int srcWidth,
+                            int srcHeight,
+                            UINT16* pDest,
+                            int destScaledWidth,
+                            int destScaledHeight,
+                            int destRealWidth,
+                            int destRealHeight );
+
                              
     static void ScaleToSize_ScanLine( UINT16 *pSource, 
                                       int srcWidth, 

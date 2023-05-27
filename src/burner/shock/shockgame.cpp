@@ -16,6 +16,7 @@
 #endif
 
 int  ShockGame::mGameLoaded;
+char ShockGame::mGameAssetFolder[ MAX_PATH ];
 char ShockGame::mBurnAudioBuffer[ MAX_AUDIO_BUFFER_BYTES ];
 char ShockGame::mGameBackBuffer[ GAME_BUFFER_WIDTH * GAME_BUFFER_HEIGHT * GAME_BUFFER_BPP ];
 int  ShockGame::mGameDriverFlags;
@@ -75,6 +76,8 @@ LoadGameResult ShockGame::LoadGame( const char *pRomset )
         flushPrintf( "ShockGame::LoadGame() - Romset %s not valid. Cannot continue.\r\n", ShockRomLoader::GetRomsetName( ) );
         return LoadGameResult_Failed_Load;
     }
+
+    CreateGameAssetFolder( );
     
     // FBA needs  a few things set PRIOR to initializing the driver,
     // and then some of them set AGAIN after initialization.
@@ -491,9 +494,114 @@ void ShockGame::UpdateResetMode( )
     }
 }
 
-void ShockGame::SaveState( )
+int ShockGame::LoadGameState( int stateSlot )
 {
-    BurnStateSave( ShockRomLoader::GetRomsetName(), 1 );
+    char stateFilename[ MAX_PATH ] = { 0 };
+    snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName(), stateSlot );
+    int result = BurnStateLoad( stateFilename, 1, NULL );
+    return result;
+}
+
+int ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage )
+{
+    char stateFilename[MAX_PATH] = { 0 };
+    snprintf(stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName(), stateSlot );
+    int result = BurnStateSave( stateFilename, 1 );
+
+    if ( result > -1 )
+    {
+        char thumbFilename[MAX_PATH] = { 0 };
+        snprintf(thumbFilename, MAX_PATH, "%s/%s%d.thumb", mGameAssetFolder, ShockRomLoader::GetRomsetName(), stateSlot);
+        FILE* pFile = fopen(thumbFilename, "wb");
+        if (pFile != NULL)
+        {
+            //todo: scale down the image
+            UINT16 thumbImg[STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT] = { 0 };
+            ScaleToSize( (UINT16 *)mGameBackBuffer, 
+                                        GAME_BUFFER_WIDTH, 
+                                        GAME_BUFFER_HEIGHT, 
+                                        thumbImg, 
+                                        STATE_THUMBNAIL_WIDTH, 
+                                        STATE_THUMBNAIL_HEIGHT);
+
+            fwrite(thumbImg, 1, sizeof(thumbImg), pFile);
+
+            // for convenience, if they want the game's screenshot, copy it
+            if (pThumbImage != NULL)
+            {
+                memcpy(pThumbImage, thumbImg, sizeof(thumbImg));
+            }
+
+            fclose(pFile);
+        }
+    }
+
+    return result;
+}
+
+//todo: move this into a rendering library, along with the ones Shock is using.
+// also - fix it. its not scaling down correctly at all (no surprise)
+// but could be the game back buffer, im not sure
+void ShockGame::ScaleToSize(UINT16* pSource,
+    int srcWidth,
+    int srcHeight,
+    UINT16* pDest,
+    int destScaledWidth,
+    int destScaledHeight )
+{
+    // given a source, scale it to dest width/height with no regard for aspect ratio.
+    // it will be centered on screen
+
+    int startX = 0;
+    int startY = 0;
+
+    // calculate the ratio in the high 16 bits so we can do it in whole numbers
+    float xRatio = (float)srcWidth / (float)destScaledWidth;
+    float yRatio = (float)srcHeight / (float)destScaledHeight;
+
+    UINT16* pCurrSource = pSource;
+
+    int sourceY = 0;
+    for (int destY = 0; destY < destScaledHeight; destY++)
+    {
+        int sourceX = 0;
+        for (int destX = 0; destX < destScaledWidth; destX++)
+        {
+            pDest[destX] = pCurrSource[sourceX];
+            sourceX += xRatio;
+        }
+
+        pDest += destScaledWidth;
+
+        sourceY += yRatio;
+        pCurrSource = pSource + (sourceY * srcWidth);
+    }
+}
+//
+
+int ShockGame::LoadGameStateThumbnail( int stateSlot, UINT16* pThumbImage )
+{
+    char filename[MAX_PATH] = { 0 };
+    snprintf( filename, MAX_PATH, "%s/%s%d.thumb", mGameAssetFolder, ShockRomLoader::GetRomsetName(), stateSlot);
+
+    FILE *pFile = fopen( filename, "rb" );
+    if (pFile != NULL)
+    {
+        int thumbSizeBytes = STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT * GAME_BUFFER_BPP;
+        int bytesRead = fread(pThumbImage, 1, thumbSizeBytes, pFile );
+        fclose(pFile);
+        if( bytesRead == thumbSizeBytes)
+        {
+            return 0;
+        }
+    }
+
+    return -1;
+}
+
+void ShockGame::LoadGameStateReset( )
+{
+    ResetFBATickTime( );
 }
 
 void ShockGame::ResetFBATickTime( )
@@ -516,7 +624,7 @@ void ShockGame::ConfigurePaths( )
         flushPrintf( "ShockGame::ConfigurePaths() - ERROR, Unable to get exe path\r\n" );
         return;
     }
-    
+
     // EEPROM
     snprintf( szAppEEPROMPath, sizeof( szAppEEPROMPath ), "%s/" EEPROM_PATH, path );
     if ( stat( szAppEEPROMPath, &st ) == -1 ) 
@@ -548,6 +656,30 @@ void ShockGame::ConfigurePaths( )
         if( result == -1 )
         {
             flushPrintf( "ShockGame::ConfigurePaths() - WARNING, Unable to create BLEND_PATH: %s\r\n", szAppBlendPath );   
+        }
+    }
+}
+
+void ShockGame::CreateGameAssetFolder( )
+{
+    struct stat st = { 0 };
+
+    char path[MAX_PATH] = { 0 };
+    int result = getExeDirectory(path, MAX_PATH);
+    if (result == -1)
+    {
+        flushPrintf("ShockGame::CreateGameFolder() - ERROR, Unable to get exe path\r\n");
+        return;
+    }
+
+    // Game Folder
+    snprintf(mGameAssetFolder, sizeof(mGameAssetFolder), "%s/%s", path, ShockRomLoader::GetRomsetName());
+    if (stat(mGameAssetFolder, &st) == -1)
+    {
+        int result = ShockCreateDir( mGameAssetFolder );
+        if( result == -1 )
+        {
+            flushPrintf( "ShockGame::ConfigurePaths() - WARNING, Unable to create Game Folder: %s\r\n", mGameAssetFolder );
         }
     }
 }

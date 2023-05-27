@@ -33,6 +33,8 @@ private:
 private:
     static UIState               mUIState;
     static StateMainMenu         mState_MainMenu;
+    static StateLoadState        mState_LoadState;
+    static StateSaveState        mState_SaveState;
     static StateButtonConfig     mState_ButtonConfig;
     static StateGameSettings     mState_GameSettings;
     static StateDisplaySettings  mState_DisplaySettings;

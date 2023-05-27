@@ -1,7 +1,5 @@
 // Driver Save State module
 #include "burner.h"
-#include "act_hard.h"
-#include "unistd.h"
 
 // If bAll=0 save/load all non-volatile ram to .fs
 // If bAll=1 save/load all ram to .fs
@@ -39,31 +37,6 @@ static INT32 StateInfo(int* pnLen, int* pnMinVer, INT32 bAll)
 
 	return 0;
 }
-
-extern char emu_rom_full_path[256];
-
-void get_slot_filename(char *slot_filename , int slot)
-{
-	char *base_name = basename(emu_rom_full_path);
-//	printf("base_name == %s\n" , base_name);
-//	printf("emu_rom_full_path == %s\n" , emu_rom_full_path);
-#if 0
-	if(strstr(emu_rom_full_path , "sdcard") != NULL)
-	{
-		if(access("/mnt/sdcard/fba_Archive" , F_OK) == -1)
-		{
-			uSystem("mkdir /mnt/sdcard/fba_Archive");	
-		}
-		sprintf(slot_filename,"/mnt/sdcard/fba_Archive/%s.%dsave",base_name,slot);
-	}
-	else
-	{
-		sprintf(slot_filename,"/mnt/data/save/fba/%s.%dsave",base_name,slot);
-	}
-	printf("slot_filename = %s \n" , slot_filename);
-#endif
-}
-
 
 // State load
 INT32 BurnStateLoadEmbed(FILE* fp, INT32 nOffset, INT32 bAll, INT32 (*pLoadGame)())

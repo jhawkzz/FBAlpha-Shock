@@ -1,13 +1,10 @@
 
 // See License.md for license
 
-#ifndef STATEEMULATORSETTINGS_H_
-#define STATEEMULATORSETTINGS_H_
+#ifndef STATESAVESTATE_H_
+#define STATESAVESTATE_H_
 
-#include "shock/ui/render/menuitem.h"
-#include "shock/ui/states/uibasestate.h"
-
-class StateEmulatorSettings : public UIBaseState
+class StateSaveState: public UIBaseState
 {
 public:
     virtual void Create( );
@@ -20,10 +17,15 @@ public:
     
 private:
     void      DrawMenu( );
-    
+        
     int       mNumMenuItems;
     MenuItem  mMenuItemList[ MAX_MENU_ITEMS ];
+    UINT16    mStateThumb[MAX_SAVE_STATES][ STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT];
+    int       mStateExists[MAX_SAVE_STATES];
+    UINT16    mStateBlankImg[STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT];
+
     int       mMenuSelection;
+    char      mResultStr[ MAX_PATH ];
 };
 
 #endif

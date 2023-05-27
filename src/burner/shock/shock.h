@@ -22,6 +22,11 @@
 #define HISCORE_PATH         "hiscore/"
 #define HISCORE_DAT_FILENAME "hiscore.dat"
 
+// The size of the FBA back buffer that Burn itself renders to
+#define STATE_THUMBNAIL_WIDTH  (50)
+#define STATE_THUMBNAIL_HEIGHT (50)
+#define MAX_SAVE_STATES       (6)
+
 // Graphics
 #ifdef LUBUNTU
 #define PLATFORM_LCD_WIDTH	  (800)
@@ -70,9 +75,10 @@
    ({ __typeof__ (a) _a = (a); \
        __typeof__ (b) _b = (b); \
      _a > _b ? _a : _b; })
+#endif
 
-#endif
-#endif
 
 class OSTimer;
 extern OSTimer gGlobalTimer;
+
+#endif

@@ -47,6 +47,11 @@ public:
     static int  GetReset( );
     
     static void PrintGameInfo( );
+
+    static int  LoadGameState( int stateSlot );
+    static int  SaveGameState( int stateSlot, UINT16* pThumbImage);
+    static int  LoadGameStateThumbnail( int stateSlot, UINT16 *pThumbImage );
+    static void LoadGameStateReset( );
     
 private:
     static int  PrepareAudio( );
@@ -56,10 +61,19 @@ private:
     static void UpdateResetMode( );
     static void ResetFBATickTime( );
     static void ConfigurePaths( );
+    static void CreateGameAssetFolder( );
     static void InitHiscoreSupport( );
+
+    static void ScaleToSize(UINT16* pSource,
+        int srcWidth,
+        int srcHeight,
+        UINT16* pDest,
+        int destScaledWidth,
+        int destScaledHeight);
 
 private:
     static int  mGameLoaded;
+    static char mGameAssetFolder[ MAX_PATH ];
     static char mBurnAudioBuffer[ MAX_AUDIO_BUFFER_BYTES ];
     static char mGameBackBuffer[ GAME_BUFFER_WIDTH * GAME_BUFFER_HEIGHT * GAME_BUFFER_BPP ];
     static int  mGameDriverFlags;
