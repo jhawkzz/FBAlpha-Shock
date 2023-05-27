@@ -24,7 +24,7 @@ INCLUDES += -I../../src/burn -I../../src/burn/devices -I../../src/burn/drv/capco
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LIBS += -lm -lpthread -lrt -lasound -lsoft-fp
+LIBS += -lm -lpthread -lrt
 LDDEPS +=
 ALL_LDFLAGS += $(LDFLAGS) -s
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
@@ -39,15 +39,15 @@ ifeq ($(config),debug)
 TARGETDIR = bin/Debug
 TARGET = $(TARGETDIR)/FBAlpha-Shock
 OBJDIR = obj/Debug
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -msoft-float -O0 -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -msoft-float -O0 -g
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -static -s -fsigned-char -Wno-write-strings -O0 -g
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -static -s -fsigned-char -Wno-write-strings -O0 -g
 
 else ifeq ($(config),release)
 TARGETDIR = bin/Release
 TARGET = $(TARGETDIR)/FBAlpha-Shock
 OBJDIR = obj/Release
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -msoft-float -O3
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -Wl,-Bdynamic -s -fsigned-char -Wno-write-strings -msoft-float -O3
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -static -s -fsigned-char -Wno-write-strings -O3
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -static -s -fsigned-char -Wno-write-strings -O3
 
 endif
 

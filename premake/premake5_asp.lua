@@ -32,20 +32,17 @@ function set_links()
       "m",
       "pthread",
       "rt",
-      "asound",
-      "soft-fp",
    }
 end
 
 function set_buildoptions()
    buildoptions
    {
-      "-Wl,-Bdynamic",
+      "-static",
       "-s",
       "-fsigned-char",
       "-fsigned-char",
       "-Wno-write-strings",
-      "-msoft-float",
    }
 
    filter {"files:**.c"}
