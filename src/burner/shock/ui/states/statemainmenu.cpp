@@ -18,11 +18,11 @@ void StateMainMenu::Create( )
     mMenuItemGameState[ mNumMenuItems++ ].gameState = UIState_Count;
     
     yPos += UI_ROW_HEIGHT;
-    mMenuItemGameState[ mNumMenuItems ].menuItem.Create( "Save State", xPos, yPos, UI_COLOR_DISABLED );
+    mMenuItemGameState[ mNumMenuItems ].menuItem.Create( "Save State", xPos, yPos, 0xFFFF );
     mMenuItemGameState[ mNumMenuItems++ ].gameState = UIState_SaveState;
     
     yPos += UI_ROW_HEIGHT;
-    mMenuItemGameState[ mNumMenuItems ].menuItem.Create( "Load State", xPos, yPos, UI_COLOR_DISABLED );
+    mMenuItemGameState[ mNumMenuItems ].menuItem.Create( "Load State", xPos, yPos, 0xFFFF );
     mMenuItemGameState[ mNumMenuItems++ ].gameState = UIState_LoadState;
     
     yPos += UI_ROW_HEIGHT;

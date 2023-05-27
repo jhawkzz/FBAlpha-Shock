@@ -21,7 +21,6 @@ private:
     int       mNumMenuItems;
     MenuItem  mMenuItemList[ MAX_MENU_ITEMS ];
     int       mMenuSelection;
-    char      mResultStr[ MAX_PATH ];
 };
 
 #endif

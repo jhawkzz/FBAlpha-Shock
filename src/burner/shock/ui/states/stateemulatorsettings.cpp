@@ -16,8 +16,6 @@ void StateEmulatorSettings::Create( )
     yPos += UI_ROW_HEIGHT;
     mMenuItemList[ mNumMenuItems++ ].Create( "Display Load Warnings: ", xPos, yPos, 0xFFFF );
     
-    memset( mResultStr, 0, sizeof( mResultStr ) );
-    
     mMenuSelection = 0;
     
     if ( mNumMenuItems > MAX_MENU_ITEMS )
@@ -38,9 +36,6 @@ void StateEmulatorSettings::Destroy( )
 void StateEmulatorSettings::EnterState( UIState oldState )
 {
     UIBaseState::EnterState( oldState );
-        
-    // reset our output
-    memset( mResultStr, 0, sizeof( mResultStr ) );
 }
 
 void StateEmulatorSettings::ExitState( UIState newState )

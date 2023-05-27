@@ -44,6 +44,8 @@
 #include "shock/ui/states/stateemulatorsettings.h"
 #include "shock/ui/states/statedisplaysettings.h"
 #include "shock/ui/states/statebuttonconfig.h"
+#include "shock/ui/states/statesavestate.h"
+#include "shock/ui/states/stateloadstate.h"
 
 #include "shock/hiscoredat.h"
 

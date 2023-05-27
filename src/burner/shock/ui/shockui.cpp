@@ -5,6 +5,8 @@
 
 UIState               ShockUI::mUIState;
 StateMainMenu         ShockUI::mState_MainMenu;
+StateLoadState        ShockUI::mState_LoadState;
+StateSaveState        ShockUI::mState_SaveState;
 StateButtonConfig     ShockUI::mState_ButtonConfig;
 StateGameSettings     ShockUI::mState_GameSettings;
 StateDisplaySettings  ShockUI::mState_DisplaySettings;
@@ -51,6 +53,8 @@ void ShockUI::Create( )
     
     // setup our gamestate list
     mpStateList[ UIState_MainMenu ]         = &mState_MainMenu;
+    mpStateList[ UIState_LoadState ]        = &mState_LoadState;
+    mpStateList[ UIState_SaveState ]        = &mState_SaveState;
     mpStateList[ UIState_ButtonConfig ]     = &mState_ButtonConfig;
     mpStateList[ UIState_DisplaySettings ]  = &mState_DisplaySettings;
     mpStateList[ UIState_EmulatorSettings ] = &mState_EmulatorSettings;
