@@ -44,7 +44,9 @@ private:
                              UINT16 *pPlatformBackBuffer, 
                              int platformWidth, 
                              int platformHeight,
-                             int driverFlags );
+                             int driverFlags,
+                             ShockDisplayMode shockDisplayMode,
+                             int scanLines );
                              
     static void RotateCounterClockwise( UINT16 *pSource, 
                                         int srcWidth, 

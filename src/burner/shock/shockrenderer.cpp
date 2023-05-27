@@ -43,7 +43,15 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
                                int driverFlags, 
                                int framesPerSec )
 {
-    RenderImage( pBuffer, width, height, (UINT16 *)FrameBuffer::GetBackBuffer(), PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, driverFlags );
+    RenderImage( pBuffer, 
+                 width, 
+                 height, 
+                 (UINT16 *)FrameBuffer::GetBackBuffer(), 
+                 PLATFORM_LCD_WIDTH, 
+                 PLATFORM_LCD_HEIGHT, 
+                 driverFlags, 
+                 (ShockDisplayMode)ShockConfig::GetDisplayMode(),
+                 ShockConfig::GetScanLinesEnabled());
     
     if( ShockConfig::GetShowFPS( ) )
     {
@@ -84,7 +92,7 @@ void ShockRenderer::CreateThumbnail(UINT16* pBuffer,
                                     int driverFlags )
 {
     //todo: override rendering preferences (so we dont show scanlines, etc.)
-    RenderImage(pBuffer, width, height, pThumbnail, thumbWidth, thumbHeight, driverFlags);
+    RenderImage(pBuffer, width, height, pThumbnail, thumbWidth, thumbHeight, driverFlags, ShockDisplayMode_FullScreen, 0 );
 }
 
 void ShockRenderer::RenderImage( UINT16 *pBackBuffer, 
@@ -93,7 +101,9 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
                                  UINT16 *pPlatformBackBuffer, 
                                  int platformWidth, 
                                  int platformHeight,
-                                 int driverFlags )
+                                 int driverFlags,
+                                 ShockDisplayMode shockDisplayMode,
+                                 int scanLines )
 {
     // these will get set based on driver flags below
     int widthAdjustment = 0;
@@ -143,11 +153,11 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
     }
     
     // now figure out how to render to the backbuffer
-    switch( (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
+    switch( shockDisplayMode )
     {
         case ShockDisplayMode_FullScreen:
         {
-            if( ShockConfig::GetScanLinesEnabled() )
+            if( scanLines )
             {
                 ScaleToSize_ScanLine( (UINT16 *)pSourceBuffer, 
                                       width, 
@@ -174,7 +184,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         
         case ShockDisplayMode_AspectRatio:
         {
-            if( ShockConfig::GetScanLinesEnabled() )
+            if( scanLines )
             {
                 ScaleKeepAspectRatio_ScanLine( (UINT16 *)pSourceBuffer, 
                                                width, 
@@ -197,7 +207,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         
         case ShockDisplayMode_Original:
         {
-            if( ShockConfig::GetScanLinesEnabled() )
+            if( scanLines )
             {
                 NoScale_ScanLine( (UINT16 *)pSourceBuffer, 
                                   width, 

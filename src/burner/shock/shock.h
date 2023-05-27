@@ -29,8 +29,8 @@
 #define HISCORE_DAT_FILENAME "hiscore.dat"
 
 // The size of the FBA back buffer that Burn itself renders to
-#define STATE_THUMBNAIL_WIDTH  (125)
-#define STATE_THUMBNAIL_HEIGHT (100)
+#define STATE_THUMBNAIL_WIDTH  (150)
+#define STATE_THUMBNAIL_HEIGHT (120)
 #define MAX_SAVE_STATES        (10)
 
 // Graphics

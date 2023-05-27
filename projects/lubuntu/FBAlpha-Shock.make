@@ -795,6 +795,7 @@ GENERATED += $(OBJDIR)/statecredits.o
 GENERATED += $(OBJDIR)/statedisplaysettings.o
 GENERATED += $(OBJDIR)/stateemulatorsettings.o
 GENERATED += $(OBJDIR)/stategamesettings.o
+GENERATED += $(OBJDIR)/stategamestatebase.o
 GENERATED += $(OBJDIR)/stateloaderror.o
 GENERATED += $(OBJDIR)/stateloading.o
 GENERATED += $(OBJDIR)/stateloadstate.o
@@ -1608,6 +1609,7 @@ OBJECTS += $(OBJDIR)/statecredits.o
 OBJECTS += $(OBJDIR)/statedisplaysettings.o
 OBJECTS += $(OBJDIR)/stateemulatorsettings.o
 OBJECTS += $(OBJDIR)/stategamesettings.o
+OBJECTS += $(OBJDIR)/stategamestatebase.o
 OBJECTS += $(OBJDIR)/stateloaderror.o
 OBJECTS += $(OBJDIR)/stateloading.o
 OBJECTS += $(OBJDIR)/stateloadstate.o
@@ -3942,6 +3944,9 @@ $(OBJDIR)/stateemulatorsettings.o: ../../src/burner/shock/ui/states/stateemulato
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/stategamesettings.o: ../../src/burner/shock/ui/states/stategamesettings.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/stategamestatebase.o: ../../src/burner/shock/ui/states/stategamestatebase.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/stateloaderror.o: ../../src/burner/shock/ui/states/stateloaderror.cpp

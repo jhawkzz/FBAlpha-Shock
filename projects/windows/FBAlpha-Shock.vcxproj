@@ -288,6 +288,7 @@
     <ClInclude Include="..\..\src\burner\shock\ui\states\statedisplaysettings.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\stateemulatorsettings.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\stategamesettings.h" />
+    <ClInclude Include="..\..\src\burner\shock\ui\states\stategamestatebase.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\stateloaderror.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\stateloading.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\stateloadstate.h" />
@@ -1143,6 +1144,7 @@
     <ClCompile Include="..\..\src\burner\shock\ui\states\statedisplaysettings.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\states\stateemulatorsettings.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\states\stategamesettings.cpp" />
+    <ClCompile Include="..\..\src\burner\shock\ui\states\stategamestatebase.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\states\stateloaderror.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\states\stateloading.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\states\stateloadstate.cpp" />

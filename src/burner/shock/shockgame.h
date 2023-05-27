@@ -69,6 +69,7 @@ private:
     static char mGameAssetFolder[ MAX_PATH ];
     static char mBurnAudioBuffer[ MAX_AUDIO_BUFFER_BYTES ];
     static char mGameBackBuffer[ GAME_BUFFER_WIDTH * GAME_BUFFER_HEIGHT * GAME_BUFFER_BPP ];
+    static char mThumbImageBuffer[STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT * GAME_BUFFER_BPP];
     static int  mGameDriverFlags;
     static int  mGameHardwareCode;
     static int  mGameWidth;
