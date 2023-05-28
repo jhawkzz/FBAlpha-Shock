@@ -10,7 +10,7 @@ void StateGameStateBase::Create()
     mNumMenuItems = 0;
 
     // store the full width for easier rendering
-    mMenuItemFullWidth = Font::MeasureStringWidth("Slot 10") + THUMB_IMAGE_SPACING + STATE_THUMBNAIL_WIDTH;
+    mMenuItemFullWidth = Font::MeasureStringWidth("Slot 8") + THUMB_IMAGE_SPACING + STATE_THUMBNAIL_WIDTH;
 
     int xPos = UI_X_POS_MENU;
     int yPos = UI_Y_POS_MENU + STATE_THUMBNAIL_HEIGHT / 2;

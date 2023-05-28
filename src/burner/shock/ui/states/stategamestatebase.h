@@ -5,6 +5,7 @@
 #define STATEGAMESTATEBASE_H_
 
 #define THUMB_IMAGE_SPACING (50)
+#define MAX_SAVE_STATES     (8)
 
 class StateGameStateBase : public UIBaseState
 {
