@@ -1,16 +1,19 @@
 // FB Alpha - Emulator for MC68000/Z80 based arcade games
 //            Refer to the "license.txt" file for more info
 #pragma once
-#include <limits.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <assert.h>
-#include <ctype.h>
 
-#include "tchar.h"
+#include "shock/shock.h"
+
+//#include <limits.h>
+//#include <stdarg.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
+//#include <math.h>
+//#include <assert.h>
+//#include <ctype.h>
+//
+//#include "tchar.h"
 
 // Macro to make quoted strings
 #define MAKE_STRING_2(s) #s
