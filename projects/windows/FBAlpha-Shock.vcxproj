@@ -267,7 +267,6 @@
     <ClInclude Include="..\..\src\burner\shock\font\metfontbinary.h" />
     <ClInclude Include="..\..\src\burner\shock\font\upheavalfontbinary.h" />
     <ClInclude Include="..\..\src\burner\shock\hiscoredat.h" />
-    <ClInclude Include="..\..\src\burner\shock\includes.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockburninput.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockinput.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockplayerinput.h" />
@@ -279,7 +278,6 @@
     <ClInclude Include="..\..\src\burner\shock\shockrenderer.h" />
     <ClInclude Include="..\..\src\burner\shock\shockromloader.h" />
     <ClInclude Include="..\..\src\burner\shock\systems.h" />
-    <ClInclude Include="..\..\src\burner\shock\tchar.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\imagebinaries.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\render\drawlistobject.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\render\menuitem.h" />

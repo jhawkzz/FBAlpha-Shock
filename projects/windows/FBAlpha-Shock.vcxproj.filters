@@ -789,9 +789,6 @@
     <ClInclude Include="..\..\src\burner\shock\hiscoredat.h">
       <Filter>burner\shock</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\includes.h">
-      <Filter>burner\shock</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\input\shockburninput.h">
       <Filter>burner\shock\input</Filter>
     </ClInclude>
@@ -823,9 +820,6 @@
       <Filter>burner\shock</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\systems.h">
-      <Filter>burner\shock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\tchar.h">
       <Filter>burner\shock</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\ui\imagebinaries.h">

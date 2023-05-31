@@ -968,7 +968,6 @@
         <File Name="../../src/burner/shock/font/upheavalfontbinary.h"/>
       </VirtualDirectory>
       <File Name="../../src/burner/shock/hiscoredat.h"/>
-      <File Name="../../src/burner/shock/includes.h"/>
       <VirtualDirectory Name="input">
         <File Name="../../src/burner/shock/input/shockburninput.cpp"/>
         <File Name="../../src/burner/shock/input/shockburninput.h"/>
@@ -991,7 +990,6 @@
       <File Name="../../src/burner/shock/shockromloader.cpp"/>
       <File Name="../../src/burner/shock/shockromloader.h"/>
       <File Name="../../src/burner/shock/systems.h"/>
-      <File Name="../../src/burner/shock/tchar.h"/>
       <VirtualDirectory Name="ui">
         <File Name="../../src/burner/shock/ui/imagebinaries.cpp"/>
         <File Name="../../src/burner/shock/ui/imagebinaries.h"/>
