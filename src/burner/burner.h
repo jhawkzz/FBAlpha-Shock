@@ -1,7 +1,6 @@
 // FB Alpha - Emulator for MC68000/Z80 based arcade games
 //            Refer to the "license.txt" file for more info
 #pragma once
-
 #include <limits.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -205,9 +204,6 @@ INT32 ZipClose();
 INT32 ZipGetList(struct ZipEntry** pList, INT32* pnListCount);
 INT32 ZipLoadFile(UINT8* Dest, INT32 nLen, INT32* pnWrote, INT32 nEntry);
 INT32 __cdecl ZipLoadOneFile(char* arcName, const char* fileName, void** Dest, INT32* pnWrote);
-
-#include "interface.h"
-#include "cd_interface.h"
 
 // bzip.cpp
 // JHM: Not supporting
