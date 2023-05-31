@@ -263,7 +263,6 @@
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\ostimer.h" />
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\thread.h" />
     <ClInclude Include="..\..\src\burner\shock\core\thread.h" />
-    <ClInclude Include="..\..\src\burner\shock\defines.h" />
     <ClInclude Include="..\..\src\burner\shock\font\font.h" />
     <ClInclude Include="..\..\src\burner\shock\font\metfontbinary.h" />
     <ClInclude Include="..\..\src\burner\shock\font\upheavalfontbinary.h" />
@@ -272,6 +271,7 @@
     <ClInclude Include="..\..\src\burner\shock\input\shockburninput.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockinput.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockplayerinput.h" />
+    <ClInclude Include="..\..\src\burner\shock\shock.h" />
     <ClInclude Include="..\..\src\burner\shock\shockaudio.h" />
     <ClInclude Include="..\..\src\burner\shock\shockconfig.h" />
     <ClInclude Include="..\..\src\burner\shock\shockgame.h" />

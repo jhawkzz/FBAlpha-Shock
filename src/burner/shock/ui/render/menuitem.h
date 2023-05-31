@@ -4,7 +4,7 @@
 #ifndef MENUITEM_H_
 #define MENUITEM_H_
 
-#include "burner.h"
+#include "shock/shock.h"
 
 class MenuItem
 {    

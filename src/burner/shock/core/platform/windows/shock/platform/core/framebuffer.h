@@ -4,8 +4,7 @@
 #ifndef FRAMEBUFFER_CORE_H_
 #define FRAMEBUFFER_CORE_H_
 
-#include "shock/defines.h"
-#include "shock/systems.h"
+#include "shock/shock.h"
 
 class FrameBufferCore
 {

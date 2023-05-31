@@ -972,7 +972,6 @@
         </VirtualDirectory>
         <File Name="../../src/burner/shock/core/thread.h"/>
       </VirtualDirectory>
-      <File Name="../../src/burner/shock/defines.h"/>
       <VirtualDirectory Name="font">
         <File Name="../../src/burner/shock/font/font.cpp"/>
         <File Name="../../src/burner/shock/font/font.h"/>
@@ -989,6 +988,7 @@
         <File Name="../../src/burner/shock/input/shockplayerinput.cpp"/>
         <File Name="../../src/burner/shock/input/shockplayerinput.h"/>
       </VirtualDirectory>
+      <File Name="../../src/burner/shock/shock.h"/>
       <File Name="../../src/burner/shock/shockaudio.cpp"/>
       <File Name="../../src/burner/shock/shockaudio.h"/>
       <File Name="../../src/burner/shock/shockconfig.cpp"/>
