@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
 #include "shock/core/audio.h"
+#include "shock/util/util.h"
 
 int             AudioCore::mSamplesPerTick;
 char            AudioCore::mReadBuffer[ MAX_AUDIO_BUFFER_BYTES ];

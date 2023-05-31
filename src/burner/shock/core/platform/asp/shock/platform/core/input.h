@@ -4,7 +4,7 @@
 #ifndef INPUT_CORE_H_
 #define INPUT_CORE_H_
 
-#include "shock/systems.h"
+#include "shock/shock.h"
 
 // The path to the input device on the ASP Linux OS. 
 #define ASP_INTEGRATED_DEVICE "/dev/input/event1"

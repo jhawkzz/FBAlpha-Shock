@@ -3,9 +3,7 @@
 
 #include "shock/core/button.h"
 #include "shock/core/input.h"
-#include "shock/systems.h"
 #include "shock/util/util.h"
-#include "burner.h"
 
 MVSXInput      InputCore::mMVSXInputLookup[ ShockButton_Count ];
 MVSXInputState InputCore::mMVSXInputState[ MVSXInput_Count ];

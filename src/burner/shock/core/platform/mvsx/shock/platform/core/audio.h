@@ -30,6 +30,8 @@
 
 #define MAKE_STEREO_VOLUME(a)     ((a) << 8 | (a))
 
+#include "shock/util/ringbuffer.h"
+
 class AudioCore
 {
 public:

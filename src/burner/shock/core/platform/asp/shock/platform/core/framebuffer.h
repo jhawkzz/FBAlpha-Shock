@@ -10,7 +10,7 @@
 //The path to the frame buffer out on the ASP Linux OS
 #define FB_DEVICE "/dev/graphics/fb0"
 
-#include "shock/includes.h"
+#include "shock/shock.h"
 
 class FrameBufferCore
 {
