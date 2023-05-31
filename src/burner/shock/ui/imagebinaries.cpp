@@ -1,7 +1,7 @@
 
 // See License.md for license
 
-#include "burner.h"
+#include "shock/shock.h"
 
 // 565 16bit
 UINT16 gBlueButtonBytes[2751] = {0x0

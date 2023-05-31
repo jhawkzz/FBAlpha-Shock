@@ -5,7 +5,6 @@
 #include "shock/input/shockplayerinput.h"
 #include "shock/shockconfig.h"
 #include "shock/util/util.h"
-#include "burner.h"
 
 #ifdef MVSX
    #include "shock/platform/core/mvsxled.h"

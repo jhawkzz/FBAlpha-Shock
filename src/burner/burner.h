@@ -9,6 +9,7 @@
 #include <math.h>
 #include <assert.h>
 #include <ctype.h>
+
 #include "tchar.h"
 
 // Macro to make quoted strings
@@ -24,9 +25,6 @@
 #endif
 
 //#include "title.h" //JHM: Not Needed
-
-
-//#include "shock/systems.h"
 #include "burn.h"
 
 // JHM: Not supporting
@@ -198,7 +196,6 @@ INT32 BurnStateUNDO(TCHAR* szName);
 INT32 BurnStateCompress(UINT8** pDef, INT32* pnDefLen, INT32 bAll);
 INT32 BurnStateDecompress(UINT8* Def, INT32 nDefLen, INT32 bAll);
 */
-//
 // zipfn.cpp
 struct ZipEntry { char* szName;	UINT32 nLen; UINT32 nCrc; };
 

@@ -6,7 +6,6 @@
 #include "shock/shockconfig.h"
 #include "shock/shockrenderer.h"
 #include "shock/util/util.h"
-#include "burner.h"
 
 UINT16 ShockRenderer::mRotateBuffer[ ROTATE_BUFFER_WIDTH * ROTATE_BUFFER_HEIGHT ];
 
