@@ -7,7 +7,7 @@
 //The path to the frame buffer out on Lubuntu
 #define FB_DEVICE "/dev/fb0"
 
-#include "shock/includes.h"
+#include "shock/shock.h"
 
 class FrameBufferCore
 {
