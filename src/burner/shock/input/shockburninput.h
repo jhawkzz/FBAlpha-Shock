@@ -4,7 +4,7 @@
 #ifndef SHOCKBURNINPUT_H_
 #define SHOCKBURNINPUT_H_
 
-#include "shock/systems.h"
+#include "shock/shock.h"
 
 struct BurnDIPInfo;
 struct BurnInputInfo;

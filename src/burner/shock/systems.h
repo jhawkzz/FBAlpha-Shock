@@ -10,6 +10,7 @@
     #define _USE_MATH_DEFINES
     #include <math.h>
 #else
+    #include <limits.h>
     #include <unistd.h> //JHM: Fix implicit declaration warnings
     #include <sys/ioctl.h>
     #include <sys/mman.h>
@@ -37,5 +38,10 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <tchar.h>
+#include <ctype.h>
+
+#ifdef LUBUNTU
+    #include <alsa/asoundlib.h>
+#endif
 
 #endif

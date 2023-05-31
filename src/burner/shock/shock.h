@@ -1,8 +1,11 @@
 
 // See License.md for license
 
-#ifndef DEFINES_H_
-#define DEFINES_H_
+#ifndef SHOCK_H_
+#define SHOCK_H_
+
+#include "shock/systems.h"
+#include "burner.h"
 
 #define SHOCK_VERSION "0.1.0"
 

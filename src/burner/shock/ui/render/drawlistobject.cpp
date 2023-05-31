@@ -2,7 +2,6 @@
 // See License.md for license
 
 #include "shock/ui/render/drawlistobject.h"
-#include "shock/defines.h"
 
 DrawListObject::DrawListObject( )
 {

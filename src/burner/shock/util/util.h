@@ -4,6 +4,8 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
+#include "shock/shock.h"
+
 void  flushPrintf( const char *pStr, ... );
 
 #ifndef _WIN32

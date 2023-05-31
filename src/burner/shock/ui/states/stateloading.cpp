@@ -2,7 +2,6 @@
 // See License.md for license
 
 #include "shock/core/ostimer.h"
-#include "shock/defines.h"
 #include "shock/shockromloader.h"
 #include "shock/ui/imagebinaries.h"
 #include "shock/ui/render/uirenderer.h"

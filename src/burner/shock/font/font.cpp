@@ -1,7 +1,6 @@
 
 // See License.md for license
 
-#include "shock/defines.h"
 #include "shock/font/font.h"
 #include "shock/font/metfontbinary.h"
 #include "shock/font/upheavalfontbinary.h"

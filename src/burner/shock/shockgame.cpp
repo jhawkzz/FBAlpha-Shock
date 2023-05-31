@@ -2,7 +2,6 @@
 // See License.md for license
 
 #include "shock/core/ostimer.h"
-#include "shock/defines.h"
 #include "shock/hiscoredat.h"
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"

@@ -2,7 +2,6 @@
 // See License.md for license
 
 #include "shock/core/ostimer.h"
-#include "shock/defines.h"
 #include "shock/input/shockinput.h"
 
 InputControl ShockInput::mInputState[ ShockButton_Count ];

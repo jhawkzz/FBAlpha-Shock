@@ -1,7 +1,6 @@
 
 // See License.md for license
 
-#include "shock/defines.h"
 #include "shock/input/shockinput.h"
 #include "shock/shockromloader.h"
 #include "shock/ui/render/uirenderer.h"

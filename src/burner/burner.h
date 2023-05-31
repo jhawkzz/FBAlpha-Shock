@@ -1,33 +1,32 @@
 // FB Alpha - Emulator for MC68000/Z80 based arcade games
 //            Refer to the "license.txt" file for more info
 #pragma once
-//#include <limits.h>
-//#include <stdarg.h>
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <string.h>
-//#include <math.h>
-//#include <assert.h>
-//#include <ctype.h>
-//#include "tchar.h"
-//#include "shock/systems.h"
+#include <limits.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <assert.h>
+#include <ctype.h>
+#include "tchar.h"
 //
 //// Macro to make quoted strings
-//#define MAKE_STRING_2(s) #s
-//#define MAKE_STRING(s) MAKE_STRING_2(s)
+#define MAKE_STRING_2(s) #s
+#define MAKE_STRING(s) MAKE_STRING_2(s)
 //
 //// JHM: Not Supporting
 ////#define BZIP_MAX (20)                               // Maximum zip files to search through
-//#if defined (BUILD_QT)
-// #define DIRS_MAX (4)								// Maximum number of directories to search
-//#else
-// #define DIRS_MAX (20)								// Maximum number of directories to search
-//#endif
+#if defined (BUILD_QT)
+ #define DIRS_MAX (4)								// Maximum number of directories to search
+#else
+ #define DIRS_MAX (20)								// Maximum number of directories to search
+#endif
 //
 ////#include "title.h" //JHM: Not Needed
 
 
-#include "shock/systems.h"
+//#include "shock/systems.h"
 #include "burn.h"
 //
 //// JHM: Not supporting
@@ -64,9 +63,9 @@
 //// ---------------------------------------------------------------------------
 //// OS independent functionality
 //
-//#ifndef __LIBRETRO__
-//#include "interface.h"
-//#endif
+#ifndef __LIBRETRO__
+#include "interface.h"
+#endif
 //
 //// JHM: Not Supporting
 ///*
