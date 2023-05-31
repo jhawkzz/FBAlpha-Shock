@@ -1,8 +1,8 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
-#include "core/audio.h"
+#include "shock/core/audio.h"
+#include "shock/shockaudio.h"
 
 int ShockAudio::Create( )
 {   

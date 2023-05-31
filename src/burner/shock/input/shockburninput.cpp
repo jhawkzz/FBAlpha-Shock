@@ -1,7 +1,8 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/input/shockburninput.h"
+#include "shock/util/util.h"
 
 int            ShockBurnInput::mNumTotalGameInputs;
 GameInp        ShockBurnInput::mGameInputList[ MAX_BURN_INPUTS ];

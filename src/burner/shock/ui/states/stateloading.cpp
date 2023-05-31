@@ -1,7 +1,11 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/core/ostimer.h"
+#include "shock/shockromloader.h"
+#include "shock/ui/imagebinaries.h"
+#include "shock/ui/render/uirenderer.h"
+#include "shock/ui/states/stateloading.h"
 
 void StateLoading::Create( )
 {

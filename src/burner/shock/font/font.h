@@ -4,6 +4,8 @@
 #ifndef FONT_H_
 #define FONT_H_
 
+#include "shock/shock.h"
+
 #define FONT_CLEAR_COLOR     (0xF81F)
 #define FONT_LETTER_COUNT    (51)
 #define FONT_SPACING         (2)

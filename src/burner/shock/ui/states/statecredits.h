@@ -6,6 +6,9 @@
 
 #define NUM_PAGES (7)
 
+#include "shock/ui/render/menuitem.h"
+#include "shock/ui/states/uibasestate.h"
+
 class StateCredits : public UIBaseState
 {
 public:

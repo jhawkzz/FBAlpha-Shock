@@ -1,8 +1,15 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
 #include "shock/core/audio.h"
+#include "shock/core/ostimer.h"
+#include "shock/hiscoredat.h"
+#include "shock/shockaudio.h"
+#include "shock/shockconfig.h"
+#include "shock/shockgame.h"
+#include "shock/shockrenderer.h"
+#include "shock/shockromloader.h"
+#include "shock/util/util.h"
 
 #ifdef MVSX
    #include "shock/platform/core/mvsxled.h"

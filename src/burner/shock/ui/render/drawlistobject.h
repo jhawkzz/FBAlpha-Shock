@@ -4,6 +4,9 @@
 #ifndef DRAW_LIST_OBJECT_H_
 #define DRAW_LIST_OBJECT_H_
 
+#include "shock/shock.h"
+#include "shock/font/font.h"
+
 class DrawListObject
 {
 public:

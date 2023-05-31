@@ -4,6 +4,7 @@
 #ifndef FRAMEBUFFER_H_
 #define FRAMEBUFFER_H_
 
+#include "shock/shock.h"
 #include "shock/platform/core/framebuffer.h"
 
 class FrameBuffer : public FrameBufferCore

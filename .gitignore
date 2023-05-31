@@ -8,14 +8,20 @@ blend/
 eeprom/
 hiscore/
 
+projects/asp/.codelite/
 projects/asp/bin/
+projects/asp/FBAlpha-Shock.mk
 projects/asp/obj/
+projects/lubuntu/.codelite/
 projects/lubuntu/bin/
+projects/lubuntu/FBAlpha-Shock.mk
 projects/lubuntu/obj/
+projects/mvsx/.codelite/
 projects/mvsx/bin/
+projects/mvsx/FBAlpha-Shock.mk
 projects/mvsx/obj/
-projects/windows/bin/
-projects/windows/obj/
 projects/windows/.vs/
 projects/windows/*.user
+projects/windows/bin/
+projects/windows/obj/
 

@@ -1,7 +1,7 @@
 #ifndef THREAD_CORE_H_
 #define THREAD_CORE_H_
 
-#include "shock/includes.h"
+#include "shock/shock.h"
 
 class ThreadCore
 {

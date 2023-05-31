@@ -744,6 +744,9 @@
     <ClInclude Include="..\..\src\burner\shock\core\audio.h">
       <Filter>burner\shock\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\core\button.h">
+      <Filter>burner\shock\core</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\core\core.h">
       <Filter>burner\shock\core</Filter>
     </ClInclude>
@@ -774,9 +777,6 @@
     <ClInclude Include="..\..\src\burner\shock\core\thread.h">
       <Filter>burner\shock\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\defines.h">
-      <Filter>burner\shock</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\font\font.h">
       <Filter>burner\shock\font</Filter>
     </ClInclude>
@@ -789,9 +789,6 @@
     <ClInclude Include="..\..\src\burner\shock\hiscoredat.h">
       <Filter>burner\shock</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\includes.h">
-      <Filter>burner\shock</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\input\shockburninput.h">
       <Filter>burner\shock\input</Filter>
     </ClInclude>
@@ -800,6 +797,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\input\shockplayerinput.h">
       <Filter>burner\shock\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\shock.h">
+      <Filter>burner\shock</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\shockaudio.h">
       <Filter>burner\shock</Filter>
@@ -820,9 +820,6 @@
       <Filter>burner\shock</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\systems.h">
-      <Filter>burner\shock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\burner\shock\tchar.h">
       <Filter>burner\shock</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\ui\imagebinaries.h">

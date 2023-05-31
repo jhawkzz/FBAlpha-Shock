@@ -4,6 +4,9 @@
 #ifndef UIBASESTATE_H_
 #define UIBASESTATE_H_
 
+#include "shock/shock.h"
+#include "shock/font/font.h"
+
 enum UIState
 {
     UIState_MainMenu,

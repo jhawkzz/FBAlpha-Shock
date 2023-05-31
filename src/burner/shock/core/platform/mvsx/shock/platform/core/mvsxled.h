@@ -6,6 +6,8 @@
 
 #define LED_PATH "/sys/class/led_board/led"
 
+#include "shock/shock.h"
+
 class MVSXLed
 {
 public:

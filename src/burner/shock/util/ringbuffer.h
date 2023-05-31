@@ -4,6 +4,8 @@
 #ifndef RINGBUFFER_H_
 #define RINGBUFFER_H_
 
+#include "shock/shock.h"
+
 #define RINGBUFFER_SIZE (1024 * 1024)
 
 class RingBuffer

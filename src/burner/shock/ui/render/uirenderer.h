@@ -4,6 +4,8 @@
 #ifndef UIRENDERER_H_
 #define UIRENDERER_H_
 
+#include "shock/font/font.h"
+
 #define MAX_DRAWLIST_OBJECTS (256)
 
 class DrawListObject;

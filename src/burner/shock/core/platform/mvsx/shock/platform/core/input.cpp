@@ -1,6 +1,7 @@
 
 // See License.md for license
 
+#include "shock/core/button.h"
 #include "shock/core/input.h"
 #include "shock/util/util.h"
 

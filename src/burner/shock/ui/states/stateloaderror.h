@@ -4,6 +4,9 @@
 #ifndef STATELOADERROR_H_
 #define STATELOADERROR_H_
 
+#include "shock/ui/render/menuitem.h"
+#include "shock/ui/states/uibasestate.h"
+
 class StateLoadError : public UIBaseState
 {
 public:

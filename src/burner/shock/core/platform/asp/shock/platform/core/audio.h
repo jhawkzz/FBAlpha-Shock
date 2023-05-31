@@ -23,6 +23,9 @@
 #define SNDRV_SPEAKER_OFF         (0)
 #define SNDRV_SPEAKER_ON          (1) //Any non-zero value works
 
+#include "shock/shock.h"
+#include "shock/util/ringbuffer.h"
+
 class AudioCore
 {
 public:

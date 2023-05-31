@@ -7,6 +7,9 @@
 #define PCM_DEVICE                "default"
 #define MAX_PCM_BUFFER_SIZE_BYTES (1024 * 1024)
 
+#include "shock/systems.h"
+#include "shock/util/ringbuffer.h"
+
 class AudioCore
 {
 protected:

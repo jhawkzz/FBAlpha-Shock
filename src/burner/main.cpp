@@ -1,7 +1,9 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/shock.h"
+#include "shock/shockmain.h"
+#include "shock/util/util.h"
 
 /* NOTE
  * If running on x86 Lubuntu, this renders directly to the frame buffer. 

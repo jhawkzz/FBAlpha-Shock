@@ -1,7 +1,8 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/shockromloader.h"
+#include "shock/util/util.h"
 
 RomsetZipArchive ShockRomLoader::mLoadedRomset_ZipArchives[ MAX_ROMSET_ZIPS ];
 int              ShockRomLoader::mLoadedRomset_ZipArchivesCount;

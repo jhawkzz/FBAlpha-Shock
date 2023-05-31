@@ -4,6 +4,8 @@
 #ifndef SHOCKGAME_H_
 #define SHOCKGAME_H_
 
+#include "shock/shock.h"
+
 #define GAME_BUFFER_WIDTH  (512)
 #define GAME_BUFFER_HEIGHT (512)
 #define GAME_BUFFER_BPP    (2)

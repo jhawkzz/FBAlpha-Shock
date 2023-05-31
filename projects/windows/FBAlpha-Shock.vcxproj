@@ -252,6 +252,7 @@
     <ClInclude Include="..\..\src\burner\ioapi.h" />
     <ClInclude Include="..\..\src\burner\neocdlist.h" />
     <ClInclude Include="..\..\src\burner\shock\core\audio.h" />
+    <ClInclude Include="..\..\src\burner\shock\core\button.h" />
     <ClInclude Include="..\..\src\burner\shock\core\core.h" />
     <ClInclude Include="..\..\src\burner\shock\core\framebuffer.h" />
     <ClInclude Include="..\..\src\burner\shock\core\input.h" />
@@ -262,15 +263,14 @@
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\ostimer.h" />
     <ClInclude Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\thread.h" />
     <ClInclude Include="..\..\src\burner\shock\core\thread.h" />
-    <ClInclude Include="..\..\src\burner\shock\defines.h" />
     <ClInclude Include="..\..\src\burner\shock\font\font.h" />
     <ClInclude Include="..\..\src\burner\shock\font\metfontbinary.h" />
     <ClInclude Include="..\..\src\burner\shock\font\upheavalfontbinary.h" />
     <ClInclude Include="..\..\src\burner\shock\hiscoredat.h" />
-    <ClInclude Include="..\..\src\burner\shock\includes.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockburninput.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockinput.h" />
     <ClInclude Include="..\..\src\burner\shock\input\shockplayerinput.h" />
+    <ClInclude Include="..\..\src\burner\shock\shock.h" />
     <ClInclude Include="..\..\src\burner\shock\shockaudio.h" />
     <ClInclude Include="..\..\src\burner\shock\shockconfig.h" />
     <ClInclude Include="..\..\src\burner\shock\shockgame.h" />
@@ -278,7 +278,6 @@
     <ClInclude Include="..\..\src\burner\shock\shockrenderer.h" />
     <ClInclude Include="..\..\src\burner\shock\shockromloader.h" />
     <ClInclude Include="..\..\src\burner\shock\systems.h" />
-    <ClInclude Include="..\..\src\burner\shock\tchar.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\imagebinaries.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\render\drawlistobject.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\render\menuitem.h" />

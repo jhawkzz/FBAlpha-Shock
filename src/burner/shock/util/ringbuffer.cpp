@@ -1,7 +1,8 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
+#include "shock/systems.h"
+#include "shock/util/ringbuffer.h"
 
 RingBuffer::RingBuffer( )
 {

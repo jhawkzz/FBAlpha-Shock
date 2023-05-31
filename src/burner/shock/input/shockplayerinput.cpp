@@ -1,8 +1,10 @@
 
 // See License.md for license
 
-#include "shock/includes.h"
 #include "shock/input/shockinput.h"
+#include "shock/input/shockplayerinput.h"
+#include "shock/shockconfig.h"
+#include "shock/util/util.h"
 
 #ifdef MVSX
    #include "shock/platform/core/mvsxled.h"
