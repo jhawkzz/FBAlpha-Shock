@@ -9,6 +9,14 @@
 
 #define SHOCK_VERSION "1.0.2"
 
+#ifdef _WIN64
+    typedef unsigned long long NUINT;
+#else
+    typedef unsigned int NUINT;
+#endif
+
+static_assert(sizeof(NUINT) == sizeof(void*));
+
 // Before a game is loaded, we sometimes need to provide certain systems
 // with an FPS to start with. Use 60.
 #define DEFAULT_FPS (6000)

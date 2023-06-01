@@ -275,6 +275,7 @@
     <ClInclude Include="..\..\src\burner\shock\shockconfig.h" />
     <ClInclude Include="..\..\src\burner\shock\shockgame.h" />
     <ClInclude Include="..\..\src\burner\shock\shockmain.h" />
+    <ClInclude Include="..\..\src\burner\shock\shockprofiler.h" />
     <ClInclude Include="..\..\src\burner\shock\shockrenderer.h" />
     <ClInclude Include="..\..\src\burner\shock\shockromloader.h" />
     <ClInclude Include="..\..\src\burner\shock\systems.h" />
@@ -295,7 +296,10 @@
     <ClInclude Include="..\..\src\burner\shock\ui\states\statemainmenu.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\statesavestate.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\uibasestate.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\array.h" />
     <ClInclude Include="..\..\src\burner\shock\util\ringbuffer.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\span.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\tree.h" />
     <ClInclude Include="..\..\src\burner\shock\util\util.h" />
     <ClInclude Include="..\..\src\burner\tchar.h" />
     <ClInclude Include="..\..\src\burner\unzip.h" />

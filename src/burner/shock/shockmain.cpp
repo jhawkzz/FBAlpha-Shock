@@ -5,6 +5,7 @@
 #include "shock/core/ostimer.h"
 #include "shock/input/shockinput.h"
 #include "shock/font/font.h"
+#include "shock/shockprofiler.h"
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
 #include "shock/shockgame.h"
@@ -326,7 +327,9 @@ void ShockMain::UpdateState_Emulator( )
 
 void ShockMain::Update( )
 {
-    int result = Core::Update( );
+    SHOCK_PROFILE;
+
+    int result = Core::Update();
 
     if ( result == -1 )
     {
