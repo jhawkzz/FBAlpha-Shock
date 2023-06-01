@@ -1014,12 +1014,18 @@
           <File Name="../../src/burner/shock/ui/states/stateemulatorsettings.h"/>
           <File Name="../../src/burner/shock/ui/states/stategamesettings.cpp"/>
           <File Name="../../src/burner/shock/ui/states/stategamesettings.h"/>
+          <File Name="../../src/burner/shock/ui/states/stategamestatebase.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/stategamestatebase.h"/>
           <File Name="../../src/burner/shock/ui/states/stateloaderror.cpp"/>
           <File Name="../../src/burner/shock/ui/states/stateloaderror.h"/>
           <File Name="../../src/burner/shock/ui/states/stateloading.cpp"/>
           <File Name="../../src/burner/shock/ui/states/stateloading.h"/>
+          <File Name="../../src/burner/shock/ui/states/stateloadstate.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/stateloadstate.h"/>
           <File Name="../../src/burner/shock/ui/states/statemainmenu.cpp"/>
           <File Name="../../src/burner/shock/ui/states/statemainmenu.h"/>
+          <File Name="../../src/burner/shock/ui/states/statesavestate.cpp"/>
+          <File Name="../../src/burner/shock/ui/states/statesavestate.h"/>
           <File Name="../../src/burner/shock/ui/states/uibasestate.cpp"/>
           <File Name="../../src/burner/shock/ui/states/uibasestate.h"/>
         </VirtualDirectory>
@@ -1031,6 +1037,8 @@
         <File Name="../../src/burner/shock/util/util.h"/>
       </VirtualDirectory>
     </VirtualDirectory>
+    <File Name="../../src/burner/state.cpp"/>
+    <File Name="../../src/burner/statec.cpp"/>
     <File Name="../../src/burner/tchar.h"/>
     <File Name="../../src/burner/unzip.c"/>
     <File Name="../../src/burner/unzip.h"/>

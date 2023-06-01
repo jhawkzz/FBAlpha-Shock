@@ -9,6 +9,8 @@
 #include "shock/ui/states/statecredits.h"
 #include "shock/ui/states/statedisplaysettings.h"
 #include "shock/ui/states/stateemulatorsettings.h"
+#include "shock/ui/states/stateloadstate.h"
+#include "shock/ui/states/statesavestate.h"
 #include "shock/ui/states/stateloading.h"
 #include "shock/ui/states/stateloaderror.h"
 #include "shock/ui/states/statemainmenu.h"

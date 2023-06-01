@@ -1,7 +1,9 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/ui/states/statesavestate.h"
+#include "shock/input/shockinput.h"
+#include "shock/shockgame.h"
 
 void StateSaveState::Create( )
 {

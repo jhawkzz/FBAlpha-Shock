@@ -7,6 +7,9 @@
 #define THUMB_IMAGE_SPACING (50)
 #define MAX_SAVE_STATES     (8)
 
+#include "uibasestate.h"
+#include "shock/ui/render/menuitem.h"
+
 class StateGameStateBase : public UIBaseState
 {
 public:

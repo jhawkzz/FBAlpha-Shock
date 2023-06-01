@@ -1,7 +1,11 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/ui/render/uirenderer.h"
+#include "shock/ui/states/stategamestatebase.h"
+#include "shock/util/util.h"
+#include "shock/shockgame.h"
+#include "shock/input/shockinput.h"
 
 void StateGameStateBase::Create()
 {

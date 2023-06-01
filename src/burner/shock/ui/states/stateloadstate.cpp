@@ -1,7 +1,9 @@
 
 // See License.md for license
 
-#include "../../includes.h"
+#include "shock/ui/states/stateloadstate.h"
+#include "shock/input/shockinput.h"
+#include "shock/shockgame.h"
 
 void StateLoadState::Create()
 {

@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Workspace Name="FBAlpha-Shock" Database="" Version="10.0.0">
-  <Project Name="FBAlpha-Shock" Path="FBAlpha-Shock.project" Active="Yes"/>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="FBAlpha-Shock" Database="" SWTLW="No">
+  <Project Name="FBAlpha-Shock" Path="FBAlpha-Shock.project"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Project Name="FBAlpha-Shock" ConfigName="Debug"/>

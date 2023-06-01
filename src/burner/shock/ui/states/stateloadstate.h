@@ -4,6 +4,8 @@
 #ifndef STATELOADSTATE_H_
 #define STATELOADSTATE_H_
 
+#include "shock/ui/states/stategamestatebase.h"
+
 class StateLoadState : public StateGameStateBase
 {
 public:
