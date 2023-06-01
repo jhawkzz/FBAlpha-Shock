@@ -1349,7 +1349,7 @@
         <Preprocessor Value="MVSX"/>
         <Preprocessor Value="USE_SPEEDHACKS"/>
       </Compiler>
-      <Linker Required="yes" Options="-static;-lm;-lpthread;-lrt">
+      <Linker Required="yes" Options="-static;-l@$(file &gt; $@.in, $(filter %.o, $^));-lm;-lpthread;-lrt">
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="bin/Debug/fba029743" IntermediateDirectory="obj/Debug" Command="bin/Debug/fba029743" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
@@ -1412,7 +1412,7 @@
         <Preprocessor Value="MVSX"/>
         <Preprocessor Value="USE_SPEEDHACKS"/>
       </Compiler>
-      <Linker Required="yes" Options="-static;-lm;-lpthread;-lrt">
+      <Linker Required="yes" Options="-static;-l@$(file &gt; $@.in, $(filter %.o, $^));-lm;-lpthread;-lrt">
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="bin/Release/fba029743" IntermediateDirectory="obj/Release" Command="bin/Release/fba029743" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>

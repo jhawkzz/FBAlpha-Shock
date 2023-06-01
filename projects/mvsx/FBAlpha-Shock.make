@@ -26,12 +26,12 @@ ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
 LIBS += -lm -lpthread -lrt
 LDDEPS +=
-ALL_LDFLAGS += $(LDFLAGS) -s -static
-LINKCMD = @$(file > $@.in, $(filter %.o, $^)) $(CXX) -o $@ $(filter-out %.o, $^) @$@.in $(ALL_LDFLAGS) $(LIBS)
-BINPATH  := ../../../fba-toolchains/windows-host/win-linaro-arm-linux-gnueabi/bin
-CC       := ${BINPATH}/arm-linux-gnueabi-gcc
-CXX      := ${BINPATH}/arm-linux-gnueabi-g++
-STRIP    := ${BINPATH}/arm-linux-gnueabi-strip -s
+ALL_LDFLAGS += $(LDFLAGS) -s -static @$(file > $@.in, $(filter %.o, $^)) $(filter-out %.o, $^) @$@.in
+LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+BINPATH  := ../../../toolchain-mvsx/arm-2011.09/bin
+CC       := ${BINPATH}/arm-none-linux-gnueabi-gcc
+CXX      := ${BINPATH}/arm-none-linux-gnueabi-g++
+STRIP    := ${BINPATH}/arm-none-linux-gnueabi-strip -s
 
 
 define PREBUILDCMDS
