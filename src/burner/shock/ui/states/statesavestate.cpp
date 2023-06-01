@@ -28,19 +28,19 @@ void StateSaveState::ExitState( UIState newState )
 UIState StateSaveState::Update( )
 {
     // check for entering a gamestate menu item
-    if (ShockInput::GetInput(P1_Button_1)->WasReleased())
+    if ( ShockInput::GetInput( P1_Button_1 )->WasReleased( ) )
     {
-        int result = ShockGame::SaveGameState(mMenuSelection, mStateThumb[mMenuSelection]);
-        if (result == -1)
+        int result = ShockGame::SaveGameState( mMenuSelection, mStateThumb[ mMenuSelection ] );
+        if ( result == -1 )
         {
-            memset(mStateThumb[mMenuSelection], 0, sizeof(mStateThumb[mMenuSelection]));
-            mStateExists[mMenuSelection] = 0;
-            snprintf(mResultStr, sizeof(mResultStr), "Error creating save state for slot: %d", mMenuSelection + 1);
+            memset( mStateThumb[ mMenuSelection ], 0, sizeof( mStateThumb[ mMenuSelection ] ) );
+            mStateExists[ mMenuSelection ] = 0;
+            snprintf( mResultStr, sizeof( mResultStr ), "Error creating save state for slot: %d", mMenuSelection + 1 );
         }
         else
         {
-            mStateExists[mMenuSelection] = 1;
-            memset(mResultStr, 0, sizeof(mResultStr));
+            mStateExists[ mMenuSelection ] = 1;
+            memset( mResultStr, 0, sizeof( mResultStr ) );
         }
     }
 
@@ -50,6 +50,6 @@ UIState StateSaveState::Update( )
 void StateSaveState::DrawMenu( )
 {
     UIBaseState::RenderTitle( "SAVE STATE" );
-    
-    StateGameStateBase::DrawMenu();
+
+    StateGameStateBase::DrawMenu( );
 }

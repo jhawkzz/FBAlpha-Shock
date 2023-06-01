@@ -27,12 +27,12 @@ ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
 LIBS += -lm -lpthread -lrt
 LDDEPS +=
 ALL_LDFLAGS += $(LDFLAGS) -s -static
-#LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 LINKCMD = @$(file > $@.in, $(filter %.o, $^)) $(CXX) -o $@ $(filter-out %.o, $^) @$@.in $(ALL_LDFLAGS) $(LIBS)
 BINPATH  := ../../../fba-toolchains/windows-host/win-linaro-arm-linux-gnueabi/bin
 CC       := ${BINPATH}/arm-linux-gnueabi-gcc
 CXX      := ${BINPATH}/arm-linux-gnueabi-g++
 STRIP    := ${BINPATH}/arm-linux-gnueabi-strip -s
+
 
 define PREBUILDCMDS
 endef

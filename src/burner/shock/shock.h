@@ -20,6 +20,8 @@
 #define ASSET_ROOT_PATH     "/mnt/hdisk/fbashock"
 #elif ASP
 #define ASSET_ROOT_PATH     "/mnt/usb/fbashock"
+#else // not used on win32 or lubuntu
+#define ASSET_ROOT_PATH     ""
 #endif
 
 // IO for FBA to write game files
@@ -28,7 +30,7 @@
 #define HISCORE_PATH         "hiscore/"
 #define HISCORE_DAT_FILENAME "hiscore.dat"
 
-// The size of the FBA back buffer that Burn itself renders to
+// The size of the thumbnail images for save states
 #define STATE_THUMBNAIL_WIDTH  (150)
 #define STATE_THUMBNAIL_HEIGHT (120)
 
@@ -75,7 +77,7 @@
    ({ __typeof__ (a) _a = (a); \
        __typeof__ (b) _b = (b); \
      _a < _b ? _a : _b; })
-     
+
 #define max(a,b) \
    ({ __typeof__ (a) _a = (a); \
        __typeof__ (b) _b = (b); \

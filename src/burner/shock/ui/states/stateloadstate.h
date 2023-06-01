@@ -9,16 +9,16 @@
 class StateLoadState : public StateGameStateBase
 {
 public:
-    virtual void Create();
-    virtual void Destroy();
+    virtual void Create( );
+    virtual void Destroy( );
 
-    virtual void EnterState(UIState oldState);
-    virtual void ExitState(UIState newState);
+    virtual void EnterState( UIState oldState );
+    virtual void ExitState( UIState newState );
 
-    virtual UIState Update();
+    virtual UIState Update( );
 
 protected:
-    virtual void DrawMenu();
+    virtual void DrawMenu( );
 };
 
 #endif

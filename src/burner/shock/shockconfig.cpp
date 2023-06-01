@@ -20,13 +20,13 @@ int ShockConfig::GetConfigFilePath( char *pFilePath, int size )
 {
     char path[ MAX_PATH ] = { 0 };
     int result = getAssetDirectory( path, size );
-    if( result == -1 )
+    if ( result == -1 )
     {
         return result;
     }
 
     snprintf( pFilePath, size, "%s/%s", path, CONFIG_FILE );
-    
+
     return 0;
 }
 
@@ -34,23 +34,23 @@ void ShockConfig::LoadConfigFile( )
 {
     char filePath[ MAX_PATH ] = { 0 };
     int result = GetConfigFilePath( filePath, MAX_PATH );
-    if( result == -1 )
+    if ( result == -1 )
     {
         flushPrintf( "ShockConfig::LoadConfigFile() - Could not get Config File Path!\r\n" );
     }
 
     FILE *pFile = fopen( filePath, "rb" );
-    if( pFile != NULL )
+    if ( pFile != NULL )
     {
         int bytesRead = fread( &mConfigSettings, 1, sizeof( mConfigSettings ), pFile );
-        if( bytesRead != sizeof( mConfigSettings ) )
+        if ( bytesRead != sizeof( mConfigSettings ) )
         {
             RestoreDefaults( );
-            flushPrintf( "ShockConfig::LoadConfigFile() - Error, bytes read of %d did not match expected %d\r\n", 
-                        bytesRead, 
-                        sizeof( mConfigSettings ) );
+            flushPrintf( "ShockConfig::LoadConfigFile() - Error, bytes read of %d did not match expected %d\r\n",
+                bytesRead,
+                sizeof( mConfigSettings ) );
         }
-        
+
         fclose( pFile );
         pFile = NULL;
     }
@@ -65,27 +65,27 @@ int ShockConfig::SaveConfigFile( )
 {
     char filePath[ MAX_PATH ] = { 0 };
     int result = GetConfigFilePath( filePath, MAX_PATH );
-    if( result == -1 )
+    if ( result == -1 )
     {
         flushPrintf( "ShockConfig::SaveConfigFile() - Could not get Config File Path!\r\n" );
         return -1;
     }
-    
+
     FILE *pFile = fopen( filePath, "wb" );
-    if( pFile != NULL )
+    if ( pFile != NULL )
     {
         int bytesWritten = fwrite( &mConfigSettings, 1, sizeof( mConfigSettings ), pFile );
-        if( bytesWritten != sizeof( mConfigSettings ) )
+        if ( bytesWritten != sizeof( mConfigSettings ) )
         {
-            flushPrintf( "ShockConfig::SaveConfigFile() - Error! Wrote %d bytes, but expected to write: %d\r\n", 
-                        bytesWritten, 
-                        sizeof( mConfigSettings ) );
+            flushPrintf( "ShockConfig::SaveConfigFile() - Error! Wrote %d bytes, but expected to write: %d\r\n",
+                bytesWritten,
+                sizeof( mConfigSettings ) );
         }
-        
+
         fflush( pFile );
         fclose( pFile );
         pFile = NULL;
-        
+
         result = 0;
     }
     else
@@ -93,7 +93,7 @@ int ShockConfig::SaveConfigFile( )
         flushPrintf( "ShockConfig::SaveConfigFile() - Error! Could not open config file at: %s\r\n", filePath );
         result = -1;
     }
-    
+
     return result;
 }
 
@@ -102,10 +102,10 @@ void ShockConfig::RestoreDefaults( )
     // set defaults - used on initial create and if the file fails to load
     // due to corruption
     memset( &mConfigSettings, 0, sizeof( mConfigSettings ) );
-    
-    mConfigSettings.displayMode      = ShockDisplayMode_FullScreen;
-    mConfigSettings.scanLines        = 0;
-    mConfigSettings.showFPS          = 0;
+
+    mConfigSettings.displayMode = ShockDisplayMode_FullScreen;
+    mConfigSettings.scanLines = 0;
+    mConfigSettings.showFPS = 0;
     mConfigSettings.showLoadWarnings = 0;
 }
 
@@ -152,30 +152,30 @@ void ShockConfig::SetShowLoadWarnings( int enabled )
 SavedFireInput *ShockConfig::LoadFireInputs( const char *pRomsetName )
 {
     SavedFireInput *pResult = NULL;
-    
+
     // look for the game
-    for( int i = 0; i < MAX_GAMES; i++ )
+    for ( int i = 0; i < MAX_GAMES; i++ )
     {
-        if( !strcmp( mConfigSettings.savedConfigInputs[ i ].romsetName, pRomsetName ) )
+        if ( !strcmp( mConfigSettings.savedConfigInputs[ i ].romsetName, pRomsetName ) )
         {
-            pResult = &mConfigSettings.savedConfigInputs[ i ]; 
+            pResult = &mConfigSettings.savedConfigInputs[ i ];
             break;
         }
     }
-    
+
     return pResult;
 }
 
 void ShockConfig::SaveFireInputs( const char *pRomsetName, SavedFireInput *pFireInputs )
 {
     SavedFireInput *pInputForWrite = NULL;
-    
+
     // look for the game or a blank entry we can use
-    for( int i = 0; i < MAX_GAMES; i++ )
+    for ( int i = 0; i < MAX_GAMES; i++ )
     {
-        if( !strcmp( mConfigSettings.savedConfigInputs[ i ].romsetName, pRomsetName ) )
+        if ( !strcmp( mConfigSettings.savedConfigInputs[ i ].romsetName, pRomsetName ) )
         {
-            pInputForWrite = &mConfigSettings.savedConfigInputs[ i ]; 
+            pInputForWrite = &mConfigSettings.savedConfigInputs[ i ];
             break;
         }
         // if we haven't yet found a blank entry, take the first one we find
@@ -184,15 +184,15 @@ void ShockConfig::SaveFireInputs( const char *pRomsetName, SavedFireInput *pFire
             pInputForWrite = &mConfigSettings.savedConfigInputs[ i ];
         }
     }
-    
+
     // it should never be null, but just in case
-    if( pInputForWrite != NULL )
+    if ( pInputForWrite != NULL )
     {
         strcpy( pInputForWrite->romsetName, pRomsetName );
-        
-        memcpy( pInputForWrite->fireButtonLookup, 
-                pFireInputs->fireButtonLookup, 
-                sizeof( pInputForWrite->fireButtonLookup ) );
+
+        memcpy( pInputForWrite->fireButtonLookup,
+            pFireInputs->fireButtonLookup,
+            sizeof( pInputForWrite->fireButtonLookup ) );
     }
     else
     {
