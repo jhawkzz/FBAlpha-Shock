@@ -119,7 +119,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         width = height;
         height = temp;
 
-        widthAdjustment = 128;
+        widthAdjustment = (int) ((float)platformWidth * .1f);
 
         pSourceBuffer = mRotateBuffer;
     }
@@ -133,7 +133,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         width = height;
         height = temp;
 
-        widthAdjustment = 256;
+        widthAdjustment = (int) ((float)platformWidth * .2f);
 
         pSourceBuffer = mRotateBuffer;
     }
