@@ -339,27 +339,29 @@ STDDIPINFOEXT(Megadrive5p, AutoDetectRegion5p, Megadrive5p)
 
 INT32 MegadriveGetZipName(char** pszName, UINT32 i)
 {
-	static char szFilename[MAX_PATH];
-	char* pszGameName = NULL;
+	static char szFilename[ MAX_PATH ];
+	char *pszGameName = NULL;
 
-	if (pszName == NULL) {
+	if ( pszName == NULL ) {
 		return 1;
 	}
 
-	if (i == 0) {
-		pszGameName = BurnDrvGetTextA(DRV_NAME);
-	} else {
-		pszGameName = BurnDrvGetTextA(DRV_PARENT);
+	if ( i == 0 ) {
+		pszGameName = BurnDrvGetTextA( DRV_NAME );
+	}
+	else {
+		pszGameName = BurnDrvGetTextA( DRV_PARENT );
 	}
 
-	if (pszGameName == NULL) {
+	if ( pszGameName == NULL || i > 1 ) {
 		*pszName = NULL;
 		return 1;
 	}
 
 	// remove the "md_"
-	for (UINT32 j = 0; j < strlen(pszGameName); j++) {
-		szFilename[j] = pszGameName[j + 3];
+	memset( szFilename, 0, MAX_PATH );
+	for ( UINT32 j = 0; j < ( strlen( pszGameName ) - 3 ); j++ ) {
+		szFilename[ j ] = pszGameName[ j + 3 ];
 	}
 
 	*pszName = szFilename;
