@@ -4,16 +4,16 @@
 #ifndef SHOCKUI_H_
 #define SHOCKUI_H_
 
-#include "shock/ui/states/stategamesettings.h"
 #include "shock/ui/states/statebuttonconfig.h"
 #include "shock/ui/states/statecredits.h"
 #include "shock/ui/states/statedisplaysettings.h"
 #include "shock/ui/states/stateemulatorsettings.h"
-#include "shock/ui/states/stateloadstate.h"
-#include "shock/ui/states/statesavestate.h"
-#include "shock/ui/states/stateloading.h"
+#include "shock/ui/states/stategamesettings.h"
 #include "shock/ui/states/stateloaderror.h"
+#include "shock/ui/states/stateloading.h"
+#include "shock/ui/states/stateloadstate.h"
 #include "shock/ui/states/statemainmenu.h"
+#include "shock/ui/states/statesavestate.h"
 #include "shock/ui/states/uibasestate.h"
 
 class ShockUI
