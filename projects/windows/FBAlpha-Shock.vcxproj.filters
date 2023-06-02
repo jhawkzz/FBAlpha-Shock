@@ -852,13 +852,22 @@
     <ClInclude Include="..\..\src\burner\shock\ui\states\stategamesettings.h">
       <Filter>burner\shock\ui\states</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\ui\states\stategamestatebase.h">
+      <Filter>burner\shock\ui\states</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\ui\states\stateloaderror.h">
       <Filter>burner\shock\ui\states</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\ui\states\stateloading.h">
       <Filter>burner\shock\ui\states</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\ui\states\stateloadstate.h">
+      <Filter>burner\shock\ui\states</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\ui\states\statemainmenu.h">
+      <Filter>burner\shock\ui\states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\ui\states\statesavestate.h">
       <Filter>burner\shock\ui\states</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\ui\states\uibasestate.h">
@@ -3407,13 +3416,22 @@
     <ClCompile Include="..\..\src\burner\shock\ui\states\stategamesettings.cpp">
       <Filter>burner\shock\ui\states</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\burner\shock\ui\states\stategamestatebase.cpp">
+      <Filter>burner\shock\ui\states</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\ui\states\stateloaderror.cpp">
       <Filter>burner\shock\ui\states</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\ui\states\stateloading.cpp">
       <Filter>burner\shock\ui\states</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\burner\shock\ui\states\stateloadstate.cpp">
+      <Filter>burner\shock\ui\states</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\ui\states\statemainmenu.cpp">
+      <Filter>burner\shock\ui\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burner\shock\ui\states\statesavestate.cpp">
       <Filter>burner\shock\ui\states</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\ui\states\uibasestate.cpp">
@@ -3424,6 +3442,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\util\util.cpp">
       <Filter>burner\shock\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burner\state.cpp">
+      <Filter>burner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burner\statec.cpp">
+      <Filter>burner</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\unzip.c">
       <Filter>burner</Filter>

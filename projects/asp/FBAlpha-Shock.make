@@ -27,11 +27,11 @@ ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
 LIBS += -lm -lpthread -lrt
 LDDEPS +=
 ALL_LDFLAGS += $(LDFLAGS) -s -static
-LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
-BINPATH  := ../../../toolchain-mvsx/arm-2011.09/bin
-CC       := ${BINPATH}/arm-none-linux-gnueabi-gcc
-CXX      := ${BINPATH}/arm-none-linux-gnueabi-g++
-STRIP	   := ${BINPATH}/arm-none-linux-gnueabi-strip -s
+LINKCMD = @$(file > $@.in, $(filter %.o, $^)) $(CXX) -o $@ $(filter-out %.o, $^) @$@.in $(ALL_LDFLAGS) $(LIBS)
+BINPATH  := ../../../fba-toolchains/windows-host/win-linaro-arm-linux-gnueabi/bin
+CC       := ${BINPATH}/arm-linux-gnueabi-gcc
+CXX      := ${BINPATH}/arm-linux-gnueabi-g++
+STRIP    := ${BINPATH}/arm-linux-gnueabi-strip -s
 
 
 define PREBUILDCMDS
@@ -788,14 +788,19 @@ GENERATED += $(OBJDIR)/snes_ppu.o
 GENERATED += $(OBJDIR)/snes_spc700.o
 GENERATED += $(OBJDIR)/snk6502_sound.o
 GENERATED += $(OBJDIR)/st0020.o
+GENERATED += $(OBJDIR)/state.o
 GENERATED += $(OBJDIR)/statebuttonconfig.o
+GENERATED += $(OBJDIR)/statec.o
 GENERATED += $(OBJDIR)/statecredits.o
 GENERATED += $(OBJDIR)/statedisplaysettings.o
 GENERATED += $(OBJDIR)/stateemulatorsettings.o
 GENERATED += $(OBJDIR)/stategamesettings.o
+GENERATED += $(OBJDIR)/stategamestatebase.o
 GENERATED += $(OBJDIR)/stateloaderror.o
 GENERATED += $(OBJDIR)/stateloading.o
+GENERATED += $(OBJDIR)/stateloadstate.o
 GENERATED += $(OBJDIR)/statemainmenu.o
+GENERATED += $(OBJDIR)/statesavestate.o
 GENERATED += $(OBJDIR)/stm95.o
 GENERATED += $(OBJDIR)/sys16_fd1094.o
 GENERATED += $(OBJDIR)/sys16_gfx.o
@@ -1591,14 +1596,19 @@ OBJECTS += $(OBJDIR)/snes_ppu.o
 OBJECTS += $(OBJDIR)/snes_spc700.o
 OBJECTS += $(OBJDIR)/snk6502_sound.o
 OBJECTS += $(OBJDIR)/st0020.o
+OBJECTS += $(OBJDIR)/state.o
 OBJECTS += $(OBJDIR)/statebuttonconfig.o
+OBJECTS += $(OBJDIR)/statec.o
 OBJECTS += $(OBJDIR)/statecredits.o
 OBJECTS += $(OBJDIR)/statedisplaysettings.o
 OBJECTS += $(OBJDIR)/stateemulatorsettings.o
 OBJECTS += $(OBJDIR)/stategamesettings.o
+OBJECTS += $(OBJDIR)/stategamestatebase.o
 OBJECTS += $(OBJDIR)/stateloaderror.o
 OBJECTS += $(OBJDIR)/stateloading.o
+OBJECTS += $(OBJDIR)/stateloadstate.o
 OBJECTS += $(OBJDIR)/statemainmenu.o
+OBJECTS += $(OBJDIR)/statesavestate.o
 OBJECTS += $(OBJDIR)/stm95.o
 OBJECTS += $(OBJDIR)/sys16_fd1094.o
 OBJECTS += $(OBJDIR)/sys16_gfx.o
@@ -3912,13 +3922,22 @@ $(OBJDIR)/stateemulatorsettings.o: ../../src/burner/shock/ui/states/stateemulato
 $(OBJDIR)/stategamesettings.o: ../../src/burner/shock/ui/states/stategamesettings.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/stategamestatebase.o: ../../src/burner/shock/ui/states/stategamestatebase.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/stateloaderror.o: ../../src/burner/shock/ui/states/stateloaderror.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/stateloading.o: ../../src/burner/shock/ui/states/stateloading.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/stateloadstate.o: ../../src/burner/shock/ui/states/stateloadstate.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/statemainmenu.o: ../../src/burner/shock/ui/states/statemainmenu.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/statesavestate.o: ../../src/burner/shock/ui/states/statesavestate.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/uibasestate.o: ../../src/burner/shock/ui/states/uibasestate.cpp
@@ -3928,6 +3947,12 @@ $(OBJDIR)/ringbuffer.o: ../../src/burner/shock/util/ringbuffer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/util.o: ../../src/burner/shock/util/util.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/state.o: ../../src/burner/state.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/statec.o: ../../src/burner/statec.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/unzip.o: ../../src/burner/unzip.c

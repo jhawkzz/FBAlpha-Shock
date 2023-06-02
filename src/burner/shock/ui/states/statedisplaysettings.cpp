@@ -27,8 +27,6 @@ void StateDisplaySettings::Create( )
     yPos += UI_ROW_HEIGHT * 3;
     mMenuItemList[ mNumMenuItems++ ].Create( "Scanlines: ", xPos, yPos, 0xFFFF );
     
-    memset( mResultStr, 0, sizeof( mResultStr ) );
-    
     mEnabledSettings = 0;
     mMenuSelection = 0;
     
@@ -51,9 +49,6 @@ void StateDisplaySettings::EnterState( UIState oldState )
 {
     UIBaseState::EnterState( oldState );
         
-    // reset our output
-    memset( mResultStr, 0, sizeof( mResultStr ) );
-    
     mEnabledSettings = 0;
 }
 

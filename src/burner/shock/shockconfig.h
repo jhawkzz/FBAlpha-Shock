@@ -24,7 +24,7 @@ struct ConfigSettings
     int showFPS;
     int showLoadWarnings;
     int reserved[ 1020 ]; //for future use
-    
+
     SavedFireInput savedConfigInputs[ MAX_GAMES ];
 };
 
@@ -33,25 +33,25 @@ class ShockConfig
 public:
     static void Create( );
     static void Destroy( );
-    
+
     static void LoadConfigFile( );
     static int  SaveConfigFile( );
-    
+
     static int  GetDisplayMode( );
     static void SetDisplayMode( int displayMode );
-    
+
     static int  GetScanLinesEnabled( );
     static void SetScanLinesEnabled( int enabled );
-    
+
     static int  GetShowFPS( );
     static void SetShowFPS( int enabled );
-    
+
     static int  GetShowLoadWarnings( );
     static void SetShowLoadWarnings( int enabled );
-    
+
     static SavedFireInput *LoadFireInputs( const char *pRomsetName );
     static void            SaveFireInputs( const char *pRomsetName, SavedFireInput *pFireInputs );
-        
+
 private:
     static void RestoreDefaults( );
     static int  GetConfigFilePath( char *pFilePath, int size );
