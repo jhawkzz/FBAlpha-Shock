@@ -5589,10 +5589,11 @@ DRV		BurnDrvsamsho5x;
 DRV		BurnDrvsamsho5h;
 DRV		BurnDrvsamsho5;
 DRV		BurnDrvsamsho5a;
+DRV     BurnDrvsamsh5fe;
+DRV     BurnDrvsamsh5pf;
 DRV		BurnDrvsamsh5spho;
 DRV		BurnDrvsamsh5sph;
 DRV		BurnDrvsamsh5sp;
-DRV     BurnDrvsamsh5pf;
 DRV		BurnDrvmd_samspir;
 DRV		BurnDrvtg_samuraig;
 DRV		BurnDrvmd_sanguo;
@@ -13942,10 +13943,11 @@ static struct BurnDriver* pDriver[] = {
 	&BurnDrvsamsho5h,			// Samurai Shodown V / Samurai Spirits Zero (NGH-2700)
 	&BurnDrvsamsho5,			// Samurai Shodown V / Samurai Spirits Zero (NGM-2700, set 1)
 	&BurnDrvsamsho5a,			// Samurai Shodown V / Samurai Spirits Zero (NGM-2700, set 2)
+	&BurnDrvsamsh5fe,			// Samurai Shodown V Special / Samurai Spirits Zero Special (NGM-272) (NGH-272) (Final Edition, location test version)
+	&BurnDrvsamsh5pf,           // Samurai Shodown V Perfect / Samurai Spirits Zero Perfect (bootleg, hack)
 	&BurnDrvsamsh5spho,			// Samurai Shodown V Special / Samurai Spirits Zero Special (NGH-2720) (1st release, censored)
 	&BurnDrvsamsh5sph,			// Samurai Shodown V Special / Samurai Spirits Zero Special (NGH-2720) (2nd release, less censored)
 	&BurnDrvsamsh5sp,			// Samurai Shodown V Special / Samurai Spirits Zero Special (NGM-2720)
-    &BurnDrvsamsh5pf,           // Samurai Shodown V Perfect / Samurai Spirits Zero Perfect (bootleg, hack)
 	&BurnDrvmd_samspir,			// Samurai Spirits (Jpn)
 	&BurnDrvtg_samuraig,		// Samurai-Ghost
 	&BurnDrvmd_sanguo,			// San Guo Zhi Lie Zhuan - Luan Shi Qun Ying (Chi)

@@ -31,7 +31,9 @@ public:
     
 private:
     static void SetGameDefaults_SNKNeoGeo( );
+    static void SetGameDefaults_MegaDrive( );
     static void SetGameDefaults_Capcom( );
+    static void SetGameDefaults_GeneralArcade( );
 
 private:
     static ShockButtonToBurnInput mShockButtonToBurnInput[ MAX_SHOCK_PLAYERS ];
