@@ -1,13 +1,9 @@
 makesettings [[
-BINPATH  := ../../../toolchain-mvsx/arm-2011.09/bin
-CC       := ${BINPATH}/arm-none-linux-gnueabi-gcc
-CXX      := ${BINPATH}/arm-none-linux-gnueabi-g++
-STRIP    := ${BINPATH}/arm-none-linux-gnueabi-strip -s
-LINKCMD   = @$(file > $@.in, $(filter %.o, $^)) $(CXX) -o $@ $(filter-out %.o, $^) @$@.in $(ALL_LDFLAGS) $(LIBS)
+BINPATH  := ../../../fba-toolchains/windows-host/win-linaro-arm-linux-gnueabi/bin
+CC       := ${BINPATH}/arm-linux-gnueabi-gcc
+CXX      := ${BINPATH}/arm-linux-gnueabi-g++
+STRIP    := ${BINPATH}/arm-linux-gnueabi-strip -s
 ]]
-
---LINKCMD = @$(file > $@.in, $(filter %.o, $^)) $(CXX) -o $@ $(filter-out %.o, $^) @$@.in $(ALL_LDFLAGS) $(LIBS)
---LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 
 function set_location()
    location "../projects/mvsx"
@@ -40,7 +36,6 @@ end
 
 function set_links()
    linkoptions { "-static" }
-   linkoptions { "@$(file > $@.in, $(filter %.o, $^)) $(filter-out %.o, $^) @$@.in" }
 
    links {
       "m",
