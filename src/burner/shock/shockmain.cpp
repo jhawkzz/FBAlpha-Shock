@@ -161,6 +161,21 @@ int ShockMain::BeginLoad( const char *pRomset )
     return 0;
 }
 
+void TimerPrintout()
+{
+    int capture = 0;
+
+    //typedef void(*CB)(ShockTreeNode<ShockTimer*>* node);
+
+    auto cb = [](void* context, scTreeNode<scTimer*>* node)
+    {
+        scTimer* timer = node->val;
+        flushPrintf("%s(%d)\t%d", timer->Name(), node->Depth(), timer->Time());
+    };
+
+    scTimerTree::TraverseDepth(nullptr, cb);
+}
+
 void ShockMain::Run( const char *pRomset )
 {
     gGlobalTimer.Reset( );
@@ -177,6 +192,9 @@ void ShockMain::Run( const char *pRomset )
     do
     {
         ShockMain::Update( );
+ 
+        TimerPrintout();
+
     } while ( mState != ShockState_Quit );
 
     ShockMain::Destroy( );
@@ -216,6 +234,8 @@ void *ShockMain::LoadThread( void *pArg )
 
 void ShockMain::UpdateState_Loading( )
 {
+    SHOCK_PROFILE;
+
     ShockUI::Update( );
 
     switch ( mLoadResult )
@@ -267,6 +287,8 @@ void ShockMain::UpdateState_Loading( )
 
 void ShockMain::UpdateState_LoadError( )
 {
+    SHOCK_PROFILE;
+
     // a return of 1 means stay in the frontend load error screen
     // a return of 0 means continue to the emulator
     // a return of -1 means quit
@@ -291,6 +313,8 @@ void ShockMain::UpdateState_LoadError( )
 
 void ShockMain::UpdateState_FrontEnd( )
 {
+    SHOCK_PROFILE;
+
     // a return of 1 means stay in th frontend
     // a return of 0 means back to the emulator
     // a return of -1 means quit
@@ -312,6 +336,8 @@ void ShockMain::UpdateState_FrontEnd( )
 
 void ShockMain::UpdateState_Emulator( )
 {
+    SHOCK_PROFILE;
+
     ShockGame::Update( );
 
     // Check for switching to the frontend

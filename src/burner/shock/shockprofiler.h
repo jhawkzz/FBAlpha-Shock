@@ -23,7 +23,9 @@ public:
       //m_time = OSTimer::End();
    }
 
+   UINT32 Time() const { return 0; }
    NUINT Hash() const { return (NUINT) m_name; }
+   const char* Name() const { return m_name; }
 
 private:
    const char* m_name;

@@ -3,12 +3,15 @@
 
 #include "shock/core/core.h"
 #include "shock/core/framebuffer.h"
+#include "shock/shockprofiler.h"
 
 Core::~Core()
 {}
 
 int Core::Update()
 {
+    SHOCK_PROFILE;
+
     MSG msg;
 
     if (PeekMessage( &msg, 0, 0, 0, PM_REMOVE ))
