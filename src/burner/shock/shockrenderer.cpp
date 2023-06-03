@@ -174,40 +174,42 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
 
     if ( smooth )
     {
-        // since we're smoothing, scale it up 2x first
-        ScaleToSize( (UINT16 *)pSourceBuffer,
-            width,
-            height,
-            mScaleBuffer,
-            width * 2,
-            height * 2,
-            width * 2,
-            height * 2 );
-
-        width = width * 2;
-        height = height * 2;
-
-        _2xSaI( (UINT8 *)mScaleBuffer,
+        _2xSaI( (UINT8 *)pSourceBuffer,
             width * GAME_BUFFER_BPP,
-            (UINT8 *)mScaleBuffer,
+            (UINT8 *)pSourceBuffer,
             (UINT8 *)mSmoothingBuffer,
             width * 2 * GAME_BUFFER_BPP,
             width * 2,
             height * 2 );
 
-        pSourceBuffer = mSmoothingBuffer;
         width = width * 2;
         height = height * 2;
+        pSourceBuffer = mSmoothingBuffer;
 
-        /*_2xSaI( (UINT8 *)pSourceBuffer,
-            width * GAME_BUFFER_BPP,
-            (UINT8 *)pSourceBuffer,
-            (UINT8 *)pPlatformBackBuffer,
-            platformWidth * 2,
-            width,
-            height );
-            return;
-            */
+        //// since we're smoothing, scale it up 2x first
+        //ScaleToSize( (UINT16 *)pSourceBuffer,
+        //    width,
+        //    height,
+        //    mScaleBuffer,
+        //    width * 2,
+        //    height * 2,
+        //    width * 2,
+        //    height * 2 );
+
+        //width = width * 2;
+        //height = height * 2;
+
+        //_2xSaI( (UINT8 *)mScaleBuffer,
+        //    width * GAME_BUFFER_BPP,
+        //    (UINT8 *)mScaleBuffer,
+        //    (UINT8 *)mSmoothingBuffer,
+        //    width * 2 * GAME_BUFFER_BPP,
+        //    width * 2,
+        //    height * 2 );
+
+        //pSourceBuffer = mSmoothingBuffer;
+        //width = width * 2;
+        //height = height * 2;
     }
 
     // now figure out how to render to the backbuffer

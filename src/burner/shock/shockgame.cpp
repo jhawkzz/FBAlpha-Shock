@@ -4,6 +4,7 @@
 #include "shock/core/audio.h"
 #include "shock/core/ostimer.h"
 #include "shock/hiscoredat.h"
+#include "shock/input/shockinput.h"
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
 #include "shock/shockgame.h"
@@ -180,9 +181,20 @@ void ShockGame::ResetFBATimer( )
 void ShockGame::Update( )
 {
     //todo - this isnt great, obviously, but works well enough
+    if ( ShockInput::GetInput( P1_Button_2 )->WasReleased())
+        mPaused = !mPaused;
+    
     if ( mPaused == 1 )
     {
         ShockPlayerInput::Update( );
+
+        ShockRenderer::RenderFBA( (UINT16 *)mGameBackBuffer,
+            mGameWidth,
+            mGameHeight,
+            mGameDriverFlags,
+            mFBA_FPS_Current );
+
+        ShockRenderer::Flip( );
         return;
     }
 
