@@ -9,6 +9,8 @@
 
 #define SHOCK_VERSION "1.0.2"
 
+typedef unsigned char byte;
+
 #ifdef _WIN64
     typedef unsigned long long NUINT;
 #else

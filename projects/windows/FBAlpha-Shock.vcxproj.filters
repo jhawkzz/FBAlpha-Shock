@@ -885,6 +885,9 @@
     <ClInclude Include="..\..\src\burner\shock\util\span.h">
       <Filter>burner\shock\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\span.inl">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\util\tree.h">
       <Filter>burner\shock\util</Filter>
     </ClInclude>
@@ -3390,6 +3393,9 @@
       <Filter>burner\shock</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\shockmain.cpp">
+      <Filter>burner\shock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burner\shock\shockprofiler.cpp">
       <Filter>burner\shock</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\shockrenderer.cpp">

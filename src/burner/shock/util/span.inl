@@ -6,23 +6,23 @@ bool scSpan<T>::Append(T t)
 }
 
 template <class T>
-uint scSpan<T>::Append(const scSpan<const T>& t)
+UINT32 scSpan<T>::Append(const scSpan<const T>& t)
 {
    return Write(Size(), t);
 }
 
 template <class T>
-uint scSpan<T>::Fill(uint start, T data, uint size)
+UINT32 scSpan<T>::Fill(UINT32 start, T data, UINT32 size)
 {
    if (start > Capacity())
       return 0;
 
-   uint remain = Capacity() - start;
+   UINT32 remain = Capacity() - start;
    size = remain <= size ? remain : size;
 
    T* d = Data() + start;
 
-   for (uint i = 0; i < size; i++)
+   for (UINT32 i = 0; i < size; i++)
       d[i] = data;
 
    Size(Size() + size);
@@ -30,42 +30,42 @@ uint scSpan<T>::Fill(uint start, T data, uint size)
 }
 
 template <class T>
-uint scSpan<T>::Write(uint start, const scSpan<const T> &t)
+UINT32 scSpan<T>::Write(UINT32 start, const scSpan<const T> &t)
 {
    if (start > Capacity())
       return 0;
 
-   uint remain = Capacity() - start;
-   uint size = remain <= t.Size() ? remain : t.Size();
+   UINT32 remain = Capacity() - start;
+   UINT32 size = remain <= t.Size() ? remain : t.Size();
 
-   scMemCopy(Data() + start, t.Data(), size * sizeof(T));
+   memcpy(Data() + start, t.Data(), size * sizeof(T));
 
-   uint modified = start + size;
+   UINT32 modified = start + size;
    Size(modified < Size() ? Size() : modified);
 
    return size;
 }
 
 template <class T>
-uint scSpan<T>::Read(uint start, scSpan<T> &t)
+UINT32 scSpan<T>::Read(UINT32 start, scSpan<T> &t)
 {
    if (start > Size())
       return 0;
 
    T* dest = t.Data();
 
-   uint remain = Size() - start;
-   uint size = remain <= t.Capacity() ? remain : t.Capacity();
+   UINT32 remain = Size() - start;
+   UINT32 size = remain <= t.Capacity() ? remain : t.Capacity();
 
-   scMemCopy(dest, Data() + start, size * sizeof(T));
+   memcpy(dest, Data() + start, size * sizeof(T));
    
    t.Size(size);
    return size;
 }
 
 template <class T>
-void scSpan<T>::Size(uint size) 
+void scSpan<T>::Size(UINT32 size) 
 { 
-   ASSERT(size <= Capacity());
+   SC_ASSERT(size <= Capacity());
    m_size = size; 
 }

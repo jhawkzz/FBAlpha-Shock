@@ -1,6 +1,9 @@
 #ifndef SCTREE_H_
 #define SCTREE_H_
 
+#include "shock/shock.h"
+#include "shock/util/array.h"
+
 template <class T>
 struct scTreeNode
 {
@@ -28,7 +31,7 @@ private:
    scTreeNode* parent = nullptr;
 };
 
-template <class T, uint S>
+template <class T, UINT32 S>
 class scTree
 {
 public:
@@ -36,9 +39,9 @@ public:
    typedef void(*scTreeCb)(void* context, scTreeNode<T>*);
 
 public:
-   scTree() { memory.Append(scTreeNode()) }
+   scTree() { memory.Append(scTreeNode<T>()); }
 
-   Node* Head() { return memory.Data(0); }
+   Node* Head() { return memory.Ptr(0); }
 
    Node* AddChild(Node* node)
    {
@@ -61,9 +64,9 @@ private:
       if (memory.Size() == memory.Capacity())
          return nullptr;
 
-      uint slot = memory.Size() + 1;
-      memory.Size(slot);
-      return memory.Data(slot);
+      UINT32 slot = memory.Size();
+      memory.Size(slot + 1);
+      return memory.Ptr(slot);
    }
 
    void TraverseDepth(Node* node, void* context, scTreeCb cb)

@@ -7,7 +7,7 @@ function set_targetdir()
 end
 
 function set_defines()
-   defines { "INLINE static inline", "SH2_INLINE static inline", "LSB_FIRST", "BUILD_WIN32" }
+   defines { "INLINE static inline", "SH2_INLINE static inline", "LSB_FIRST", "BUILD_WIN32", "_CRT_SECURE_NO_WARNINGS" }
    defines { "USE_SPEEDHACKS" }
 end
 

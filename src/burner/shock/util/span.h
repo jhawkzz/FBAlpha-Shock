@@ -1,41 +1,41 @@
 #ifndef SCSPAN_H_
 #define SCSPAN_H_
 
-#include "tomahawk.h"
-#include "tomahawk/core/assert.h"
-#include "tomahawk/core/memory.h"
+#include "shock/shock.h"
+#include "shock/util/util.h"
 
 template <class T>
 class scSpan
 {
 public:
-   scSpan(T* data, uint size, uint capacity)
+   scSpan(T* data, UINT32 size, UINT32 capacity)
    : m_data(data)
    , m_size(size)
    , m_capacity(capacity)
    {}
    
    bool Append(T t); // returns true if appended, false if it was at capacity
-   uint Append(const scSpan<const T>&); // appends up to Capacity(), returns actual amount appended
+   UINT32 Append(const scSpan<const T>&); // appends up to Capacity(), returns actual amount appended
 
-   uint Fill(uint start, T data, uint size); // fills single value up to Capacity(), returns actual amount filled
-   uint Write(uint start, const scSpan<const T> &); // writes up to Capacity(), returns actual amount written
-   uint Read(uint start, scSpan<T> &); // reads up to Capacity(), return s actual amount read
+   UINT32 Fill(UINT32 start, T data, UINT32 size); // fills single value up to Capacity(), returns actual amount filled
+   UINT32 Write(UINT32 start, const scSpan<const T> &); // writes up to Capacity(), returns actual amount written
+   UINT32 Read(UINT32 start, scSpan<T> &); // reads up to Capacity(), return s actual amount read
 
-   void Size(uint size);
+   void Size(UINT32 size);
 
-   uint Size() const { return m_size; }
-   uint Capacity() const { return m_capacity; }
+   UINT32 Size() const { return m_size; }
+   UINT32 Capacity() const { return m_capacity; }
    T* Data() const { return m_data; }
+   T* Ptr(UINT32 i) const { return &m_data[i]; }
 
-   T operator[](uint i) const { ASSERT(i < Size()); return m_data[i]; }
+   T operator[](UINT32 i) const { SC_ASSERT(i < Size()); return m_data[i]; }
 
    operator scSpan<const T>() { return scSpan<const T>((const T*)Data(), Size(), Capacity()); }
 
 public:
    T* m_data;
-   uint m_size;
-   uint m_capacity;
+   UINT32 m_size;
+   UINT32 m_capacity;
 };
 
 #include "span.inl"

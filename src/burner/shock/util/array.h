@@ -1,10 +1,10 @@
 #ifndef SCARRAY_H_
 #define SCARRAY_H_
 
-#include "tomahawk.h"
-#include "tomahawk/core/span.h"
+#include "shock/shock.h"
+#include "shock/util/span.h"
 
-template <class T, uint C>
+template <class T, UINT32 C>
 class scArray : public scSpan<T>
 {
 public:

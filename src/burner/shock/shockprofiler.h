@@ -1,12 +1,13 @@
-#ifndef SHOCKTIMER_H_
-#define SHOCKTIMER_H_
+#ifndef SCTIMER_H_
+#define SCTIMER_H_
 
 #include "shock/shock.h"
+#include "shock/util/tree.h"
 
-class ShockTimer
+class scTimer
 {
 public:
-   ShockTimer(const char* name)
+    scTimer(const char* name)
       : m_name(name)
       //, m_time(0)
    {
@@ -29,13 +30,13 @@ private:
    //const time m_time;
 };
 
-class ShockTimerTree
+class scTimerTree
 {
 private:
-   typedef ShockTreeNode<ShockTimer*> TimerNode;
+   typedef scTreeNode<scTimer*> TimerNode;
 
 public:
-   static void BeginScope(ShockTimer* timer)
+   static void BeginScope(scTimer* timer)
    {
       TimerNode* node;
 
@@ -55,44 +56,44 @@ public:
       m_node = m_node->Parent();
    }
 
-   static void TraverseDepth(void* context, ShockTree<ShockTimer*, 64>::ShockTreeCb cb)
+   static void TraverseDepth(void* context, scTree<scTimer*, 64>::scTreeCb cb)
    {
       m_tree.TraverseDepth(context, cb);
    }
 
-   static void TraverseBreadth(void* context, ShockTree<ShockTimer*, 64>::ShockTreeCb cb)
+   static void TraverseBreadth(void* context, scTree<scTimer*, 64>::scTreeCb cb)
    {
       m_tree.TraverseBreadth(context, cb);
    }
 
 private:
-   static ShockTree<ShockTimer*, 64> m_tree;
+   static scTree<scTimer*, 64> m_tree;
    static TimerNode* m_node;
 };
 
-class ShockTimerScope
+class scTimerScope
 {
 public:
-   ShockTimerScope(const char* scope)
+    scTimerScope(const char* scope)
       : m_timer(scope)
    {
-      ShockTimerTree::BeginScope(&m_timer);
+        scTimerTree::BeginScope(&m_timer);
    }
 
-   ~ShockTimerScope()
+   ~scTimerScope()
    {
-      ShockTimerTree::EndScope();
+       scTimerTree::EndScope();
    }
 
 private:
-   ShockTimer m_timer;
+    scTimer m_timer;
 };
 
-#define SHOCK_PROFILE_COPE(scope)\
-ShockTimerScope scope(#scope)
+#define SHOCK_PROFILE_SCOPE(scope) \
+    scTimerScope scope(#scope)
 
-#define SHOCK_PROFILE\
-ShockTimerScope scope(#_FUNCTION_)
+#define SHOCK_PROFILE \
+    scTimerScope scope(##__FUNCTION__)
 
 #define BURN_SCOPE SHOCK_PROFLE
 
@@ -100,4 +101,4 @@ ShockTimerScope scope(#_FUNCTION_)
 #define BURN_SCOPE(scope) 0
 #endif
 
-#endif // SHOCKTIMER_H_
+#endif // SCTIMER_H_
