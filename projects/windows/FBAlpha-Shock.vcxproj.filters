@@ -3332,6 +3332,9 @@
     <ClCompile Include="..\..\src\burn\vector.cpp">
       <Filter>burn</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\burner\2xsai.c">
+      <Filter>burner</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\burner\ioapi.c">
       <Filter>burner</Filter>
     </ClCompile>

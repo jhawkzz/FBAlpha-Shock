@@ -6,8 +6,13 @@
 #include "shock/shockconfig.h"
 #include "shock/shockrenderer.h"
 #include "shock/util/util.h"
+#include "shock/shockgame.h"
 
-UINT16 ShockRenderer::mRotateBuffer[ ROTATE_BUFFER_WIDTH * ROTATE_BUFFER_HEIGHT ];
+#include "shock/input/shockinput.h"
+
+UINT16 ShockRenderer::mRotateBuffer[ 512 * 512 ];
+UINT16 ShockRenderer::mScaleBuffer[ SCALE_BUFFER_WIDTH * SCALE_BUFFER_HEIGHT ];
+UINT16 ShockRenderer::mSmoothingBuffer[ SCALE_BUFFER_WIDTH * 2 * SCALE_BUFFER_HEIGHT * 2 ];
 
 int ShockRenderer::Create( )
 {
@@ -68,6 +73,7 @@ void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
 {
     // render a background behind the font so its legible
     int fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
+    int fontHeight = MET_FONT_LETTER_HEIGHT;
 
     char fpsStr[ MAX_PATH ];
     snprintf( fpsStr, sizeof( fpsStr ), "%d", framesPerSec );
@@ -80,7 +86,12 @@ void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
         }
     }
 
-    Font::Print( pBackBuffer, fpsStr, PLATFORM_LCD_WIDTH - fontWidth, PLATFORM_LCD_HEIGHT - MET_FONT_LETTER_HEIGHT, 0xFFFF );
+
+#ifdef ASP
+    fontHeight += 50;
+    fontWidth += 50;
+#endif
+    Font::Print( pBackBuffer, fpsStr, PLATFORM_LCD_WIDTH - fontWidth, PLATFORM_LCD_HEIGHT - fontHeight, 0xFFFF );
 }
 
 void ShockRenderer::CreateThumbnail( UINT16 *pBuffer,
@@ -92,6 +103,10 @@ void ShockRenderer::CreateThumbnail( UINT16 *pBuffer,
     int driverFlags )
 {
     RenderImage( pBuffer, width, height, pThumbnail, thumbWidth, thumbHeight, driverFlags, ShockDisplayMode_FullScreen, 0 );
+}
+
+extern "C" {
+    extern void _2xSaI( UINT8 *srcPtr, int srcPitch, UINT8 *deltaPtr, UINT8 *dstPtr, int dstPitch, int width, int height );
 }
 
 void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
@@ -151,81 +166,125 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         pSourceBuffer = pBackBuffer;
     }
 
+    static int smooth = 1;
+    if ( ShockInput::GetInput( P1_Button_1 )->WasReleased( ) )
+    {
+        smooth = !smooth;
+    }
+
+    if ( smooth )
+    {
+        // since we're smoothing, scale it up 2x first
+        ScaleToSize( (UINT16 *)pSourceBuffer,
+            width,
+            height,
+            mScaleBuffer,
+            width * 2,
+            height * 2,
+            width * 2,
+            height * 2 );
+
+        width = width * 2;
+        height = height * 2;
+
+        _2xSaI( (UINT8 *)mScaleBuffer,
+            width * GAME_BUFFER_BPP,
+            (UINT8 *)mScaleBuffer,
+            (UINT8 *)mSmoothingBuffer,
+            width * 2 * GAME_BUFFER_BPP,
+            width * 2,
+            height * 2 );
+
+        pSourceBuffer = mSmoothingBuffer;
+        width = width * 2;
+        height = height * 2;
+
+        /*_2xSaI( (UINT8 *)pSourceBuffer,
+            width * GAME_BUFFER_BPP,
+            (UINT8 *)pSourceBuffer,
+            (UINT8 *)pPlatformBackBuffer,
+            platformWidth * 2,
+            width,
+            height );
+            return;
+            */
+    }
+
     // now figure out how to render to the backbuffer
     switch ( shockDisplayMode )
     {
-    case ShockDisplayMode_FullScreen:
-    {
-        if ( scanLines )
+        case ShockDisplayMode_FullScreen:
         {
-            ScaleToSize_ScanLine( (UINT16 *)pSourceBuffer,
-                width,
-                height,
-                pPlatformBackBuffer,
-                platformWidth - widthAdjustment,
-                platformHeight,
-                platformWidth,
-                platformHeight );
+            if ( scanLines )
+            {
+                ScaleToSize_ScanLine( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    pPlatformBackBuffer,
+                    platformWidth - widthAdjustment,
+                    platformHeight,
+                    platformWidth,
+                    platformHeight );
+            }
+            else
+            {
+                ScaleToSize( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    pPlatformBackBuffer,
+                    platformWidth - widthAdjustment,
+                    platformHeight,
+                    platformWidth,
+                    platformHeight );
+            }
+            break;
         }
-        else
-        {
-            ScaleToSize( (UINT16 *)pSourceBuffer,
-                width,
-                height,
-                pPlatformBackBuffer,
-                platformWidth - widthAdjustment,
-                platformHeight,
-                platformWidth,
-                platformHeight );
-        }
-        break;
-    }
 
-    case ShockDisplayMode_AspectRatio:
-    {
-        if ( scanLines )
+        case ShockDisplayMode_AspectRatio:
         {
-            ScaleKeepAspectRatio_ScanLine( (UINT16 *)pSourceBuffer,
-                width,
-                height,
-                pPlatformBackBuffer,
-                platformWidth,
-                platformHeight );
+            if ( scanLines )
+            {
+                ScaleKeepAspectRatio_ScanLine( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    pPlatformBackBuffer,
+                    platformWidth,
+                    platformHeight );
+            }
+            else
+            {
+                ScaleKeepAspectRatio( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    pPlatformBackBuffer,
+                    platformWidth,
+                    platformHeight );
+            }
+            break;
         }
-        else
-        {
-            ScaleKeepAspectRatio( (UINT16 *)pSourceBuffer,
-                width,
-                height,
-                pPlatformBackBuffer,
-                platformWidth,
-                platformHeight );
-        }
-        break;
-    }
 
-    case ShockDisplayMode_Original:
-    {
-        if ( scanLines )
+        case ShockDisplayMode_Original:
         {
-            NoScale_ScanLine( (UINT16 *)pSourceBuffer,
-                width,
-                height,
-                pPlatformBackBuffer,
-                platformWidth,
-                platformHeight );
+            if ( scanLines )
+            {
+                NoScale_ScanLine( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    pPlatformBackBuffer,
+                    platformWidth,
+                    platformHeight );
+            }
+            else
+            {
+                NoScale( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    pPlatformBackBuffer,
+                    platformWidth,
+                    platformHeight );
+            }
+            break;
         }
-        else
-        {
-            NoScale( (UINT16 *)pSourceBuffer,
-                width,
-                height,
-                pPlatformBackBuffer,
-                platformWidth,
-                platformHeight );
-        }
-        break;
-    }
     }
 }
 

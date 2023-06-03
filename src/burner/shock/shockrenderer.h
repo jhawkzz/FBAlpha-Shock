@@ -4,8 +4,8 @@
 #ifndef SHOCKRENDERER_H_
 #define SHOCKRENDERER_H_
 
-#define ROTATE_BUFFER_WIDTH  (512)
-#define ROTATE_BUFFER_HEIGHT (512)
+#define SCALE_BUFFER_WIDTH (512 * 2)
+#define SCALE_BUFFER_HEIGHT (512 * 2)
 
 #include "shock/shock.h"
 
@@ -112,7 +112,9 @@ private:
 
 private:
 
-    static UINT16 mRotateBuffer[ ROTATE_BUFFER_WIDTH * ROTATE_BUFFER_HEIGHT ];
+    static UINT16 mRotateBuffer[ 512 * 512 ];
+    static UINT16 mScaleBuffer[ SCALE_BUFFER_WIDTH * SCALE_BUFFER_HEIGHT ];
+    static UINT16 mSmoothingBuffer[ SCALE_BUFFER_WIDTH * 2 * SCALE_BUFFER_HEIGHT * 2 ];
 };
 
 #endif

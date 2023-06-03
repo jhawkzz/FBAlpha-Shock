@@ -68,6 +68,7 @@ PERFILE_FLAGS_0 = $(ALL_CFLAGS) -std=gnu99
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/2xsai.o
 GENERATED += $(OBJDIR)/6821pia.o
 GENERATED += $(OBJDIR)/8255ppi.o
 GENERATED += $(OBJDIR)/8257dma.o
@@ -877,6 +878,7 @@ GENERATED += $(OBJDIR)/z80_intf.o
 GENERATED += $(OBJDIR)/z80daisy.o
 GENERATED += $(OBJDIR)/zipfn.o
 GENERATED += $(OBJDIR)/zutil.o
+OBJECTS += $(OBJDIR)/2xsai.o
 OBJECTS += $(OBJDIR)/6821pia.o
 OBJECTS += $(OBJDIR)/8255ppi.o
 OBJECTS += $(OBJDIR)/8257dma.o
@@ -3837,6 +3839,9 @@ $(OBJDIR)/timer.o: ../../src/burn/timer.cpp
 $(OBJDIR)/vector.o: ../../src/burn/vector.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/2xsai.o: ../../src/burner/2xsai.c
+	@echo "$(notdir $<)"
+	$(SILENT) $(CC) $(PERFILE_FLAGS_0) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ioapi.o: ../../src/burner/ioapi.c
 	@echo "$(notdir $<)"
 	$(SILENT) $(CC) $(PERFILE_FLAGS_0) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
