@@ -8,6 +8,7 @@
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
 #include "shock/shockgame.h"
+#include "shock/shockprofiler.h"
 #include "shock/shockrenderer.h"
 #include "shock/shockromloader.h"
 #include "shock/util/util.h"
@@ -185,6 +186,8 @@ void ShockGame::ResetFBATimer( )
 
 void ShockGame::Update( )
 {
+    SHOCK_PROFILE;
+
     //todo - this isnt great, obviously, but works well enough
     if ( mPaused == 1 )
     {

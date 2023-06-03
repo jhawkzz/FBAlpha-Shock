@@ -2,6 +2,7 @@
 #define SCTIMER_H_
 
 #include "shock/shock.h"
+#include "shock/core/ostimer.h"
 #include "shock/util/hash_table.h"
 #include "shock/util/tree.h"
 
@@ -10,20 +11,21 @@ class scTimer
 public:
     void Start()
     {
-        //OSTimer::Start();
+        timer.Reset();
     }
 
     void Stop()
     {
-        //m_time = OSTimer::End();
+        time = timer.GetElapsedTimeMicroseconds();
     }
 
-    UINT32 Time() const { return 0; }
+    UINT32 Time() const { return time; }
     const char* Name() const { return name; }
 
 private:
+    OSTimer timer;
+    UINT32 time = 0;
     const char* name = nullptr;
-    //const time m_time;
 
     friend class scTimerTree;
 };
@@ -44,8 +46,8 @@ public:
             node = m_tree.AddChild(m_node);
 
         node->val = timer;
-        node->val->Start();
         m_node = node;
+        m_node->val->Start();
     }
 
     static void EndScope()
@@ -65,6 +67,8 @@ public:
     }
 
     static scTimer* GetTimer(const char* name) { scTimer* t = &m_timers[name]; t->name = name; return t; }
+
+    static void Clear() { m_tree.Clear(); }
 
 private:
     static scHashTable<scTimer, const char*, 64> m_timers;

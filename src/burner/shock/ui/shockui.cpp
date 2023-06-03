@@ -1,8 +1,8 @@
-
 // See License.md for license
 
 #include "shock/core/ostimer.h"
 #include "shock/input/shockinput.h"
+#include "shock/shockprofiler.h"
 #include "shock/ui/shockui.h"
 #include "shock/ui/render/uirenderer.h"
 
@@ -114,6 +114,8 @@ void ShockUI::SetState_MainMenu( )
 
 int ShockUI::Update( )
 {
+    SHOCK_PROFILE;
+
     int totalTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds();
     int tickRateMS  = SEC_TO_MICROSECONDS / 60;
     

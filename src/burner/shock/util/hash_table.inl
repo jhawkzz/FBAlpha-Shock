@@ -1,22 +1,32 @@
 template <class T, class K, UINT32 C>
 T& scHashTable<T, K, C>::operator[](K key)
 {
+    auto addEntry = [&](K key, UINT32 hash) -> Entry*
+    {
+        Entry* entry = m_entries.Grow();
+        entry->hash = hash;
+        entry->assoc.key = key;
+
+        return entry;
+    };
+
     UINT32 hash = scHash(key);
     UINT32 bucket = GetBucket(hash);
 
-    Entry*& entry = m_buckets[bucket];
+    Entry*& start = m_buckets[bucket];
+
+    if (!start)
+        start = addEntry(key, hash);
+
+    Entry* entry = start;
 
     while (1)
     {
-        if (!entry)
-        {
-            entry = m_entries.Grow();
-            entry->hash = hash;
-            entry->assoc.key = key;
-        }
-
         if (entry->hash == hash)
             return entry->assoc.val;
+
+        if (!entry->next)
+            entry->next = addEntry(key, hash);
 
         entry = entry->next;
     }

@@ -4,6 +4,7 @@
 #include "shock/core/framebuffer.h"
 #include "shock/font/font.h"
 #include "shock/shockconfig.h"
+#include "shock/shockprofiler.h"
 #include "shock/shockrenderer.h"
 #include "shock/util/util.h"
 #include "shock/shockgame.h"
@@ -166,6 +167,8 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
     int driverFlags,
     int framesPerSec )
 {
+    SHOCK_PROFILE;
+
     int fbWidth;
     int fbHeight;
     FrameBuffer::GetSize( &fbWidth, &fbHeight );
@@ -190,11 +193,15 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
 
 void ShockRenderer::Flip( )
 {
+    SHOCK_PROFILE;
+
     FrameBuffer::Flip( );
 }
 
 void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
 {
+    SHOCK_PROFILE;
+
     int fbWidth;
     int fbHeight;
     FrameBuffer::GetSize( &fbWidth, &fbHeight );
@@ -253,6 +260,8 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
     ShockDisplayFilter shockDisplayFilter
     )
 {
+    SHOCK_PROFILE;
+
     // these will get set based on driver flags below
     int widthAdjustment = 0;
     UINT16 *pSourceBuffer = NULL;

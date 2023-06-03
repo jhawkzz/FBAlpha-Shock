@@ -163,13 +163,24 @@ int ShockMain::BeginLoad( const char *pRomset )
 
 void TimerPrintout()
 {
+    flushPrintf("");
+
     auto cb = [](void* context, scTreeNode<scTimer*>* node)
     {
         scTimer* timer = node->val;
-        flushPrintf("%s(%d)\t%d", timer->Name(), node->Depth(), timer->Time());
+
+        UINT32 i;
+
+        char depth[65];
+        for (i = 0; i < node->Depth(); i++)
+            depth[i] = '\t';
+
+        depth[i] = 0;
+        flushPrintf("%s%s %dms", depth, timer->Name(), timer->Time() / 1000);
     };
 
     scTimerTree::TraverseDepth(nullptr, cb);
+    scTimerTree::Clear();
 }
 
 void ShockMain::Run( const char *pRomset )

@@ -42,7 +42,7 @@ public:
     typedef void(*scTreeCb)(void* context, scTreeNode<T>*);
 
 public:
-    scTree() 
+    scTree()
         : memory(m_buffer, 1, C)
     {}
 
@@ -61,6 +61,12 @@ public:
     void TraverseBreadth(void* context, scTreeCb cb)
     {
         TraverseBreadth(Head(), context, cb);
+    }
+
+    void Clear()
+    {
+        memset(m_buffer, 0, sizeof(m_buffer));
+        memory.Size(1);
     }
 
 private:
