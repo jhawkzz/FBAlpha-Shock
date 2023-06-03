@@ -46,7 +46,8 @@ private:
         int platformHeight,
         int driverFlags,
         ShockDisplayMode shockDisplayMode,
-        int scanLines );
+        int scanLines,
+        int smoothing );
 
     static void RotateCounterClockwise( UINT16 *pSource,
         int srcWidth,
@@ -66,6 +67,7 @@ private:
     static void ScaleToSize( UINT16 *pSource,
         int srcWidth,
         int srcHeight,
+        int srcPitch,
         UINT16 *pDest,
         int destScaledWidth,
         int destScaledHeight,
@@ -76,6 +78,7 @@ private:
     static void ScaleToSize_ScanLine( UINT16 *pSource,
         int srcWidth,
         int srcHeight,
+        int srcPitch,
         UINT16 *pDest,
         int destScaledWidth,
         int destScaledHeight,
@@ -85,6 +88,7 @@ private:
     static void ScaleKeepAspectRatio( UINT16 *pSource,
         int srcWidth,
         int srcHeight,
+        int srcPitch,
         UINT16 *pDest,
         int destWidth,
         int destHeight );
@@ -92,6 +96,7 @@ private:
     static void ScaleKeepAspectRatio_ScanLine( UINT16 *pSource,
         int srcWidth,
         int srcHeight,
+        int srcPitch,
         UINT16 *pDest,
         int destWidth,
         int destHeight );
@@ -99,6 +104,7 @@ private:
     static void NoScale( UINT16 *pSource,
         int srcWidth,
         int srcHeight,
+        int srcPitch,
         UINT16 *pDest,
         int destWidth,
         int destHeight );
@@ -106,6 +112,7 @@ private:
     static void NoScale_ScanLine( UINT16 *pSource,
         int srcWidth,
         int srcHeight,
+        int srcPitch,
         UINT16 *pDest,
         int destWidth,
         int destHeight );
@@ -113,8 +120,7 @@ private:
 private:
 
     static UINT16 mRotateBuffer[ 512 * 512 ];
-    static UINT16 mScaleBuffer[ SCALE_BUFFER_WIDTH * SCALE_BUFFER_HEIGHT ];
-    static UINT16 mSmoothingBuffer[ SCALE_BUFFER_WIDTH * 2 * SCALE_BUFFER_HEIGHT * 2 ];
+    static UINT16 mScaleBuffer[ SCALE_BUFFER_WIDTH * 2 * SCALE_BUFFER_HEIGHT * 2 ];
 };
 
 #endif

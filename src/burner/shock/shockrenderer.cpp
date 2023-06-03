@@ -11,8 +11,7 @@
 #include "shock/input/shockinput.h"
 
 UINT16 ShockRenderer::mRotateBuffer[ 512 * 512 ];
-UINT16 ShockRenderer::mScaleBuffer[ SCALE_BUFFER_WIDTH * SCALE_BUFFER_HEIGHT ];
-UINT16 ShockRenderer::mSmoothingBuffer[ SCALE_BUFFER_WIDTH * 2 * SCALE_BUFFER_HEIGHT * 2 ];
+UINT16 ShockRenderer::mScaleBuffer[ SCALE_BUFFER_WIDTH * 2 * SCALE_BUFFER_HEIGHT * 2 ];
 
 int ShockRenderer::Create( )
 {
@@ -56,7 +55,8 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
         PLATFORM_LCD_HEIGHT,
         driverFlags,
         (ShockDisplayMode)ShockConfig::GetDisplayMode( ),
-        ShockConfig::GetScanLinesEnabled( ) );
+        ShockConfig::GetScanLinesEnabled( ),
+        1 );
 
     if ( ShockConfig::GetShowFPS( ) )
     {
@@ -87,9 +87,9 @@ void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
     }
 
 
-#ifdef ASP
-    fontHeight += 50;
-    fontWidth += 50;
+#if defined aSP || defined _WIN32
+    fontHeight += 75;
+    fontWidth += 75;
 #endif
     Font::Print( pBackBuffer, fpsStr, PLATFORM_LCD_WIDTH - fontWidth, PLATFORM_LCD_HEIGHT - fontHeight, 0xFFFF );
 }
@@ -102,7 +102,7 @@ void ShockRenderer::CreateThumbnail( UINT16 *pBuffer,
     int thumbHeight,
     int driverFlags )
 {
-    RenderImage( pBuffer, width, height, pThumbnail, thumbWidth, thumbHeight, driverFlags, ShockDisplayMode_FullScreen, 0 );
+    RenderImage( pBuffer, width, height, pThumbnail, thumbWidth, thumbHeight, driverFlags, ShockDisplayMode_FullScreen, 0, 1 );
 }
 
 extern "C" {
@@ -117,7 +117,8 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
     int platformHeight,
     int driverFlags,
     ShockDisplayMode shockDisplayMode,
-    int scanLines )
+    int scanLines,
+    int smoothing )
 {
     // these will get set based on driver flags below
     int widthAdjustment = 0;
@@ -166,50 +167,35 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         pSourceBuffer = pBackBuffer;
     }
 
-    static int smooth = 1;
-    if ( ShockInput::GetInput( P1_Button_1 )->WasReleased( ) )
+    smoothing = 1;
+    int sourcePitch = width;
+    if ( smoothing )
     {
-        smooth = !smooth;
-    }
+        //UINT16 *pScaleBufferTail = mScaleBuffer + sizeof( mScaleBuffer ) - (width * height);
 
-    if ( smooth )
-    {
         _2xSaI( (UINT8 *)pSourceBuffer,
             width * GAME_BUFFER_BPP,
             (UINT8 *)pSourceBuffer,
-            (UINT8 *)mSmoothingBuffer,
-            width * 2 * GAME_BUFFER_BPP,
-            width * 2,
-            height * 2 );
+            (UINT8 *)mScaleBuffer,
+            SCALE_BUFFER_WIDTH * 2,
+            width,
+            height );
 
-        width = width * 2;
-        height = height * 2;
-        pSourceBuffer = mSmoothingBuffer;
+        width *= 2;
+        height *= 2;
 
-        //// since we're smoothing, scale it up 2x first
-        //ScaleToSize( (UINT16 *)pSourceBuffer,
-        //    width,
-        //    height,
-        //    mScaleBuffer,
-        //    width * 2,
-        //    height * 2,
-        //    width * 2,
-        //    height * 2 );
+        int rel = width;
+        int rmd = width % 4;
+        if ( rmd != 0 )
+            width += 4 - rmd;
 
-        //width = width * 2;
-        //height = height * 2;
+        rel = height;
+        rmd = height % 4;
+        if ( rmd != 0 )
+            height += 4 - rmd;
 
-        //_2xSaI( (UINT8 *)mScaleBuffer,
-        //    width * GAME_BUFFER_BPP,
-        //    (UINT8 *)mScaleBuffer,
-        //    (UINT8 *)mSmoothingBuffer,
-        //    width * 2 * GAME_BUFFER_BPP,
-        //    width * 2,
-        //    height * 2 );
-
-        //pSourceBuffer = mSmoothingBuffer;
-        //width = width * 2;
-        //height = height * 2;
+        pSourceBuffer = mScaleBuffer;
+        sourcePitch = SCALE_BUFFER_WIDTH;
     }
 
     // now figure out how to render to the backbuffer
@@ -222,6 +208,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
                 ScaleToSize_ScanLine( (UINT16 *)pSourceBuffer,
                     width,
                     height,
+                    sourcePitch,
                     pPlatformBackBuffer,
                     platformWidth - widthAdjustment,
                     platformHeight,
@@ -233,6 +220,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
                 ScaleToSize( (UINT16 *)pSourceBuffer,
                     width,
                     height,
+                    sourcePitch,
                     pPlatformBackBuffer,
                     platformWidth - widthAdjustment,
                     platformHeight,
@@ -249,6 +237,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
                 ScaleKeepAspectRatio_ScanLine( (UINT16 *)pSourceBuffer,
                     width,
                     height,
+                    sourcePitch,
                     pPlatformBackBuffer,
                     platformWidth,
                     platformHeight );
@@ -258,6 +247,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
                 ScaleKeepAspectRatio( (UINT16 *)pSourceBuffer,
                     width,
                     height,
+                    sourcePitch,
                     pPlatformBackBuffer,
                     platformWidth,
                     platformHeight );
@@ -272,6 +262,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
                 NoScale_ScanLine( (UINT16 *)pSourceBuffer,
                     width,
                     height,
+                    sourcePitch,
                     pPlatformBackBuffer,
                     platformWidth,
                     platformHeight );
@@ -281,6 +272,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
                 NoScale( (UINT16 *)pSourceBuffer,
                     width,
                     height,
+                    sourcePitch,
                     pPlatformBackBuffer,
                     platformWidth,
                     platformHeight );
@@ -381,6 +373,7 @@ void ShockRenderer::Rotate180( UINT16 *pSource,
 void ShockRenderer::ScaleToSize( UINT16 *pSource,
     int srcWidth,
     int srcHeight,
+    int srcPitch,
     UINT16 *pDest,
     int destScaledWidth,
     int destScaledHeight,
@@ -414,13 +407,14 @@ void ShockRenderer::ScaleToSize( UINT16 *pSource,
         pDest += destRealWidth;
 
         sourceY += yRatio;
-        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcWidth );
+        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcPitch );
     }
 }
 
 void ShockRenderer::ScaleToSize_ScanLine( UINT16 *pSource,
     int srcWidth,
     int srcHeight,
+    int srcPitch,
     UINT16 *pDest,
     int destScaledWidth,
     int destScaledHeight,
@@ -461,13 +455,14 @@ void ShockRenderer::ScaleToSize_ScanLine( UINT16 *pSource,
         pDest += destRealWidth;
 
         sourceY += yRatio;
-        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcWidth );
+        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcPitch );
     }
 }
 
 void ShockRenderer::ScaleKeepAspectRatio( UINT16 *pSource,
     int srcWidth,
     int srcHeight,
+    int srcPitch,
     UINT16 *pDest,
     int destWidth,
     int destHeight )
@@ -521,13 +516,14 @@ void ShockRenderer::ScaleKeepAspectRatio( UINT16 *pSource,
         pDest += destWidth;
 
         sourceY += yRatio;
-        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcWidth );
+        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcPitch );
     }
 }
 
 void ShockRenderer::ScaleKeepAspectRatio_ScanLine( UINT16 *pSource,
     int srcWidth,
     int srcHeight,
+    int srcPitch,
     UINT16 *pDest,
     int destWidth,
     int destHeight )
@@ -589,13 +585,14 @@ void ShockRenderer::ScaleKeepAspectRatio_ScanLine( UINT16 *pSource,
         pDest += destWidth;
 
         sourceY += yRatio;
-        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcWidth );
+        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcPitch );
     }
 }
 
 void ShockRenderer::NoScale( UINT16 *pSource,
     int srcWidth,
     int srcHeight,
+    int srcPitch,
     UINT16 *pDest,
     int destWidth,
     int destHeight )
@@ -615,13 +612,14 @@ void ShockRenderer::NoScale( UINT16 *pSource,
         }
 
         pDest += destWidth;
-        pSource += srcWidth;
+        pSource += srcPitch;
     }
 }
 
 void ShockRenderer::NoScale_ScanLine( UINT16 *pSource,
     int srcWidth,
     int srcHeight,
+    int srcPitch,
     UINT16 *pDest,
     int destWidth,
     int destHeight )
@@ -648,6 +646,6 @@ void ShockRenderer::NoScale_ScanLine( UINT16 *pSource,
         }
 
         pDest += destWidth;
-        pSource += srcWidth;
+        pSource += srcPitch;
     }
 }

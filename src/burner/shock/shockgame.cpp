@@ -232,7 +232,7 @@ void ShockGame::Update( )
     }
 
     mFBA_Timing_NumFramesTicked++;
-
+    
     // This will always be true on our very first tick
     if ( mFBA_Timing_Drift > 0 && mFBA_Timing_NumSkippedFrames < MAX_SKIPPED_FRAMES )
     {
