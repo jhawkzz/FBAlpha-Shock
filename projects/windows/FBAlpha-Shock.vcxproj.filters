@@ -879,6 +879,12 @@
     <ClInclude Include="..\..\src\burner\shock\util\array.h">
       <Filter>burner\shock\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\hash_table.h">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\hash_table.inl">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\util\ringbuffer.h">
       <Filter>burner\shock\util</Filter>
     </ClInclude>

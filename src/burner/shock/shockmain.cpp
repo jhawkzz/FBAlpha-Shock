@@ -163,10 +163,6 @@ int ShockMain::BeginLoad( const char *pRomset )
 
 void TimerPrintout()
 {
-    int capture = 0;
-
-    //typedef void(*CB)(ShockTreeNode<ShockTimer*>* node);
-
     auto cb = [](void* context, scTreeNode<scTimer*>* node)
     {
         scTimer* timer = node->val;

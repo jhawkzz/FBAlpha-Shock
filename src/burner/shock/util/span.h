@@ -22,13 +22,13 @@ public:
    UINT32 Read(UINT32 start, scSpan<T> &); // reads up to Capacity(), return s actual amount read
 
    void Size(UINT32 size);
+   T* Grow() { UINT32 s = Size(); Size(s + 1); return &m_data[s]; }
 
    UINT32 Size() const { return m_size; }
    UINT32 Capacity() const { return m_capacity; }
    T* Data() const { return m_data; }
-   T* Ptr(UINT32 i) const { return &m_data[i]; }
 
-   T operator[](UINT32 i) const { SC_ASSERT(i < Size()); return m_data[i]; }
+   T& operator[](UINT32 i) const { SC_ASSERT(i < Size()); return m_data[i]; }
 
    operator scSpan<const T>() { return scSpan<const T>((const T*)Data(), Size(), Capacity()); }
 

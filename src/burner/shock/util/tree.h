@@ -34,7 +34,7 @@ private:
     UINT32 depth = 0;
 };
 
-template <class T, UINT32 S>
+template <class T, UINT32 C>
 class scTree
 {
 public:
@@ -42,9 +42,11 @@ public:
     typedef void(*scTreeCb)(void* context, scTreeNode<T>*);
 
 public:
-    scTree() { memory.Size(1); }
+    scTree() 
+        : memory(m_buffer, 1, C)
+    {}
 
-    Node* Head() { return memory.Ptr(0); }
+    Node* Head() { return &memory[0]; }
 
     Node* AddChild(Node* node)
     {
@@ -67,10 +69,7 @@ private:
         if (memory.Size() == memory.Capacity())
             return nullptr;
 
-        UINT32 slot = memory.Size();
-        memory.Size(slot + 1);
-
-        return memory.Ptr(slot);
+        return memory.Grow();
     }
 
     void TraverseDepth(Node* node, void* context, scTreeCb cb)
@@ -96,7 +95,8 @@ private:
     }
 
 private:
-    scArray<Node, S> memory;
+    Node m_buffer[C];
+    scSpan<Node> memory;
 };
 
 #endif // SCTREE_H_

@@ -9,7 +9,7 @@ class scArray : public scSpan<T>
 {
 public:
    scArray()
-   : scSpan<T>(m_buffer, 0, C)
+   : scSpan<T>(m_buffer, C, C)
    {}   
 
 public:
@@ -23,7 +23,9 @@ public:
    using scSpan<T>::Write;
 
 private:
-   T m_buffer[C];
+    using scSpan<T>::Grow; // arrays can't grow
+    
+    T m_buffer[C];
 };
 
 #endif // SCARRAY_H_

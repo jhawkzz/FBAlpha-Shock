@@ -297,6 +297,8 @@
     <ClInclude Include="..\..\src\burner\shock\ui\states\statesavestate.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\uibasestate.h" />
     <ClInclude Include="..\..\src\burner\shock\util\array.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\hash_table.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\hash_table.inl" />
     <ClInclude Include="..\..\src\burner\shock\util\ringbuffer.h" />
     <ClInclude Include="..\..\src\burner\shock\util\span.h" />
     <ClInclude Include="..\..\src\burner\shock\util\span.inl" />
