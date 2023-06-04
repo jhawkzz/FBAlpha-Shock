@@ -11,7 +11,7 @@
 #include "shock/input/shockinput.h"
 
 UINT16 ShockRenderer::mRotateBuffer[ 512 * 512 ];
-UINT16 ShockRenderer::mScaleBuffer[ SCALE_BUFFER_WIDTH * 2 * SCALE_BUFFER_HEIGHT * 2 ];
+UINT16 ShockRenderer::mScaleBuffer[ SCALE_BUFFER_WIDTH  * SCALE_BUFFER_HEIGHT ];
 
 int ShockRenderer::Create( )
 {
@@ -167,35 +167,45 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         pSourceBuffer = pBackBuffer;
     }
 
-    smoothing = 1;
-    int sourcePitch = width;
-    if ( smoothing )
+    static int useSmoothing = 1;
+    if ( ShockInput::GetInput( P2_Button_2 )->WasReleased( ) )
     {
-        //UINT16 *pScaleBufferTail = mScaleBuffer + sizeof( mScaleBuffer ) - (width * height);
+        useSmoothing = !useSmoothing;
+    }
 
+    int sourcePitch = width;
+    if ( useSmoothing )
+    {
+        // huge revelation - the mvsx will scale up whatever you give it to 1280x1024.
+        // that is how they're able to do this and maintain speed
+
+        // sampling directly into their frame buffer gets us up to 60fps
+        // in games like kof, but we lose all other render options.
+        // for sf3, we'd need to increase the buffer a little more,
+        // right now the pitch is off
+        /*_2xSaI( (UINT8 *)pSourceBuffer,
+            width * GAME_BUFFER_BPP,
+            (UINT8 *)pSourceBuffer,
+            (UINT8 *)pPlatformBackBuffer,
+            platformWidth * 2,
+            width,
+            height );
+        return;*/
+
+        // this one works perfectly and fits within our render engine,
+        // but is a little slower because we're rendering to software first
         _2xSaI( (UINT8 *)pSourceBuffer,
             width * GAME_BUFFER_BPP,
             (UINT8 *)pSourceBuffer,
             (UINT8 *)mScaleBuffer,
-            SCALE_BUFFER_WIDTH * 2,
+            width * 4,
             width,
             height );
 
+        sourcePitch = width * 2;
         width *= 2;
         height *= 2;
-
-        int rel = width;
-        int rmd = width % 4;
-        if ( rmd != 0 )
-            width += 4 - rmd;
-
-        rel = height;
-        rmd = height % 4;
-        if ( rmd != 0 )
-            height += 4 - rmd;
-
         pSourceBuffer = mScaleBuffer;
-        sourcePitch = SCALE_BUFFER_WIDTH;
     }
 
     // now figure out how to render to the backbuffer

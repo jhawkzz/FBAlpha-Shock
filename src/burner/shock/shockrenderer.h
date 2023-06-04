@@ -120,7 +120,7 @@ private:
 private:
 
     static UINT16 mRotateBuffer[ 512 * 512 ];
-    static UINT16 mScaleBuffer[ SCALE_BUFFER_WIDTH * 2 * SCALE_BUFFER_HEIGHT * 2 ];
+    static UINT16 mScaleBuffer[ SCALE_BUFFER_WIDTH * SCALE_BUFFER_HEIGHT ];
 };
 
 #endif

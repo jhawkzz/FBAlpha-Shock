@@ -181,9 +181,6 @@ void ShockGame::ResetFBATimer( )
 void ShockGame::Update( )
 {
     //todo - this isnt great, obviously, but works well enough
-    if ( ShockInput::GetInput( P1_Button_2 )->WasReleased())
-        mPaused = !mPaused;
-    
     if ( mPaused == 1 )
     {
         ShockPlayerInput::Update( );
