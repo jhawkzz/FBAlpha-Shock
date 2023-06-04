@@ -10,10 +10,12 @@
 class FrameBuffer : public FrameBufferCore
 {
 public:
-    static int  Create( );
+    static int  Create( int width, int height );
     static void Destroy( );
     static void ClearFrameBuffer( );
-    static short *GetBackBuffer( );
+    static UINT16 *GetBackBuffer( );
+    static void SetSize( int width, int height );
+    static void GetSize( int *pWidth, int *pHeight );
 
     static void Flip( );
 };

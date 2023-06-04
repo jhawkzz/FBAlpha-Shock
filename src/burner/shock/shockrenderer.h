@@ -20,9 +20,10 @@ enum ShockDisplayMode
 class ShockRenderer
 {
 public:
-    static int  Create( );
+    static int  Create( int width, int height );
     static void Destroy( );
 
+    static void    SetSize( int width, int height );
     static UINT16 *GetBackBuffer( );
     static void    ClearBackBuffer( );
     static void    RenderFBA( UINT16 *pBuffer, int width, int height, int driverFlags, int framesPerSec );

@@ -45,7 +45,7 @@ private:
     static StateLoading          mState_Loading;
     static StateLoadError        mState_LoadError;
     static UIBaseState          *mpStateList[ UIState_Count ];
-    static UINT16                mBackgroundImage[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
+    static UINT16                mBackgroundImage[ UI_WIDTH * UI_HEIGHT ];
     static long                  mFrameTimeMS;
 };
 

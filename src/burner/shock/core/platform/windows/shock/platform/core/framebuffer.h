@@ -16,7 +16,9 @@ protected:
     static HWND mHwnd;
     static HBITMAP mHbitmap;
     static UINT* mpFrontBuffer;
-    static short mBackBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
+    static UINT16 mBackBuffer[ FRAMEBUFFER_MAX_WIDTH * FRAMEBUFFER_MAX_HEIGHT ];
+    static int mWidth;
+    static int mHeight;
 };
 
 #endif

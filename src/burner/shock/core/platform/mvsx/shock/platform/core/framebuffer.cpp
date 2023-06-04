@@ -10,7 +10,7 @@ char *FrameBufferCore::mpFrameBuffer;
 char *FrameBufferCore::mpBackBuffer;
 fb_var_screeninfo FrameBufferCore::mVScreenInfo;
 
-int FrameBuffer::Create( )
+int FrameBuffer::Create( int width, int height )
 {
     int hcdResult = MVSXEnableHCD( );
     if ( hcdResult == -1 )
@@ -58,9 +58,9 @@ int FrameBuffer::Create( )
     
     // For bit depth, Looks like we can do 16 or 32 bit, but 
     // I'd imagine the emulator is 16 bit, so we'll stick to that.
-	mVScreenInfo.xres           = PLATFORM_LCD_WIDTH;
-	mVScreenInfo.yres           = PLATFORM_LCD_HEIGHT;
-	mVScreenInfo.bits_per_pixel = PLATFORM_SCREEN_BPP;
+	mVScreenInfo.xres           = width;
+	mVScreenInfo.yres           = height;
+	mVScreenInfo.bits_per_pixel = FRAMEBUFFER_BPP;
     
     // for ref, 32bit is ARGB 8888
 	
@@ -119,7 +119,7 @@ int FrameBuffer::Create( )
     }
     
     // and setup our back buffer for the "bottom" half
-    mpBackBuffer = mpFrameBuffer + FB_DOUBLE_BUFFER_OFFSET_BYTES;
+    mpBackBuffer = mpFrameBuffer + (mVScreenInfo.xres * mVScreenInfo.yres * FRAMEBUFFER_BYTES_PP);
 	
 	return 0;
 }
@@ -144,9 +144,25 @@ void FrameBuffer::ClearFrameBuffer( )
     memset( mpFrameBuffer, 0x0, mFrameBufferBytes ); 
 }
 
-short *FrameBuffer::GetBackBuffer( )
+UINT16 *FrameBuffer::GetBackBuffer( )
 {
-    return (short *)mpBackBuffer;
+    return (UINT16 *)mpBackBuffer;
+}
+
+void FrameBuffer::SetSize( int width, int height )
+{
+    mVScreenInfo.xres = width;
+    mVScreenInfo.yres = height;
+    mVScreenInfo.yoffset = 0;
+
+    ioctl( mFrameBufferHandle, FBIOPUT_VSCREENINFO, &mVScreenInfo );
+    mpBackBuffer = mpFrameBuffer + (mVScreenInfo.xres * mVScreenInfo.yres * FRAMEBUFFER_BYTES_PP);
+}
+
+void FrameBuffer::GetSize( int *pWidth, int *pHeight )
+{
+    *pWidth = mVScreenInfo.xres;
+    *pHeight = mVScreenInfo.yres;
 }
 
 void FrameBuffer::Flip( )
@@ -177,7 +193,7 @@ void FrameBuffer::Flip( )
     // pan to the top
     else
     {
-        mpBackBuffer = mpFrameBuffer + FB_DOUBLE_BUFFER_OFFSET_BYTES;
+        mpBackBuffer = mpFrameBuffer + (mVScreenInfo.xres * mVScreenInfo.yres * FRAMEBUFFER_BYTES_PP);
         mVScreenInfo.yoffset = 0;
     }
     

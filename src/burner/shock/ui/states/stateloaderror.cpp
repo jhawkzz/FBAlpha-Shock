@@ -146,7 +146,7 @@ void StateLoadError::RenderFatalError( )
                 }
                 
                 // stop if we run out of screen space
-                if ( yPos > PLATFORM_LCD_HEIGHT - (UI_ROW_HEIGHT * 2) )
+                if ( yPos > UI_HEIGHT - (UI_ROW_HEIGHT * 2) )
                 {
                     snprintf( message, sizeof( message ), "More..." );
                     xPos = GetCenteredXPos( message );

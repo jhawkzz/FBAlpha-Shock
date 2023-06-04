@@ -38,11 +38,11 @@ public:
            FontObject( );
          
     void   Create( UINT16 *pFontTexture, int bmpHeight, int bmpWidth, int letterWidth, int letterHeight, int letterKerning );
-    void   Print( UINT16 *pBackBuffer, const char *pString, int xPos, int yPos, short textColor );
+    void   Print( UINT16 *pBackBuffer, int bbWidth, int bbHeight, const char *pString, int xPos, int yPos, short textColor );
     UINT32 MeasureStringWidth( const char *pText );
  
 private:
-    void   RenderLetter( UINT16 *pBackBuffer, UINT16 *pLetterBuffer, UINT16 textColor );
+    void   RenderLetter( UINT16 *pBackBuffer, int bbWidth, UINT16 *pLetterBuffer, UINT16 textColor );
  
 private:
     UINT16 *mpFontTexture;
@@ -68,14 +68,18 @@ class Font
     friend class FontObject;
 public:
     static void   Create( );
+    static void   SetRenderBuffer( UINT16 *pBuffer, int width, int height );
     
-    static void   Print( UINT16 *pBackBuffer, const char *pString, int xPos, int yPos, short textColor, FontType fontType = FontType_Met );
+    static void   Print( const char *pString, int xPos, int yPos, short textColor, FontType fontType = FontType_Met );
     static UINT32 MeasureStringWidth( const char *pText, FontType fontType = FontType_Met );
     
 private:
     static char       mFont[ FONT_LETTER_COUNT ];
     static char       mCharLookup[ MAX_CHAR_LOOKUP ];
     static FontObject mFontObject[ FontType_Count ];
+    static UINT16    *mpRenderBuffer;
+    static int        mRenderBufferWidth;
+    static int        mRenderBufferHeight;
 };
 
 #endif

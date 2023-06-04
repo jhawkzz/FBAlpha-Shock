@@ -52,7 +52,7 @@ int ShockMain::Create( )
     }
 
     // Setup Rendering
-    result = ShockRenderer::Create( );
+    result = ShockRenderer::Create( UI_WIDTH, UI_HEIGHT );
     if ( result == -1 )
     {
         flushPrintf( "ShockMain::Create() - Error, could not create Shock Renderer!\r\n" );
@@ -200,6 +200,8 @@ void ShockMain::UpdateState_Loading( )
         // no issues whatsoever, launch the emulator
         else
         {
+            ShockGame::Enable( );
+
             ShockGame::ResetFBATimer( );
 
             ShockRenderer::ClearBackBuffer( );
@@ -237,6 +239,8 @@ void ShockMain::UpdateState_LoadError( )
 
     if ( result == 0 )
     {
+        ShockGame::Enable( );
+
         ShockGame::ResetFBATimer( );
 
         ShockRenderer::ClearBackBuffer( );
@@ -259,6 +263,7 @@ void ShockMain::UpdateState_FrontEnd( )
 
     if ( result == 0 )
     {
+        ShockGame::Enable( );
         ShockRenderer::ClearBackBuffer( );
         ShockGame::Pause( 0 );
 

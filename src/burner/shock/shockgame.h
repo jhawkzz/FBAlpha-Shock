@@ -37,6 +37,7 @@ public:
     static void ResetFBATimer( );
     static void Update( );
     static void Pause( int shouldPause );
+    static void Enable( );
 
     static int  GameHasDiagnosticMode( );
     static void SetDiagnosticMode( int shouldPress );

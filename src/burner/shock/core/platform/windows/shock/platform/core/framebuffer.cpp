@@ -6,16 +6,21 @@
 HWND FrameBufferCore::mHwnd;
 HBITMAP FrameBufferCore::mHbitmap;
 UINT* FrameBufferCore::mpFrontBuffer;
-short FrameBufferCore::mBackBuffer[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
+UINT16 FrameBufferCore::mBackBuffer[ FRAMEBUFFER_MAX_WIDTH * FRAMEBUFFER_MAX_HEIGHT ];
+int FrameBufferCore::mWidth;
+int FrameBufferCore::mHeight;
 
-int FrameBuffer::Create( )
+int FrameBuffer::Create( int width, int height )
 {   
     HDC dc = GetDC(mHwnd);
     {
+        mWidth = width;
+        mHeight = height;
+
         BITMAPINFO info = {};
         info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        info.bmiHeader.biWidth = PLATFORM_LCD_WIDTH;
-        info.bmiHeader.biHeight = PLATFORM_LCD_HEIGHT;
+        info.bmiHeader.biWidth = mWidth;
+        info.bmiHeader.biHeight = mHeight;
         info.bmiHeader.biPlanes = 1;
         info.bmiHeader.biBitCount = 32;
         mHbitmap = CreateDIBSection(dc, &info, DIB_RGB_COLORS, (void**) &mpFrontBuffer, NULL, 0);
@@ -33,22 +38,37 @@ void FrameBuffer::Destroy( )
 
 void FrameBuffer::ClearFrameBuffer( )
 {
-    memset( mBackBuffer, 0, PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH );
+    memset( mBackBuffer, 0, FRAMEBUFFER_MAX_HEIGHT * FRAMEBUFFER_MAX_WIDTH * FRAMEBUFFER_BYTES_PP );
 }
 
-short *FrameBuffer::GetBackBuffer( )
+UINT16 *FrameBuffer::GetBackBuffer( )
 {
-   return mBackBuffer;
+   return (UINT16 *)mBackBuffer;
+}
+
+void FrameBuffer::SetSize( int width, int height )
+{
+    if ( width != mWidth || height != mHeight )
+    {
+        Destroy( );
+        Create( width, height );
+    }
+}
+
+void FrameBuffer::GetSize( int *pWidth, int *pHeight )
+{
+    *pWidth = mWidth;
+    *pHeight = mHeight;
 }
 
 void FrameBuffer::Flip( )
 {
-    UINT *pFrameBuffer = mpFrontBuffer + (PLATFORM_LCD_HEIGHT - 1) * PLATFORM_LCD_WIDTH;
-    short *pScaleBuffer = mBackBuffer;
+    UINT *pFrameBuffer = mpFrontBuffer + (mHeight - 1) * mWidth;
+    UINT16 *pScaleBuffer = (UINT16 *)mBackBuffer;
 
-    for( int y = 0; y < PLATFORM_LCD_HEIGHT; y++ )
+    for( int y = 0; y < mHeight; y++ )
     {
-        for( int x = 0; x < PLATFORM_LCD_WIDTH; x++ )
+        for( int x = 0; x < mWidth; x++ )
         {
             short pixelData = pScaleBuffer[ x ];
 
@@ -66,8 +86,8 @@ void FrameBuffer::Flip( )
             pFrameBuffer[ x ] = 0xFF << 24 | r32 << 16 | g32 << 8 | b32;
         }
 
-        pFrameBuffer -= PLATFORM_LCD_WIDTH;
-        pScaleBuffer += PLATFORM_LCD_WIDTH;
+        pFrameBuffer -= mWidth;
+        pScaleBuffer += mWidth;
     }
 
     RedrawWindow(mHwnd, NULL, NULL, RDW_UPDATENOW);
@@ -90,7 +110,7 @@ void FrameBufferCore::Blit()
     HDC hBitmapDC = CreateCompatibleDC(dc);
     HBITMAP oldObj = (HBITMAP) SelectObject(hBitmapDC, mHbitmap); 
 
-    StretchBlt(dc, 0, 0, rect.right - rect.left, rect.bottom - rect.top, hBitmapDC, 0, 0, PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT, SRCCOPY);
+    StretchBlt(dc, 0, 0, rect.right - rect.left, rect.bottom - rect.top, hBitmapDC, 0, 0, mWidth, mHeight, SRCCOPY);
 
     SelectObject(hBitmapDC, oldObj); 
 

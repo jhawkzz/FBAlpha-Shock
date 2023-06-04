@@ -14,8 +14,8 @@ void StateCredits::Create( )
     mNumMenuItems  = 0;
     mMenuSelection = 0;
     
-    mMenuItemList[ mNumMenuItems++ ].Create( "Prev", UI_X_POS_MENU, PLATFORM_LCD_HEIGHT - 100, 0xFFFF );
-    mMenuItemList[ mNumMenuItems++ ].Create( "Next", UI_X_POS_MENU + 150, PLATFORM_LCD_HEIGHT - 100, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Prev", UI_X_POS_MENU, UI_HEIGHT - 100, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Next", UI_X_POS_MENU + 150, UI_HEIGHT - 100, 0xFFFF );
     
     if ( mNumMenuItems > MAX_MENU_ITEMS )
     {

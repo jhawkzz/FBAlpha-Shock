@@ -19,6 +19,11 @@ void UIRenderer::Destroy( )
     mDrawListCount = 0;
 }
 
+void UIRenderer::Enable( )
+{
+    ShockRenderer::SetSize( UI_WIDTH, UI_HEIGHT );
+}
+
 void UIRenderer::DrawBackground( UINT16 *pImageSurface )
 {
     if( mDrawListCount + 1 < MAX_DRAWLIST_OBJECTS )
@@ -130,7 +135,8 @@ void UIRenderer::ResetForFrame( )
 void UIRenderer::Render( )
 {
     UINT16 *pBackBuffer = (UINT16 *)ShockRenderer::GetBackBuffer( );
-       
+    Font::SetRenderBuffer( pBackBuffer, UI_WIDTH, UI_HEIGHT );
+
     if( pBackBuffer != NULL )
     {
         for( int i = 0; i < mDrawListCount; i++ )

@@ -13,9 +13,9 @@
 UINT16 ShockRenderer::mRotateBuffer[ 512 * 512 ];
 UINT16 ShockRenderer::mScaleBuffer[ SCALE_BUFFER_WIDTH  * SCALE_BUFFER_HEIGHT ];
 
-int ShockRenderer::Create( )
+int ShockRenderer::Create( int width, int height )
 {
-    int result = FrameBuffer::Create( );
+    int result = FrameBuffer::Create( width, height );
 
     if ( result == -1 )
     {
@@ -29,6 +29,11 @@ int ShockRenderer::Create( )
 void ShockRenderer::Destroy( )
 {
     FrameBuffer::Destroy( );
+}
+
+void ShockRenderer::SetSize( int width, int height )
+{
+    FrameBuffer::SetSize( width, height );
 }
 
 UINT16 *ShockRenderer::GetBackBuffer( )
@@ -47,12 +52,16 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
     int driverFlags,
     int framesPerSec )
 {
+    int fbWidth;
+    int fbHeight;
+    FrameBuffer::GetSize( &fbWidth, &fbHeight );
+
     RenderImage( pBuffer,
         width,
         height,
         (UINT16 *)FrameBuffer::GetBackBuffer( ),
-        PLATFORM_LCD_WIDTH,
-        PLATFORM_LCD_HEIGHT,
+        fbWidth,
+        fbHeight,
         driverFlags,
         (ShockDisplayMode)ShockConfig::GetDisplayMode( ),
         ShockConfig::GetScanLinesEnabled( ),
@@ -60,6 +69,8 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
 
     if ( ShockConfig::GetShowFPS( ) )
     {
+
+        Font::SetRenderBuffer( (UINT16 *)FrameBuffer::GetBackBuffer( ), fbWidth, fbHeight );
         RenderFPS( (UINT16 *)FrameBuffer::GetBackBuffer( ), framesPerSec );
     }
 }
@@ -71,6 +82,10 @@ void ShockRenderer::Flip( )
 
 void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
 {
+    int fbWidth;
+    int fbHeight;
+    FrameBuffer::GetSize( &fbWidth, &fbHeight );
+
     // render a background behind the font so its legible
     int fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
     int fontHeight = MET_FONT_LETTER_HEIGHT;
@@ -78,20 +93,20 @@ void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
     char fpsStr[ MAX_PATH ];
     snprintf( fpsStr, sizeof( fpsStr ), "%d", framesPerSec );
 
-    for ( int y = PLATFORM_LCD_HEIGHT - MET_FONT_LETTER_HEIGHT; y < PLATFORM_LCD_HEIGHT; y++ )
+    for ( int y = fbHeight - MET_FONT_LETTER_HEIGHT; y < fbHeight; y++ )
     {
-        for ( int x = PLATFORM_LCD_WIDTH - fontWidth; x < PLATFORM_LCD_WIDTH; x++ )
+        for ( int x = fbWidth - fontWidth; x < fbWidth; x++ )
         {
-            pBackBuffer[ y * PLATFORM_LCD_WIDTH + x ] = 0;
+            pBackBuffer[ y * fbWidth + x ] = 0;
         }
     }
 
 
-#if defined aSP || defined _WIN32
+#if defined ASP || defined _WIN32
     fontHeight += 75;
     fontWidth += 75;
 #endif
-    Font::Print( pBackBuffer, fpsStr, PLATFORM_LCD_WIDTH - fontWidth, PLATFORM_LCD_HEIGHT - fontHeight, 0xFFFF );
+    Font::Print( fpsStr, fbWidth - fontWidth, fbHeight - fontHeight, 0xFFFF );
 }
 
 void ShockRenderer::CreateThumbnail( UINT16 *pBuffer,
@@ -167,11 +182,16 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         pSourceBuffer = pBackBuffer;
     }
 
-    static int useSmoothing = 1;
+    static int useSmoothing = 0;
     if ( ShockInput::GetInput( P2_Button_2 )->WasReleased( ) )
     {
         useSmoothing = !useSmoothing;
     }
+
+    // jhm - made the frame buffer size dynamic.
+    // in ui mode we render 1280x1024
+    // in game mode, we render 640x512 with hardware scaling up to 1280x1024
+    // and see an additional 10fps on games across the board
 
     int sourcePitch = width;
     if ( useSmoothing )

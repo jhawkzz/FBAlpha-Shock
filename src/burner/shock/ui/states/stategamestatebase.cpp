@@ -37,7 +37,7 @@ void StateGameStateBase::Create( )
         }
     }
 
-    xPos = PLATFORM_LCD_WIDTH - mMenuItemFullWidth - UI_X_POS_MENU;
+    xPos = UI_WIDTH - mMenuItemFullWidth - UI_X_POS_MENU;
     yPos = UI_Y_POS_MENU + STATE_THUMBNAIL_HEIGHT / 2;
     for ( ; i < MAX_SAVE_STATES; i++ )
     {
@@ -159,7 +159,7 @@ void StateGameStateBase::DrawMenu( )
     if ( mResultStr[ 0 ] != 0 )
     {
         int resXPos = UIBaseState::GetCenteredXPos( mResultStr );
-        UIRenderer::DrawText( mResultStr, resXPos, PLATFORM_LCD_HEIGHT - 100, 0xFFFF );
+        UIRenderer::DrawText( mResultStr, resXPos, UI_HEIGHT - 100, 0xFFFF );
     }
 
     // Cursor

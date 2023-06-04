@@ -185,6 +185,7 @@ void ShockGame::Update( )
     {
         ShockPlayerInput::Update( );
 
+        // draw the final frame
         ShockRenderer::RenderFBA( (UINT16 *)mGameBackBuffer,
             mGameWidth,
             mGameHeight,
@@ -307,6 +308,11 @@ void ShockGame::Update( )
 
     UpdateDiagnosticMode( );
     UpdateResetMode( );
+}
+
+void ShockGame::Enable( )
+{
+    ShockRenderer::SetSize( 640, 512);
 }
 
 void ShockGame::Pause( int shouldPause )

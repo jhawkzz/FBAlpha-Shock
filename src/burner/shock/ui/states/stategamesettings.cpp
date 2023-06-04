@@ -163,7 +163,7 @@ void StateGameSettings::DrawMenu( )
     // seperator
     yPos += 100;
     int lineWidth = 200;
-    xPos = (PLATFORM_LCD_WIDTH - lineWidth) / 2;
+    xPos = (UI_WIDTH - lineWidth) / 2;
     UIRenderer::DrawLine( 0xFFFF, xPos, yPos, lineWidth );
     
     // dips
