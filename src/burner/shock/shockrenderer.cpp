@@ -38,88 +38,66 @@ void ShockRenderer::SetModeUI( int uiWidth, int uiHeight )
 
 void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
 {
-    if( ShockConfig::GetSmoothingEnabled( ) )
+    // start with the display filter so we know what render path to use.
+    switch ( (ShockDisplayFilter)ShockConfig::GetDisplayFilter( ) )
     {
-        int frameBufferWidth = 0;
-        int frameBufferHeight = 0;
-
-        // is the game veritcal? that means burn will give us back a 'sideways'
-        // buffer and we'll need to flip width/height
-        if ( (driverFlags & BDF_ORIENTATION_VERTICAL) )
+        case ShockDisplayFilter_Pixel:
+        case ShockDisplayFilter_Pixel_Scanline:
         {
-            // Use Galaxian to test this mode, or 1941
-
-            // flip width and height for the backbuffer render
-            int temp = gameWidth;
-            gameWidth = gameHeight;
-            gameHeight = temp;
+            // for pixel perfect, set the framebuffer to half native size. we'll render
+            // into that buffer and let the hardware scale up to full. SF3: 30-40fps
+            FrameBuffer::SetSize( FRAMEBUFFER_MAX_WIDTH / 2, FRAMEBUFFER_MAX_HEIGHT / 2 );
+            break;
         }
 
-        // now, what display mode are we rendering in?
-        switch ( (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
+        case ShockDisplayFilter_Smoothing:
+        case ShockDisplayFilter_Performance:
         {
-            case ShockDisplayMode_FullScreen:
+            // vertical games need their dimensions flipped
+            if ( ( driverFlags & BDF_ORIENTATION_VERTICAL ) )
             {
-                // simply use the game's resolution, multplied by our scalar for width
-                frameBufferWidth = gameWidth;
-                frameBufferHeight = gameHeight;
-
-                break;
+                // flip width and height for the backbuffer render
+                int temp = gameWidth;
+                gameWidth = gameHeight;
+                gameHeight = temp;
             }
 
-            case ShockDisplayMode_AspectRatio:
+            int frameBufferWidth = 0;
+            int frameBufferHeight = 0;
+
+            // for smoothing and performance, the framebuffer
+            // should be the size of the game, or a bounding box around it
+            // if the display MODE is aspect ratio.
+            if ( ShockDisplayMode_AspectRatio == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
             {
                 // here we want the game's size with height scaled to the device's aspect ratio
                 frameBufferWidth = gameWidth;
 
                 float aspectRatio = (float)FRAMEBUFFER_MAX_HEIGHT / (float)FRAMEBUFFER_MAX_WIDTH;
-                frameBufferHeight = (int) ( (float)gameWidth * aspectRatio );
-
-                break;
+                frameBufferHeight = (int)( (float)frameBufferWidth * aspectRatio );
             }
-
-            case ShockDisplayMode_Original2x:
+            else if ( ShockDisplayMode_FullScreen == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
+            {
+                // simply use the game's resolution, multplied by our scalar for width
+                frameBufferWidth = gameWidth;
+                frameBufferHeight = gameHeight;
+            }
+            else if ( ShockDisplayMode_Original2x == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
             {
                 frameBufferWidth = FRAMEBUFFER_MAX_WIDTH / 2;
                 frameBufferHeight = FRAMEBUFFER_MAX_HEIGHT / 2;
-                break;
             }
 
-            case ShockDisplayMode_Original:
+            // finally, if smoothing is on, double the res, since the smoothing algorithm itself
+            // does that by nature
+            if ( ShockDisplayFilter_Smoothing == (ShockDisplayFilter)ShockConfig::GetDisplayFilter( ) )
             {
-                // here set to the native resolution of the display, so
-                // the driver does no scaling
-                frameBufferWidth = FRAMEBUFFER_MAX_WIDTH;
-                frameBufferHeight = FRAMEBUFFER_MAX_HEIGHT;
-
-                break;
-            }
-        }
-
-        FrameBuffer::SetSize( frameBufferWidth, frameBufferHeight );
-    }
-    else
-    {
-        switch ( (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
-        {
-            // for most, create an fb half the size, render
-            // like we normally do, and let the driver scale up.
-            // sf3 gets 30-50fps doing this.
-            case ShockDisplayMode_FullScreen:
-            case ShockDisplayMode_AspectRatio:
-            case ShockDisplayMode_Original2x:
-            {
-                FrameBuffer::SetSize( FRAMEBUFFER_MAX_WIDTH / 2, FRAMEBUFFER_MAX_HEIGHT / 2 );
-                break;
+                frameBufferWidth *= 2;
+                frameBufferHeight *= 2;
             }
 
-            // for original, we'll make an fb the native res and render without scaling
-            // directly to its center
-            case ShockDisplayMode_Original:
-            {
-                FrameBuffer::SetSize( FRAMEBUFFER_MAX_WIDTH, FRAMEBUFFER_MAX_HEIGHT );
-                break;
-            }
+            FrameBuffer::SetSize( frameBufferWidth, frameBufferHeight );
+            break;
         }
     }
 }
@@ -152,8 +130,8 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
         fbHeight,
         driverFlags,
         (ShockDisplayMode)ShockConfig::GetDisplayMode( ),
-        ShockConfig::GetScanLinesEnabled( ),
-        ShockConfig::GetSmoothingEnabled( ) );
+        (ShockDisplayFilter)ShockConfig::GetDisplayFilter( )
+    );
 
     if ( ShockConfig::GetShowFPS( ) )
     {
@@ -203,7 +181,7 @@ void ShockRenderer::CreateThumbnail( UINT16 *pBuffer,
     int thumbHeight,
     int driverFlags )
 {
-    RenderImage( pBuffer, width, height, pThumbnail, thumbWidth, thumbHeight, driverFlags, ShockDisplayMode_FullScreen, 0, 1 );
+    RenderImage( pBuffer, width, height, pThumbnail, thumbWidth, thumbHeight, driverFlags, ShockDisplayMode_FullScreen, ShockDisplayFilter_Pixel );
 }
 
 extern "C" {
@@ -218,8 +196,8 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
     int platformHeight,
     int driverFlags,
     ShockDisplayMode shockDisplayMode,
-    int scanLines,
-    int smoothing )
+    ShockDisplayFilter shockDisplayFilter
+    )
 {
     // these will get set based on driver flags below
     int widthAdjustment = 0;
@@ -268,118 +246,108 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         pSourceBuffer = pBackBuffer;
     }
 
-    int sourcePitch = width;
-    if ( smoothing )
+    switch ( shockDisplayFilter )
     {
-        if ( widthAdjustment != 0 )
+        case ShockDisplayFilter_Performance:
         {
-            // todo - for games like this (1941, galaxian)
-            // we should use the different render funcs below.
-            ScaleToSize( (UINT16 *)pSourceBuffer,
-                width,
-                height,
-                sourcePitch,
-                pPlatformBackBuffer,
-                platformWidth - widthAdjustment,
-                platformHeight,
-                platformWidth,
-                platformHeight );
-        }
-        else
-        {
+            // todo: width adjustment for vertical games
+            // just hand the game frame to the driver
             NoScale( (UINT16 *)pSourceBuffer,
                 width,
                 height,
-                sourcePitch,
+                width,
                 pPlatformBackBuffer,
                 platformWidth,
                 platformHeight );
+            break;
         }
-    }
-    else
-    {
-        // now figure out how to render to the backbuffer
-        switch ( shockDisplayMode )
+
+        case ShockDisplayFilter_Smoothing:
         {
-            case ShockDisplayMode_FullScreen:
-            {
-                if ( scanLines )
-                {
-                    ScaleToSize_ScanLine( (UINT16 *)pSourceBuffer,
-                        width,
-                        height,
-                        sourcePitch,
-                        pPlatformBackBuffer,
-                        platformWidth - widthAdjustment,
-                        platformHeight,
-                        platformWidth,
-                        platformHeight );
-                }
-                else
-                {
-                    ScaleToSize( (UINT16 *)pSourceBuffer,
-                        width,
-                        height,
-                        sourcePitch,
-                        pPlatformBackBuffer,
-                        platformWidth - widthAdjustment,
-                        platformHeight,
-                        platformWidth,
-                        platformHeight );
-                }
-                break;
-            }
+            // todo: width adjustment for vertical games
+            // todo: center in the frame
+            _2xSaI( (UINT8 *)pSourceBuffer, 
+                     width * 2, 
+                    (UINT8 *)pSourceBuffer, 
+                    (UINT8 *)pPlatformBackBuffer, 
+                    platformWidth * 2, 
+                    width, 
+                    height );
+            break;
+        }
 
-            case ShockDisplayMode_AspectRatio:
+        case ShockDisplayFilter_Pixel:
+        {
+            if ( ShockDisplayMode_FullScreen == shockDisplayMode )
             {
-                if ( scanLines )
-                {
-                    ScaleKeepAspectRatio_ScanLine( (UINT16 *)pSourceBuffer,
-                        width,
-                        height,
-                        sourcePitch,
-                        pPlatformBackBuffer,
-                        platformWidth,
-                        platformHeight );
-                }
-                else
-                {
-                    ScaleKeepAspectRatio( (UINT16 *)pSourceBuffer,
-                        width,
-                        height,
-                        sourcePitch,
-                        pPlatformBackBuffer,
-                        platformWidth,
-                        platformHeight );
-                }
-                break;
+                ScaleToSize( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    width,
+                    pPlatformBackBuffer,
+                    platformWidth - widthAdjustment,
+                    platformHeight,
+                    platformWidth,
+                    platformHeight );
             }
+            else if ( ShockDisplayMode_AspectRatio == shockDisplayMode )
+            {
+                ScaleKeepAspectRatio( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    width,
+                    pPlatformBackBuffer,
+                    platformWidth,
+                    platformHeight );
+            }
+            else if ( ShockDisplayMode_Original2x == shockDisplayMode )
+            {
+                NoScale( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    width,
+                    pPlatformBackBuffer,
+                    platformWidth,
+                    platformHeight );
+            }
+            break;
+        }
 
-            case ShockDisplayMode_Original2x:
-            case ShockDisplayMode_Original:
+        case ShockDisplayFilter_Pixel_Scanline:
+        {
+            if ( ShockDisplayMode_FullScreen == shockDisplayMode )
             {
-                if ( scanLines )
-                {
-                    NoScale_ScanLine( (UINT16 *)pSourceBuffer,
-                        width,
-                        height,
-                        sourcePitch,
-                        pPlatformBackBuffer,
-                        platformWidth,
-                        platformHeight );
-                }
-                else
-                {
-                    NoScale( (UINT16 *)pSourceBuffer,
-                        width,
-                        height,
-                        sourcePitch,
-                        pPlatformBackBuffer,
-                        platformWidth,
-                        platformHeight );
-                }
-                break;
+                ScaleToSize_ScanLine( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    width,
+                    pPlatformBackBuffer,
+                    platformWidth - widthAdjustment,
+                    platformHeight,
+                    platformWidth,
+                    platformHeight );
             }
+            else if ( ShockDisplayMode_AspectRatio == shockDisplayMode )
+            {
+                ScaleKeepAspectRatio_ScanLine( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    width,
+                    pPlatformBackBuffer,
+                    platformWidth,
+                    platformHeight );
+            }
+            else if ( ShockDisplayMode_Original2x == shockDisplayMode )
+            {
+                NoScale_ScanLine( (UINT16 *)pSourceBuffer,
+                    width,
+                    height,
+                    width,
+                    pPlatformBackBuffer,
+                    platformWidth,
+                    platformHeight );
+            }
+            break;
         }
     }
 }

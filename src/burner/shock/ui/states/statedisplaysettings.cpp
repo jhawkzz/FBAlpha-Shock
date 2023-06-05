@@ -16,10 +16,7 @@ void StateDisplaySettings::Create( )
     
     int xPos = UI_X_POS_MENU;
     int yPos = UI_Y_POS_MENU;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Original", xPos, yPos, 0xFFFF );
-    
-    yPos += UI_ROW_HEIGHT;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Original 2x Scaled", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Original (2x Scaled)", xPos, yPos, 0xFFFF );
 
     yPos += UI_ROW_HEIGHT;
     mMenuItemList[ mNumMenuItems++ ].Create( "Aspect Ratio (Full Screen)", xPos, yPos, 0xFFFF );
@@ -28,10 +25,7 @@ void StateDisplaySettings::Create( )
     mMenuItemList[ mNumMenuItems++ ].Create( "Full Screen", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT * 3;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Scanlines: ", xPos, yPos, 0xFFFF );
-
-    yPos += UI_ROW_HEIGHT;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Pixel Smoothing: ", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Display Filter: ", xPos, yPos, 0xFFFF );
     
     mEnabledSettings = 0;
     mMenuSelection = 0;
@@ -86,29 +80,23 @@ UIState StateDisplaySettings::Update( )
     // check for entering a gamestate menu item
     if( ShockInput::GetInput( P1_Button_1 )->WasReleased() )
     {   
-        if( mMenuSelection == 0 )
-        {
-            ShockConfig::SetDisplayMode( ShockDisplayMode_Original );
-        }
-        else if ( mMenuSelection == 1 )
+        if ( mMenuSelection == 0 )
         {
             ShockConfig::SetDisplayMode( ShockDisplayMode_Original2x );
         }
-        else if ( mMenuSelection == 2 )
+        else if ( mMenuSelection == 1 )
         {
             ShockConfig::SetDisplayMode( ShockDisplayMode_AspectRatio );
         }
-        else if ( mMenuSelection == 3 )
+        else if ( mMenuSelection == 2 )
         {
             ShockConfig::SetDisplayMode( ShockDisplayMode_FullScreen );
         }
-        else if ( mMenuSelection == 4 )
+        else if ( mMenuSelection == 3 )
         {
-            ShockConfig::SetScanLinesEnabled( !ShockConfig::GetScanLinesEnabled( ) );
-        }
-        else if ( mMenuSelection == 5 )
-        {
-            ShockConfig::SetSmoothingEnabled( !ShockConfig::GetSmoothingEnabled( ) );
+            int displayFilter = ShockConfig::GetDisplayFilter( );
+            displayFilter = (displayFilter + 1) % ShockDisplayFilter_Count;
+            ShockConfig::SetDisplayFilter( displayFilter );
         }
     }    
     
@@ -131,48 +119,60 @@ void StateDisplaySettings::DrawMenu( )
     textColor = ShockConfig::GetDisplayMode() == 2 ? textColor = UI_COLOR_ENABLED : 0xFFFF;
     mMenuItemList[2].SetColor( textColor );
     mMenuItemList[2].Draw( );
-
-    textColor = ShockConfig::GetDisplayMode( ) == 3 ? textColor = UI_COLOR_ENABLED : 0xFFFF;
-    mMenuItemList[ 3 ].SetColor( textColor );
-    mMenuItemList[ 3 ].Draw( );
     
-    UIRenderer::DrawText( "Filters", 
-                          305, // centers it on screen
-                          mMenuItemList[ 4 ].GetYPos() - UI_ROW_HEIGHT, 
-                          0xFFFF );
-                          
-    // Scanlines
-    char settingStr[ MAX_PATH ] = { 0 };
+    // seperator
+    int lineWidth = 200;
+    int xPos = ( UI_WIDTH - lineWidth ) / 2;
+    int yPos = mMenuItemList[ 2 ].GetYPos( ) + 50;
+    UIRenderer::DrawLine( 0xFFFF, xPos, yPos, lineWidth );
+                              
+    // Display Filter
+    char displayStr[ MAX_PATH ] = { 0 };
+    char explanationOneStr[ MAX_PATH ] = { 0 };
+    char explanationTwoStr[ MAX_PATH ] = { 0 };
     int menuItemLen = 0;
     
-    mMenuItemList[ 4 ].Draw( );
-    if ( ShockConfig::GetScanLinesEnabled( ) == 1 )
+    mMenuItemList[ 3 ].Draw( );
+    switch ( ShockConfig::GetDisplayFilter( ) )
     {
-        strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
-        textColor = UI_COLOR_ENABLED;
-    }
-    else
-    {
-        strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
-        textColor = 0xFFFF;
-    }
-    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 4 ].GetText( ) );
-    UIRenderer::DrawText( settingStr, mMenuItemList[ 4 ].GetXPos( ) + menuItemLen, mMenuItemList[ 4 ].GetYPos( ), textColor );
+        case ShockDisplayFilter_Pixel:
+        {
+            strncpy( displayStr, "Pixel Perfect", sizeof( displayStr ) - 1 );
+            strncpy( explanationOneStr, "Original pixel art with no filtering", sizeof( explanationOneStr ) - 1 );
+            strncpy( explanationTwoStr, "Most games run at 60fps. Some will run slower", sizeof( explanationTwoStr ) - 1 );
+            break;
+        }
 
-    // Smoothing
-    mMenuItemList[5 ].Draw( );
-    if ( ShockConfig::GetSmoothingEnabled( ) == 1 )
-    {
-        strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
-        textColor = UI_COLOR_ENABLED;
+        case ShockDisplayFilter_Pixel_Scanline:
+        {
+            strncpy( displayStr, "Pixel Perfect Scanlines", sizeof( displayStr ) - 1 );
+            strncpy( explanationOneStr, "Original pixel art with simulated scanlines", sizeof( explanationOneStr ) - 1 );
+            strncpy( explanationTwoStr, "Most games run at 60fps. Some will run slower", sizeof( explanationTwoStr ) - 1 );
+            break;
+        }
+
+        case ShockDisplayFilter_Smoothing:
+        {
+            strncpy( displayStr, "Pixel Smoothing", sizeof( displayStr ) - 1 );
+            strncpy( explanationOneStr, "Smooths the pixel art to simulate a crt look", sizeof( explanationOneStr ) - 1 );
+            strncpy( explanationTwoStr, "Most games run at 60 fps. Some will run slower", sizeof( explanationTwoStr ) - 1 );
+            break;
+        }
+
+        case ShockDisplayFilter_Performance:
+        {
+            strncpy( displayStr, "Performance", sizeof( displayStr ) - 1 );
+            strncpy( explanationOneStr, "Extremely high fps but a slightly soft image", sizeof( explanationOneStr ) - 1 );
+            strncpy( explanationTwoStr, "All games run at or near 60 fps", sizeof( explanationTwoStr ) - 1 );
+            break;
+        }
     }
-    else
-    {
-        strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
-        textColor = 0xFFFF;
-    }
-    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 5 ].GetText( ) );
-    UIRenderer::DrawText( settingStr, mMenuItemList[ 5 ].GetXPos( ) + menuItemLen, mMenuItemList[ 5 ].GetYPos( ), textColor );
+    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 3 ].GetText( ) );
+    UIRenderer::DrawText( displayStr, mMenuItemList[ 3 ].GetXPos( ) + menuItemLen, mMenuItemList[ 3 ].GetYPos( ), UI_COLOR_ENABLED );
+
+    yPos = mMenuItemList[ 3 ].GetYPos( ) + UI_ROW_HEIGHT * 2;
+    UIRenderer::DrawText( explanationOneStr, mMenuItemList[ 3 ].GetXPos( ), yPos, 0xFFFF );
+    UIRenderer::DrawText( explanationTwoStr, mMenuItemList[ 3 ].GetXPos( ), yPos + UI_ROW_HEIGHT / 2, 0xFFFF );
     
     // Cursor
     UIBaseState::RenderMenuCursor( mMenuItemList[ mMenuSelection ].GetXPos( ), 

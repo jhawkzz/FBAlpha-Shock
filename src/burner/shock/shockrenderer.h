@@ -11,11 +11,19 @@
 
 enum ShockDisplayMode
 {
-    ShockDisplayMode_Original,
     ShockDisplayMode_Original2x,
     ShockDisplayMode_AspectRatio,
     ShockDisplayMode_FullScreen,
     ShockDisplayMode_Count
+};
+
+enum ShockDisplayFilter
+{
+    ShockDisplayFilter_Pixel,
+    ShockDisplayFilter_Pixel_Scanline,
+    ShockDisplayFilter_Smoothing,
+    ShockDisplayFilter_Performance,
+    ShockDisplayFilter_Count
 };
 
 class ShockRenderer
@@ -49,8 +57,7 @@ private:
         int platformHeight,
         int driverFlags,
         ShockDisplayMode shockDisplayMode,
-        int scanLines,
-        int smoothing );
+        ShockDisplayFilter shockDisplayFilter );
 
     static void RotateCounterClockwise( UINT16 *pSource,
         int srcWidth,
