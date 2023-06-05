@@ -107,6 +107,7 @@ void ShockConfig::RestoreDefaults( )
     mConfigSettings.scanLines = 0;
     mConfigSettings.showFPS = 0;
     mConfigSettings.showLoadWarnings = 0;
+    mConfigSettings.smoothing = 0;
 }
 
 int ShockConfig::GetDisplayMode( )
@@ -127,6 +128,16 @@ int ShockConfig::GetScanLinesEnabled( )
 void ShockConfig::SetScanLinesEnabled( int enabled )
 {
     mConfigSettings.scanLines = enabled;
+}
+
+int ShockConfig::GetSmoothingEnabled( )
+{
+    return mConfigSettings.smoothing;
+}
+
+void ShockConfig::SetSmoothingEnabled( int enabled )
+{
+    mConfigSettings.smoothing = enabled;
 }
 
 int ShockConfig::GetShowFPS( )

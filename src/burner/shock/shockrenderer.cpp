@@ -31,9 +31,84 @@ void ShockRenderer::Destroy( )
     FrameBuffer::Destroy( );
 }
 
-void ShockRenderer::SetSize( int width, int height )
+void ShockRenderer::SetModeUI( int uiWidth, int uiHeight )
 {
-    FrameBuffer::SetSize( width, height );
+    FrameBuffer::SetSize( uiWidth, uiHeight );
+}
+
+void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
+{
+    // if a game is rendering in 'full screen', but its
+    // a vertical game, we need SOME padding or it will just look 
+    // completely wrong
+    /*float fullscreenWidthScalar = 1;
+
+    int frameBufferWidth = 0;
+    int frameBufferHeight = 0;
+
+    // is the game veritcal? that means burn will give us back a 'sideways'
+    // buffer and we'll need to flip width/height
+    if ( (driverFlags & BDF_ORIENTATION_VERTICAL) )
+    {
+        // Use Galaxian to test this mode, or 1941
+
+        // flip width and height for the backbuffer render
+        int temp = gameWidth;
+        gameWidth = gameHeight;
+        gameHeight = temp;
+
+        if ( ( driverFlags & BDF_ORIENTATION_FLIPPED ) )
+        {
+            // 1941
+            fullscreenWidthScalar = 1.2f;
+        }
+        else
+        {
+            // galaxian
+            fullscreenWidthScalar = 1.1f;
+        }
+    }
+
+    // now, what display mode are we rendering in?
+    switch ( (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
+    {
+        case ShockDisplayMode_FullScreen:
+        {
+            // simply use the game's resolution, multplied by our scalar for width
+            frameBufferWidth = (int)( (float)gameWidth * fullscreenWidthScalar );
+            frameBufferHeight = gameHeight;
+
+            break;
+        }
+
+        case ShockDisplayMode_AspectRatio:
+        {
+            // here we want the game's size with height scaled to the device's aspect ratio
+            frameBufferWidth = gameWidth;
+
+            float aspectRatio = (float)FRAMEBUFFER_MAX_HEIGHT / (float)FRAMEBUFFER_MAX_WIDTH;
+            frameBufferHeight = (int) ( (float)gameWidth * aspectRatio );
+
+            break;
+        }
+
+        case ShockDisplayMode_Original:
+        {
+            // here set to the native resolution of the display, so
+            // the driver does no scaling
+            frameBufferWidth = FRAMEBUFFER_MAX_WIDTH;
+            frameBufferHeight = FRAMEBUFFER_MAX_HEIGHT;
+
+            break;
+        }
+
+        // todo: add in 2x original, which will be half max width, half max height
+    }
+
+    // todo - do we do 2x if smoothing is on?
+    FrameBuffer::SetSize( frameBufferWidth, frameBufferHeight );*/
+
+    FrameBuffer::SetSize( 640, 512 );
 }
 
 UINT16 *ShockRenderer::GetBackBuffer( )
@@ -69,7 +144,6 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
 
     if ( ShockConfig::GetShowFPS( ) )
     {
-
         Font::SetRenderBuffer( (UINT16 *)FrameBuffer::GetBackBuffer( ), fbWidth, fbHeight );
         RenderFPS( (UINT16 *)FrameBuffer::GetBackBuffer( ), framesPerSec );
     }
@@ -188,17 +262,9 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         useSmoothing = !useSmoothing;
     }
 
-    // jhm - made the frame buffer size dynamic.
-    // in ui mode we render 1280x1024
-    // in game mode, we render 640x512 with hardware scaling up to 1280x1024
-    // and see an additional 10fps on games across the board
-
     int sourcePitch = width;
     if ( useSmoothing )
     {
-        // huge revelation - the mvsx will scale up whatever you give it to 1280x1024.
-        // that is how they're able to do this and maintain speed
-
         // sampling directly into their frame buffer gets us up to 60fps
         // in games like kof, but we lose all other render options.
         // for sf3, we'd need to increase the buffer a little more,
@@ -227,6 +293,29 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         height *= 2;
         pSourceBuffer = mScaleBuffer;
     }
+
+    // leaving this here, and the frame buffer exact cals up in EnableFBA(), results
+    // in 60fps for like every game, but it looks soft/blurry.
+    /*if ( scanLines )
+    {
+        NoScale_ScanLine( (UINT16 *)pSourceBuffer,
+            width,
+            height,
+            sourcePitch,
+            pPlatformBackBuffer,
+            platformWidth,
+            platformHeight );
+    }
+    else
+    {
+        NoScale( (UINT16 *)pSourceBuffer,
+            width,
+            height,
+            sourcePitch,
+            pPlatformBackBuffer,
+            platformWidth,
+            platformHeight );
+    }*/
 
     // now figure out how to render to the backbuffer
     switch ( shockDisplayMode )

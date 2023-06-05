@@ -312,7 +312,7 @@ void ShockGame::Update( )
 
 void ShockGame::Enable( )
 {
-    ShockRenderer::SetSize( 640, 512);
+    ShockRenderer::SetModeFBA( mGameWidth, mGameHeight, mGameDriverFlags );
 }
 
 void ShockGame::Pause( int shouldPause )

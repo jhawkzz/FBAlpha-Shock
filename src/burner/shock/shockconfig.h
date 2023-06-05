@@ -23,7 +23,8 @@ struct ConfigSettings
     int scanLines;
     int showFPS;
     int showLoadWarnings;
-    int reserved[ 1020 ]; //for future use
+    int smoothing;
+    int reserved[ 1016 ]; //for future use
 
     SavedFireInput savedConfigInputs[ MAX_GAMES ];
 };
@@ -42,6 +43,9 @@ public:
 
     static int  GetScanLinesEnabled( );
     static void SetScanLinesEnabled( int enabled );
+
+    static int  GetSmoothingEnabled( );
+    static void SetSmoothingEnabled( int enabled );
 
     static int  GetShowFPS( );
     static void SetShowFPS( int enabled );

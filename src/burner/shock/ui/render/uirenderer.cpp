@@ -21,7 +21,7 @@ void UIRenderer::Destroy( )
 
 void UIRenderer::Enable( )
 {
-    ShockRenderer::SetSize( UI_WIDTH, UI_HEIGHT );
+    ShockRenderer::SetModeUI( UI_WIDTH, UI_HEIGHT );
 }
 
 void UIRenderer::DrawBackground( UINT16 *pImageSurface )

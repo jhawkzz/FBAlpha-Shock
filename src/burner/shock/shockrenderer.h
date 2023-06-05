@@ -23,7 +23,8 @@ public:
     static int  Create( int width, int height );
     static void Destroy( );
 
-    static void    SetSize( int width, int height );
+    static void    SetModeUI( int uiWidth, int uiHeight );
+    static void    SetModeFBA( int gameWidth, int gameHeight, int driverFlags );
     static UINT16 *GetBackBuffer( );
     static void    ClearBackBuffer( );
     static void    RenderFBA( UINT16 *pBuffer, int width, int height, int driverFlags, int framesPerSec );
@@ -74,7 +75,6 @@ private:
         int destScaledHeight,
         int destRealWidth,
         int destRealHeight );
-
 
     static void ScaleToSize_ScanLine( UINT16 *pSource,
         int srcWidth,
