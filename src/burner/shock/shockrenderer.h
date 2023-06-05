@@ -12,6 +12,7 @@
 enum ShockDisplayMode
 {
     ShockDisplayMode_Original,
+    ShockDisplayMode_Original2x,
     ShockDisplayMode_AspectRatio,
     ShockDisplayMode_FullScreen,
     ShockDisplayMode_Count
