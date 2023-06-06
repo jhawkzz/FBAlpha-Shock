@@ -34,6 +34,7 @@ void ShockRenderer::Destroy( )
 void ShockRenderer::SetModeUI( int uiWidth, int uiHeight )
 {
     FrameBuffer::SetSize( uiWidth, uiHeight );
+    FrameBuffer::ClearFrameBuffer( );
 }
 
 void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
@@ -123,7 +124,15 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
                 frameBufferHeight *= 2;
             }
 
+            int rem = frameBufferWidth % 4;
+            if ( rem != 0 ) frameBufferWidth += 4 - rem;
+
+            rem = frameBufferHeight % 4;
+            if ( rem != 0 ) frameBufferHeight += 4 - rem;
+
             FrameBuffer::SetSize( frameBufferWidth, frameBufferHeight );
+            FrameBuffer::ClearFrameBuffer( );
+
             break;
         }
     }

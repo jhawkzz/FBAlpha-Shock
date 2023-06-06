@@ -7,7 +7,7 @@
 #include "shock/systems.h"
 #include "burner.h"
 
-#define SHOCK_VERSION "0.1.1"
+#define SHOCK_VERSION "1.0.0"
 
 // Before a game is loaded, we sometimes need to provide certain systems
 // with an FPS to start with. Use 60.
