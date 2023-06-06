@@ -74,6 +74,15 @@ private:
         int srcHeight,
         UINT16 *pDest );
 
+    static void TwoxSaI_ToDest( UINT16 * pSource,
+        int srcWidth,
+        int srcHeight,
+        int srcPitch,
+        UINT16 * pDest,
+        int destWidth,
+        int destHeight,
+        int destPitch );
+
     static void ScaleToSize( UINT16 *pSource,
         int srcWidth,
         int srcHeight,

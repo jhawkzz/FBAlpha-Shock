@@ -19,7 +19,7 @@ void StateGameSettings::Create( )
     mMenuItemList[ mNumMenuItems++ ].Create( "In-Game Settings Menu: ", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Reset Game: ", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Restart Game: ", xPos, yPos, 0xFFFF );
     
     mMenuSelection = 0;
     

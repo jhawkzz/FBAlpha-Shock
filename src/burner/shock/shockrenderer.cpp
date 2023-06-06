@@ -70,16 +70,43 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
             // if the display MODE is aspect ratio.
             if ( ShockDisplayMode_AspectRatio == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
             {
-                // here we want the game's size with height scaled to the device's aspect ratio
-                frameBufferWidth = gameWidth;
+                // here we want to create a frame buffer that's the aspect ratio of the display
+                if ( gameWidth > gameHeight )
+                {
+                    frameBufferWidth = gameWidth;
 
-                float aspectRatio = (float)FRAMEBUFFER_MAX_HEIGHT / (float)FRAMEBUFFER_MAX_WIDTH;
-                frameBufferHeight = (int)( (float)frameBufferWidth * aspectRatio );
+                    float aspectRatio = (float)FRAMEBUFFER_MAX_HEIGHT / (float)FRAMEBUFFER_MAX_WIDTH;
+                    frameBufferHeight = (int)( (float)frameBufferWidth * aspectRatio );
+                }
+                else
+                {
+                    frameBufferHeight = gameHeight;
+
+                    float aspectRatio = (float)FRAMEBUFFER_MAX_WIDTH / (float)FRAMEBUFFER_MAX_HEIGHT;
+                    frameBufferWidth = (int)( (float)frameBufferHeight * aspectRatio );
+                }
             }
             else if ( ShockDisplayMode_FullScreen == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
             {
-                // simply use the game's resolution, multplied by our scalar for width
-                frameBufferWidth = gameWidth;
+                // for full screen, if the game is vertically oriented, we need to expand the width
+                // based on the games aspect ratio, or it'll just look wrong. the taller the game,
+                // the more we'll expand the width (which results in a narrower image, because
+                // the device scales the entire FB up to full size.)
+                float widthScalar = 1.0f;
+                if ( (driverFlags & BDF_ORIENTATION_VERTICAL) )
+                {
+                    float gameAspectRatio = ((float)gameHeight / (float)gameWidth);
+                    if ( gameAspectRatio > 1.5f )
+                    {
+                        widthScalar = 1.22f;
+                    }
+                    else
+                    {
+                        widthScalar = 1.1f;
+                    }
+                }
+
+                frameBufferWidth = (int) ((float)gameWidth * widthScalar);
                 frameBufferHeight = gameHeight;
             }
             else if ( ShockDisplayMode_Original2x == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
@@ -184,10 +211,6 @@ void ShockRenderer::CreateThumbnail( UINT16 *pBuffer,
     RenderImage( pBuffer, width, height, pThumbnail, thumbWidth, thumbHeight, driverFlags, ShockDisplayMode_FullScreen, ShockDisplayFilter_Pixel );
 }
 
-extern "C" {
-    extern void _2xSaI( UINT8 *srcPtr, int srcPitch, UINT8 *deltaPtr, UINT8 *dstPtr, int dstPitch, int width, int height );
-}
-
 void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
     int width,
     int height,
@@ -250,7 +273,6 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
     {
         case ShockDisplayFilter_Performance:
         {
-            // todo: width adjustment for vertical games
             // just hand the game frame to the driver
             NoScale( (UINT16 *)pSourceBuffer,
                 width,
@@ -264,15 +286,14 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
 
         case ShockDisplayFilter_Smoothing:
         {
-            // todo: width adjustment for vertical games
-            // todo: center in the frame
-            _2xSaI( (UINT8 *)pSourceBuffer, 
-                     width * 2, 
-                    (UINT8 *)pSourceBuffer, 
-                    (UINT8 *)pPlatformBackBuffer, 
-                    platformWidth * 2, 
-                    width, 
-                    height );
+            TwoxSaI_ToDest( pSourceBuffer,
+                width,
+                height,
+                width, //we're passing UINT16, so our pitch is width
+                pPlatformBackBuffer,
+                platformWidth,
+                platformHeight,
+                platformWidth ); //we're passing UINT16, so our pitch is width
             break;
         }
 
@@ -438,6 +459,36 @@ void ShockRenderer::Rotate180( UINT16 *pSource,
 
         pSource += srcWidth;
     }
+}
+
+extern "C" {
+    extern void _2xSaI( UINT8 *srcPtr, int srcPitch, UINT8 *deltaPtr, UINT8 *dstPtr, int dstPitch, int width, int height );
+}
+
+void ShockRenderer::TwoxSaI_ToDest( UINT16 * pSource,
+    int srcWidth,
+    int srcHeight,
+    int srcPitch,
+    UINT16 * pDest,
+    int destWidth,
+    int destHeight,
+    int destPitch )
+{
+    // 2xsai by nature will scale the image by a factor of 2 (2x in each dimension)
+    // so make sure your buffer fits.
+
+    // when centering, scale up width and height since thats what will actually be rendering)
+    int startX = ( destWidth - ( srcWidth * 2 ) ) / 2;
+    int startY = ( destHeight - ( srcHeight * 2 ) ) / 2;
+    pDest += ( startY * destWidth ) + startX;
+
+    _2xSaI( (UINT8 *)pSource,
+        srcPitch * 2, //we're casting to UINT8, so 2x the pitch
+        (UINT8 *)pSource,
+        (UINT8 *)pDest,
+        destPitch * 2, //we're casting to UINT8, so 2x the pitch
+        srcWidth,
+        srcHeight );
 }
 
 void ShockRenderer::ScaleToSize( UINT16 *pSource,
