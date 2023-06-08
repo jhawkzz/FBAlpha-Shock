@@ -110,7 +110,13 @@ void FrameBufferCore::Blit()
     HDC hBitmapDC = CreateCompatibleDC(dc);
     HBITMAP oldObj = (HBITMAP) SelectObject(hBitmapDC, mHbitmap); 
 
-    StretchBlt(dc, 0, 0, rect.right - rect.left, rect.bottom - rect.top, hBitmapDC, 0, 0, mWidth, mHeight, SRCCOPY);
+    //HBRUSH black = CreateSolidBrush( RGB( 20, 20, 20 ) );
+    //FillRect( dc, &rect, black );
+
+    int startX = (rect.right - mWidth) / 2;
+    int startY = ( rect.bottom - mHeight ) / 2;
+
+    BitBlt(dc, startX, startY, mWidth, mHeight, hBitmapDC, 0, 0, SRCCOPY);
 
     SelectObject(hBitmapDC, oldObj); 
 

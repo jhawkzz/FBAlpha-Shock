@@ -43,11 +43,18 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
     switch ( (ShockDisplayFilter)ShockConfig::GetDisplayFilter( ) )
     {
         case ShockDisplayFilter_Pixel:
-        case ShockDisplayFilter_Pixel_Scanline:
         {
             // for pixel perfect, set the framebuffer to half native size. we'll render
             // into that buffer and let the hardware scale up to full. SF3: 30-40fps
             FrameBuffer::SetSize( FRAMEBUFFER_MAX_WIDTH / 2, FRAMEBUFFER_MAX_HEIGHT / 2 );
+            break;
+        }
+        case ShockDisplayFilter_Pixel_Scanline:
+        {
+            // for pixel perfect SCANLINE, set the framebuffer to full native size. we'll render
+            // into that buffer and let the hardware scale up to full. SF3: ??
+            // this makes sure the scanlines are nice and thin
+            FrameBuffer::SetSize( FRAMEBUFFER_MAX_WIDTH, FRAMEBUFFER_MAX_HEIGHT );
             break;
         }
 
@@ -71,8 +78,15 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
             // if the display MODE is aspect ratio.
             if ( ShockDisplayMode_AspectRatio == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
             {
+                //todo: see if this is right on mvsx, i think it is.
+
                 // here we want to create a frame buffer that's the aspect ratio of the display
-                if ( gameWidth > gameHeight )
+
+                float srcAspect = (float)gameWidth / gameHeight;
+                float destAspect = (float)FRAMEBUFFER_MAX_WIDTH / FRAMEBUFFER_MAX_HEIGHT;
+
+                // games aspect ratio is more, so we can clamp to width
+                if ( srcAspect > destAspect )
                 {
                     frameBufferWidth = gameWidth;
 
@@ -83,8 +97,7 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
                 {
                     frameBufferHeight = gameHeight;
 
-                    float aspectRatio = (float)FRAMEBUFFER_MAX_WIDTH / (float)FRAMEBUFFER_MAX_HEIGHT;
-                    frameBufferWidth = (int)( (float)frameBufferHeight * aspectRatio );
+                    frameBufferWidth = (int)( (float)frameBufferHeight * destAspect );
                 }
             }
             else if ( ShockDisplayMode_FullScreen == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
@@ -601,26 +614,24 @@ void ShockRenderer::ScaleKeepAspectRatio( UINT16 *pSource,
     int destWidthScaled = destWidth;
     int destHeightScaled = destHeight;
 
-    if ( srcWidth > srcHeight )
-    {
-        float aspectRatio = (float)srcHeight / srcWidth;
-        destHeightScaled = destWidth * aspectRatio;
+    float srcAspect = (float)srcWidth / srcHeight;
+    float destAspect = (float)destWidth / destHeight;
 
-        // because our display is wider than it is tall,
-        // do one additional check to ensure the height
-        // ratio allowed it to be <= the height of the display.
-        if ( destHeightScaled >= destHeight )
-        {
-            // clamp the width to the height of the screen,
-            // and then scale height down by that.
-            destWidthScaled = destHeight;
-            destHeightScaled = destWidthScaled * aspectRatio;
-        }
+    // games aspect ratio is more, so we can clamp to width
+    if ( srcAspect > destAspect )
+    {
+        //sf3
+        float heightAspect = (float)srcHeight / srcWidth;
+
+        destWidthScaled = destWidth;
+        destHeightScaled = destWidth * heightAspect;
     }
+    // games aspect is narrower than ours, so clamp height
     else
     {
-        float aspectRatio = (float)srcWidth / srcHeight;
-        destWidthScaled = destHeight * aspectRatio;
+        //robocop
+        destHeightScaled = destHeight;
+        destWidthScaled = destHeight * srcAspect;
     }
 
     int startX = ( destWidth - destWidthScaled ) / 2;
