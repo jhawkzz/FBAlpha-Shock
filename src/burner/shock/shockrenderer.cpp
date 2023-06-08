@@ -78,10 +78,7 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
             // if the display MODE is aspect ratio.
             if ( ShockDisplayMode_AspectRatio == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
             {
-                //todo: see if this is right on mvsx, i think it is.
-
                 // here we want to create a frame buffer that's the aspect ratio of the display
-
                 float srcAspect = (float)gameWidth / gameHeight;
                 float destAspect = (float)FRAMEBUFFER_MAX_WIDTH / FRAMEBUFFER_MAX_HEIGHT;
 

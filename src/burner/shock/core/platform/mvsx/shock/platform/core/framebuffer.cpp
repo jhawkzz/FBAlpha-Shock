@@ -151,6 +151,9 @@ UINT16 *FrameBuffer::GetBackBuffer( )
 
 void FrameBuffer::SetSize( int width, int height )
 {
+	// note: Width and height must be a multiple of 4. The driver will 
+	// scale it up if you don't.
+	
     mVScreenInfo.xres = width;
     mVScreenInfo.yres = height;
     mVScreenInfo.yoffset = 0;
