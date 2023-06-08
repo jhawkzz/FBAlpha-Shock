@@ -20,10 +20,10 @@ struct SavedFireInput
 struct ConfigSettings
 {
     int displayMode;
-    int scanLines;
+    int displayFilter;
     int showFPS;
     int showLoadWarnings;
-    int reserved[ 1020 ]; //for future use
+    int reserved[ 1016 ]; //for future use
 
     SavedFireInput savedConfigInputs[ MAX_GAMES ];
 };
@@ -40,8 +40,8 @@ public:
     static int  GetDisplayMode( );
     static void SetDisplayMode( int displayMode );
 
-    static int  GetScanLinesEnabled( );
-    static void SetScanLinesEnabled( int enabled );
+    static int  GetDisplayFilter( );
+    static void SetDisplayFilter( int displayFilter );
 
     static int  GetShowFPS( );
     static void SetShowFPS( int enabled );

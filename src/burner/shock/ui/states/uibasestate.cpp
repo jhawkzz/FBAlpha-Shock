@@ -44,7 +44,7 @@ void UIBaseState::RenderBackOption( const char *pNavVerb)
     char textStr[ MAX_PATH ] = { 0 };
     snprintf( textStr, sizeof( textStr ), "Press Options/Back to %s", pNavVerb );
     int xPos = GetCenteredXPos( textStr );
-    UIRenderer::DrawText( textStr, xPos, PLATFORM_LCD_HEIGHT - 50, 0xFFFF );
+    UIRenderer::DrawText( textStr, xPos, UI_HEIGHT - 50, 0xFFFF );
 }
 
 void UIBaseState::RenderMenuCursor( int menuX, int menuY )
@@ -58,7 +58,7 @@ void UIBaseState::RenderMenuCursor( int menuX, int menuY )
 int UIBaseState::GetCenteredXPos( const char *pText, FontType fontType/*= FontType_Met*/ )
 {
     int width = Font::MeasureStringWidth( pText, fontType );
-    return (PLATFORM_LCD_WIDTH - width) / 2;
+    return (UI_WIDTH - width) / 2;
 }
 
 void UIBaseState::RenderTitle( const char *pText )

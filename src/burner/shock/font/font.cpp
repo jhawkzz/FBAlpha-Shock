@@ -16,6 +16,9 @@ char Font::mFont[ FONT_LETTER_COUNT ] = { '0', '1', '2', '3', '4', '5', '6', '7'
 
 char       Font::mCharLookup[ MAX_CHAR_LOOKUP ];
 FontObject Font::mFontObject[ FontType_Count ];
+UINT16    *Font::mpRenderBuffer;
+int        Font::mRenderBufferWidth;
+int        Font::mRenderBufferHeight;
 
 void Font::Create( )
 {
@@ -61,7 +64,14 @@ void Font::Create( )
                                              FONT_SPACING );
 }
 
-void Font::Print( UINT16 *pBackBuffer, const char *pString, int xPos, int yPos, short textColor, FontType fontType/* = FontType_Met*/ )
+void Font::SetRenderBuffer( UINT16 *pBuffer, int width, int height )
+{
+    mpRenderBuffer = pBuffer;
+    mRenderBufferWidth = width;
+    mRenderBufferHeight = height;
+}
+
+void Font::Print( const char *pString, int xPos, int yPos, short textColor, FontType fontType/* = FontType_Met*/ )
 {
     /*InternalPrint( pBackBuffer, "0123456", 0, 100, 0xFFFF );
     InternalPrint( pBackBuffer, "789ABCD",  0, 200, 0xFFFF );
@@ -72,9 +82,13 @@ void Font::Print( UINT16 *pBackBuffer, const char *pString, int xPos, int yPos, 
     InternalPrint( pBackBuffer, "XYZ,.!%",  0, 300, 0xFFFF );
     InternalPrint( pBackBuffer, "#-/\\()*",  0, 400, 0xFFFF );
     InternalPrint( pBackBuffer, "&",  0, 500, 0xFFFF );*/
-    if( fontType >= 0 && fontType < FontType_Count )
+    if( fontType >= 0 && fontType < FontType_Count && mpRenderBuffer != NULL )
     {
-        mFontObject[ fontType ].Print( pBackBuffer, pString, xPos, yPos, textColor );
+        mFontObject[ fontType ].Print( mpRenderBuffer, mRenderBufferWidth, mRenderBufferHeight, pString, xPos, yPos, textColor );
+    }
+    else
+    {
+        flushPrintf( "Font::Print() - WARNING: No render buffer set!\r\n" );
     }
 }
 
@@ -130,15 +144,15 @@ void FontObject::Create( UINT16 *pFontTexture,
     }
 }
 
-void FontObject::Print( UINT16 *pBackBuffer, const char *pString, int xPos, int yPos, short textColor )
+void FontObject::Print( UINT16 *pBackBuffer, int bbWidth, int bbHeight, const char *pString, int xPos, int yPos, short textColor )
 {
     // clamp height
-    yPos = min( yPos, PLATFORM_LCD_HEIGHT - mLetterHeight );
+    yPos = min( yPos, bbHeight - mLetterHeight );
     
     // clamp width (by limiting string length)
     int allowedStringLen = strlen( pString );
     
-    int maxWidth = PLATFORM_LCD_WIDTH - xPos;
+    int maxWidth = bbWidth - xPos;
     int stringWidth = (allowedStringLen * mFullLetterWidth) - FONT_SPACING;
     
     // is to too long?
@@ -151,7 +165,7 @@ void FontObject::Print( UINT16 *pBackBuffer, const char *pString, int xPos, int 
     }
     
     // position the screen buffer where the text should start
-    UINT16 *pCurrBuffer = pBackBuffer + ( yPos * PLATFORM_LCD_WIDTH ) + xPos;
+    UINT16 *pCurrBuffer = pBackBuffer + ( yPos * bbWidth ) + xPos;
 
     int strIndex = 0;
     while( strIndex < allowedStringLen )
@@ -168,7 +182,7 @@ void FontObject::Print( UINT16 *pBackBuffer, const char *pString, int xPos, int 
                                 + ( mCharPositionLookup[ letter_index ].yPos * (mStride / 2) ) 
                                 +   mCharPositionLookup[ letter_index ].xPos;
                                 
-                RenderLetter( pCurrBuffer, pLetter, textColor );
+                RenderLetter( pCurrBuffer, bbWidth, pLetter, textColor );
 
                 break;
             }
@@ -191,7 +205,7 @@ UINT32 FontObject::MeasureStringWidth( const char *pText )
     return strlen( pText ) * mFullLetterWidth;
 }
 
-void FontObject::RenderLetter( UINT16 *pBackBuffer, UINT16 *pLetterBuffer, UINT16 textColor )
+void FontObject::RenderLetter( UINT16 *pBackBuffer, int bbWidth, UINT16 *pLetterBuffer, UINT16 textColor )
 {
     int y;
     for ( y = 0; y < mLetterHeight; y++ )
@@ -212,7 +226,7 @@ void FontObject::RenderLetter( UINT16 *pBackBuffer, UINT16 *pLetterBuffer, UINT1
             }
         }
 
-        pBackBuffer += PLATFORM_LCD_WIDTH;
+        pBackBuffer += bbWidth;
         pLetterBuffer += (mStride / 2);
     }
 }

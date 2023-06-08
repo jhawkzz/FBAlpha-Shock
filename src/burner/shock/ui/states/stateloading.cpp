@@ -67,7 +67,7 @@ void StateLoading::DrawMenu( )
     
     // render the LOADING GAME line
     int loadLength = Font::MeasureStringWidth( loadStr, FontType_Upheaval );
-    int xPos = (PLATFORM_LCD_WIDTH - loadLength) / 2;
+    int xPos = ( UI_WIDTH - loadLength) / 2;
     
     for( int i = 0; i < loadStrLen; i++ )
     {
@@ -90,7 +90,7 @@ void StateLoading::DrawMenu( )
     
     // render the game line
     int gameLength = Font::MeasureStringWidth( gameStr, FontType_Upheaval );
-    xPos = (PLATFORM_LCD_WIDTH - gameLength) / 2;
+    xPos = (UI_WIDTH - gameLength) / 2;
     
     for( int i = 0; i < gameStrLen; i++ )
     {

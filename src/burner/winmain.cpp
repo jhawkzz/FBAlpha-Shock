@@ -33,8 +33,11 @@ LRESULT CALLBACK WndProc(
         return 0; 
 
     case WM_PAINT: 
-        FrameBuffer::Blit();
-        return 0; 
+    {
+        FrameBuffer::Blit( );
+
+        return 0;
+    }
 
     case WM_SIZE: 
         // Set the size and position of the window. 
@@ -84,7 +87,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     hAppInst = hInstance;  // save instance handle 
 
-    RECT rect = { 0, 0, PLATFORM_LCD_WIDTH, PLATFORM_LCD_HEIGHT };
+    RECT rect = { 0, 0, UI_WIDTH, UI_HEIGHT };
     AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 
     hwndMain = CreateWindow("ShockCls", "Shock", 
@@ -94,6 +97,8 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     if (!hwndMain) 
         return 0; 
+
+    SetWindowLong( hwndMain, GWL_STYLE, GetWindowLong( hwndMain, GWL_STYLE ) & ~WS_SIZEBOX );
 
     ShowWindow(hwndMain, nCmdShow); 
     UpdateWindow(hwndMain); 

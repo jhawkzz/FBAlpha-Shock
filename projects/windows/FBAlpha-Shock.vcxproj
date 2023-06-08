@@ -1116,6 +1116,7 @@
     <ClCompile Include="..\..\src\burn\tiles_generic.cpp" />
     <ClCompile Include="..\..\src\burn\timer.cpp" />
     <ClCompile Include="..\..\src\burn\vector.cpp" />
+    <ClCompile Include="..\..\src\burner\2xsai.c" />
     <ClCompile Include="..\..\src\burner\ioapi.c" />
     <ClCompile Include="..\..\src\burner\misc.cpp" />
     <ClCompile Include="..\..\src\burner\shock\core\platform\windows\shock\platform\core\audio.cpp" />

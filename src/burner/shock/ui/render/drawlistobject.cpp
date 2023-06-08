@@ -45,16 +45,16 @@ void DrawListObject::Reset( )
 
 void DrawListObject::RenderBackground( UINT16 *pBackBuffer )
 {
-    memcpy( (char *)pBackBuffer, (char *)mpImageSurface, PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH );
+    memcpy( (char *)pBackBuffer, (char *)mpImageSurface, UI_HEIGHT * UI_WIDTH * FRAMEBUFFER_BYTES_PP );
 }
 
 void DrawListObject::RenderTransparentSprite( UINT16 *pBackBuffer )
 {
-    UINT16 *pShortBackBuffer = pBackBuffer + (mPosX + (mPosY * PLATFORM_LCD_WIDTH));
+    UINT16 *pShortBackBuffer = pBackBuffer + (mPosX + (mPosY * UI_WIDTH));
     
     // clip dimensions to the edge of the screen
-    int spriteDrawWidth = min( mSpriteWidth, PLATFORM_LCD_WIDTH - mPosX );
-    int spriteDrawHeight = min( mSpriteHeight, PLATFORM_LCD_HEIGHT - mPosY );
+    int spriteDrawWidth = min( mSpriteWidth, UI_WIDTH - mPosX );
+    int spriteDrawHeight = min( mSpriteHeight, UI_HEIGHT - mPosY );
     
     for( int y = 0; y < spriteDrawHeight; y++ )
     {
@@ -66,18 +66,18 @@ void DrawListObject::RenderTransparentSprite( UINT16 *pBackBuffer )
             }
         }
         
-        pShortBackBuffer += PLATFORM_LCD_WIDTH;
+        pShortBackBuffer += UI_WIDTH;
         mpSpriteBuffer += mSpriteWidth;
     }
 }
 
 void DrawListObject::RenderSprite( UINT16 *pBackBuffer )
 {
-    UINT16 *pShortBackBuffer = pBackBuffer + (mPosX + (mPosY * PLATFORM_LCD_WIDTH));
+    UINT16 *pShortBackBuffer = pBackBuffer + (mPosX + (mPosY * UI_WIDTH));
     
     // clip dimensions to the edge of the screen
-    int spriteDrawWidth = min( mSpriteWidth, PLATFORM_LCD_WIDTH - mPosX );
-    int spriteDrawHeight = min( mSpriteHeight, PLATFORM_LCD_HEIGHT - mPosY );
+    int spriteDrawWidth = min( mSpriteWidth, UI_WIDTH - mPosX );
+    int spriteDrawHeight = min( mSpriteHeight, UI_HEIGHT - mPosY );
     
     for( int y = 0; y < spriteDrawHeight; y++ )
     {
@@ -86,21 +86,21 @@ void DrawListObject::RenderSprite( UINT16 *pBackBuffer )
             pShortBackBuffer[ x ] = mpSpriteBuffer[ x ];
         }
         
-        pShortBackBuffer += PLATFORM_LCD_WIDTH;
+        pShortBackBuffer += UI_WIDTH;
         mpSpriteBuffer += mSpriteWidth;
     }
 }
 
 void DrawListObject::RenderText( UINT16 *pBackBuffer )
 {
-    Font::Print( pBackBuffer, mText, mPosX, mPosY, mTextColor, mFontType );
+    Font::Print( mText, mPosX, mPosY, mTextColor, mFontType );
 }
 
 void DrawListObject::RenderLine( UINT16 *pBackBuffer )
 {
-    UINT16 *pShortBackBuffer = pBackBuffer + (mPosX + (mPosY * PLATFORM_LCD_WIDTH));
+    UINT16 *pShortBackBuffer = pBackBuffer + (mPosX + (mPosY * UI_WIDTH));
     
-    int availWidth = PLATFORM_LCD_WIDTH - mPosX;
+    int availWidth = UI_WIDTH - mPosX;
     int length = min( mLineWidth, availWidth );
     
     for( int x = 0; x < length; x++ )

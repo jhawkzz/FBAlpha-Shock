@@ -7,7 +7,7 @@
 #include "shock/systems.h"
 #include "burner.h"
 
-#define SHOCK_VERSION "0.1.1"
+#define SHOCK_VERSION "1.0.1"
 
 // Before a game is loaded, we sometimes need to provide certain systems
 // with an FPS to start with. Use 60.
@@ -35,22 +35,19 @@
 #define STATE_THUMBNAIL_HEIGHT (120)
 
 // Graphics
-#ifdef LUBUNTU
-#define PLATFORM_LCD_WIDTH	  (800)
-#define PLATFORM_LCD_HEIGHT	  (600) 
-#elif MVSX
-#define PLATFORM_LCD_WIDTH	  (1280)
-#define PLATFORM_LCD_HEIGHT	  (1024)
-#elif ASP
-#define PLATFORM_LCD_WIDTH	  (1280)
-#define PLATFORM_LCD_HEIGHT	  (720)
-#elif _WIN32
-#define PLATFORM_LCD_WIDTH	  (1280)
-#define PLATFORM_LCD_HEIGHT	  (1024)
+#define FRAMEBUFFER_MAX_WIDTH    (1280)
+#ifdef ASP
+#define FRAMEBUFFER_MAX_HEIGHT   (720)
+#else
+#define FRAMEBUFFER_MAX_HEIGHT   (1024)
 #endif
+#define FRAMEBUFFER_BPP	         (16)
+#define FRAMEBUFFER_BYTES_PP     (FRAMEBUFFER_BPP / 8)
+//
 
-#define PLATFORM_SCREEN_BPP	  (16)
-#define PLATFORM_SCREEN_PITCH (PLATFORM_LCD_WIDTH * (PLATFORM_SCREEN_BPP / 8))
+// UI
+#define UI_WIDTH  (FRAMEBUFFER_MAX_WIDTH)
+#define UI_HEIGHT (FRAMEBUFFER_MAX_HEIGHT)
 //
 
 // Audio

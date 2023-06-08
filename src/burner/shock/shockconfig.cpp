@@ -104,7 +104,7 @@ void ShockConfig::RestoreDefaults( )
     memset( &mConfigSettings, 0, sizeof( mConfigSettings ) );
 
     mConfigSettings.displayMode = ShockDisplayMode_FullScreen;
-    mConfigSettings.scanLines = 0;
+    mConfigSettings.displayFilter = ShockDisplayFilter_Pixel;
     mConfigSettings.showFPS = 0;
     mConfigSettings.showLoadWarnings = 0;
 }
@@ -119,14 +119,14 @@ void ShockConfig::SetDisplayMode( int displayMode )
     mConfigSettings.displayMode = displayMode;
 }
 
-int ShockConfig::GetScanLinesEnabled( )
+int ShockConfig::GetDisplayFilter( )
 {
-    return mConfigSettings.scanLines;
+    return mConfigSettings.displayFilter;
 }
 
-void ShockConfig::SetScanLinesEnabled( int enabled )
+void ShockConfig::SetDisplayFilter( int displayFilter )
 {
-    mConfigSettings.scanLines = enabled;
+    mConfigSettings.displayFilter = displayFilter;
 }
 
 int ShockConfig::GetShowFPS( )

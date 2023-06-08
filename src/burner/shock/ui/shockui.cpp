@@ -18,7 +18,7 @@ StateCredits          ShockUI::mState_Credits;
 StateLoading          ShockUI::mState_Loading;
 StateLoadError        ShockUI::mState_LoadError;
 UIBaseState          *ShockUI::mpStateList[ UIState_Count ];
-UINT16                ShockUI::mBackgroundImage[ PLATFORM_LCD_WIDTH * PLATFORM_LCD_HEIGHT ];
+UINT16                ShockUI::mBackgroundImage[ UI_WIDTH * UI_HEIGHT ];
 long                  ShockUI::mFrameTimeMS;
 
 void ShockUI::Create( )
@@ -28,22 +28,22 @@ void ShockUI::Create( )
     // dynamically create our wallpaper
     UINT16 *pCurrBufferPos = mBackgroundImage;
     
-    for( int y = 0; y < PLATFORM_LCD_HEIGHT; y++ )
+    for( int y = 0; y < UI_HEIGHT; y++ )
     {
-        for( int x = 0; x < PLATFORM_LCD_WIDTH; x++ )
+        for( int x = 0; x < UI_WIDTH; x++ )
         {
             // color the bg red
             pCurrBufferPos[ x ] = 0xB800;
         }
         
-        pCurrBufferPos += PLATFORM_LCD_WIDTH;
+        pCurrBufferPos += UI_WIDTH;
     }
     
     // Render seperator line
     int xPos = 18;
     int yPos = UI_Y_POS_HEADER_SEPERATOR;
-    int length = PLATFORM_LCD_WIDTH - xPos * 2;
-    UINT16 *pShortBackBuffer = mBackgroundImage + (xPos + (yPos * PLATFORM_LCD_WIDTH));
+    int length = UI_WIDTH - xPos * 2;
+    UINT16 *pShortBackBuffer = mBackgroundImage + (xPos + (yPos * UI_WIDTH));
         
     for( int x = 0; x < length; x++ )
     {
@@ -93,18 +93,21 @@ void ShockUI::Destroy( )
 
 void ShockUI::SetState_Load( )
 {
+    UIRenderer::Enable( );
     mFrameTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds( );
     ChangeState( UIState_Loading );
 }
 
 void ShockUI::SetState_LoadError( )
 {
+    UIRenderer::Enable( );
     mFrameTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds( );
     ChangeState( UIState_LoadError );
 }
 
 void ShockUI::SetState_MainMenu( )
 {
+    UIRenderer::Enable( );
     mFrameTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds( );
     ChangeState( UIState_MainMenu );
 }

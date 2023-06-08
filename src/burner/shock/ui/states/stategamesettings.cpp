@@ -19,7 +19,7 @@ void StateGameSettings::Create( )
     mMenuItemList[ mNumMenuItems++ ].Create( "In-Game Settings Menu: ", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Reset Game: ", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Restart Game: ", xPos, yPos, 0xFFFF );
     
     mMenuSelection = 0;
     
@@ -163,7 +163,7 @@ void StateGameSettings::DrawMenu( )
     // seperator
     yPos += 100;
     int lineWidth = 200;
-    xPos = (PLATFORM_LCD_WIDTH - lineWidth) / 2;
+    xPos = (UI_WIDTH - lineWidth) / 2;
     UIRenderer::DrawLine( 0xFFFF, xPos, yPos, lineWidth );
     
     // dips

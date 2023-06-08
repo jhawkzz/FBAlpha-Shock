@@ -4,6 +4,7 @@
 #include "shock/core/audio.h"
 #include "shock/core/ostimer.h"
 #include "shock/hiscoredat.h"
+#include "shock/input/shockinput.h"
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
 #include "shock/shockgame.h"
@@ -183,6 +184,15 @@ void ShockGame::Update( )
     if ( mPaused == 1 )
     {
         ShockPlayerInput::Update( );
+
+        // draw the final frame
+        ShockRenderer::RenderFBA( (UINT16 *)mGameBackBuffer,
+            mGameWidth,
+            mGameHeight,
+            mGameDriverFlags,
+            mFBA_FPS_Current );
+
+        ShockRenderer::Flip( );
         return;
     }
 
@@ -220,7 +230,7 @@ void ShockGame::Update( )
     }
 
     mFBA_Timing_NumFramesTicked++;
-
+    
     // This will always be true on our very first tick
     if ( mFBA_Timing_Drift > 0 && mFBA_Timing_NumSkippedFrames < MAX_SKIPPED_FRAMES )
     {
@@ -298,6 +308,11 @@ void ShockGame::Update( )
 
     UpdateDiagnosticMode( );
     UpdateResetMode( );
+}
+
+void ShockGame::Enable( )
+{
+    ShockRenderer::SetModeFBA( mGameWidth, mGameHeight, mGameDriverFlags );
 }
 
 void ShockGame::Pause( int shouldPause )

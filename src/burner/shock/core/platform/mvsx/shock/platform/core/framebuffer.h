@@ -6,8 +6,6 @@
 
 #include "shock/systems.h"
 
-// the amount of bytes from the base frame buffer for the start of the double buffer
-#define FB_DOUBLE_BUFFER_OFFSET_BYTES (PLATFORM_LCD_HEIGHT * PLATFORM_SCREEN_PITCH)
 
 //The path to the frame buffer out on the MVSX Linux OS
 #define FB_DEVICE "/dev/graphics/fb0"

@@ -15,6 +15,8 @@ class UIRenderer
 public:
     static void Create( );
     static void Destroy( );
+
+    static void Enable( );
     
     static void DrawBackground( UINT16 *pImageSurface );
     static void DrawTransparentSprite( UINT16 *pSpriteBuffer, int x, int y, int spriteWidth, int spriteHeight, UINT16 spriteClearColor );
