@@ -24,10 +24,6 @@ private:
     int       mNumMenuItems;
     MenuItem  mMenuItemList[ MAX_MENU_ITEMS ];
     int       mMenuSelection;
-
-    MenuItem* mFpsMenu;
-    MenuItem* mTimerMenu;
-    MenuItem* mDisplayMenu;
 };
 
 #endif

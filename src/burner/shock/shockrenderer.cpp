@@ -163,54 +163,54 @@ void ShockRenderer::ClearBackBuffer( )
     FrameBuffer::ClearFrameBuffer( );
 }
 
+struct _context
+{
+    int fontWidth;
+    int fontHeight;
+
+    int x;
+    int y;
+
+    char str[ 256 ];
+};
+
+_context context;
+
+void CB( void *data, scTreeNode<scTimer *> *node )
+{
+    _context *c = (_context *)data;
+
+    scTimer *timer = node->val;
+
+    UINT32 i;
+
+    char depth[ 65 ];
+    for ( i = 0; i < node->Depth( ); i++ )
+        depth[ i ] = ' ';
+
+    depth[ i ] = 0;
+    //flushPrintf("%s%s %dms", depth, timer->Name(), timer->Time() / 1000);
+
+    snprintf( c->str, sizeof( c->str ), "%s%s %dms", depth, timer->Name( ), timer->Time( ) / 1000 );
+    Font::Print( c->str, c->x, c->y, 0xFFFF );
+
+    c->y += c->fontHeight;
+}
+
 void TimerPrintout()
 {
+    context.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
+    context.fontHeight = MET_FONT_LETTER_HEIGHT;
+    context.x = 16;//fbWidth - context.fontWidth;
+    context.y = 16;//fbHeight - context.fontHeight;
+
     int fbWidth;
     int fbHeight;
     FrameBuffer::GetSize( &fbWidth, &fbHeight );
 
     Font::SetRenderBuffer( (UINT16 *)FrameBuffer::GetBackBuffer( ), fbWidth, fbHeight );
 
-    struct _context
-    {
-        int fontWidth;
-        int fontHeight;
-
-        int x;
-        int y;
-
-        char str[256];
-    } context;
-
-    context.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
-    context.fontHeight = MET_FONT_LETTER_HEIGHT;
-    context.x = 16;//fbWidth - context.fontWidth;
-    context.y = 16;//fbHeight - context.fontHeight;
-
-    //flushPrintf("");
-
-    auto cb = [](void* data, scTreeNode<scTimer*>* node)
-    {
-        _context* c = (_context*) data;
-
-        scTimer* timer = node->val;
-
-        UINT32 i;
-
-        char depth[65];
-        for (i = 0; i < node->Depth(); i++)
-            depth[i] = ' ';
-
-        depth[i] = 0;
-        //flushPrintf("%s%s %dms", depth, timer->Name(), timer->Time() / 1000);
-
-        snprintf(c->str, sizeof(c->str), "%s%s %dms", depth, timer->Name(), timer->Time() / 1000);
-        Font::Print( c->str, c->x, c->y, 0xFFFF );
-
-        c->y += c->fontHeight;
-    };
-
-    scTimerTree::TraverseDepth(&context, cb);
+    scTimerTree::TraverseDepth(&context, CB);
 }
 
 void ShockRenderer::RenderFBA( UINT16 *pBuffer,

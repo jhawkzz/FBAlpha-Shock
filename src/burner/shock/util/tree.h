@@ -8,12 +8,20 @@ template <class T>
 struct scTreeNode
 {
 public:
+    scTreeNode( )
+    {
+        firstChild = NULL;
+        sibling = NULL;
+        parent = NULL;
+        depth = 0;
+    }
+
     scTreeNode<T>* AddChild(scTreeNode<T>* child)
     {
         child->depth = depth + 1;
         child->parent = this;
         child->sibling = firstChild;
-        child->firstChild = nullptr;
+        child->firstChild = NULL;
         firstChild = child;
 
         return child;
@@ -28,10 +36,10 @@ public:
     T val;
 
 private:
-    scTreeNode* firstChild = nullptr;
-    scTreeNode* sibling = nullptr;
-    scTreeNode* parent = nullptr;
-    UINT32 depth = 0;
+    scTreeNode* firstChild;
+    scTreeNode* sibling;
+    scTreeNode* parent;
+    UINT32 depth;
 };
 
 template <class T, UINT32 C>
@@ -73,7 +81,7 @@ private:
     Node* Alloc()
     {
         if (memory.Size() == memory.Capacity())
-            return nullptr;
+            return NULL;
 
         return memory.Grow();
     }

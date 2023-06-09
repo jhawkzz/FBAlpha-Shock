@@ -11,6 +11,12 @@ static const UINT32 TimerCount = 256;
 class scTimer
 {
 public:
+    scTimer( )
+    {
+        time = 0;
+        name = NULL;
+    }
+
     void Start()
     {
         timer.Reset();
@@ -29,8 +35,8 @@ public:
 
 private:
     OSTimer timer;
-    UINT32 time = 0;
-    const char* name = nullptr;
+    UINT32 time;
+    const char* name;
 
     friend class scTimerTree;
 };
@@ -58,8 +64,6 @@ public:
     static void EndScope()
     {
         m_node->val->Stop();
-
-        scTimer* timer = m_node->val;
         m_node = m_node->Parent();
     }
 
@@ -105,7 +109,7 @@ private:
     scTimerScope scope(#scope)
 
 #define SHOCK_PROFILE \
-    scTimerScope scope(##__FUNCTION__)
+    scTimerScope scope(__FUNCTION__)
 
 #define BURN_SCOPE SHOCK_PROFLE
 

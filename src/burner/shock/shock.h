@@ -17,7 +17,7 @@ typedef unsigned char byte;
     typedef unsigned int NUINT;
 #endif
 
-static_assert(sizeof(NUINT) == sizeof(void*));
+//static_assert(sizeof(NUINT) == sizeof(void*));
 
 // Before a game is loaded, we sometimes need to provide certain systems
 // with an FPS to start with. Use 60.

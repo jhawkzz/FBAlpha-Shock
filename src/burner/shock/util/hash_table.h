@@ -10,27 +10,35 @@ inline UINT32 scHash(const char*);
 template <class T, class K>
 struct scAssocEntry
 {
-   K key = {};
-   T val = {};
+   K key;
+   T val;
 };
 
 template <class T, class K, UINT32 C>
 class scHashTable
 {
 private:
-   using Assoc = scAssocEntry<T,K>;
+   typedef scAssocEntry<T,K> Assoc;
    
    struct Entry
    {
+       Entry( )
+       {
+           next = NULL;
+           hash = 0;
+       }
+
        Assoc assoc;
-       Entry* next = nullptr;
-       UINT32 hash = 0;
+       Entry* next;
+       UINT32 hash;
    };
 
 public:
    scHashTable()
        : m_entries(m_buffer, 0, C)
    {}
+
+   Entry *AddEntry( K key, UINT32 hash );
    
    // scSpan(T* data, UINT32 size, UINT32 capacity)
    // : m_data(data)
