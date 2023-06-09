@@ -53,6 +53,8 @@ public:
     static void EndScope()
     {
         m_node->val->Stop();
+
+        scTimer* timer = m_node->val;
         m_node = m_node->Parent();
     }
 

@@ -65,7 +65,7 @@ public:
 
     void Clear()
     {
-        memset(m_buffer, 0, sizeof(m_buffer));
+        *Head() = Node();
         memory.Size(1);
     }
 
