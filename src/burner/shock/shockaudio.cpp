@@ -3,6 +3,7 @@
 
 #include "shock/core/audio.h"
 #include "shock/shockaudio.h"
+#include "shock/shockprofiler.h"
 
 int ShockAudio::Create( )
 {   
@@ -16,5 +17,6 @@ void ShockAudio::Destroy( )
 
 void ShockAudio::PlayBuffer( char *pBuffer, int bufferSize )
 {
+    SHOCK_PROFILE;
     Audio::PlayBuffer( pBuffer, bufferSize );
 }

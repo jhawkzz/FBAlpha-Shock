@@ -244,7 +244,10 @@ void ShockGame::Update( )
     {
         pBurnDraw = NULL;
 
-        BurnDrvFrame( );
+        {
+            SHOCK_PROFILE_SCOPE(BurnerFrame);
+            BurnDrvFrame( );
+        }
 
         if ( pBurnSoundOut )
         {
@@ -261,7 +264,10 @@ void ShockGame::Update( )
 
         pBurnDraw = (uint8_t *)ShockGame::mGameBackBuffer;
 
-        BurnDrvFrame( );
+        {
+            SHOCK_PROFILE_SCOPE(_BurnDrvFrame);
+            BurnDrvFrame( );
+        }
 
         if ( pBurnSoundOut )
         {
@@ -280,6 +286,8 @@ void ShockGame::Update( )
 
         if ( mFBA_Timing_NumSkippedFrames < MAX_SKIPPED_FRAMES )
         {
+            SHOCK_PROFILE_SCOPE(SkippingFrames);
+
             // get exactly how much time it took to tick the frame
             UINT32 frameEndTime = mFBA_Timing_Timer.GetElapsedTimeMicroseconds( );
 
@@ -305,6 +313,8 @@ void ShockGame::Update( )
         }
         else
         {
+            SHOCK_PROFILE_SCOPE(ResetTick);
+
             // Max Frames have been skipped. Reset tick timing.
             ResetFBATickTime( );
         }
@@ -428,6 +438,8 @@ int ShockGame::SetBurnSoundLen( int burnFPS )
 
 int ShockGame::PrepareRendering( )
 {
+    SHOCK_PROFILE;
+
     BurnDrvGetVisibleSize( &mGameWidth, &mGameHeight );
 
     // figure out orientation

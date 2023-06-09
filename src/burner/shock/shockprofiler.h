@@ -6,6 +6,8 @@
 #include "shock/util/hash_table.h"
 #include "shock/util/tree.h"
 
+static const UINT32 TimerCount = 256;
+
 class scTimer
 {
 public:
@@ -16,7 +18,10 @@ public:
 
     void Stop()
     {
-        time = timer.GetElapsedTimeMicroseconds();
+        //time = timer.GetElapsedTimeMicroseconds();
+        
+        static const float k = .1f;
+        time = time * (1 - k) + (timer.GetElapsedTimeMicroseconds() * k);
     }
 
     UINT32 Time() const { return time; }
@@ -73,8 +78,8 @@ public:
     static void Clear() { m_tree.Clear(); }
 
 private:
-    static scHashTable<scTimer, const char*, 64> m_timers;
-    static scTree<scTimer*, 64> m_tree;
+    static scHashTable<scTimer, const char*, TimerCount> m_timers;
+    static scTree<scTimer*, TimerCount> m_tree;
     static TimerNode* m_node;
 };
 

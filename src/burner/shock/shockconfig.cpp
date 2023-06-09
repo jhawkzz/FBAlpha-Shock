@@ -131,6 +131,16 @@ void ShockConfig::SetShowFPS( int enabled )
     mConfigSettings.showFPS = enabled;
 }
 
+int ShockConfig::GetShowTimers( )
+{
+    return mConfigSettings.showTimers;
+}
+
+void ShockConfig::SetShowTimers( int enabled )
+{
+    mConfigSettings.showTimers = enabled;
+}
+
 int ShockConfig::GetShowLoadWarnings( )
 {
     return mConfigSettings.showLoadWarnings;

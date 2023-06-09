@@ -158,7 +158,59 @@ UINT16 *ShockRenderer::GetBackBuffer( )
 
 void ShockRenderer::ClearBackBuffer( )
 {
+    SHOCK_PROFILE;
+
     FrameBuffer::ClearFrameBuffer( );
+}
+
+void TimerPrintout()
+{
+    int fbWidth;
+    int fbHeight;
+    FrameBuffer::GetSize( &fbWidth, &fbHeight );
+
+    Font::SetRenderBuffer( (UINT16 *)FrameBuffer::GetBackBuffer( ), fbWidth, fbHeight );
+
+    struct _context
+    {
+        int fontWidth;
+        int fontHeight;
+
+        int x;
+        int y;
+
+        char str[256];
+    } context;
+
+    context.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
+    context.fontHeight = MET_FONT_LETTER_HEIGHT;
+    context.x = 16;//fbWidth - context.fontWidth;
+    context.y = 16;//fbHeight - context.fontHeight;
+
+    //flushPrintf("");
+
+    auto cb = [](void* data, scTreeNode<scTimer*>* node)
+    {
+        _context* c = (_context*) data;
+
+        scTimer* timer = node->val;
+
+        UINT32 i;
+
+        char depth[65];
+        for (i = 0; i < node->Depth(); i++)
+            depth[i] = ' ';
+
+        depth[i] = 0;
+        //flushPrintf("%s%s %dms", depth, timer->Name(), timer->Time() / 1000);
+
+        snprintf(c->str, sizeof(c->str), "%s%s %dms", depth, timer->Name(), timer->Time() / 1000);
+        Font::Print( c->str, c->x, c->y, 0xFFFF );
+
+        c->y += c->fontHeight;
+    };
+
+    scTimerTree::TraverseDepth(&context, cb);
 }
 
 void ShockRenderer::RenderFBA( UINT16 *pBuffer,
@@ -188,6 +240,11 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
     {
         Font::SetRenderBuffer( (UINT16 *)FrameBuffer::GetBackBuffer( ), fbWidth, fbHeight );
         RenderFPS( (UINT16 *)FrameBuffer::GetBackBuffer( ), framesPerSec );
+    }
+
+    //if ( ShockConfig::GetShowTimers( ) )
+    {
+        TimerPrintout( );
     }
 }
 
@@ -418,6 +475,8 @@ void ShockRenderer::RotateCounterClockwise( UINT16 *pSource,
     int srcHeight,
     UINT16 *pDest )
 {
+    SHOCK_PROFILE;
+
     int destWidth = srcHeight;
     int destHeight = srcWidth;
 
@@ -448,6 +507,8 @@ void ShockRenderer::RotateClockwise( UINT16 *pSource,
     int srcHeight,
     UINT16 *pDest )
 {
+    SHOCK_PROFILE;
+
     int destWidth = srcHeight;
     int destHeight = srcWidth;
 
@@ -477,6 +538,8 @@ void ShockRenderer::Rotate180( UINT16 *pSource,
     int srcHeight,
     UINT16 *pDest )
 {
+    SHOCK_PROFILE;
+
     int destWidth = srcWidth;
     int destHeight = srcHeight;
 
@@ -514,6 +577,8 @@ void ShockRenderer::TwoxSaI_ToDest( UINT16 * pSource,
     int destHeight,
     int destPitch )
 {
+    SHOCK_PROFILE;
+
     // 2xsai by nature will scale the image by a factor of 2 (2x in each dimension)
     // so make sure your buffer fits.
 
@@ -541,6 +606,8 @@ void ShockRenderer::ScaleToSize( UINT16 *pSource,
     int destRealWidth,
     int destRealHeight )
 {
+    SHOCK_PROFILE;
+
     // given a source, scale it to dest width/height with no regard for aspect ratio.
     // it will be centered on screen
 
@@ -582,6 +649,8 @@ void ShockRenderer::ScaleToSize_ScanLine( UINT16 *pSource,
     int destRealWidth,
     int destRealHeight )
 {
+    SHOCK_PROFILE;
+
     // given a source, scale it to dest width/height with no regard for aspect ratio.
     // it will be centered on screen
 
@@ -628,6 +697,8 @@ void ShockRenderer::ScaleKeepAspectRatio( UINT16 *pSource,
     int destWidth,
     int destHeight )
 {
+    SHOCK_PROFILE;
+
     // given a source, scale and center it and maintain aspect ratio.
     int destWidthScaled = destWidth;
     int destHeightScaled = destHeight;
@@ -689,6 +760,8 @@ void ShockRenderer::ScaleKeepAspectRatio_ScanLine( UINT16 *pSource,
     int destWidth,
     int destHeight )
 {
+    SHOCK_PROFILE;
+
     // given a source, scale and center it and maintain aspect ratio.
     int destWidthScaled = destWidth;
     int destHeightScaled = destHeight;
@@ -757,6 +830,7 @@ void ShockRenderer::NoScale( UINT16 *pSource,
     int destWidth,
     int destHeight )
 {
+    SHOCK_PROFILE;
     // just a simple copy
 
     int startX = ( destWidth - srcWidth ) / 2;
@@ -784,6 +858,7 @@ void ShockRenderer::NoScale_ScanLine( UINT16 *pSource,
     int destWidth,
     int destHeight )
 {
+    SHOCK_PROFILE;
     // just a simple copy
 
     int startX = ( destWidth - srcWidth ) / 2;

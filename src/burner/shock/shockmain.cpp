@@ -161,28 +161,6 @@ int ShockMain::BeginLoad( const char *pRomset )
     return 0;
 }
 
-void TimerPrintout()
-{
-    flushPrintf("");
-
-    auto cb = [](void* context, scTreeNode<scTimer*>* node)
-    {
-        scTimer* timer = node->val;
-
-        UINT32 i;
-
-        char depth[65];
-        for (i = 0; i < node->Depth(); i++)
-            depth[i] = '\t';
-
-        depth[i] = 0;
-        flushPrintf("%s%s %dms", depth, timer->Name(), timer->Time() / 1000);
-    };
-
-    scTimerTree::TraverseDepth(nullptr, cb);
-    scTimerTree::Clear();
-}
-
 void ShockMain::Run( const char *pRomset )
 {
     gGlobalTimer.Reset( );
@@ -198,9 +176,8 @@ void ShockMain::Run( const char *pRomset )
 
     do
     {
+        scTimerTree::Clear();
         ShockMain::Update( );
- 
-        TimerPrintout();
 
     } while ( mState != ShockState_Quit );
 

@@ -4,6 +4,7 @@
 #include "shock/input/shockinput.h"
 #include "shock/input/shockplayerinput.h"
 #include "shock/shockconfig.h"
+#include "shock/shockprofiler.h"
 #include "shock/util/util.h"
 
 #ifdef MVSX_ASP
@@ -117,6 +118,8 @@ void ShockPlayerInput::SaveFireInputs( const char *pRomsetName )
 
 void ShockPlayerInput::Update( )
 {
+    SHOCK_PROFILE;
+
     ShockInput::Update( );
 
     for ( int i = 0; i < min( MAX_SHOCK_PLAYERS, ShockBurnInput::mNumPlayers ); i++ )

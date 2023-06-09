@@ -23,7 +23,8 @@ struct ConfigSettings
     int displayFilter;
     int showFPS;
     int showLoadWarnings;
-    int reserved[ 1016 ]; //for future use
+    int showTimers;
+    int reserved[ 1015 ]; //for future use
 
     SavedFireInput savedConfigInputs[ MAX_GAMES ];
 };
@@ -48,6 +49,9 @@ public:
 
     static int  GetShowLoadWarnings( );
     static void SetShowLoadWarnings( int enabled );
+
+    static int  GetShowTimers( );
+    static void SetShowTimers( int enabled );
 
     static SavedFireInput *LoadFireInputs( const char *pRomsetName );
     static void            SaveFireInputs( const char *pRomsetName, SavedFireInput *pFireInputs );

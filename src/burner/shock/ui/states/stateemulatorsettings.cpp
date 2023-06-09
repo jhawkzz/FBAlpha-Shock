@@ -85,6 +85,7 @@ UIState StateEmulatorSettings::Update( )
         }
         else if( mTimerMenu == selected )
         {
+            ShockConfig::SetShowTimers( !ShockConfig::GetShowTimers( ) );
         }
         else if( mDisplayMenu == selected )
         {
