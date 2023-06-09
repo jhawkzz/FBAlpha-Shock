@@ -82,16 +82,21 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
                 float srcAspect = (float)gameWidth / gameHeight;
                 float destAspect = (float)FRAMEBUFFER_MAX_WIDTH / FRAMEBUFFER_MAX_HEIGHT;
 
-                // games aspect ratio is more, so we can clamp to width
+                // if the game is wider than the device, let it be width dominant
+                // and scale height down.
                 if ( srcAspect > destAspect )
                 {
+                    // sf3 is a good example
                     frameBufferWidth = gameWidth;
 
                     float aspectRatio = (float)FRAMEBUFFER_MAX_HEIGHT / (float)FRAMEBUFFER_MAX_WIDTH;
                     frameBufferHeight = (int)( (float)frameBufferWidth * aspectRatio );
                 }
+                // if the game is narrower than the device, let it be height dominant
+                // and scale the width UP.
                 else
                 {
+                    // robocop is a good example
                     frameBufferHeight = gameHeight;
 
                     frameBufferWidth = (int)( (float)frameBufferHeight * destAspect );
@@ -614,19 +619,21 @@ void ShockRenderer::ScaleKeepAspectRatio( UINT16 *pSource,
     float srcAspect = (float)srcWidth / srcHeight;
     float destAspect = (float)destWidth / destHeight;
 
-    // games aspect ratio is more, so we can clamp to width
+    // if the game is wider than the device, let it be width dominant
+    // and scale height down.
     if ( srcAspect > destAspect )
     {
-        //sf3
+        // sf3 is a good example
         float heightAspect = (float)srcHeight / srcWidth;
 
         destWidthScaled = destWidth;
         destHeightScaled = destWidth * heightAspect;
     }
-    // games aspect is narrower than ours, so clamp height
+    // if the game is narrower than the device, let it be height dominant
+    // and scale the width UP.
     else
     {
-        //robocop
+        // robocop is a good example
         destHeightScaled = destHeight;
         destWidthScaled = destHeight * srcAspect;
     }
@@ -667,30 +674,29 @@ void ShockRenderer::ScaleKeepAspectRatio_ScanLine( UINT16 *pSource,
     int destHeight )
 {
     // given a source, scale and center it and maintain aspect ratio.
-
     int destWidthScaled = destWidth;
     int destHeightScaled = destHeight;
 
-    if ( srcWidth > srcHeight )
-    {
-        float aspectRatio = (float)srcHeight / srcWidth;
-        destHeightScaled = destWidth * aspectRatio;
+    float srcAspect = (float)srcWidth / srcHeight;
+    float destAspect = (float)destWidth / destHeight;
 
-        // because our display is wider than it is tall,
-        // do one additional check to ensure the height
-        // ratio allowed it to be <= the height of the display.
-        if ( destHeightScaled >= destHeight )
-        {
-            // clamp the width to the height of the screen,
-            // and then scale height down by that.
-            destWidthScaled = destHeight;
-            destHeightScaled = destWidthScaled * aspectRatio;
-        }
+    // if the game is wider than the device, let it be width dominant
+    // and scale height down.
+    if ( srcAspect > destAspect )
+    {
+        // sf3 is a good example
+        float heightAspect = (float)srcHeight / srcWidth;
+
+        destWidthScaled = destWidth;
+        destHeightScaled = destWidth * heightAspect;
     }
+    // if the game is narrower than the device, let it be height dominant
+    // and scale the width UP.
     else
     {
-        float aspectRatio = (float)srcWidth / srcHeight;
-        destWidthScaled = destHeight * aspectRatio;
+        // robocop is a good example
+        destHeightScaled = destHeight;
+        destWidthScaled = destHeight * srcAspect;
     }
 
     int startX = ( destWidth - destWidthScaled ) / 2;

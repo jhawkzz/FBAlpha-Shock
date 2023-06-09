@@ -110,6 +110,7 @@ void FrameBufferCore::Blit()
     HDC hBitmapDC = CreateCompatibleDC(dc);
     HBITMAP oldObj = (HBITMAP) SelectObject(hBitmapDC, mHbitmap); 
 
+    // todo: add double buffering
     //HBRUSH black = CreateSolidBrush( RGB( 20, 20, 20 ) );
     //FillRect( dc, &rect, black );
 
