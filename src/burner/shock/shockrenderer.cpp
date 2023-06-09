@@ -206,22 +206,30 @@ void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
     int fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
     int fontHeight = MET_FONT_LETTER_HEIGHT;
 
+    int fontXPos = fbWidth - fontWidth;
+    int fontYPos = fbHeight - fontHeight;
+
+#if defined ASP || defined _WIN32
+    fontXPos -= 75;
+    fontYPos -= 75;
+#endif
+
     char fpsStr[ MAX_PATH ];
     snprintf( fpsStr, sizeof( fpsStr ), "%d", framesPerSec );
 
-    for ( int y = fbHeight - MET_FONT_LETTER_HEIGHT; y < fbHeight; y++ )
+    pBackBuffer += ( fontYPos * fbWidth ) + fontXPos;
+
+    for ( int y = 0; y < fontHeight; y++ )
     {
-        for ( int x = fbWidth - fontWidth; x < fbWidth; x++ )
+        for ( int x = 0; x < fontWidth; x++ )
         {
-            pBackBuffer[ y * fbWidth + x ] = 0;
+            pBackBuffer[ x ] = 0;
         }
+        pBackBuffer += fbWidth;
     }
 
-#if defined ASP || defined _WIN32
-    fontHeight += 75;
-    fontWidth += 75;
-#endif
-    Font::Print( fpsStr, fbWidth - fontWidth, fbHeight - fontHeight, 0xFFFF );
+
+    Font::Print( fpsStr, fontXPos, fontYPos, 0xFFFF );
 }
 
 void ShockRenderer::CreateThumbnail( UINT16 *pBuffer,
