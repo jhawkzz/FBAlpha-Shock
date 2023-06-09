@@ -13,12 +13,19 @@ void StateEmulatorSettings::Create( )
     
     mNumMenuItems = 0;
     
+    mFpsMenu = &mMenuItemList[ mNumMenuItems++ ];
+    mTimerMenu = &mMenuItemList[ mNumMenuItems++ ];
+    mDisplayMenu = &mMenuItemList[ mNumMenuItems++ ];
+
     int xPos = UI_X_POS_MENU;
     int yPos = UI_Y_POS_MENU;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Display FPS Counter: ", xPos, yPos, 0xFFFF );
+    mFpsMenu->Create( "Display FPS Counter: ", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Display Load Warnings: ", xPos, yPos, 0xFFFF );
+    mTimerMenu->Create( "Display Timers: ", xPos, yPos, 0xFFFF );
+
+    yPos += UI_ROW_HEIGHT;
+    mDisplayMenu->Create( "Display Load Warnings: ", xPos, yPos, 0xFFFF );
     
     mMenuSelection = 0;
     
@@ -70,11 +77,16 @@ UIState StateEmulatorSettings::Update( )
     // check for entering a gamestate menu item
     if( ShockInput::GetInput( P1_Button_1 )->WasReleased() )
     {   
-        if( mMenuSelection == 0 )
+        MenuItem* selected = &mMenuItemList[ mMenuSelection ];
+
+        if( mFpsMenu ==  selected )
         {
             ShockConfig::SetShowFPS( !ShockConfig::GetShowFPS( ) );
         }
-        else if ( mMenuSelection == 1 )
+        else if( mTimerMenu == selected )
+        {
+        }
+        else if( mDisplayMenu == selected )
         {
             ShockConfig::SetShowLoadWarnings( !ShockConfig::GetShowLoadWarnings( ) );
         }
@@ -92,37 +104,27 @@ void StateEmulatorSettings::DrawMenu( )
     short textColor = 0;
     int menuItemLen = 0;
     
-    // FPS
-    mMenuItemList[ 0 ].Draw( );
-    if ( ShockConfig::GetShowFPS( ) == 1 )
+    auto showMenu = [&](MenuItem* item, bool enabled)
     {
-        strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
-        textColor = UI_COLOR_ENABLED;
-    }
-    else
-    {
-        strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
-        textColor = 0xFFFF;
-    }
-    
-    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 0 ].GetText( ) );
-    UIRenderer::DrawText( settingStr, mMenuItemList[ 0 ].GetXPos( ) + menuItemLen, mMenuItemList[ 0 ].GetYPos( ), textColor );
-    
-    // Load Warnings
-    mMenuItemList[ 1 ].Draw( );
-    if ( ShockConfig::GetShowLoadWarnings( ) == 1 )
-    {
-        strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
-        textColor = UI_COLOR_ENABLED;
-    }
-    else
-    {
-        strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
-        textColor = 0xFFFF;
-    }
-    
-    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 1 ].GetText( ) );
-    UIRenderer::DrawText( settingStr, mMenuItemList[ 1 ].GetXPos( ) + menuItemLen, mMenuItemList[ 1 ].GetYPos( ), textColor );
+        item->Draw( );
+        if (enabled)
+        {
+            strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
+            textColor = UI_COLOR_ENABLED;
+        }
+        else
+        {
+            strncpy( settingStr, "Off", sizeof( settingStr ) - 1 );
+            textColor = 0xFFFF;
+        }
+
+        menuItemLen = Font::MeasureStringWidth( item->GetText( ) );
+        UIRenderer::DrawText( settingStr, item->GetXPos( ) + menuItemLen, item->GetYPos( ), textColor );
+    };
+
+    showMenu(mFpsMenu, ShockConfig::GetShowFPS( ) != 0);
+    showMenu(mTimerMenu, false);
+    showMenu(mDisplayMenu, ShockConfig::GetShowLoadWarnings() != 0);
     
     UIRenderer::DrawText( "X", 
                         mMenuItemList[ mMenuSelection ].GetXPos( ) - UI_CURSOR_X_OFFSET, 
