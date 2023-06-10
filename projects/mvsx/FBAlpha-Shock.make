@@ -771,6 +771,7 @@ GENERATED += $(OBJDIR)/shockplayerinput.o
 GENERATED += $(OBJDIR)/shockprofiler.o
 GENERATED += $(OBJDIR)/shockrenderer.o
 GENERATED += $(OBJDIR)/shockromloader.o
+GENERATED += $(OBJDIR)/shocktimerdisplay.o
 GENERATED += $(OBJDIR)/shockui.o
 GENERATED += $(OBJDIR)/sknsspr.o
 GENERATED += $(OBJDIR)/slapstic.o
@@ -1582,6 +1583,7 @@ OBJECTS += $(OBJDIR)/shockplayerinput.o
 OBJECTS += $(OBJDIR)/shockprofiler.o
 OBJECTS += $(OBJDIR)/shockrenderer.o
 OBJECTS += $(OBJDIR)/shockromloader.o
+OBJECTS += $(OBJDIR)/shocktimerdisplay.o
 OBJECTS += $(OBJDIR)/shockui.o
 OBJECTS += $(OBJDIR)/sknsspr.o
 OBJECTS += $(OBJDIR)/slapstic.o
@@ -3905,6 +3907,9 @@ $(OBJDIR)/shockrenderer.o: ../../src/burner/shock/shockrenderer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/shockromloader.o: ../../src/burner/shock/shockromloader.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/shocktimerdisplay.o: ../../src/burner/shock/shocktimerdisplay.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/imagebinaries.o: ../../src/burner/shock/ui/imagebinaries.cpp

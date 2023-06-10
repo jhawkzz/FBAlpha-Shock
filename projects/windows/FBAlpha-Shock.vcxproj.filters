@@ -822,6 +822,9 @@
     <ClInclude Include="..\..\src\burner\shock\shockromloader.h">
       <Filter>burner\shock</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\shocktimerdisplay.h">
+      <Filter>burner\shock</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\systems.h">
       <Filter>burner\shock</Filter>
     </ClInclude>
@@ -3408,6 +3411,9 @@
       <Filter>burner\shock</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\shockromloader.cpp">
+      <Filter>burner\shock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burner\shock\shocktimerdisplay.cpp">
       <Filter>burner\shock</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\ui\imagebinaries.cpp">

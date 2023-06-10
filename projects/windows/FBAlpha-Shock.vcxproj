@@ -278,6 +278,7 @@
     <ClInclude Include="..\..\src\burner\shock\shockprofiler.h" />
     <ClInclude Include="..\..\src\burner\shock\shockrenderer.h" />
     <ClInclude Include="..\..\src\burner\shock\shockromloader.h" />
+    <ClInclude Include="..\..\src\burner\shock\shocktimerdisplay.h" />
     <ClInclude Include="..\..\src\burner\shock\systems.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\imagebinaries.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\render\drawlistobject.h" />
@@ -1142,6 +1143,7 @@
     <ClCompile Include="..\..\src\burner\shock\shockprofiler.cpp" />
     <ClCompile Include="..\..\src\burner\shock\shockrenderer.cpp" />
     <ClCompile Include="..\..\src\burner\shock\shockromloader.cpp" />
+    <ClCompile Include="..\..\src\burner\shock\shocktimerdisplay.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\imagebinaries.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\render\drawlistobject.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\render\menuitem.cpp" />

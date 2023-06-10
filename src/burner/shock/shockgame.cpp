@@ -11,6 +11,7 @@
 #include "shock/shockprofiler.h"
 #include "shock/shockrenderer.h"
 #include "shock/shockromloader.h"
+#include "shock/shocktimerdisplay.h"
 #include "shock/util/util.h"
 
 #ifdef MVSX_ASP
@@ -186,6 +187,9 @@ void ShockGame::ResetFBATimer( )
 
 void ShockGame::Update( )
 {
+    ShockTimerDisplay::Capture();
+    scTimerTree::Clear();
+
     SHOCK_PROFILE;
 
     //todo - this isnt great, obviously, but works well enough
@@ -280,14 +284,20 @@ void ShockGame::Update( )
             mGameDriverFlags,
             mFBA_FPS_Current );
 
-        ShockRenderer::Flip( );
+        if ( ShockConfig::GetShowTimers( ) )
+        {
+            ShockTimerDisplay::Render();
+        }
+
+        {
+            SHOCK_PROFILE_SCOPE(Flip);
+            ShockRenderer::Flip( );
+        }
 
         mFBA_FPS_FramesDrawn++;
 
         if ( mFBA_Timing_NumSkippedFrames < MAX_SKIPPED_FRAMES )
         {
-            SHOCK_PROFILE_SCOPE(SkippingFrames);
-
             // get exactly how much time it took to tick the frame
             UINT32 frameEndTime = mFBA_Timing_Timer.GetElapsedTimeMicroseconds( );
 
@@ -313,8 +323,6 @@ void ShockGame::Update( )
         }
         else
         {
-            SHOCK_PROFILE_SCOPE(ResetTick);
-
             // Max Frames have been skipped. Reset tick timing.
             ResetFBATickTime( );
         }
@@ -438,8 +446,6 @@ int ShockGame::SetBurnSoundLen( int burnFPS )
 
 int ShockGame::PrepareRendering( )
 {
-    SHOCK_PROFILE;
-
     BurnDrvGetVisibleSize( &mGameWidth, &mGameHeight );
 
     // figure out orientation

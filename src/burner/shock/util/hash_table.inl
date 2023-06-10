@@ -1,16 +1,62 @@
-template <class T, class K, UINT32 C>
-typename scHashTable<T, K, C>::Entry *scHashTable<T, K, C>::AddEntry( K key, UINT32 hash )
+
+template <class K, class T, UINT32 C>
+scHashTableIterator<K, T, C>& scHashTableIterator<K, T, C>::operator++()
+{
+    if (entry)
+    {
+        entry = entry->next;
+    
+        if (!entry)
+           FindNext(bucket + 1);
+    }
+
+    return *this;
+}
+
+template <class K, class T, UINT32 C>
+scHashTableIterator<K, T, C>::operator bool()
+{
+    return !!entry;
+}
+
+template <class K, class T, UINT32 C>
+scHashTableIterator<K, T, C>::scHashTableIterator(scHashTable<K, T, C>& hashTable)
+    : table(hashTable)
+{
+    bucket = 0;
+    entry = NULL;
+
+    FindNext(bucket);
+}
+
+template <class K, class T, UINT32 C>
+void scHashTableIterator<K, T, C>::FindNext(UINT32 start)
+{
+    UINT32 i;
+    for (i = start; i < table.m_buckets.Size(); i++)
+    {
+        auto* e = table.m_buckets[i];
+        if (!e) continue;
+
+        bucket = i;
+        entry = e;
+        break;
+    }
+}
+
+template <class K, class T, UINT32 C>
+typename scHashTable<K, T, C>::Entry *scHashTable<K, T, C>::AddEntry( K key, UINT32 hash )
 {
     Entry *entry = m_entries.Grow( );
     entry->hash = hash;
     entry->assoc.key = key;
-    //entry->assoc.val = NULL;
+    entry->assoc.val = T();
 
     return entry;
 };
 
-template <class T, class K, UINT32 C>
-T& scHashTable<T, K, C>::operator[](K key)
+template <class K, class T, UINT32 C>
+T& scHashTable<K, T, C>::operator[](K key)
 {
     UINT32 hash = scHash(key);
     UINT32 bucket = GetBucket(hash);
@@ -34,8 +80,14 @@ T& scHashTable<T, K, C>::operator[](K key)
     }
 }
 
-template <class T, class K, UINT32 C>
-UINT32 scHashTable<T, K, C>::GetBucket(UINT32 hash) const
+template <class K, class T, UINT32 C>
+scHashTableIterator<K, T, C> scHashTable<K, T, C>::Iterate()
+{
+    return scHashTableIterator<K, T, C>(*this);
+}
+
+template <class K, class T, UINT32 C>
+UINT32 scHashTable<K, T, C>::GetBucket(UINT32 hash) const
 {
     return hash % m_buckets.Capacity();
 }

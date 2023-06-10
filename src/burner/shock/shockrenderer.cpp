@@ -6,6 +6,7 @@
 #include "shock/shockconfig.h"
 #include "shock/shockprofiler.h"
 #include "shock/shockrenderer.h"
+#include "shock/shocktimerdisplay.h"
 #include "shock/util/util.h"
 #include "shock/shockgame.h"
 
@@ -158,59 +159,7 @@ UINT16 *ShockRenderer::GetBackBuffer( )
 
 void ShockRenderer::ClearBackBuffer( )
 {
-    SHOCK_PROFILE;
-
     FrameBuffer::ClearFrameBuffer( );
-}
-
-struct _context
-{
-    int fontWidth;
-    int fontHeight;
-
-    int x;
-    int y;
-
-    char str[ 256 ];
-};
-
-_context context;
-
-void CB( void *data, scTreeNode<scTimer *> *node )
-{
-    _context *c = (_context *)data;
-
-    scTimer *timer = node->val;
-
-    UINT32 i;
-
-    char depth[ 65 ];
-    for ( i = 0; i < node->Depth( ); i++ )
-        depth[ i ] = ' ';
-
-    depth[ i ] = 0;
-    //flushPrintf("%s%s %dms", depth, timer->Name(), timer->Time() / 1000);
-
-    snprintf( c->str, sizeof( c->str ), "%s%s %dms", depth, timer->Name( ), timer->Time( ) / 1000 );
-    Font::Print( c->str, c->x, c->y, 0xFFFF );
-
-    c->y += c->fontHeight;
-}
-
-void TimerPrintout()
-{
-    context.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
-    context.fontHeight = MET_FONT_LETTER_HEIGHT;
-    context.x = 16;//fbWidth - context.fontWidth;
-    context.y = 16;//fbHeight - context.fontHeight;
-
-    int fbWidth;
-    int fbHeight;
-    FrameBuffer::GetSize( &fbWidth, &fbHeight );
-
-    Font::SetRenderBuffer( (UINT16 *)FrameBuffer::GetBackBuffer( ), fbWidth, fbHeight );
-
-    scTimerTree::TraverseDepth(&context, CB);
 }
 
 void ShockRenderer::RenderFBA( UINT16 *pBuffer,
@@ -241,17 +190,10 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
         Font::SetRenderBuffer( (UINT16 *)FrameBuffer::GetBackBuffer( ), fbWidth, fbHeight );
         RenderFPS( (UINT16 *)FrameBuffer::GetBackBuffer( ), framesPerSec );
     }
-
-    //if ( ShockConfig::GetShowTimers( ) )
-    {
-        TimerPrintout( );
-    }
 }
 
 void ShockRenderer::Flip( )
 {
-    SHOCK_PROFILE;
-
     FrameBuffer::Flip( );
 }
 

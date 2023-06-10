@@ -118,8 +118,6 @@ void ShockPlayerInput::SaveFireInputs( const char *pRomsetName )
 
 void ShockPlayerInput::Update( )
 {
-    SHOCK_PROFILE;
-
     ShockInput::Update( );
 
     for ( int i = 0; i < min( MAX_SHOCK_PLAYERS, ShockBurnInput::mNumPlayers ); i++ )

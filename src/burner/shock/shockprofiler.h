@@ -24,10 +24,7 @@ public:
 
     void Stop()
     {
-        //time = timer.GetElapsedTimeMicroseconds();
-        
-        static const float k = .1f;
-        time = time * (1 - k) + (timer.GetElapsedTimeMicroseconds() * k);
+        time = timer.GetElapsedTimeMicroseconds();
     }
 
     UINT32 Time() const { return time; }
@@ -82,7 +79,7 @@ public:
     static void Clear() { m_tree.Clear(); }
 
 private:
-    static scHashTable<scTimer, const char*, TimerCount> m_timers;
+    static scHashTable<const char*, scTimer, TimerCount> m_timers;
     static scTree<scTimer*, TimerCount> m_tree;
     static TimerNode* m_node;
 };

@@ -176,7 +176,6 @@ void ShockMain::Run( const char *pRomset )
 
     do
     {
-        scTimerTree::Clear();
         ShockMain::Update( );
 
     } while ( mState != ShockState_Quit );
@@ -218,8 +217,6 @@ void *ShockMain::LoadThread( void *pArg )
 
 void ShockMain::UpdateState_Loading( )
 {
-    SHOCK_PROFILE;
-
     ShockUI::Update( );
 
     switch ( mLoadResult )
@@ -271,8 +268,6 @@ void ShockMain::UpdateState_Loading( )
 
 void ShockMain::UpdateState_LoadError( )
 {
-    SHOCK_PROFILE;
-
     // a return of 1 means stay in the frontend load error screen
     // a return of 0 means continue to the emulator
     // a return of -1 means quit
@@ -297,8 +292,6 @@ void ShockMain::UpdateState_LoadError( )
 
 void ShockMain::UpdateState_FrontEnd( )
 {
-    SHOCK_PROFILE;
-
     // a return of 1 means stay in th frontend
     // a return of 0 means back to the emulator
     // a return of -1 means quit
@@ -320,8 +313,6 @@ void ShockMain::UpdateState_FrontEnd( )
 
 void ShockMain::UpdateState_Emulator( )
 {
-    SHOCK_PROFILE;
-
     ShockGame::Update( );
 
     // Check for switching to the frontend
@@ -337,8 +328,6 @@ void ShockMain::UpdateState_Emulator( )
 
 void ShockMain::Update( )
 {
-    SHOCK_PROFILE;
-
     int result = Core::Update();
 
     if ( result == -1 )

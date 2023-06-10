@@ -10,8 +10,6 @@ Core::~Core()
 
 int Core::Update()
 {
-    SHOCK_PROFILE;
-
     MSG msg;
 
     if (PeekMessage( &msg, 0, 0, 0, PM_REMOVE ))

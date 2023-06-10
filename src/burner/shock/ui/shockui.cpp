@@ -114,8 +114,6 @@ void ShockUI::SetState_MainMenu( )
 
 int ShockUI::Update( )
 {
-    SHOCK_PROFILE;
-
     int totalTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds();
     int tickRateMS  = SEC_TO_MICROSECONDS / 60;
     

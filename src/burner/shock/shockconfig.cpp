@@ -133,7 +133,7 @@ void ShockConfig::SetShowFPS( int enabled )
 
 int ShockConfig::GetShowTimers( )
 {
-    return mConfigSettings.showTimers;
+    return 1;//mConfigSettings.showTimers;
 }
 
 void ShockConfig::SetShowTimers( int enabled )

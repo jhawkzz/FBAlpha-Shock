@@ -51,10 +51,11 @@ public:
 
 public:
     scTree()
-        : memory(m_buffer, 1, C)
+        : memory(buffer, 1, C)
+        , head(NULL)
     {}
 
-    Node* Head() { return &memory[0]; }
+    Node* Head() { head = &memory[0]; return head; }
 
     Node* AddChild(Node* node)
     {
@@ -63,18 +64,20 @@ public:
 
     void TraverseDepth(void* context, scTreeCb cb)
     {
-        TraverseDepth(Head(), context, cb);
+        TraverseDepth(head, context, cb);
     }
 
     void TraverseBreadth(void* context, scTreeCb cb)
     {
-        TraverseBreadth(Head(), context, cb);
+        TraverseBreadth(head, context, cb);
     }
 
     void Clear()
     {
-        *Head() = Node();
+        memory[0] = Node();
         memory.Size(1);
+
+        head = nullptr;
     }
 
 private:
@@ -109,7 +112,8 @@ private:
     }
 
 private:
-    Node m_buffer[C];
+    Node* head;
+    Node buffer[C];
     scSpan<Node> memory;
 };
 
