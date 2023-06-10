@@ -70,7 +70,7 @@ public:
 
     T& operator[](K key);
 
-    scHashTableIterator<K, T, C> Iterate();
+    scHashTableIterator<K, T, C> Iterator();
 
 private:
     UINT32 GetBucket(UINT32 hash) const;

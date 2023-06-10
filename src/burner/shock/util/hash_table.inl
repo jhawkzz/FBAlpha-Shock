@@ -81,7 +81,7 @@ T& scHashTable<K, T, C>::operator[](K key)
 }
 
 template <class K, class T, UINT32 C>
-scHashTableIterator<K, T, C> scHashTable<K, T, C>::Iterate()
+scHashTableIterator<K, T, C> scHashTable<K, T, C>::Iterator()
 {
     return scHashTableIterator<K, T, C>(*this);
 }

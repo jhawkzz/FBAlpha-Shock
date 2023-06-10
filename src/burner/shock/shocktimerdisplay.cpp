@@ -32,11 +32,11 @@ void ShockTimerDisplay::Render()
 
     char str[256];
 
-    for (auto iterator = m_timers.Iterate(); iterator; ++iterator)
+    for (auto kv = m_timers.Iterator(); kv; ++kv)
     {
-        Value& v = iterator.Val();
+        Value& v = kv.Val();
 
-        snprintf( str, sizeof( str ), "%s %dms", iterator.Key(), v.ns / 1000 );
+        snprintf( str, sizeof( str ), "%s %dms", kv.Key(), v.ns / 1000 );
         Font::Print( str, x + v.depth * MET_FONT_LETTER_WIDTH, y, 0xFFFF );
 
         y += fontHeight;
