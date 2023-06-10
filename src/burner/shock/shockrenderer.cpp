@@ -44,17 +44,17 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
     {
         case ShockDisplayFilter_Pixel:
         {
-            // for pixel perfect, set the framebuffer to half native size. we'll render
-            // into that buffer and let the hardware scale up to full. SF3: 30-40fps
-            FrameBuffer::SetSize( FRAMEBUFFER_MAX_WIDTH / 2, FRAMEBUFFER_MAX_HEIGHT / 2 );
+            // for pixel perfect, set the framebuffer to half max game size. we'll render
+            // into that buffer and let the hardware scale up to full. SF3: 40-50fps
+            FrameBuffer::SetSize( GAME_MAX_WIDTH / 2, GAME_MAX_HEIGHT / 2 );
             break;
         }
         case ShockDisplayFilter_Pixel_Scanline:
         {
-            // for pixel perfect SCANLINE, set the framebuffer to full native size. we'll render
-            // into that buffer and let the hardware scale up to full. SF3: ??
+            // for pixel perfect SCANLINE, set the framebuffer to full game size. we'll render
+            // into that buffer and let the hardware scale up to full. SF3: 30-40fps
             // this makes sure the scanlines are nice and thin
-            FrameBuffer::SetSize( FRAMEBUFFER_MAX_WIDTH, FRAMEBUFFER_MAX_HEIGHT );
+            FrameBuffer::SetSize( GAME_MAX_WIDTH, GAME_MAX_HEIGHT );
             break;
         }
 
