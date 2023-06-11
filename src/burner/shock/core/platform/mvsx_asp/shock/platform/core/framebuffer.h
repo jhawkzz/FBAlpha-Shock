@@ -7,7 +7,7 @@
 #include "shock/systems.h"
 
 
-//The path to the frame buffer out on the MVSX Linux OS
+//The path to the frame buffer out on the MVSX /ASP Linux OS (LCD for mvsx, hdmi for asp)
 #define FB_DEVICE "/dev/graphics/fb0"
 
 class FrameBufferCore

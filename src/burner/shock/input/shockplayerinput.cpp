@@ -6,7 +6,7 @@
 #include "shock/shockconfig.h"
 #include "shock/util/util.h"
 
-#ifdef MVSX
+#ifdef MVSX_ASP
 #include "shock/platform/core/mvsxled.h"
 #endif
 
@@ -127,8 +127,9 @@ void ShockPlayerInput::Update( )
             *ShockBurnInput::mPlayerInputList[ i ].coinButton.pGameInp->pVal =
                 (UINT8)ShockInput::GetInput( mShockButtonToBurnInput[ i ].coinLookup )->GetState( );
 
-#ifdef MVSX
-            if ( (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].coinLookup )->WasPressed( ) )
+#ifdef MVSX_ASP
+            if ( gActivePlatform == ActivePlatform_MVSX
+                && (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].coinLookup )->WasPressed( ) )
             {
                 int playerLed = MVSXLed::GetLED( i );
                 playerLed++;
@@ -142,8 +143,9 @@ void ShockPlayerInput::Update( )
             *ShockBurnInput::mPlayerInputList[ i ].startButton.pGameInp->pVal =
                 (UINT8)ShockInput::GetInput( mShockButtonToBurnInput[ i ].startLookup )->GetState( );
 
-#ifdef MVSX
-            if ( (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].startLookup )->WasReleased( ) )
+#ifdef MVSX_ASP
+            if ( gActivePlatform == ActivePlatform_MVSX
+                && (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].startLookup )->WasReleased( ) )
             {
                 int playerLed = MVSXLed::GetLED( i );
                 playerLed--;

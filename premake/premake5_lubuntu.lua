@@ -66,9 +66,8 @@ end
 function set_exclude_files()
    local excludedirs = 
    {
-         "../src/burner/shock/core/platform/mvsx",
+         "../src/burner/shock/core/platform/mvsx_asp",
          "../src/burner/shock/core/platform/windows",
-         "../src/burner/shock/core/platform/asp",
    }
 
    for _, excludedir in ipairs(excludedirs) do

@@ -12,7 +12,7 @@
 #include "shock/shockromloader.h"
 #include "shock/util/util.h"
 
-#ifdef MVSX
+#ifdef MVSX_ASP
 #include "shock/platform/core/mvsxled.h"
 #endif
 
@@ -131,9 +131,12 @@ LoadGameResult ShockGame::LoadGame( const char *pRomset )
 
     ShockPlayerInput::LoadFireInputs( ShockRomLoader::GetRomsetName( ) );
 
-#ifdef MVSX
-    MVSXLed::SetLED( 0, 0 );
-    MVSXLed::SetLED( 1, 0 );
+#ifdef MVSX_ASP
+    if ( gActivePlatform == ActivePlatform_MVSX )
+    {
+        MVSXLed::SetLED( 0, 0 );
+        MVSXLed::SetLED( 1, 0 );
+    }
 #endif
 
     mDiagnosticMode = GameInputSwitchState_None;
@@ -387,11 +390,11 @@ int ShockGame::PrepareAudio( )
         return -1;
     }
 
-#if defined MVSX || defined ASP
+#ifdef MVSX_ASP
     result = Audio::SetBufferLength( nBurnSoundLen );
     if ( result < 0 )
     {
-        flushPrintf( "ShockGame::PrepareAudio() - Failed to set MVSX buffer length.\r\n" );
+        flushPrintf( "ShockGame::PrepareAudio() - Failed to set MVSX/ASP buffer length.\r\n" );
         return -1;
     }
 #endif
@@ -592,16 +595,8 @@ void ShockGame::ConfigurePaths( )
 {
     struct stat st = { 0 };
 
-    char path[ MAX_PATH ] = { 0 };
-    int result = getAssetDirectory( path, MAX_PATH );
-    if ( result == -1 )
-    {
-        flushPrintf( "ShockGame::ConfigurePaths() - ERROR, Unable to get asset path\r\n" );
-        return;
-    }
-
     // EEPROM
-    snprintf( szAppEEPROMPath, sizeof( szAppEEPROMPath ), "%s/%s", path, EEPROM_PATH );
+    snprintf( szAppEEPROMPath, sizeof( szAppEEPROMPath ), "%s/%s", gAssetPath, EEPROM_PATH );
     if ( stat( szAppEEPROMPath, &st ) == -1 )
     {
         int result = ShockCreateDir( szAppEEPROMPath );
@@ -612,7 +607,7 @@ void ShockGame::ConfigurePaths( )
     }
 
     // Hiscore
-    snprintf( szAppHiscorePath, sizeof( szAppHiscorePath ), "%s/%s", path, HISCORE_PATH );
+    snprintf( szAppHiscorePath, sizeof( szAppHiscorePath ), "%s/%s", gAssetPath, HISCORE_PATH );
     if ( stat( szAppHiscorePath, &st ) == -1 )
     {
         int result = ShockCreateDir( szAppHiscorePath );
@@ -624,7 +619,7 @@ void ShockGame::ConfigurePaths( )
 
     // JHM: TODO - Add these tables
     // Blend
-    snprintf( szAppBlendPath, sizeof( szAppBlendPath ), "%s/%s", path, BLEND_PATH );
+    snprintf( szAppBlendPath, sizeof( szAppBlendPath ), "%s/%s", gAssetPath, BLEND_PATH );
     if ( stat( szAppBlendPath, &st ) == -1 )
     {
         int result = ShockCreateDir( szAppBlendPath );
@@ -639,16 +634,8 @@ void ShockGame::CreateGameAssetFolder( )
 {
     struct stat st = { 0 };
 
-    char path[ MAX_PATH ] = { 0 };
-    int result = getAssetDirectory( path, MAX_PATH );
-    if ( result == -1 )
-    {
-        flushPrintf( "ShockGame::CreateGameFolder() - ERROR, Unable to get asset path\r\n" );
-        return;
-    }
-
     // Game Folder
-    snprintf( mGameAssetFolder, sizeof( mGameAssetFolder ), "%s/%s", path, ShockRomLoader::GetRomsetName( ) );
+    snprintf( mGameAssetFolder, sizeof( mGameAssetFolder ), "%s/%s", gAssetPath, ShockRomLoader::GetRomsetName( ) );
     if ( stat( mGameAssetFolder, &st ) == -1 )
     {
         int result = ShockCreateDir( mGameAssetFolder );

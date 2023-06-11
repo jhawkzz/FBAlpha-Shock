@@ -156,7 +156,7 @@ void StateCredits::RenderPage0( )
     yPos += UI_ROW_HEIGHT / 2;
     UIRenderer::DrawText( "Final Burn Alpha: 100 Mega Shock Edition is a port of", xPos, yPos, 0xFFFF );
     yPos += UI_ROW_HEIGHT / 2;
-    UIRenderer::DrawText( "Final Burn Alpha for the Unico MVSX and is subject to the terms of", xPos, yPos, 0xFFFF );
+    UIRenderer::DrawText( "Final Burn Alpha for the Unico MVSX & ASP, and is subject to the terms of", xPos, yPos, 0xFFFF );
     yPos += UI_ROW_HEIGHT / 2;
     UIRenderer::DrawText( "the Final Burn Alpha license which is as follows:", xPos, yPos, 0xFFFF );
     yPos += UI_ROW_HEIGHT / 2;

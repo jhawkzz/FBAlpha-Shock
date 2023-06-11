@@ -13,10 +13,9 @@ char *strlwr    (char *str);
 int   stricmp(char *s1, char *s2);
 #endif
 
-int   getAssetDirectory(char* pFilePath, int size);
 int   getExeDirectory( char *pFilePath, int size );
 
-#if defined LUBUNTU || defined MVSX || defined ASP
+#if defined LUBUNTU || defined MVSX_ASP
     #define ShockSleep(us) usleep(us)
     #define ShockCreateDir(path) mkdir( (path), 0777 )
 #elif defined _WIN32

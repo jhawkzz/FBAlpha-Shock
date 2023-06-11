@@ -23,7 +23,7 @@ int Audio::Create( )
 
     if( result < 0 )
     {
-        flushPrintf( "ShockAudio::Create() - Failed to set MVSX buffer length.\r\n" );
+        flushPrintf( "ShockAudio::Create() - Failed to set MVSX/ASP buffer length.\r\n" );
         return -1;
     }
 
@@ -36,7 +36,10 @@ int Audio::Create( )
 		return -1;
 	}
     
-    CreateVolumeLookup( );
+    if ( gActivePlatform == ActivePlatform_MVSX )
+    {
+        CreateVolumeLookup( );
+    }
 
 	// see http://manuals.opensound.com/developer/SNDCTL_DSP_SETFRAGMENT.html
     // the high 16 bits store the number of buffer fragments. The low 16 bits
@@ -66,8 +69,8 @@ int Audio::Create( )
     }
     
     // Configure Speaker State
-    // These setup audio to go out via speaker vs HDMI
-    int sOutMode = SNDRV_OUTMODE_SPEAKER;
+    // These setup audio to go out via speaker or HDMI
+    int sOutMode = gActivePlatform == ActivePlatform_MVSX ? SNDRV_OUTMODE_SPEAKER : SNDRV_OUTMODE_HDMI;
 	result = ioctl(mDspHandle, SNDRV_OUTMODE, &sOutMode);
     if( result < 0 )
     {
@@ -77,7 +80,7 @@ int Audio::Create( )
         return -1;
     }
     
-    int sh2DeviceState = SNDRV_SH2WDEVICE_SPEAKER;
+    int sh2DeviceState = gActivePlatform == ActivePlatform_MVSX ? SNDRV_SH2WDEVICE_SPEAKER : SNDRV_SH2WDEVICE_HDMI;
 	ioctl(mDspHandle, SNDRV_SH2WDEVICE, &sh2DeviceState);
     if( result < 0 )
     {
@@ -87,7 +90,7 @@ int Audio::Create( )
         return -1;
     }
     
-    int hwInitVal = SNDRV_PLAY_HWINIT_SPEAKER;
+    int hwInitVal = gActivePlatform == ActivePlatform_MVSX ? SNDRV_PLAY_HWINIT_SPEAKER : SNDRV_PLAY_HWINIT_HDMI;
 	ioctl(mDspHandle, SNDRV_PLAY_HWINIT, &hwInitVal);
     if( result < 0 )
     {
@@ -98,7 +101,7 @@ int Audio::Create( )
     }
     
     // This one turns ON said speaker
-    int speakerOn = SNDRV_SPEAKER_ON;
+    int speakerOn = gActivePlatform == ActivePlatform_MVSX ? SNDRV_SPEAKER_ON : SNDRV_SPEAKER_OFF;
 	ioctl(mDspHandle, SNDRV_SPEAKER, &speakerOn);
     if( result < 0 )
     {
@@ -154,18 +157,21 @@ int Audio::Create( )
     
     pthread_detach( audioT );
     
-    pthread_t volumeT;
-    result = pthread_create( &volumeT, NULL, UpdateVolume_ThreadProc, NULL );
-    if( result != 0 )
+    if ( gActivePlatform == ActivePlatform_MVSX )
     {
-        flushPrintf( "Audio::Create() pthread_create failed with error: %d\r\n", result );
-        
-        Destroy( );
-        return -1;
+        pthread_t volumeT;
+        result = pthread_create( &volumeT, NULL, UpdateVolume_ThreadProc, NULL );
+        if ( result != 0 )
+        {
+            flushPrintf( "Audio::Create() pthread_create failed with error: %d\r\n", result );
+
+            Destroy( );
+            return -1;
+        }
+
+        pthread_detach( volumeT );
     }
-    
-    pthread_detach( volumeT );
-    
+
     return 0;
 }
 

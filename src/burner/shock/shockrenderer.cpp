@@ -11,7 +11,6 @@
 #include "shock/input/shockinput.h"
 
 UINT16 ShockRenderer::mRotateBuffer[ 512 * 512 ];
-UINT16 ShockRenderer::mScaleBuffer[ SCALE_BUFFER_WIDTH  * SCALE_BUFFER_HEIGHT ];
 
 int ShockRenderer::Create( int width, int height )
 {
@@ -43,21 +42,19 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
     switch ( (ShockDisplayFilter)ShockConfig::GetDisplayFilter( ) )
     {
         case ShockDisplayFilter_Pixel:
-        {
-            // for pixel perfect, set the framebuffer to half max game size. we'll render
-            // into that buffer and let the hardware scale up to full. SF3: 40-50fps
-            FrameBuffer::SetSize( GAME_MAX_WIDTH / 2, GAME_MAX_HEIGHT / 2 );
-            break;
-        }
         case ShockDisplayFilter_Pixel_Scanline:
         {
-            // for pixel perfect SCANLINE, set the framebuffer to full game size. we'll render
-            // into that buffer and let the hardware scale up to full. SF3: 30-40fps
-            // this makes sure the scanlines are nice and thin
-            FrameBuffer::SetSize( GAME_MAX_WIDTH, GAME_MAX_HEIGHT );
+            if ( ShockDisplayMode_AspectRatio == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
+            {
+                FrameBuffer::SetSize( RESOLUTION_1280_WIDTH / 2, RESOLUTION_1024_HEIGHT / 2 );
+            }
+            else
+            {
+                FrameBuffer::SetSize( RESOLUTION_1280_WIDTH, RESOLUTION_720_HEIGHT );
+            }
             break;
         }
-
+        
         case ShockDisplayFilter_Smoothing:
         case ShockDisplayFilter_Performance:
         {
@@ -80,7 +77,7 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
             {
                 // here we want to create a frame buffer that's the aspect ratio of the display
                 float srcAspect = (float)gameWidth / gameHeight;
-                float destAspect = (float)FRAMEBUFFER_MAX_WIDTH / FRAMEBUFFER_MAX_HEIGHT;
+                float destAspect = (float)RESOLUTION_1280_WIDTH / RESOLUTION_1024_HEIGHT;
 
                 // if the game is wider than the device, let it be width dominant
                 // and scale height down.
@@ -89,7 +86,7 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
                     // sf3 is a good example
                     frameBufferWidth = gameWidth;
 
-                    float aspectRatio = (float)FRAMEBUFFER_MAX_HEIGHT / (float)FRAMEBUFFER_MAX_WIDTH;
+                    float aspectRatio = (float)RESOLUTION_1024_HEIGHT / (float)RESOLUTION_1280_WIDTH;
                     frameBufferHeight = (int)( (float)frameBufferWidth * aspectRatio );
                 }
                 // if the game is narrower than the device, let it be height dominant
@@ -127,8 +124,8 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
             }
             else if ( ShockDisplayMode_Original2x == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
             {
-                frameBufferWidth = FRAMEBUFFER_MAX_WIDTH / 2;
-                frameBufferHeight = FRAMEBUFFER_MAX_HEIGHT / 2;
+                frameBufferWidth = RESOLUTION_1280_WIDTH / 2;
+                frameBufferHeight = RESOLUTION_1024_HEIGHT / 2;
             }
 
             // finally, if smoothing is on, double the res, since the smoothing algorithm itself
@@ -209,10 +206,12 @@ void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
     int fontXPos = fbWidth - fontWidth;
     int fontYPos = fbHeight - fontHeight;
 
-#if defined ASP || defined _WIN32
-    fontXPos -= 75;
-    fontYPos -= 75;
-#endif
+    // account for tv safe frame
+    if ( gActivePlatform == ActivePlatform_ASP )
+    {
+        fontXPos -= 75;
+        fontYPos -= 75;
+    }
 
     char fpsStr[ MAX_PATH ];
     snprintf( fpsStr, sizeof( fpsStr ), "%d", framesPerSec );

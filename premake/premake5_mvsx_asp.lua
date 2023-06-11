@@ -6,15 +6,15 @@ STRIP    := ${BINPATH}/arm-linux-gnueabi-strip -s
 ]]
 
 function set_location()
-   location "../projects/mvsx"
+   location "../projects/mvsx_asp"
 end
 
 function set_targetdir()
-   targetdir "../projects/mvsx/bin/%{cfg.buildcfg}"
+   targetdir "../projects/mvsx_asp/bin/%{cfg.buildcfg}"
 end
 
 function set_defines()
-   defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "MVSX" }
+   defines { "INLINE = static inline", "SH2_INLINE = static inline", "LSB_FIRST", "MVSX_ASP" }
    defines { "USE_SPEEDHACKS" }
 end
 
@@ -67,7 +67,7 @@ end
 function set_additional_includedirs()
    includedirs
    {
-      "../src/burner/shock/core/platform/mvsx",
+      "../src/burner/shock/core/platform/mvsx_asp",
       "../src/burner/shock/core/platform/posix",
    }
 end
@@ -77,7 +77,6 @@ function set_exclude_files()
    {
          "../src/burner/shock/core/platform/lubuntu",
          "../src/burner/shock/core/platform/windows",
-         "../src/burner/shock/core/platform/asp",
          "../src/burn/drv/midway",
    }
 

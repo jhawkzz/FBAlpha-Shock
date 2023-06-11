@@ -19,15 +19,15 @@ endif
 # #############################################
 
 RESCOMP = windres
-DEFINES += -DINLINE\ =\ static\ inline -DSH2_INLINE\ =\ static\ inline -DLSB_FIRST -DASP -DUSE_SPEEDHACKS
-INCLUDES += -I../../src/burn -I../../src/burn/devices -I../../src/burn/drv/capcom -I../../src/burn/drv/cave -I../../src/burn/drv/dataeast -I../../src/burn/drv/konami -I../../src/burn/drv/neogeo -I../../src/burn/drv/psikyo -I../../src/burn/drv/sega -I../../src/burn/drv/taito -I../../src/burn/drv/toaplan -I../../src/burner -I../../src/burn/snd -I../../src/cpu -I../../src/cpu/i8039 -I../../src/cpu/i8051 -I../../src/cpu/i8x41 -I../../src/cpu/m6805 -I../../src/cpu/tms32010 -I../../src/cpu/upd7725 -I../../src/cpu/upd7810 -I../../src/cpu/v60 -I../../src/cpu/z180 -I../../src/cpu/z80 -I../../src/dep/generated -I../../src/dep/libs/zlib -I../../src/intf -I../../src/intf/audio -I../../src/intf/cd -I../../src/burner/shock/core/platform/asp -I../../src/burner/shock/core/platform/posix
+DEFINES += -DINLINE\ =\ static\ inline -DSH2_INLINE\ =\ static\ inline -DLSB_FIRST -DMVSX_ASP -DUSE_SPEEDHACKS
+INCLUDES += -I../../src/burn -I../../src/burn/devices -I../../src/burn/drv/capcom -I../../src/burn/drv/cave -I../../src/burn/drv/dataeast -I../../src/burn/drv/konami -I../../src/burn/drv/neogeo -I../../src/burn/drv/psikyo -I../../src/burn/drv/sega -I../../src/burn/drv/taito -I../../src/burn/drv/toaplan -I../../src/burner -I../../src/burn/snd -I../../src/cpu -I../../src/cpu/i8039 -I../../src/cpu/i8051 -I../../src/cpu/i8x41 -I../../src/cpu/m6805 -I../../src/cpu/tms32010 -I../../src/cpu/upd7725 -I../../src/cpu/upd7810 -I../../src/cpu/v60 -I../../src/cpu/z180 -I../../src/cpu/z80 -I../../src/dep/generated -I../../src/dep/libs/zlib -I../../src/intf -I../../src/intf/audio -I../../src/intf/cd -I../../src/burner/shock/core/platform/mvsx_asp -I../../src/burner/shock/core/platform/posix
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
 LIBS += -lm -lpthread -lrt
 LDDEPS +=
 ALL_LDFLAGS += $(LDFLAGS) -s -static
-LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+LINKCMD = @$(file > $@.in, $(filter %.o, $^)) $(CXX) -o $@ $(filter-out %.o, $^) @$@.in $(ALL_LDFLAGS) $(LIBS)
 BINPATH  := ../../../fba-toolchains/windows-host/win-linaro-arm-linux-gnueabi/bin
 CC       := ${BINPATH}/arm-linux-gnueabi-gcc
 CXX      := ${BINPATH}/arm-linux-gnueabi-g++
@@ -702,6 +702,7 @@ GENERATED += $(OBJDIR)/misc.o
 GENERATED += $(OBJDIR)/msm5205.o
 GENERATED += $(OBJDIR)/msm5232.o
 GENERATED += $(OBJDIR)/msm6295.o
+GENERATED += $(OBJDIR)/mvsxled.o
 GENERATED += $(OBJDIR)/namco_c45.o
 GENERATED += $(OBJDIR)/namco_snd.o
 GENERATED += $(OBJDIR)/namcoio.o
@@ -1511,6 +1512,7 @@ OBJECTS += $(OBJDIR)/misc.o
 OBJECTS += $(OBJDIR)/msm5205.o
 OBJECTS += $(OBJDIR)/msm5232.o
 OBJECTS += $(OBJDIR)/msm6295.o
+OBJECTS += $(OBJDIR)/mvsxled.o
 OBJECTS += $(OBJDIR)/namco_c45.o
 OBJECTS += $(OBJDIR)/namco_snd.o
 OBJECTS += $(OBJDIR)/namcoio.o
@@ -3849,13 +3851,16 @@ $(OBJDIR)/main.o: ../../src/burner/main.cpp
 $(OBJDIR)/misc.o: ../../src/burner/misc.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/audio.o: ../../src/burner/shock/core/platform/asp/shock/platform/core/audio.cpp
+$(OBJDIR)/audio.o: ../../src/burner/shock/core/platform/mvsx_asp/shock/platform/core/audio.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/framebuffer.o: ../../src/burner/shock/core/platform/asp/shock/platform/core/framebuffer.cpp
+$(OBJDIR)/framebuffer.o: ../../src/burner/shock/core/platform/mvsx_asp/shock/platform/core/framebuffer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/input.o: ../../src/burner/shock/core/platform/asp/shock/platform/core/input.cpp
+$(OBJDIR)/input.o: ../../src/burner/shock/core/platform/mvsx_asp/shock/platform/core/input.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/mvsxled.o: ../../src/burner/shock/core/platform/mvsx_asp/shock/platform/core/mvsxled.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/core.o: ../../src/burner/shock/core/platform/posix/shock/platform/core/core.cpp

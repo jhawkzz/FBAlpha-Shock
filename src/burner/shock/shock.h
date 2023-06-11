@@ -16,13 +16,8 @@
 // Although games could theoretically support more, we'll only ever support 2
 #define MAX_SHOCK_PLAYERS (2)
 
-#ifdef MVSX
-#define ASSET_ROOT_PATH     "/mnt/hdisk/fbashock"
-#elif ASP
-#define ASSET_ROOT_PATH     "/mnt/usb/fbashock"
-#else // not used on win32 or lubuntu
-#define ASSET_ROOT_PATH     ""
-#endif
+#define MVSX_ASSET_ROOT_PATH "/mnt/hdisk/fbashock"
+#define ASP_ASSET_ROOT_PATH  "/mnt/usb/fbashock"
 
 // IO for FBA to write game files
 #define EEPROM_PATH          "eeprom/" 
@@ -35,20 +30,17 @@
 #define STATE_THUMBNAIL_HEIGHT (120)
 
 // Graphics
-#define FRAMEBUFFER_MAX_WIDTH    (1280)
-#define FRAMEBUFFER_MAX_HEIGHT   (1024)
-#define FRAMEBUFFER_BPP	         (16)
-#define FRAMEBUFFER_BYTES_PP     (FRAMEBUFFER_BPP / 8)
+#define RESOLUTION_1280_WIDTH   (1280) //The highest resolution we'll use for rendering the game. Based on the MVSX's display (1280x1024)
+#define RESOLUTION_1024_HEIGHT  (1024)
+#define RESOLUTION_720_HEIGHT   (720) // Used when rendering to fullscreen (with stretch). Results in the best balance between visual quality and fps
+#define FRAMEBUFFER_BPP	        (16)
+#define FRAMEBUFFER_BYTES_PP    (FRAMEBUFFER_BPP / 8)
 //
 
 // UI
-#define UI_WIDTH  (FRAMEBUFFER_MAX_WIDTH)
-#define UI_HEIGHT (FRAMEBUFFER_MAX_HEIGHT)
+#define UI_WIDTH  (RESOLUTION_1280_WIDTH)
+#define UI_HEIGHT (RESOLUTION_1024_HEIGHT)
 //
-
-// Game
-#define GAME_MAX_WIDTH  (FRAMEBUFFER_MAX_WIDTH)
-#define GAME_MAX_HEIGHT (720) //This sees a major (5fps) improvement on mvsx and almost no visible blurring
 
 // Audio
 #define SAMPLE_BITS_PER_SAMPLE (16)
@@ -84,5 +76,17 @@
 
 class OSTimer;
 extern OSTimer gGlobalTimer;
+
+enum ActivePlatform
+{
+    ActivePlatform_MVSX,
+    ActivePlatform_ASP,
+    ActivePlatform_Win32,
+    ActivePlatform_Lubuntu,
+    ActivePlatform_Count
+};
+
+extern ActivePlatform gActivePlatform;
+extern char           gAssetPath[ MAX_PATH ];
 
 #endif
