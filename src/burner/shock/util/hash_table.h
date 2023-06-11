@@ -6,6 +6,7 @@
 #include "shock/util/util.h"
 
 inline UINT32 scHash(const char*);
+inline UINT32 scHash(const void*);
 
 template <class K, class T>
 struct scAssocEntry
@@ -64,7 +65,9 @@ private:
 public:
     scHashTable()
         : m_entries(m_buffer, 0, C)
-    {}
+    {
+        memset(m_buckets.Data(), 0, m_buckets.Size() * sizeof(Entry*));
+    }
 
     Entry* AddEntry(K key, UINT32 hash);
 

@@ -94,5 +94,10 @@ UINT32 scHashTable<K, T, C>::GetBucket(UINT32 hash) const
 
 inline UINT32 scHash(const char* val)
 {
+    return scHash((void*) val);
+}
+
+inline UINT32 scHash(const void* val)
+{
     return (UINT32)((NUINT)val & 0xffffffff);
 }

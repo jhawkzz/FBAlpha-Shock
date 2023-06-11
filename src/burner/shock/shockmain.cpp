@@ -12,6 +12,7 @@
 #include "shock/shockmain.h"
 #include "shock/shockromloader.h"
 #include "shock/shockrenderer.h"
+#include "shock/shocktimerdisplay.h"
 #include "shock/ui/shockui.h"
 #include "shock/util/util.h"
 
@@ -176,6 +177,9 @@ void ShockMain::Run( const char *pRomset )
 
     do
     {
+        ShockTimerDisplay::Capture();
+        scTimerTree::Clear();
+
         ShockMain::Update( );
 
     } while ( mState != ShockState_Quit );
@@ -328,6 +332,8 @@ void ShockMain::UpdateState_Emulator( )
 
 void ShockMain::Update( )
 {
+    SHOCK_PROFILE;
+
     int result = Core::Update();
 
     if ( result == -1 )

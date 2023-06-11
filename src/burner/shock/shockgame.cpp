@@ -187,9 +187,6 @@ void ShockGame::ResetFBATimer( )
 
 void ShockGame::Update( )
 {
-    ShockTimerDisplay::Capture();
-    scTimerTree::Clear();
-
     SHOCK_PROFILE;
 
     //todo - this isnt great, obviously, but works well enough

@@ -61,7 +61,7 @@ public:
     static void EndScope()
     {
         m_node->val->Stop();
-        m_node = m_node->Parent();
+        m_node = m_node->parent;
     }
 
     static void TraverseDepth(void* context, scTree<scTimer*, 64>::scTreeCb cb)

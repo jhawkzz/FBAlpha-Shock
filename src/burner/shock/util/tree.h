@@ -27,15 +27,10 @@ public:
         return child;
     }
 
-    scTreeNode* FirstChild() const { return firstChild; }
-    scTreeNode* Sibling() const { return sibling; }
-    scTreeNode* Parent() const { return parent; }
-    UINT32 Depth() const { return depth; }
-
 public:
     T val;
 
-private:
+public:
     scTreeNode* firstChild;
     scTreeNode* sibling;
     scTreeNode* parent;
@@ -80,7 +75,6 @@ public:
         head = nullptr;
     }
 
-private:
     Node* Alloc()
     {
         if (memory.Size() == memory.Capacity())
@@ -89,6 +83,7 @@ private:
         return memory.Grow();
     }
 
+private:
     void TraverseDepth(Node* node, void* context, scTreeCb cb)
     {
         if (!node)
@@ -96,8 +91,8 @@ private:
 
         cb(context, node);
 
-        TraverseDepth(node->FirstChild(), context, cb);
-        TraverseDepth(node->Sibling(), context, cb);
+        TraverseDepth(node->firstChild, context, cb);
+        TraverseDepth(node->sibling, context, cb);
     }
 
     void TraverseBreadth(Node* node, void* context, scTreeCb cb)
@@ -107,8 +102,8 @@ private:
 
         cb(context, node);
 
-        TraverseBreadth(node->Sibling(), context, cb);
-        TraverseBreadth(node->FirstChild(), context, cb);
+        TraverseBreadth(node->sibling, context, cb);
+        TraverseBreadth(node->firstChild, context, cb);
     }
 
 private:

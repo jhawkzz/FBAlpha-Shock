@@ -4,52 +4,74 @@
 
 namespace
 {
-    void CaptureTime( void *data, scTreeNode<scTimer *> *node )
+    
+    struct CaptureContext
     {
-        ShockTimerDisplay::Capture(node);
+        scHashTable<scTreeNode<scTimer*>*, scTreeNode<ShockTimerDisplay::Value>*, TimerCount> hash;
+    };
+
+    struct PrintContext
+    {
+        int fontWidth;
+        int fontHeight;
+        int x;
+        int y;
+
+        char str[256];
+    };
+
+    void PrintNode(void* data, scTreeNode<ShockTimerDisplay::Value>* node)
+    {
+        PrintContext* c = (PrintContext*) data;
+
+        snprintf( c->str, sizeof( c->str ), "%s %dms", node->val.name, node->val.ns / 1000 );
+        Font::Print( c->str, c->x + node->depth * MET_FONT_LETTER_WIDTH, c->y, 0xFFFF );
+
+        c->y += c->fontHeight;
     }
 };
 
-scHashTable<const char*, ShockTimerDisplay::Value, TimerCount> ShockTimerDisplay::m_timers;
+scTree<ShockTimerDisplay::Value, TimerCount> ShockTimerDisplay::m_tree;
 
 void ShockTimerDisplay::Capture()
 {
-    scTimerTree::TraverseDepth(NULL, CaptureTime);
+    CaptureContext c;
+    scTimerTree::TraverseDepth(&c, CaptureNode);
+
+    static const float k = .1f;
+
+    for (auto kv = c.hash.Iterator(); kv; ++kv)
+    {
+        scTreeNode<scTimer*>* s = kv.Key();
+        scTreeNode<Value>* d = kv.Val();
+        
+        scTimer* timer = s->val;
+        d->val.ns = d->val.ns * (1 - k) + (timer->Time() * k);
+        d->val.name = timer->Name();
+        d->parent = c.hash[s->parent];
+        d->firstChild = c.hash[s->firstChild];
+        d->sibling = c.hash[s->sibling];
+        d->depth = s->depth;
+    }
 }
 
 void ShockTimerDisplay::Render()
 {
-    int fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
-    int fontHeight = MET_FONT_LETTER_HEIGHT;
-    int x = 16;//fbWidth - context.fontWidth;
-    int y = 16;//fbHeight - context.fontHeight;
+    PrintContext c;
+    c.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
+    c.fontHeight = MET_FONT_LETTER_HEIGHT;
+    c.x = 16;
+    c.y = 16;
 
-    int fbWidth;
-    int fbHeight;
-    FrameBuffer::GetSize( &fbWidth, &fbHeight );
-
-    Font::SetRenderBuffer( (UINT16 *)FrameBuffer::GetBackBuffer( ), fbWidth, fbHeight );
-
-    char str[256];
-
-    for (auto kv = m_timers.Iterator(); kv; ++kv)
-    {
-        Value& v = kv.Val();
-
-        snprintf( str, sizeof( str ), "%s %dms", kv.Key(), v.ns / 1000 );
-        Font::Print( str, x + v.depth * MET_FONT_LETTER_WIDTH, y, 0xFFFF );
-
-        y += fontHeight;
-    }
+    m_tree.TraverseDepth(&c, PrintNode);
 }
 
-void ShockTimerDisplay::Capture(scTreeNode<scTimer *> *node)
+void ShockTimerDisplay::CaptureNode(void* data, scTreeNode<scTimer *> *source)
 {
-    static const float k = .1f;
-
-    scTimer* timer = node->val;
-
-    Value& v = m_timers[timer->Name()];
-    v.depth = node->Depth();
-    v.ns = v.ns * (1 - k) + (timer->Time() * k);
+    CaptureContext* c = (CaptureContext*) data;
+    scTreeNode<Value>*& node = c->hash[source];
+    
+    // TODO: Make sure first one allocated from the tree is head
+    if (!node)
+        node = m_tree.Alloc();
 }

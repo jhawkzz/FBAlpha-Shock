@@ -14,16 +14,25 @@ public:
     static void Capture( );
     static void Render( );
 
-    static void Capture(scTreeNode<scTimer *> *node);
-
-private:
+public:
     struct Value
     {
-        UINT32 depth;
+        Value()
+            : name(NULL)
+            , ns(0)
+            , expanded(false)
+        {}
+           
+        const char* name;
         UINT32 ns;
+        bool expanded;
     };
 
-    static scHashTable<const char*, Value, TimerCount> m_timers;
+private:
+    static void CaptureNode(void* data, scTreeNode<scTimer *> *node);
+
+private:
+    static scTree<Value, TimerCount> m_tree;
 };
 
 #endif
