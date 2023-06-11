@@ -28,11 +28,24 @@ public:
         bool expanded;
     };
 
+    struct Node
+    {
+        Node()
+            : source(NULL)
+        {}
+
+        Value value;
+        scTreeNode<scTimer*>* source;
+        scTreeNode<Value*>* dest;
+    };
+
 private:
     static void CaptureNode(void* data, scTreeNode<scTimer *> *node);
 
 private:
-    static scTree<Value, TimerCount> m_tree;
+    static scTree<Value*, TimerCount> m_tree;
+    static scHashTable<const char*, Node, TimerCount> m_hash;
+
 };
 
 #endif

@@ -4,12 +4,6 @@
 
 namespace
 {
-    
-    struct CaptureContext
-    {
-        scHashTable<scTreeNode<scTimer*>*, scTreeNode<ShockTimerDisplay::Value>*, TimerCount> hash;
-    };
-
     struct PrintContext
     {
         int fontWidth;
@@ -20,37 +14,37 @@ namespace
         char str[256];
     };
 
-    void PrintNode(void* data, scTreeNode<ShockTimerDisplay::Value>* node)
+    void PrintNode(void* data, scTreeNode<ShockTimerDisplay::Value*>* node)
     {
         PrintContext* c = (PrintContext*) data;
 
-        snprintf( c->str, sizeof( c->str ), "%s %dms", node->val.name, node->val.ns / 1000 );
+        snprintf( c->str, sizeof( c->str ), "%s %dms", node->val->name, node->val->ns / 1000 );
         Font::Print( c->str, c->x + node->depth * MET_FONT_LETTER_WIDTH, c->y, 0xFFFF );
 
         c->y += c->fontHeight;
     }
 };
 
-scTree<ShockTimerDisplay::Value, TimerCount> ShockTimerDisplay::m_tree;
+scTree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::m_tree;
+scHashTable<const char*, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::m_hash;
 
 void ShockTimerDisplay::Capture()
 {
-    CaptureContext c;
-    scTimerTree::TraverseDepth(&c, CaptureNode);
+    scTimerTree::TraverseDepth(NULL, CaptureNode);
 
     static const float k = .1f;
 
-    for (auto kv = c.hash.Iterator(); kv; ++kv)
+    for (auto kv = m_hash.Iterator(); kv; ++kv)
     {
-        scTreeNode<scTimer*>* s = kv.Key();
-        scTreeNode<Value>* d = kv.Val();
-        
+        scTreeNode<scTimer*>* s = kv.Val().source;
+        scTreeNode<Value*>* d = kv.Val().dest;
+
         scTimer* timer = s->val;
-        d->val.ns = d->val.ns * (1 - k) + (timer->Time() * k);
-        d->val.name = timer->Name();
-        d->parent = c.hash[s->parent];
-        d->firstChild = c.hash[s->firstChild];
-        d->sibling = c.hash[s->sibling];
+        d->val->ns = d->val->ns * (1 - k) + (timer->Time() * k);
+        d->val->name = timer->Name();
+        d->parent = s->parent ? m_hash[s->parent->val->Name()].dest : NULL;
+        d->firstChild = s->firstChild ? m_hash[s->firstChild->val->Name()].dest : NULL; 
+        d->sibling = s->sibling ? m_hash[s->sibling->val->Name()].dest : NULL;
         d->depth = s->depth;
     }
 }
@@ -64,14 +58,22 @@ void ShockTimerDisplay::Render()
     c.y = 16;
 
     m_tree.TraverseDepth(&c, PrintNode);
+    m_tree.Clear();
 }
 
-void ShockTimerDisplay::CaptureNode(void* data, scTreeNode<scTimer *> *source)
+void ShockTimerDisplay::CaptureNode(void*, scTreeNode<scTimer *> *source)
 {
-    CaptureContext* c = (CaptureContext*) data;
-    scTreeNode<Value>*& node = c->hash[source];
-    
+    Node& node = m_hash[source->val->Name()];
+    node.source = source;
+
+    if (node.dest)
+       return;
+
     // TODO: Make sure first one allocated from the tree is head
-    if (!node)
-        node = m_tree.Alloc();
+    if (!source->parent)
+        node.dest = m_tree.Head();
+    else
+        node.dest = m_tree.Alloc();
+
+    node.dest->val = &node.value;
 }
