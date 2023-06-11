@@ -11,6 +11,8 @@
 class MVSXLed
 {
 public:
+	static int  DoesExist( );
+	
     static int  Create( );
     static void Destroy( );
     

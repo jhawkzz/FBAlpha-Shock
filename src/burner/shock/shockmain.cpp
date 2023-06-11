@@ -40,42 +40,26 @@ int ShockMain::Create( )
     gActivePlatform = ActivePlatform_Lubuntu;
     getExeDirectory( gAssetPath, sizeof( gAssetPath ) );
 #elif MVSX_ASP
-    gActivePlatform = ActivePlatform_Count;
-
-    // Create / ensure our assets root exists,
-    // which also tells us what platform we are.
-    struct stat st = { 0 };
-    if ( stat( MVSX_ASSET_ROOT_PATH, &st ) == -1 )
-    {
-        int result = ShockCreateDir( MVSX_ASSET_ROOT_PATH );
-        if ( result != -1 )
-        {
-            gActivePlatform = ActivePlatform_MVSX;
-            strncpy( gAssetPath, MVSX_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
-        }
-    }
-    else
+    // the MVSX has leds, so check for them
+    if ( MVSXLed::DoesExist( ) )
     {
         gActivePlatform = ActivePlatform_MVSX;
         strncpy( gAssetPath, MVSX_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
     }
-
-    // we failed creating the path above, so try for ASP
-    if ( gActivePlatform == ActivePlatform_Count )
+    else
     {
-        if ( stat( ASP_ASSET_ROOT_PATH, &st ) == -1 )
+        gActivePlatform = ActivePlatform_ASP;
+        strncpy( gAssetPath, ASP_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
+    }
+
+    // Create / ensure our assets root exists,
+    struct stat st = { 0 };
+    if ( stat( gAssetPath, &st ) == -1 )
+    {
+        int result = ShockCreateDir( gAssetPath );
+        if ( result != -1 )
         {
-            int result = ShockCreateDir( ASP_ASSET_ROOT_PATH );
-            if ( result != -1 )
-            {
-                gActivePlatform = ActivePlatform_ASP;
-                strncpy( gAssetPath, ASP_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
-            }
-        }
-        else
-        {
-            gActivePlatform = ActivePlatform_ASP;
-            strncpy( gAssetPath, ASP_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
+            flushPrintf( "ShockMain() - Warning, could not create assets folder: %s\r\n", gAssetPath );
         }
     }
 #endif

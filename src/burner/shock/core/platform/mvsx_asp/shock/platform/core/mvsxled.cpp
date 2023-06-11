@@ -12,6 +12,20 @@ int MVSXLed::mThreadRunning;
 pthread_mutex_t MVSXLed::mMutexLock;
 int             MVSXLed::mMutexCreated;
 
+int MVSXLed::DoesExist( )
+{
+	int ledHandle = open( LED_PATH, O_WRONLY );
+    if( ledHandle < 0 )
+    {
+		return 0;
+	}
+	
+	close( ledHandle );
+	ledHandle = -1;
+	
+	return 1;
+}
+
 int MVSXLed::Create( )
 {
     // init to values that are guaranteed not to be set already.
