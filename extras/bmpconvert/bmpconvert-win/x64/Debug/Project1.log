@@ -1,0 +1,16 @@
+﻿  bitmaploader.cpp
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(17,87): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(20,17): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(20,17): message : consider using '%zd' in the format string
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(34,83): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(37,18): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(37,18): message : consider using '%zd' in the format string
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(68,89): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(89,91): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(143,13): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(143,13): message : consider using '%zd' in the format string
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(150,13): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'size_t'
+C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\bitmaploader.cpp(150,13): message : consider using '%zd' in the format string
+  convert.cpp
+  Generating Code...
+  Project1.vcxproj -> C:\Users\jered\projects\FBAlpha-Shock\extras\bmpconvert\Project1\x64\Debug\Project1.exe

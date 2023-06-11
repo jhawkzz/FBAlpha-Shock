@@ -16,9 +16,6 @@ public:
     virtual void ExitState( UIState newState );
 
     virtual UIState Update( );
-
-protected:
-    virtual void DrawMenu( );
 };
 
 #endif

@@ -513,16 +513,21 @@ void ShockGame::UpdateResetMode( )
     }
 }
 
-int ShockGame::LoadGameState( int stateSlot )
+void ShockGame::LoadGameState( int stateSlot, void ( *OnComplete )( int, void * ), void *pArg )
 {
+    //todo: put this on another thread
+
     char stateFilename[ MAX_PATH ] = { 0 };
     snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), stateSlot );
     int result = BurnStateLoad( stateFilename, 1, NULL );
-    return result;
+
+    OnComplete( result, pArg );
 }
 
-int ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage )
+void ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage, void ( *OnComplete )( int, void * ), void *pArg )
 {
+    //todo: put this on another thread
+
     char stateFilename[ MAX_PATH ] = { 0 };
     snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), stateSlot );
     int result = BurnStateSave( stateFilename, 1 );
@@ -554,7 +559,7 @@ int ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage )
         }
     }
 
-    return result;
+    OnComplete( result, pArg );
 }
 
 int ShockGame::LoadGameStateThumbnail( int stateSlot, UINT16 *pThumbImage )

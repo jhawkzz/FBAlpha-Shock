@@ -10,6 +10,13 @@
 #include "uibasestate.h"
 #include "shock/ui/render/menuitem.h"
 
+enum SaveLoadThreadState
+{
+    SaveLoadThreadState_None,
+    SaveLoadThreadState_Running,
+    SaveLoadThreadState_Complete
+};
+
 class StateGameStateBase : public UIBaseState
 {
 public:
@@ -19,10 +26,12 @@ public:
     virtual void EnterState( UIState oldState );
     virtual void ExitState( UIState newState );
 
-    virtual UIState Update( );
+    virtual UIState Update( ); 
+    
+    void    OnSaveLoadComplete( int result );
 
 protected:
-    virtual void DrawMenu( );
+    void DrawMenu( const char *pHeader );
 
     int          mNumMenuItems;
     MenuItem     mMenuItemList[ MAX_MENU_ITEMS ];
@@ -33,6 +42,12 @@ protected:
     int          mMenuSelection;
     char         mResultStr[ MAX_PATH ];
     int          mMenuItemFullWidth;
+
+    int                 mSaveLoadResult;
+    SaveLoadThreadState mSaveLoadThreadState;
+    
+    int                 mHeaderColorLetterIndex;
+    int                 mAnimationTimerMS;
 };
 
 #endif

@@ -18,7 +18,8 @@ public:
     virtual UIState Update( );
 
 protected:
-    virtual void DrawMenu( );
+    // used to let ShockGame write into while on another thread
+    UINT16 mStateThumbBuffer[ STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT ];
 };
 
 #endif

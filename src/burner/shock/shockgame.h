@@ -49,8 +49,8 @@ public:
 
     static void PrintGameInfo( );
 
-    static int  LoadGameState( int stateSlot );
-    static int  SaveGameState( int stateSlot, UINT16 *pThumbImage );
+    static void LoadGameState( int stateSlot, void ( *OnComplete )( int, void * ), void *pArg );
+    static void SaveGameState( int stateSlot, UINT16 *pThumbImage, void ( *OnComplete )( int, void * ), void *pArg );
     static int  LoadGameStateThumbnail( int stateSlot, UINT16 *pThumbImage );
     static void LoadGameStateReset( );
 

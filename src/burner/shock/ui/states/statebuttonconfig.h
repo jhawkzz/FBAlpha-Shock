@@ -33,7 +33,6 @@ private:
     int       mNumButtonsPerPlayer[ MAX_SHOCK_PLAYERS ];
     MenuItem  mButtonInputList[ MAX_SHOCK_PLAYERS ][ GameInp_Fire_Count ];
     UINT16   *mpButtonImageMap[ ShockButton_Count ];
-    MenuItem  mRestoreDefaults;
     int       mPlayerSelection;
     int       mButtonSelection;
     int       mButtonConfigAvailable;

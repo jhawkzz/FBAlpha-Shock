@@ -1,13 +1,16 @@
 
 // See License.md for license
 
-#include "shock/ui/states/statesavestate.h"
-#include "shock/input/shockinput.h"
 #include "shock/shockgame.h"
+#include "shock/input/shockinput.h"
+#include "shock/ui/render/uirenderer.h"
+#include "shock/ui/states/statesavestate.h"
 
 void StateSaveState::Create( )
 {
     StateGameStateBase::Create( );
+
+    memset( mStateThumbBuffer, 0, sizeof( mStateThumbBuffer ) );
 }
 
 void StateSaveState::Destroy( )
@@ -18,6 +21,8 @@ void StateSaveState::Destroy( )
 void StateSaveState::EnterState( UIState oldState )
 {
     StateGameStateBase::EnterState( oldState );
+
+    memset( mStateThumbBuffer, 0, sizeof( mStateThumbBuffer ) );
 }
 
 void StateSaveState::ExitState( UIState newState )
@@ -25,31 +30,46 @@ void StateSaveState::ExitState( UIState newState )
     StateGameStateBase::ExitState( newState );
 }
 
+void StateSaveState_OnComplete( int result, void *pInstance )
+{
+    ( (StateSaveState *)pInstance )->OnSaveLoadComplete( result );
+}
+
 UIState StateSaveState::Update( )
 {
-    // check for entering a gamestate menu item
-    if ( ShockInput::GetInput( P1_Button_1 )->WasReleased( ) )
+    if ( mSaveLoadThreadState == SaveLoadThreadState_None )
     {
-        int result = ShockGame::SaveGameState( mMenuSelection, mStateThumb[ mMenuSelection ] );
-        if ( result == -1 )
+        if ( ShockInput::GetInput( P1_Button_1 )->WasReleased( ) )
         {
-            memset( mStateThumb[ mMenuSelection ], 0, sizeof( mStateThumb[ mMenuSelection ] ) );
-            mStateExists[ mMenuSelection ] = 0;
-            snprintf( mResultStr, sizeof( mResultStr ), "Error creating save state for slot: %d", mMenuSelection + 1 );
-        }
-        else
-        {
-            mStateExists[ mMenuSelection ] = 1;
-            memset( mResultStr, 0, sizeof( mResultStr ) );
+            mHeaderColorLetterIndex = 0;
+            mAnimationTimerMS = 0;
+            mSaveLoadThreadState = SaveLoadThreadState_Running;
+
+            ShockGame::SaveGameState( mMenuSelection, mStateThumbBuffer, StateSaveState_OnComplete, this );
         }
     }
 
+    // watch for completion
+    if ( mSaveLoadThreadState == SaveLoadThreadState_Complete )
+    {
+        if ( mSaveLoadResult != -1 )
+        {
+            memcpy( mStateThumb[ mMenuSelection ], mStateThumbBuffer, sizeof( mStateThumbBuffer ) );
+            mStateExists[ mMenuSelection ] = 1;
+            memset( mResultStr, 0, sizeof( mResultStr ) );   
+        }
+        else
+        {
+            memset( mStateThumbBuffer, 0, sizeof( mStateThumbBuffer ) );
+            mStateExists[ mMenuSelection ] = 0;
+            snprintf( mResultStr, sizeof( mResultStr ), "Error saving state for slot: %d. Check USB Drive and scan for errors.", mMenuSelection + 1 );
+        }
+
+        mSaveLoadThreadState = SaveLoadThreadState_None;
+        mSaveLoadResult = 0;
+    }
+
+    StateGameStateBase::DrawMenu( "SAVE STATE" );
+
     return StateGameStateBase::Update( );
-}
-
-void StateSaveState::DrawMenu( )
-{
-    UIBaseState::RenderTitle( "SAVE STATE" );
-
-    StateGameStateBase::DrawMenu( );
 }
