@@ -1,0 +1,1 @@
+LINKCMD = @$(file > $@.in, $(filter %.o, $^)) $(CXX) -o $@ $(filter-out %.o, $^) @$@.in $(ALL_LDFLAGS) $(LIBS)

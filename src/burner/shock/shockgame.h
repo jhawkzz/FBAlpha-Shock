@@ -5,6 +5,7 @@
 #define SHOCKGAME_H_
 
 #include "shock/shock.h"
+#include "shock/core/thread.h"
 
 #define GAME_BUFFER_WIDTH  (512)
 #define GAME_BUFFER_HEIGHT (512)
@@ -28,6 +29,14 @@ enum LoadGameResult
     LoadGameResult_Failed_Other
 };
 
+struct GameStateThreadArgs
+{
+    void ( *OnComplete )( int, void * );
+    void *pCallbackInstance;
+    UINT16 *pThumbImage;
+    int stateSlot;
+};
+
 class ShockGame
 {
 public:
@@ -49,8 +58,8 @@ public:
 
     static void PrintGameInfo( );
 
-    static int  LoadGameState( int stateSlot );
-    static int  SaveGameState( int stateSlot, UINT16 *pThumbImage );
+    static void LoadGameState( int stateSlot, void ( *OnComplete )( int, void * ), void *pArg );
+    static void SaveGameState( int stateSlot, UINT16 *pThumbImage, void ( *OnComplete )( int, void * ), void *pArg );
     static int  LoadGameStateThumbnail( int stateSlot, UINT16 *pThumbImage );
     static void LoadGameStateReset( );
 
@@ -64,6 +73,8 @@ private:
     static void ConfigurePaths( );
     static void CreateGameAssetFolder( );
     static void InitHiscoreSupport( );
+    static void *LoadGameStateThread( void *pArg );
+    static void *SaveGameStateThread( void *pArg );
 
 private:
     static int  mGameLoaded;
@@ -95,6 +106,9 @@ private:
     // Manage requests to enable disagnostic (settings) menu / reset the game
     static GameInputSwitchState mDiagnosticMode;
     static GameInputSwitchState mReset;
+
+    static Thread              mGameStateThread;
+    static GameStateThreadArgs mGameStateThreadArgs;
 };
 
 #endif

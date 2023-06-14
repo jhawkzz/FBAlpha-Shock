@@ -88,17 +88,3 @@ int getExeDirectory( char *pFilePath, int size )
     return 0;
 }
 #endif
-
-// Define where the platform should store assets
-#if defined MVSX || defined ASP
-int getAssetDirectory( char *pFilePath, int size )
-{
-    snprintf( pFilePath, size, "%s", ASSET_ROOT_PATH );
-    return 0;
-}
-#elif defined LUBUNTU || defined _WIN32
-int getAssetDirectory( char *pFilePath, int size )
-{
-    return getExeDirectory( pFilePath, size );
-}
-#endif

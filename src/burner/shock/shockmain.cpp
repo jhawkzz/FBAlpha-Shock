@@ -14,7 +14,7 @@
 #include "shock/ui/shockui.h"
 #include "shock/util/util.h"
 
-#ifdef MVSX
+#ifdef MVSX_ASP
 #include "shock/platform/core/mvsxled.h"
 #endif
 
@@ -23,25 +23,53 @@ ShockState  ShockMain::mState;
 LoadResult  ShockMain::mLoadResult;
 char        ShockMain::mRomsetName[ MAX_PATH ];
 
-OSTimer gGlobalTimer;
+OSTimer        gGlobalTimer;
+ActivePlatform gActivePlatform;
+char           gAssetPath[ MAX_PATH ];
 
 int ShockMain::Create( )
 {
     mState = ShockState_Loading;
     mLoadResult = LoadResult_None;
 
-    // Create assets root
-#if defined MVSX || defined ASP
-    struct stat st = { 0 };
-    if ( stat( ASSET_ROOT_PATH, &st ) == -1 )
+    // determine our platform
+#ifdef WIN32
+    gActivePlatform = ActivePlatform_Win32;
+    getExeDirectory( gAssetPath, sizeof( gAssetPath ) );
+#elif LUBUNTU
+    gActivePlatform = ActivePlatform_Lubuntu;
+    getExeDirectory( gAssetPath, sizeof( gAssetPath ) );
+#elif MVSX_ASP
+    // the MVSX has leds, so check for them
+    if ( MVSXLed::DoesExist( ) )
     {
-        int result = ShockCreateDir( ASSET_ROOT_PATH );
-        if ( result == -1 )
+        gActivePlatform = ActivePlatform_MVSX;
+        strncpy( gAssetPath, MVSX_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
+    }
+    else
+    {
+        gActivePlatform = ActivePlatform_ASP;
+        strncpy( gAssetPath, ASP_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
+    }
+
+    // Create / ensure our assets root exists,
+    struct stat st = { 0 };
+    if ( stat( gAssetPath, &st ) == -1 )
+    {
+        int result = ShockCreateDir( gAssetPath );
+        if ( result != -1 )
         {
-            flushPrintf( "ShockMain::Create() - WARNING, Unable to create ASSET_ROOT_PATH: %s\r\n", ASSET_ROOT_PATH );
+            flushPrintf( "ShockMain() - Warning, could not create assets folder: %s\r\n", gAssetPath );
         }
     }
 #endif
+
+    // if somehow we don't know what platform we are, abort.
+    if ( gActivePlatform == ActivePlatform_Count )
+    {
+        flushPrintf( "ShockMain::Create() - Error, could not determine active platform!\r\n" );
+        return -1;
+    }
 
     // Setup Audio
     int result = ShockAudio::Create( );
@@ -67,11 +95,14 @@ int ShockMain::Create( )
         return -1;
     }
 
-#ifdef MVSX
-    result = MVSXLed::Create( );
-    if ( result == -1 )
+#ifdef MVSX_ASP
+    if ( gActivePlatform == ActivePlatform_MVSX )
     {
-        flushPrintf( "ShockMain::Create() - WARNING, could not create LED. Not fatal, will continue.\r\n" );
+        result = MVSXLed::Create( );
+        if ( result == -1 )
+        {
+            flushPrintf( "ShockMain::Create() - WARNING, could not create LED. Not fatal, will continue.\r\n" );
+        }
     }
 #endif
 
@@ -94,9 +125,12 @@ void ShockMain::Destroy( )
     //flushPrintf( "ShockUI::Destroy\r\n" );
     ShockUI::Destroy( );
 
-#ifdef MVSX
+#ifdef MVSX_ASP
     //flushPrintf( "MVSXLed::Destroy\r\n" );
-    MVSXLed::Destroy( );
+    if ( gActivePlatform == ActivePlatform_MVSX )
+    {
+        MVSXLed::Destroy( );
+    }
 #endif
 
     //flushPrintf( "ShockRenderer::Destroy\r\n" );

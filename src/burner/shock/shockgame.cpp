@@ -12,7 +12,7 @@
 #include "shock/shockromloader.h"
 #include "shock/util/util.h"
 
-#ifdef MVSX
+#ifdef MVSX_ASP
 #include "shock/platform/core/mvsxled.h"
 #endif
 
@@ -40,6 +40,8 @@ int  ShockGame::mFBA_Timing_NumFramesTicked;
 OSTimer              ShockGame::mFBA_Timing_Timer;
 GameInputSwitchState ShockGame::mDiagnosticMode;
 GameInputSwitchState ShockGame::mReset;
+Thread               ShockGame::mGameStateThread;
+GameStateThreadArgs  ShockGame::mGameStateThreadArgs;
 
 //***Start Burn required implementations
 TCHAR szAppEEPROMPath[ MAX_PATH ];
@@ -131,9 +133,12 @@ LoadGameResult ShockGame::LoadGame( const char *pRomset )
 
     ShockPlayerInput::LoadFireInputs( ShockRomLoader::GetRomsetName( ) );
 
-#ifdef MVSX
-    MVSXLed::SetLED( 0, 0 );
-    MVSXLed::SetLED( 1, 0 );
+#ifdef MVSX_ASP
+    if ( gActivePlatform == ActivePlatform_MVSX )
+    {
+        MVSXLed::SetLED( 0, 0 );
+        MVSXLed::SetLED( 1, 0 );
+    }
 #endif
 
     mDiagnosticMode = GameInputSwitchState_None;
@@ -387,11 +392,11 @@ int ShockGame::PrepareAudio( )
         return -1;
     }
 
-#if defined MVSX || defined ASP
+#ifdef MVSX_ASP
     result = Audio::SetBufferLength( nBurnSoundLen );
     if ( result < 0 )
     {
-        flushPrintf( "ShockGame::PrepareAudio() - Failed to set MVSX buffer length.\r\n" );
+        flushPrintf( "ShockGame::PrepareAudio() - Failed to set MVSX/ASP buffer length.\r\n" );
         return -1;
     }
 #endif
@@ -510,48 +515,25 @@ void ShockGame::UpdateResetMode( )
     }
 }
 
-int ShockGame::LoadGameState( int stateSlot )
+void ShockGame::LoadGameState( int stateSlot, void ( *OnComplete )( int, void * ), void *pArg )
 {
-    char stateFilename[ MAX_PATH ] = { 0 };
-    snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), stateSlot );
-    int result = BurnStateLoad( stateFilename, 1, NULL );
-    return result;
+    memset( &mGameStateThreadArgs, 0, sizeof( mGameStateThreadArgs ) );
+
+    mGameStateThreadArgs.OnComplete = OnComplete;
+    mGameStateThreadArgs.pCallbackInstance = pArg;
+    mGameStateThreadArgs.stateSlot = stateSlot;
+    mGameStateThread.Create( ShockGame::LoadGameStateThread, (void *)stateSlot );
 }
 
-int ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage )
+void ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage, void ( *OnComplete )( int, void * ), void *pArg )
 {
-    char stateFilename[ MAX_PATH ] = { 0 };
-    snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), stateSlot );
-    int result = BurnStateSave( stateFilename, 1 );
+    memset( &mGameStateThreadArgs, 0, sizeof( mGameStateThreadArgs ) );
 
-    if ( result > -1 )
-    {
-        char thumbFilename[ MAX_PATH ] = { 0 };
-        snprintf( thumbFilename, MAX_PATH, "%s/%s%d.thumb", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), stateSlot );
-        FILE *pFile = fopen( thumbFilename, "wb" );
-        if ( pFile != NULL )
-        {
-            ShockRenderer::CreateThumbnail( (UINT16 *)mGameBackBuffer,
-                mGameWidth,
-                mGameHeight,
-                (UINT16 *)mThumbImageBuffer,
-                STATE_THUMBNAIL_WIDTH,
-                STATE_THUMBNAIL_HEIGHT,
-                mGameDriverFlags );
-
-            fwrite( mThumbImageBuffer, 1, sizeof( mThumbImageBuffer ), pFile );
-
-            // for convenience, if they want the game's screenshot, copy it
-            if ( pThumbImage != NULL )
-            {
-                memcpy( pThumbImage, mThumbImageBuffer, sizeof( mThumbImageBuffer ) );
-            }
-
-            fclose( pFile );
-        }
-    }
-
-    return result;
+    mGameStateThreadArgs.OnComplete = OnComplete;
+    mGameStateThreadArgs.pCallbackInstance = pArg;
+    mGameStateThreadArgs.stateSlot = stateSlot;
+    mGameStateThreadArgs.pThumbImage = pThumbImage;
+    mGameStateThread.Create( ShockGame::SaveGameStateThread, (void *)stateSlot );
 }
 
 int ShockGame::LoadGameStateThumbnail( int stateSlot, UINT16 *pThumbImage )
@@ -592,16 +574,8 @@ void ShockGame::ConfigurePaths( )
 {
     struct stat st = { 0 };
 
-    char path[ MAX_PATH ] = { 0 };
-    int result = getAssetDirectory( path, MAX_PATH );
-    if ( result == -1 )
-    {
-        flushPrintf( "ShockGame::ConfigurePaths() - ERROR, Unable to get asset path\r\n" );
-        return;
-    }
-
     // EEPROM
-    snprintf( szAppEEPROMPath, sizeof( szAppEEPROMPath ), "%s/%s", path, EEPROM_PATH );
+    snprintf( szAppEEPROMPath, sizeof( szAppEEPROMPath ), "%s/%s", gAssetPath, EEPROM_PATH );
     if ( stat( szAppEEPROMPath, &st ) == -1 )
     {
         int result = ShockCreateDir( szAppEEPROMPath );
@@ -612,7 +586,7 @@ void ShockGame::ConfigurePaths( )
     }
 
     // Hiscore
-    snprintf( szAppHiscorePath, sizeof( szAppHiscorePath ), "%s/%s", path, HISCORE_PATH );
+    snprintf( szAppHiscorePath, sizeof( szAppHiscorePath ), "%s/%s", gAssetPath, HISCORE_PATH );
     if ( stat( szAppHiscorePath, &st ) == -1 )
     {
         int result = ShockCreateDir( szAppHiscorePath );
@@ -624,7 +598,7 @@ void ShockGame::ConfigurePaths( )
 
     // JHM: TODO - Add these tables
     // Blend
-    snprintf( szAppBlendPath, sizeof( szAppBlendPath ), "%s/%s", path, BLEND_PATH );
+    snprintf( szAppBlendPath, sizeof( szAppBlendPath ), "%s/%s", gAssetPath, BLEND_PATH );
     if ( stat( szAppBlendPath, &st ) == -1 )
     {
         int result = ShockCreateDir( szAppBlendPath );
@@ -639,16 +613,8 @@ void ShockGame::CreateGameAssetFolder( )
 {
     struct stat st = { 0 };
 
-    char path[ MAX_PATH ] = { 0 };
-    int result = getAssetDirectory( path, MAX_PATH );
-    if ( result == -1 )
-    {
-        flushPrintf( "ShockGame::CreateGameFolder() - ERROR, Unable to get asset path\r\n" );
-        return;
-    }
-
     // Game Folder
-    snprintf( mGameAssetFolder, sizeof( mGameAssetFolder ), "%s/%s", path, ShockRomLoader::GetRomsetName( ) );
+    snprintf( mGameAssetFolder, sizeof( mGameAssetFolder ), "%s/%s", gAssetPath, ShockRomLoader::GetRomsetName( ) );
     if ( stat( mGameAssetFolder, &st ) == -1 )
     {
         int result = ShockCreateDir( mGameAssetFolder );
@@ -689,4 +655,54 @@ void ShockGame::InitHiscoreSupport( )
 
     // made it to the end; enable hiscore support
     EnableHiscores = 1;
+}
+
+
+void *ShockGame::LoadGameStateThread( void *pArg )
+{
+    char stateFilename[ MAX_PATH ] = { 0 };
+    snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
+    int result = BurnStateLoad( stateFilename, 1, NULL );
+
+    mGameStateThreadArgs.OnComplete( result, mGameStateThreadArgs.pCallbackInstance);
+
+    return NULL;
+}
+
+void *ShockGame::SaveGameStateThread( void *pArg )
+{
+    char stateFilename[ MAX_PATH ] = { 0 };
+    snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
+    int result = BurnStateSave( stateFilename, 1 );
+
+    if ( result > -1 )
+    {
+        char thumbFilename[ MAX_PATH ] = { 0 };
+        snprintf( thumbFilename, MAX_PATH, "%s/%s%d.thumb", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
+        FILE *pFile = fopen( thumbFilename, "wb" );
+        if ( pFile != NULL )
+        {
+            ShockRenderer::CreateThumbnail( (UINT16 *)mGameBackBuffer,
+                mGameWidth,
+                mGameHeight,
+                (UINT16 *)mThumbImageBuffer,
+                STATE_THUMBNAIL_WIDTH,
+                STATE_THUMBNAIL_HEIGHT,
+                mGameDriverFlags );
+
+            fwrite( mThumbImageBuffer, 1, sizeof( mThumbImageBuffer ), pFile );
+
+            // for convenience, if they want the game's screenshot, copy it
+            if ( mGameStateThreadArgs.pThumbImage != NULL )
+            {
+                memcpy( mGameStateThreadArgs.pThumbImage, mThumbImageBuffer, sizeof( mThumbImageBuffer ) );
+            }
+
+            fclose( pFile );
+        }
+    }
+
+    mGameStateThreadArgs.OnComplete( result, mGameStateThreadArgs.pCallbackInstance );
+
+    return NULL;
 }

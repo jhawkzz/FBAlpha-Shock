@@ -4,9 +4,6 @@
 #ifndef SHOCKRENDERER_H_
 #define SHOCKRENDERER_H_
 
-#define SCALE_BUFFER_WIDTH (512 * 2)
-#define SCALE_BUFFER_HEIGHT (512 * 2)
-
 #include "shock/shock.h"
 
 enum ShockDisplayMode
@@ -138,7 +135,6 @@ private:
 private:
 
     static UINT16 mRotateBuffer[ 512 * 512 ];
-    static UINT16 mScaleBuffer[ SCALE_BUFFER_WIDTH * SCALE_BUFFER_HEIGHT ];
 };
 
 #endif

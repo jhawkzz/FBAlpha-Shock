@@ -6,7 +6,7 @@
 HWND FrameBufferCore::mHwnd;
 HBITMAP FrameBufferCore::mHbitmap;
 UINT* FrameBufferCore::mpFrontBuffer;
-UINT16 FrameBufferCore::mBackBuffer[ FRAMEBUFFER_MAX_WIDTH * FRAMEBUFFER_MAX_HEIGHT ];
+UINT16 FrameBufferCore::mBackBuffer[ RESOLUTION_1280_WIDTH * RESOLUTION_1024_HEIGHT ];
 int FrameBufferCore::mWidth;
 int FrameBufferCore::mHeight;
 
@@ -38,7 +38,7 @@ void FrameBuffer::Destroy( )
 
 void FrameBuffer::ClearFrameBuffer( )
 {
-    memset( mBackBuffer, 0, FRAMEBUFFER_MAX_HEIGHT * FRAMEBUFFER_MAX_WIDTH * FRAMEBUFFER_BYTES_PP );
+    memset( mBackBuffer, 0, RESOLUTION_1024_HEIGHT * RESOLUTION_1280_WIDTH * FRAMEBUFFER_BYTES_PP );
 }
 
 UINT16 *FrameBuffer::GetBackBuffer( )
@@ -110,14 +110,8 @@ void FrameBufferCore::Blit()
     HDC hBitmapDC = CreateCompatibleDC(dc);
     HBITMAP oldObj = (HBITMAP) SelectObject(hBitmapDC, mHbitmap); 
 
-    // todo: add double buffering
-    //HBRUSH black = CreateSolidBrush( RGB( 20, 20, 20 ) );
-    //FillRect( dc, &rect, black );
-
-    int startX = (rect.right - mWidth) / 2;
-    int startY = ( rect.bottom - mHeight ) / 2;
-
-    BitBlt(dc, startX, startY, mWidth, mHeight, hBitmapDC, 0, 0, SRCCOPY);
+    // take the frame buffer and scale it to the max resolution; this simulates what the MVSX / ASP do.
+    StretchBlt( dc, 0, 0, RESOLUTION_1280_WIDTH, RESOLUTION_1024_HEIGHT, hBitmapDC, 0, 0, mWidth, mHeight, SRCCOPY );
 
     SelectObject(hBitmapDC, oldObj); 
 

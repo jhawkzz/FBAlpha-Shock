@@ -22,6 +22,8 @@ namespace
         /*P1_Button_4   = */0x44, // Keyboard D
         /*P1_Button_5   = */0x58, // Keyboard X
         /*P1_Button_6   = */0x43, // Keyboard C
+        /*P1_Button_7   = */0x00, // Not Mapped
+        /*P1_Button_8   = */0x00, // Not Mapped
 
         /*P2_Joy_Up     = */VK_HOME,  // Keyboard Home
         /*P2_Joy_Left   = */VK_DELETE,// Keyboard Delete
@@ -31,13 +33,14 @@ namespace
         /*P2_InsertCoin = */0x36, // Keyboard 6
         /*P2_Start      = */0x33, // Keyboard 2
 
-        
         /*P2_Button_1   = */0x48, // Keyboard H
         /*P2_Button_2   = */0x59, // Keyboard Y
         /*P2_Button_3   = */0x55, // Keyboard U
         /*P2_Button_4   = */0x49, // Keyboard I
         /*P2_Button_5   = */0x4a, // Keyboard J
         /*P2_Button_6   = */0x4b, // Keyboard K
+        /*P2_Button_7   = */0x00, // Not Mapped
+        /*P2_Button_8   = */0x00, // Not Mapped
     };
 };
 
