@@ -45,7 +45,7 @@ void scHashTableIterator<K, T, C>::FindNext(UINT32 start)
 }
 
 template <class K, class T, UINT32 C>
-typename scHashTable<K, T, C>::Entry *scHashTable<K, T, C>::AddEntry( K key, UINT32 hash )
+typename scHashTable<K, T, C>::Entry *scHashTable<K, T, C>::AddEntry( K key, NUINT hash )
 {
     Entry *entry = m_entries.Grow( );
     entry->hash = hash;
@@ -58,7 +58,7 @@ typename scHashTable<K, T, C>::Entry *scHashTable<K, T, C>::AddEntry( K key, UIN
 template <class K, class T, UINT32 C>
 T& scHashTable<K, T, C>::operator[](K key)
 {
-    UINT32 hash = scHash(key);
+    NUINT hash = scHash(key);
     UINT32 bucket = GetBucket(hash);
 
     Entry*& start = m_buckets[bucket];
@@ -87,17 +87,7 @@ scHashTableIterator<K, T, C> scHashTable<K, T, C>::Iterator()
 }
 
 template <class K, class T, UINT32 C>
-UINT32 scHashTable<K, T, C>::GetBucket(UINT32 hash) const
+UINT32 scHashTable<K, T, C>::GetBucket(NUINT hash) const
 {
     return hash % m_buckets.Capacity();
-}
-
-inline UINT32 scHash(const char* val)
-{
-    return scHash((void*) val);
-}
-
-inline UINT32 scHash(const void* val)
-{
-    return (UINT32)((NUINT)val & 0xffffffff);
 }

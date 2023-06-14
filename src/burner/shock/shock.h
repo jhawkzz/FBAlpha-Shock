@@ -12,6 +12,12 @@
 typedef unsigned char byte;
 
 #ifdef _WIN64
+    #define SHOCK_64BIT
+#else
+    #define SHOCK_32BIT
+#endif
+
+#ifdef SHOCK_64BIT
     typedef unsigned long long NUINT;
 #else
     typedef unsigned int NUINT;

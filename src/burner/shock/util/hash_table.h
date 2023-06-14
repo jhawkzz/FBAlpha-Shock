@@ -3,10 +3,8 @@
 
 #include "shock/shock.h"
 #include "shock/util/array.h"
+#include "shock/util/hash.h"
 #include "shock/util/util.h"
-
-inline UINT32 scHash(const char*);
-inline UINT32 scHash(const void*);
 
 template <class K, class T>
 struct scAssocEntry
@@ -26,7 +24,7 @@ struct scHashTableEntry
 
     scAssocEntry<K, T> assoc;
     scHashTableEntry<K, T>* next;
-    UINT32 hash;
+    NUINT hash;
 };
 
 template <class K, class T, UINT32 C>
@@ -69,14 +67,14 @@ public:
         memset(m_buckets.Data(), 0, m_buckets.Size() * sizeof(Entry*));
     }
 
-    Entry* AddEntry(K key, UINT32 hash);
+    Entry* AddEntry(K key, NUINT hash);
 
     T& operator[](K key);
 
     scHashTableIterator<K, T, C> Iterator();
 
 private:
-    UINT32 GetBucket(UINT32 hash) const;
+    UINT32 GetBucket(NUINT hash) const;
 
 private:
     Entry m_buffer[C];

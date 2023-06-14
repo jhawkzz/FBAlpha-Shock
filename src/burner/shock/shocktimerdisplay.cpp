@@ -1,6 +1,7 @@
 #include "shock/core/framebuffer.h"
 #include "shock/font/font.h"
 #include "shock/shocktimerdisplay.h"
+#include "shock/util/hash.h"
 
 namespace
 {
@@ -23,57 +24,71 @@ namespace
 
         c->y += c->fontHeight;
     }
+
+    NUINT Hash(scTreeNode<scTimer*>* node, NUINT seed)
+    {
+        return node ? Hash(node->parent, scHash((NUINT)node->val->Name(), seed)) : seed;
+    }
+
+    NUINT Hash(scTreeNode<scTimer*>* node)
+    {
+        return node ? Hash(node->parent, scHash((NUINT)node->val->Name(), scHashDefault)) : scHashDefault;
+    }
 };
 
-scTree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::m_tree;
-scHashTable<const char*, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::m_hash;
+scHashTable<NUINT, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::m_hash;
 
 void ShockTimerDisplay::Capture()
 {
     scTimerTree::TraverseDepth(NULL, CaptureNode);
+}
+
+void ShockTimerDisplay::Render()
+{
+    scTree<Value*, TimerCount> tree;
 
     static const float k = .1f;
 
     for (auto kv = m_hash.Iterator(); kv; ++kv)
     {
         scTreeNode<scTimer*>* s = kv.Val().source;
+        scTimer* timer = s->val;
+
+        Node& node = kv.Val();
+
+        if (!node.dest) 
+            node.dest = !s->parent ? tree.Head() : tree.Alloc();
+
+        Value& value = node.value;
+        value.ns = UINT(value.ns * (1 - k) + (timer->Time() * k));
+        value.name = timer->Name();
+    }
+
+    // associate all the tree nodes with each other
+    for (auto kv = m_hash.Iterator(); kv; ++kv)
+    {
+        scTreeNode<scTimer*>* s = kv.Val().source;
         scTreeNode<Value*>* d = kv.Val().dest;
 
-        scTimer* timer = s->val;
-        d->val->ns = d->val->ns * (1 - k) + (timer->Time() * k);
-        d->val->name = timer->Name();
-        d->parent = s->parent ? m_hash[s->parent->val->Name()].dest : NULL;
-        d->firstChild = s->firstChild ? m_hash[s->firstChild->val->Name()].dest : NULL; 
-        d->sibling = s->sibling ? m_hash[s->sibling->val->Name()].dest : NULL;
+        d->parent = s->parent ? m_hash[Hash(s->parent)].dest : NULL;
+        d->firstChild = s->firstChild ? m_hash[Hash(s->firstChild)].dest : NULL; 
+        d->sibling = s->sibling ? m_hash[Hash(s->sibling)].dest : NULL;
         d->depth = s->depth;
     }
-}
 
-void ShockTimerDisplay::Render()
-{
     PrintContext c;
     c.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
     c.fontHeight = MET_FONT_LETTER_HEIGHT;
     c.x = 16;
     c.y = 16;
 
-    m_tree.TraverseDepth(&c, PrintNode);
-    m_tree.Clear();
+    tree.TraverseDepth(&c, PrintNode);
 }
 
 void ShockTimerDisplay::CaptureNode(void*, scTreeNode<scTimer *> *source)
 {
-    Node& node = m_hash[source->val->Name()];
+    NUINT hash = Hash(source);
+
+    Node& node = m_hash[hash];
     node.source = source;
-
-    if (node.dest)
-       return;
-
-    // TODO: Make sure first one allocated from the tree is head
-    if (!source->parent)
-        node.dest = m_tree.Head();
-    else
-        node.dest = m_tree.Alloc();
-
-    node.dest->val = &node.value;
 }

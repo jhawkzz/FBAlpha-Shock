@@ -32,19 +32,19 @@ public:
     {
         Node()
             : source(NULL)
+            , dest(NULL)
         {}
 
         Value value;
-        scTreeNode<scTimer*>* source;
         scTreeNode<Value*>* dest;
+        scTreeNode<scTimer*>* source;
     };
 
 private:
     static void CaptureNode(void* data, scTreeNode<scTimer *> *node);
 
 private:
-    static scTree<Value*, TimerCount> m_tree;
-    static scHashTable<const char*, Node, TimerCount> m_hash;
+    static scHashTable<NUINT, Node, TimerCount> m_hash;
 
 };
 
