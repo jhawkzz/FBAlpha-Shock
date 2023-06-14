@@ -1164,9 +1164,6 @@
     <ClInclude Include="..\..\src\dep\generated\neo_sprite_func_table.h">
       <Filter>dep\generated</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\dep\generated\nosmsgg_driverlist.h">
-      <Filter>dep\generated</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\dep\generated\pgm_sprite.h">
       <Filter>dep\generated</Filter>
     </ClInclude>

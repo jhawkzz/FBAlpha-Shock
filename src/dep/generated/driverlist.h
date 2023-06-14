@@ -2964,6 +2964,8 @@ DRV		BurnDrvHunchbks;
 DRV		BurnDrvHncholms;
 DRV		BurnDrvmd_hurrican;
 DRV		BurnDrvmd_hyokkohj;
+DRV		BurnDrvLooptris;
+DRV		BurnDrvHypernoid;
 DRV		BurnDrvHcrashc;
 DRV		BurnDrvHcrash;
 DRV		BurnDrvmd_hyperdnk;
@@ -4335,6 +4337,7 @@ DRV		BurnDrvneothndr;
 DRV		BurnDrvturfmast;
 DRV		BurnDrvNeocup98;
 DRV		BurnDrvneotet;
+DRV		BurnDrvneotris;
 DRV		BurnDrvneo3ddmo;
 DRV		BurnDrvpce_neutopia;
 DRV		BurnDrvtg_neutopia;
@@ -5292,6 +5295,7 @@ DRV		BurnDrvRbisland;
 DRV		BurnDrvRbislando;
 DRV		BurnDrvmd_rbisland;
 DRV		BurnDrvRallybik;
+DRV		BurnDrvrallych;
 DRV		BurnDrvRallyxa;
 DRV		BurnDrvRallyx;
 DRV		BurnDrvRallyxm;
@@ -7299,6 +7303,7 @@ DRV		BurnDrvmd_supshin2;
 DRV		BurnDrvmd_supshin2p1;
 DRV		BurnDrvmd_supshin2p2;
 DRV		BurnDrvSuperspy;
+DRV		BurnDrvTeot;
 DRV		BurnDrvmd_termintr;
 DRV		BurnDrvmd_termintru;
 DRV		BurnDrvmd_tick;
@@ -8234,6 +8239,7 @@ DRV		BurnDrvXsleenaba;		// no comment
 DRV		BurnDrvXsleenaj;
 DRV		BurnDrvXsleena;
 DRV		BurnDrvmd_xdr;
+DRV     BurnDrvxenocrisis;
 DRV		BurnDrvmd_xenon2;
 DRV		BurnDrvThreein1semi;
 DRV		BurnDrvpce_xevious;
@@ -11312,6 +11318,7 @@ static struct BurnDriver* pDriver[] = {
 	&BurnDrvHncholms,			// Hunchback Olympic (Scramble hardware)
 	&BurnDrvmd_hurrican,		// Hurricanes (Euro)
 	&BurnDrvmd_hyokkohj,		// Hyokkori Hyoutan Jima - Daitouryou o Mezase! (Jpn)
+	&BurnDrvHypernoid,			// Hypernoid
 	&BurnDrvHcrashc,			// Hyper Crash (version C)
 	&BurnDrvHcrash,				// Hyper Crash (version D)
 	&BurnDrvmd_hyperdnk,		// Hyper Dunk (Euro)
@@ -11948,6 +11955,7 @@ static struct BurnDriver* pDriver[] = {
 	&BurnDrvLogicpr2,			// Logic Pro 2 (Japan)
 	&BurnDrvmd_long,			// Long (Chi) [no comment, NOT WORKING]
 	&BurnDrvLooper,				// Looper
+	&BurnDrvLooptris,			// Looptris
 	&BurnDrvmd_lordmon,			// Lord Monarch - Tokoton Sentou Densetsu (Jpn)
 	&BurnDrvLordgun,			// Lord of Gun (USA)
 	&BurnDrvmd_lotr,			// Lord of the Rings (Rus, Hack of Stormlord)
@@ -12683,6 +12691,7 @@ static struct BurnDriver* pDriver[] = {
 	&BurnDrvturfmast,			// Neo Turf Masters / Big Tournament Golf
 	&BurnDrvNeocup98,			// Neo-Geo Cup '98 - The Road to the Victory
 	&BurnDrvneotet,				// NeoGeo 2-Player Tetris
+	&BurnDrvneotris,			// NeoTRIS
 	&BurnDrvneo3ddmo,			// NeoGeo 3D! Demo
 	&BurnDrvpce_neutopia,		// Neutopia
 	&BurnDrvtg_neutopia,		// Neutopia
@@ -13640,6 +13649,7 @@ static struct BurnDriver* pDriver[] = {
 	&BurnDrvRbislando,			// Rainbow Islands (old version)
 	&BurnDrvmd_rbisland,		// Rainbow Islands Extra (Jpn)
 	&BurnDrvRallybik,			// Rally Bike / Dash Yarou
+	&BurnDrvrallych,			// Rally Chase 
 	&BurnDrvRallyxa,			// Rally X
 	&BurnDrvRallyx,				// Rally X (32k Ver.?)
 	&BurnDrvRallyxm,			// Rally X (Midway)
@@ -15647,6 +15657,7 @@ static struct BurnDriver* pDriver[] = {
 	&BurnDrvmd_supshin2p1,		// The Super Shinobi II (Jpn, Prototype)
 	&BurnDrvmd_supshin2p2,		// The Super Shinobi II (Jpn, Prototype, Earlier)
 	&BurnDrvSuperspy,			// The Super Spy (NGM-011)(NGH-011)
+	&BurnDrvTeot,				// The Eye of Typhoon (Beta 7 Version)
 	&BurnDrvmd_termintr,		// The Terminator (Euro)
 	&BurnDrvmd_termintru,		// The Terminator (USA)
 	&BurnDrvmd_tick,			// The Tick (USA)
@@ -16582,6 +16593,7 @@ static struct BurnDriver* pDriver[] = {
 	&BurnDrvXsleenaj,			// Xain'd Sleena (Japan)
 	&BurnDrvXsleena,			// Xain'd Sleena (World)
 	&BurnDrvmd_xdr,				// XDR - X Dazedly Ray (Jpn)
+	&BurnDrvxenocrisis,			// Xenocrisis
 	&BurnDrvmd_xenon2,			// Xenon 2 - Megablast (Euro)
 	&BurnDrvThreein1semi,		// XESS - The New Revolution (SemiCom 3-in-1)
 	&BurnDrvpce_xevious,		// Xevious - Fardraut Densetsu

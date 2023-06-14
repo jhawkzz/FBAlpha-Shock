@@ -392,7 +392,6 @@
     <ClInclude Include="..\..\src\dep\generated\driverlist.h" />
     <ClInclude Include="..\..\src\dep\generated\neo_sprite_func.h" />
     <ClInclude Include="..\..\src\dep\generated\neo_sprite_func_table.h" />
-    <ClInclude Include="..\..\src\dep\generated\nosmsgg_driverlist.h" />
     <ClInclude Include="..\..\src\dep\generated\pgm_sprite.h" />
     <ClInclude Include="..\..\src\dep\generated\psikyo_tile_func.h" />
     <ClInclude Include="..\..\src\dep\generated\psikyo_tile_func_table.h" />
