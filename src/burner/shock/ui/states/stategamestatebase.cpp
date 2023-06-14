@@ -18,7 +18,7 @@ void StateGameStateBase::Create( )
     mMenuItemFullWidth = Font::MeasureStringWidth( "Slot 8" ) + THUMB_IMAGE_SPACING + STATE_THUMBNAIL_WIDTH;
 
     int xPos = UI_X_POS_MENU;
-    int yPos = UI_Y_POS_MENU + STATE_THUMBNAIL_HEIGHT / 2;
+    int yPos = UI_Y_POS_MENU + UI_ROW_HEIGHT + ( STATE_THUMBNAIL_HEIGHT / 2 );
     int i = 0;
     for ( i = 0; i < MAX_SAVE_STATES / 2; i++ )
     {
@@ -39,7 +39,7 @@ void StateGameStateBase::Create( )
     }
 
     xPos = UI_WIDTH - mMenuItemFullWidth - UI_X_POS_MENU;
-    yPos = UI_Y_POS_MENU + STATE_THUMBNAIL_HEIGHT / 2;
+    yPos = UI_Y_POS_MENU + UI_ROW_HEIGHT + ( STATE_THUMBNAIL_HEIGHT / 2 );
     for ( ; i < MAX_SAVE_STATES; i++ )
     {
         char menuTitle[ MAX_PATH ] = { 0 };
@@ -63,12 +63,13 @@ void StateGameStateBase::Create( )
     memset( mStateThumb, 0, sizeof( mStateThumb ) );
     memset( mStateExists, 0, sizeof( mStateExists ) );
 
-    mMenuSelection       = 0;
+    mMenuSelection = 0;
     mSaveLoadThreadState = SaveLoadThreadState_None;
-    mSaveLoadResult      = 0;
+    mSaveLoadResult = 0;
 
-    mHeaderColorLetterIndex = 0;
+    mAnimationColorLetterIndex = 0;
     mAnimationTimerMS = 0;
+    mProcessingUITimerMS = 0;
 }
 
 void StateGameStateBase::Destroy( )
@@ -91,10 +92,11 @@ void StateGameStateBase::EnterState( UIState oldState )
     }
 
     mSaveLoadThreadState = SaveLoadThreadState_None;
-    mSaveLoadResult      = 0;
+    mSaveLoadResult = 0;
 
-    mHeaderColorLetterIndex = 0;
+    mAnimationColorLetterIndex = 0;
     mAnimationTimerMS = 0;
+    mProcessingUITimerMS = 0;
 }
 
 void StateGameStateBase::ExitState( UIState newState )
@@ -106,7 +108,9 @@ UIState StateGameStateBase::Update( )
 {
     UIBaseState::Update( );
 
-    if ( mSaveLoadThreadState == SaveLoadThreadState_None )
+    // dont allow any processing while we're showing the processing UI
+    if ( mSaveLoadThreadState == SaveLoadThreadState_None
+        && mProcessingUITimerMS < gGlobalTimer.GetElapsedTimeMicroseconds( ) )
     {
         // check for menu navigation
         if ( ShockInput::GetInput( P1_Joy_Down )->WasReleased( ) )
@@ -145,37 +149,47 @@ UIState StateGameStateBase::Update( )
     }
 }
 
-void StateGameStateBase::DrawMenu( const char *pHeader )
+void StateGameStateBase::ShowProcessingUI( )
 {
-    // Header
-    if ( mSaveLoadThreadState == SaveLoadThreadState_Running )
+    mAnimationColorLetterIndex = 0;
+    mAnimationTimerMS = 0;
+    mSaveLoadThreadState = SaveLoadThreadState_Running;
+    mProcessingUITimerMS = gGlobalTimer.GetElapsedTimeMicroseconds( ) + 1 * SEC_TO_MICROSECONDS;
+}
+
+void StateGameStateBase::DrawMenu( const char *pHeader, const char *pProcessingStr )
+{
+    // Render the processing header for whatever comes later, the load completing or our timer finishing
+    if ( mSaveLoadThreadState == SaveLoadThreadState_Running || mProcessingUITimerMS > gGlobalTimer.GetElapsedTimeMicroseconds( ) )
     {
-        int headerLen = strlen( pHeader );
+        UIBaseState::RenderTitle( pHeader );
+
+        int textStrLen = strlen( pProcessingStr );
         if ( mAnimationTimerMS < gGlobalTimer.GetElapsedTimeMicroseconds( ) )
         {
             mAnimationTimerMS = gGlobalTimer.GetElapsedTimeMicroseconds( ) + 50 * MILLI_TO_MICROSECONDS;
-            mHeaderColorLetterIndex = ( mHeaderColorLetterIndex + 1 ) % headerLen;
+            mAnimationColorLetterIndex = ( mAnimationColorLetterIndex + 1 ) % textStrLen;
         }
 
         int whiteColor = 0xFFFF;
         int hilightColor = UI_COLOR_ENABLED;
 
-        int headerLength = Font::MeasureStringWidth( pHeader, FontType_Upheaval );
-        int xPos = ( UI_WIDTH - headerLength ) / 2;
+        int fontLength = Font::MeasureStringWidth( pProcessingStr, FontType_Upheaval );
+        int xPos = ( UI_WIDTH - fontLength ) / 2;
 
-        for ( int i = 0; i < headerLen; i++ )
+        for ( int i = 0; i < textStrLen; i++ )
         {
             int letterColor = whiteColor;
-            if ( mHeaderColorLetterIndex < headerLen && mHeaderColorLetterIndex == i )
+            if ( mAnimationColorLetterIndex < textStrLen && mAnimationColorLetterIndex == i )
             {
                 letterColor = hilightColor;
             }
 
             char letterStr[ MAX_PATH ] = { 0 };
-            letterStr[ 0 ] = pHeader[ i ];
+            letterStr[ 0 ] = pProcessingStr[ i ];
             UIRenderer::DrawText( letterStr,
                 xPos,
-                UI_Y_POS_HEADER_TITLE,
+                500,
                 letterColor,
                 FontType_Upheaval );
 
@@ -185,51 +199,52 @@ void StateGameStateBase::DrawMenu( const char *pHeader )
     else
     {
         UIBaseState::RenderTitle( pHeader );
-    }
 
-    // Render List of states
-    int titleWidth = Font::MeasureStringWidth( mMenuItemList[ 0 ].GetText( ) );
-
-    for ( int i = 0; i < MAX_SAVE_STATES; i++ )
-    {
-        if ( mStateExists[ i ] )
+        // Result
+        if ( mResultStr[ 0 ] != 0 )
         {
-            UIRenderer::DrawSprite( mStateThumb[ i ],
-                mMenuItemList[ i ].GetXPos( ) + titleWidth + THUMB_IMAGE_SPACING,
-                mMenuItemList[ i ].GetYPos( ) - STATE_THUMBNAIL_HEIGHT / 2,
-                STATE_THUMBNAIL_WIDTH,
-                STATE_THUMBNAIL_HEIGHT );
-            mMenuItemList[ i ].SetColor( UI_COLOR_ENABLED );
-        }
-        else
-        {
-            UIRenderer::DrawSprite( mStateBlankImg,
-                mMenuItemList[ i ].GetXPos( ) + titleWidth + THUMB_IMAGE_SPACING,
-                mMenuItemList[ i ].GetYPos( ) - STATE_THUMBNAIL_HEIGHT / 2,
-                STATE_THUMBNAIL_WIDTH,
-                STATE_THUMBNAIL_HEIGHT );
-            mMenuItemList[ i ].SetColor( 0xFFFF );
+            int resXPos = UIBaseState::GetCenteredXPos( mResultStr );
+            UIRenderer::DrawText( mResultStr, resXPos, UI_Y_POS_MENU, 0xFFFF );
         }
 
-        mMenuItemList[ i ].Draw( );
+        // Render List of states
+        int titleWidth = Font::MeasureStringWidth( mMenuItemList[ 0 ].GetText( ) );
+
+        for ( int i = 0; i < MAX_SAVE_STATES; i++ )
+        {
+            if ( mStateExists[ i ] )
+            {
+                UIRenderer::DrawSprite( mStateThumb[ i ],
+                    mMenuItemList[ i ].GetXPos( ) + titleWidth + THUMB_IMAGE_SPACING,
+                    mMenuItemList[ i ].GetYPos( ) - STATE_THUMBNAIL_HEIGHT / 2,
+                    STATE_THUMBNAIL_WIDTH,
+                    STATE_THUMBNAIL_HEIGHT );
+                mMenuItemList[ i ].SetColor( UI_COLOR_ENABLED );
+            }
+            else
+            {
+                UIRenderer::DrawSprite( mStateBlankImg,
+                    mMenuItemList[ i ].GetXPos( ) + titleWidth + THUMB_IMAGE_SPACING,
+                    mMenuItemList[ i ].GetYPos( ) - STATE_THUMBNAIL_HEIGHT / 2,
+                    STATE_THUMBNAIL_WIDTH,
+                    STATE_THUMBNAIL_HEIGHT );
+                mMenuItemList[ i ].SetColor( 0xFFFF );
+            }
+
+            mMenuItemList[ i ].Draw( );
+        }
+
+        // Cursor
+        UIBaseState::RenderMenuCursor( mMenuItemList[ mMenuSelection ].GetXPos( ),
+            mMenuItemList[ mMenuSelection ].GetYPos( ) );
+
+        UIBaseState::RenderBackOption( "Return" );
     }
 
-    // Result
-    if ( mResultStr[ 0 ] != 0 )
-    {
-        int resXPos = UIBaseState::GetCenteredXPos( mResultStr );
-        UIRenderer::DrawText( mResultStr, resXPos, UI_HEIGHT - 100, 0xFFFF );
-    }
-
-    // Cursor
-    UIBaseState::RenderMenuCursor( mMenuItemList[ mMenuSelection ].GetXPos( ),
-        mMenuItemList[ mMenuSelection ].GetYPos( ) );
-
-    UIBaseState::RenderBackOption( "Return" );
 }
 
 void StateGameStateBase::OnSaveLoadComplete( int result )
 {
-    mSaveLoadResult      = result;
+    mSaveLoadResult = result;
     mSaveLoadThreadState = SaveLoadThreadState_Complete;
 }

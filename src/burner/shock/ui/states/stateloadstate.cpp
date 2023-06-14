@@ -1,6 +1,7 @@
 
 // See License.md for license
 
+#include "shock/core/ostimer.h"
 #include "shock/ui/states/stateloadstate.h"
 #include "shock/input/shockinput.h"
 #include "shock/shockgame.h"
@@ -27,19 +28,20 @@ void StateLoadState::ExitState( UIState newState )
 
 void StateLoadState_OnComplete( int result, void *pInstance )
 {
-    ((StateLoadState*)pInstance)->OnSaveLoadComplete( result );
+    ( (StateLoadState *)pInstance )->OnSaveLoadComplete( result );
 }
 
 UIState StateLoadState::Update( )
 {
-    if ( mSaveLoadThreadState == SaveLoadThreadState_None )
+    // dont allow input while showing the processing ui
+    if ( mSaveLoadThreadState == SaveLoadThreadState_None
+        && mProcessingUITimerMS < gGlobalTimer.GetElapsedTimeMicroseconds( ) )
     {
         if ( ShockInput::GetInput( P1_Button_1 )->WasReleased( ) )
         {
             if ( mStateExists[ mMenuSelection ] )
             {
-                mSaveLoadThreadState = SaveLoadThreadState_Running;
-
+                ShowProcessingUI( );
                 ShockGame::LoadGameState( mMenuSelection, StateLoadState_OnComplete, this );
             }
         }
@@ -58,10 +60,10 @@ UIState StateLoadState::Update( )
         }
 
         mSaveLoadThreadState = SaveLoadThreadState_None;
-        mSaveLoadResult      = 0;
+        mSaveLoadResult = 0;
     }
 
-    StateGameStateBase::DrawMenu( "LOAD STATE" );
+    StateGameStateBase::DrawMenu( "LOAD STATE", "LOADING..." );
 
     return StateGameStateBase::Update( );
 }

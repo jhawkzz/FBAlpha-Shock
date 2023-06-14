@@ -1,6 +1,7 @@
 
 // See License.md for license
 
+#include "shock/core/ostimer.h"
 #include "shock/shockgame.h"
 #include "shock/input/shockinput.h"
 #include "shock/ui/render/uirenderer.h"
@@ -37,14 +38,13 @@ void StateSaveState_OnComplete( int result, void *pInstance )
 
 UIState StateSaveState::Update( )
 {
-    if ( mSaveLoadThreadState == SaveLoadThreadState_None )
+    // dont allow input while showing the processing ui
+    if ( mSaveLoadThreadState == SaveLoadThreadState_None
+        && mProcessingUITimerMS < gGlobalTimer.GetElapsedTimeMicroseconds( ) )
     {
         if ( ShockInput::GetInput( P1_Button_1 )->WasReleased( ) )
         {
-            mHeaderColorLetterIndex = 0;
-            mAnimationTimerMS = 0;
-            mSaveLoadThreadState = SaveLoadThreadState_Running;
-
+            ShowProcessingUI( );
             ShockGame::SaveGameState( mMenuSelection, mStateThumbBuffer, StateSaveState_OnComplete, this );
         }
     }
@@ -56,7 +56,7 @@ UIState StateSaveState::Update( )
         {
             memcpy( mStateThumb[ mMenuSelection ], mStateThumbBuffer, sizeof( mStateThumbBuffer ) );
             mStateExists[ mMenuSelection ] = 1;
-            memset( mResultStr, 0, sizeof( mResultStr ) );   
+            snprintf( mResultStr, sizeof( mResultStr ), "State for slot %d saved. Return to game to continue.", mMenuSelection + 1 );
         }
         else
         {
@@ -69,7 +69,7 @@ UIState StateSaveState::Update( )
         mSaveLoadResult = 0;
     }
 
-    StateGameStateBase::DrawMenu( "SAVE STATE" );
+    StateGameStateBase::DrawMenu( "SAVE STATE", "SAVING..." );
 
     return StateGameStateBase::Update( );
 }

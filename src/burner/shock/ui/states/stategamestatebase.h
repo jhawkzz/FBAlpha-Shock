@@ -31,7 +31,8 @@ public:
     void    OnSaveLoadComplete( int result );
 
 protected:
-    void DrawMenu( const char *pHeader );
+    void ShowProcessingUI( );
+    void DrawMenu( const char *pHeader, const char *pProcessingStr );
 
     int          mNumMenuItems;
     MenuItem     mMenuItemList[ MAX_MENU_ITEMS ];
@@ -46,8 +47,9 @@ protected:
     int                 mSaveLoadResult;
     SaveLoadThreadState mSaveLoadThreadState;
     
-    int                 mHeaderColorLetterIndex;
+    int                 mAnimationColorLetterIndex;
     int                 mAnimationTimerMS;
+    int                 mProcessingUITimerMS;
 };
 
 #endif
