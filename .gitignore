@@ -20,4 +20,5 @@ projects/windows/.vs/
 projects/windows/*.user
 projects/windows/bin/
 projects/windows/obj/
-
+extras/bmpconvert/bmpconvert-win/x64/
+ extras/bmpconvert/bmpconvert-win/.vs/
