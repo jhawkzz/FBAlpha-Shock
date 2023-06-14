@@ -52,7 +52,7 @@ UIState StateSaveState::Update( )
     // watch for completion
     if ( mSaveLoadThreadState == SaveLoadThreadState_Complete )
     {
-        if ( mSaveLoadResult != -1 )
+        if ( mSaveLoadResult == 1 )
         {
             memcpy( mStateThumb[ mMenuSelection ], mStateThumbBuffer, sizeof( mStateThumbBuffer ) );
             mStateExists[ mMenuSelection ] = 1;

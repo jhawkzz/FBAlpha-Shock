@@ -50,7 +50,7 @@ UIState StateLoadState::Update( )
     // watch for completion
     if ( mSaveLoadThreadState == SaveLoadThreadState_Complete )
     {
-        if ( mSaveLoadResult == 0 )
+        if ( mSaveLoadResult == 1 )
         {
             snprintf( mResultStr, sizeof( mResultStr ), "State for slot %d loaded. Return to game to continue.", mMenuSelection + 1 );
         }

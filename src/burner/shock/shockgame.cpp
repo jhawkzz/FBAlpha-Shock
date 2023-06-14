@@ -664,45 +664,59 @@ void *ShockGame::LoadGameStateThread( void *pArg )
     snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
     int result = BurnStateLoad( stateFilename, 1, NULL );
 
-    mGameStateThreadArgs.OnComplete( result, mGameStateThreadArgs.pCallbackInstance);
+    mGameStateThreadArgs.OnComplete( result == 0 ? 1 : 0, mGameStateThreadArgs.pCallbackInstance);
 
     return NULL;
 }
 
 void *ShockGame::SaveGameStateThread( void *pArg )
 {
+    int success = 0;
+
     char stateFilename[ MAX_PATH ] = { 0 };
     snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
     int result = BurnStateSave( stateFilename, 1 );
 
-    if ( result > -1 )
+    // 0 means it worked or didn't create one at all
+    if ( result == 0 )
     {
-        char thumbFilename[ MAX_PATH ] = { 0 };
-        snprintf( thumbFilename, MAX_PATH, "%s/%s%d.thumb", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
-        FILE *pFile = fopen( thumbFilename, "wb" );
+        // make sure it exists
+        FILE *pFile = fopen( stateFilename, "rb" );
         if ( pFile != NULL )
         {
-            ShockRenderer::CreateThumbnail( (UINT16 *)mGameBackBuffer,
-                mGameWidth,
-                mGameHeight,
-                (UINT16 *)mThumbImageBuffer,
-                STATE_THUMBNAIL_WIDTH,
-                STATE_THUMBNAIL_HEIGHT,
-                mGameDriverFlags );
-
-            fwrite( mThumbImageBuffer, 1, sizeof( mThumbImageBuffer ), pFile );
-
-            // for convenience, if they want the game's screenshot, copy it
-            if ( mGameStateThreadArgs.pThumbImage != NULL )
-            {
-                memcpy( mGameStateThreadArgs.pThumbImage, mThumbImageBuffer, sizeof( mThumbImageBuffer ) );
-            }
-
+            // it exists; create the thumbnail
             fclose( pFile );
+            pFile = NULL;
+
+            char thumbFilename[ MAX_PATH ] = { 0 };
+            snprintf( thumbFilename, MAX_PATH, "%s/%s%d.thumb", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
+            FILE *pFile = fopen( thumbFilename, "wb" );
+            if ( pFile != NULL )
+            {
+                ShockRenderer::CreateThumbnail( (UINT16 *)mGameBackBuffer,
+                    mGameWidth,
+                    mGameHeight,
+                    (UINT16 *)mThumbImageBuffer,
+                    STATE_THUMBNAIL_WIDTH,
+                    STATE_THUMBNAIL_HEIGHT,
+                    mGameDriverFlags );
+
+                fwrite( mThumbImageBuffer, 1, sizeof( mThumbImageBuffer ), pFile );
+
+                // for convenience, if they want the game's screenshot, copy it
+                if ( mGameStateThreadArgs.pThumbImage != NULL )
+                {
+                    memcpy( mGameStateThreadArgs.pThumbImage, mThumbImageBuffer, sizeof( mThumbImageBuffer ) );
+                }
+
+                fclose( pFile );
+
+                success = 1;
+            }
         }
     }
 
-    mGameStateThreadArgs.OnComplete( result, mGameStateThreadArgs.pCallbackInstance );
+    mGameStateThreadArgs.OnComplete( success, mGameStateThreadArgs.pCallbackInstance );
 
     return NULL;
 }
