@@ -50,10 +50,8 @@ void ShockTimerDisplay::Capture()
     {
         Node& node = *m_added[i];
 
-        scTreeNode<scTimer*>* s = node.source;
         scTreeNode<Value*>* d = node.dest;
-
-        scTreeNode<Value*>* parent = s->parent ? m_hash[Hash(s->parent)].dest : NULL;
+        scTreeNode<Value*>* parent = (node.parent != scHashDefault) ? m_hash[node.parent].dest : NULL;
         if (!parent)
             continue;
 
@@ -79,7 +77,7 @@ void ShockTimerDisplay::CaptureNode(void*, scTreeNode<scTimer *> *source)
     NUINT hash = Hash(source);
 
     Node& node = m_hash[hash];
-    node.source = source;
+    node.parent = Hash(source->parent);
 
     scTimer* timer = source->val;
 

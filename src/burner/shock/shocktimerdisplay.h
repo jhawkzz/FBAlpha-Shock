@@ -32,12 +32,12 @@ public:
     {
         Node()
             : dest(NULL)
-            , source(NULL)
+            , parent(scHashDefault)
         {}
 
         Value value;
         scTreeNode<Value*>* dest;
-        scTreeNode<scTimer*>* source;
+        NUINT parent;
     };
 
 private:
