@@ -33,13 +33,11 @@ public:
         Node()
             : dest(NULL)
             , source(NULL)
-            , frame(0)
         {}
 
         Value value;
         scTreeNode<Value*>* dest;
         scTreeNode<scTimer*>* source;
-        UINT32 frame;
     };
 
 private:
@@ -48,7 +46,7 @@ private:
 private:
     static scHashTable<NUINT, Node, TimerCount> m_hash;
     static scTree<Value*, TimerCount> m_tree;
-    static UINT32 m_frame;
+    static scArray<ShockTimerDisplay::Node*, TimerCount> m_added;
 };
 
 #endif

@@ -28,6 +28,8 @@ public:
    UINT32 Capacity() const { return m_capacity; }
    T* Data() const { return m_data; }
 
+   void Clear() { m_size = 0; }
+
    T& operator[](UINT32 i) const { SC_ASSERT(i < Size()); return m_data[i]; }
 
    operator scSpan<const T>() { return scSpan<const T>((const T*)Data(), Size(), Capacity()); }

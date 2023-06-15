@@ -38,31 +38,29 @@ namespace
 
 scHashTable<NUINT, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::m_hash;
 scTree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::m_tree;
-UINT32 ShockTimerDisplay::m_frame;
+scArray<ShockTimerDisplay::Node*, TimerCount> ShockTimerDisplay::m_added;
 
 void ShockTimerDisplay::Capture()
 {
-    m_tree.Clear();
+    //m_tree.Clear();
     scTimerTree::TraverseDepth(NULL, CaptureNode);
 
     // associate all the tree nodes with each other
-    for (auto kv = m_hash.Iterator(); kv; ++kv)
+    for (UINT32 i = 0; i < m_added.Size(); i++)
     {
-        Node& node = kv.Val();
-
-        if (node.frame != m_frame)
-            continue;
+        Node& node = *m_added[i];
 
         scTreeNode<scTimer*>* s = node.source;
         scTreeNode<Value*>* d = node.dest;
 
-        d->parent = s->parent ? m_hash[Hash(s->parent)].dest : NULL;
-        d->firstChild = s->firstChild ? m_hash[Hash(s->firstChild)].dest : NULL; 
-        d->sibling = s->sibling ? m_hash[Hash(s->sibling)].dest : NULL;
-        d->depth = s->depth;
+        scTreeNode<Value*>* parent = s->parent ? m_hash[Hash(s->parent)].dest : NULL;
+        if (!parent)
+            continue;
+
+        parent->AddChild(d);
     }
 
-    ++m_frame;
+    m_added.Clear();
 }
 
 void ShockTimerDisplay::Render()
@@ -81,7 +79,6 @@ void ShockTimerDisplay::CaptureNode(void*, scTreeNode<scTimer *> *source)
     NUINT hash = Hash(source);
 
     Node& node = m_hash[hash];
-    node.frame = m_frame;
     node.source = source;
 
     scTimer* timer = source->val;
@@ -92,6 +89,11 @@ void ShockTimerDisplay::CaptureNode(void*, scTreeNode<scTimer *> *source)
     static const float k = .1f;
     value.ns = UINT(value.ns * (1 - k) + (timer->Time() * k));
 
-    node.dest = !source->parent ? m_tree.Head() : m_tree.Alloc();
-    node.dest->val = &value;
+    if (!node.dest)
+    {
+        node.dest = !source->parent ? m_tree.Head() : m_tree.Alloc();
+        node.dest->val = &value;
+
+        m_added.Append(&node);
+    }
 }

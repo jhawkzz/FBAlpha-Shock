@@ -246,7 +246,7 @@ void ShockGame::Update( )
         pBurnDraw = NULL;
 
         {
-            SHOCK_PROFILE_SCOPE(BurnerFrame);
+            SHOCK_PROFILE_SCOPE(BurnDrvFrame_Bypass);
             BurnDrvFrame( );
         }
 
@@ -266,7 +266,7 @@ void ShockGame::Update( )
         pBurnDraw = (uint8_t *)ShockGame::mGameBackBuffer;
 
         {
-            SHOCK_PROFILE_SCOPE(_BurnDrvFrame);
+            SHOCK_PROFILE_SCOPE(BurnDrvFrame_Draw);
             BurnDrvFrame( );
         }
 

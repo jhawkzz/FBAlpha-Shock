@@ -9,7 +9,7 @@ class scArray : public scSpan<T>
 {
 public:
    scArray()
-   : scSpan<T>(m_buffer, C, C)
+   : scSpan<T>(m_buffer, 0, C)
    {}   
 
 public:

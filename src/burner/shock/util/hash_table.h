@@ -64,7 +64,7 @@ public:
     scHashTable()
         : m_entries(m_buffer, 0, C)
     {
-        memset(m_buckets.Data(), 0, m_buckets.Size() * sizeof(Entry*));
+        m_buckets.Fill(0, 0, m_buckets.Capacity());
     }
 
     Entry* AddEntry(K key, NUINT hash);
