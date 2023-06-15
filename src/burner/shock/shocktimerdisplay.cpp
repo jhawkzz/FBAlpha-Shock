@@ -37,38 +37,24 @@ namespace
 };
 
 scHashTable<NUINT, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::m_hash;
+scTree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::m_tree;
+UINT32 ShockTimerDisplay::m_frame;
 
 void ShockTimerDisplay::Capture()
 {
+    m_tree.Clear();
     scTimerTree::TraverseDepth(NULL, CaptureNode);
-}
-
-void ShockTimerDisplay::Render()
-{
-    scTree<Value*, TimerCount> tree;
-
-    static const float k = .1f;
-
-    for (auto kv = m_hash.Iterator(); kv; ++kv)
-    {
-        scTreeNode<scTimer*>* s = kv.Val().source;
-        scTimer* timer = s->val;
-
-        Node& node = kv.Val();
-
-        if (!node.dest) 
-            node.dest = !s->parent ? tree.Head() : tree.Alloc();
-
-        Value& value = node.value;
-        value.ns = UINT(value.ns * (1 - k) + (timer->Time() * k));
-        value.name = timer->Name();
-    }
 
     // associate all the tree nodes with each other
     for (auto kv = m_hash.Iterator(); kv; ++kv)
     {
-        scTreeNode<scTimer*>* s = kv.Val().source;
-        scTreeNode<Value*>* d = kv.Val().dest;
+        Node& node = kv.Val();
+
+        if (node.frame != m_frame)
+            continue;
+
+        scTreeNode<scTimer*>* s = node.source;
+        scTreeNode<Value*>* d = node.dest;
 
         d->parent = s->parent ? m_hash[Hash(s->parent)].dest : NULL;
         d->firstChild = s->firstChild ? m_hash[Hash(s->firstChild)].dest : NULL; 
@@ -76,13 +62,18 @@ void ShockTimerDisplay::Render()
         d->depth = s->depth;
     }
 
+    ++m_frame;
+}
+
+void ShockTimerDisplay::Render()
+{
     PrintContext c;
     c.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
     c.fontHeight = MET_FONT_LETTER_HEIGHT;
     c.x = 16;
     c.y = 16;
 
-    tree.TraverseDepth(&c, PrintNode);
+    m_tree.TraverseDepth(&c, PrintNode);
 }
 
 void ShockTimerDisplay::CaptureNode(void*, scTreeNode<scTimer *> *source)
@@ -90,5 +81,17 @@ void ShockTimerDisplay::CaptureNode(void*, scTreeNode<scTimer *> *source)
     NUINT hash = Hash(source);
 
     Node& node = m_hash[hash];
+    node.frame = m_frame;
     node.source = source;
+
+    scTimer* timer = source->val;
+
+    Value& value = node.value;
+    value.name = timer->Name();
+
+    static const float k = .1f;
+    value.ns = UINT(value.ns * (1 - k) + (timer->Time() * k));
+
+    node.dest = !source->parent ? m_tree.Head() : m_tree.Alloc();
+    node.dest->val = &value;
 }
