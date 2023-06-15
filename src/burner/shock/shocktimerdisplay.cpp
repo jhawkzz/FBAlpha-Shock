@@ -42,7 +42,6 @@ scArray<ShockTimerDisplay::Node*, TimerCount> ShockTimerDisplay::m_added;
 
 void ShockTimerDisplay::Capture()
 {
-    //m_tree.Clear();
     scTimerTree::TraverseDepth(NULL, CaptureNode);
 
     // associate all the tree nodes with each other
