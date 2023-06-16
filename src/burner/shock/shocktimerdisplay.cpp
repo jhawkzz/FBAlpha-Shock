@@ -19,8 +19,8 @@ namespace
     {
         PrintContext* c = (PrintContext*) data;
 
-        snprintf( c->str, sizeof( c->str ), "%s %dms", node->val->name, node->val->ns / 1000 );
-        Font::Print( c->str, c->x + node->depth * MET_FONT_LETTER_WIDTH, c->y, 0xFFFF );
+        snprintf( c->str, sizeof( c->str ), "%s %dms", node->val->name, node->val->filteredNs / 1000 );
+        Font::Print( c->str, c->x + node->depth * MET_FONT_LETTER_WIDTH, c->y, 0xFFFFu );
 
         c->y += c->fontHeight;
     }
@@ -39,6 +39,7 @@ namespace
 scHashTable<NUINT, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::m_hash;
 scTree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::m_tree;
 scArray<ShockTimerDisplay::Node*, TimerCount> ShockTimerDisplay::m_added;
+UINT32 ShockTimerDisplay::m_frame;
 
 void ShockTimerDisplay::Capture()
 {
@@ -58,6 +59,19 @@ void ShockTimerDisplay::Capture()
     }
 
     m_added.Clear();
+
+    for (auto& iterator = m_hash.Iterator(); iterator; ++iterator)
+    {
+        Node& node = iterator.Val();
+        Value& value = node.value;
+        
+        UINT32 curNs = node.frame == m_frame ? value.ns : 0;
+
+        static const float k = .1f;
+        value.filteredNs = UINT(value.filteredNs * (1 - k) + (curNs * k));
+    }
+
+    ++m_frame;
 }
 
 void ShockTimerDisplay::Render()
@@ -77,14 +91,13 @@ void ShockTimerDisplay::CaptureNode(void*, scTreeNode<scTimer *> *source)
 
     Node& node = m_hash[hash];
     node.parent = Hash(source->parent);
+    node.frame = m_frame;
 
     scTimer* timer = source->val;
 
     Value& value = node.value;
     value.name = timer->Name();
-
-    static const float k = .1f;
-    value.ns = UINT(value.ns * (1 - k) + (timer->Time() * k));
+    value.ns = timer->Time();
 
     if (!node.dest)
     {

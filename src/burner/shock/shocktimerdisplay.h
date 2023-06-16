@@ -20,11 +20,13 @@ public:
         Value()
             : name(NULL)
             , ns(0)
+            , filteredNs(0)
             , expanded(false)
         {}
            
         const char* name;
         UINT32 ns;
+        UINT32 filteredNs;
         bool expanded;
     };
 
@@ -38,6 +40,7 @@ public:
         Value value;
         scTreeNode<Value*>* dest;
         NUINT parent;
+        UINT32 frame;
     };
 
 private:
@@ -47,6 +50,7 @@ private:
     static scHashTable<NUINT, Node, TimerCount> m_hash;
     static scTree<Value*, TimerCount> m_tree;
     static scArray<ShockTimerDisplay::Node*, TimerCount> m_added;
+    static UINT32 m_frame;
 };
 
 #endif
