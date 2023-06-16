@@ -1,5 +1,5 @@
-#ifndef SCTIMER_H_
-#define SCTIMER_H_
+#ifndef TIMER_H_
+#define TIMER_H_
 
 #include "shock/shock.h"
 #include "shock/core/ostimer.h"
@@ -8,10 +8,10 @@
 
 static const UINT32 TimerCount = 256;
 
-class scTimer
+class Timer
 {
 public:
-    scTimer( )
+    Timer( )
     {
         time = 0;
         name = NULL;
@@ -35,16 +35,16 @@ private:
     UINT32 time;
     const char* name;
 
-    friend class scTimerTree;
+    friend class TimerTree;
 };
 
-class scTimerTree
+class TimerTree
 {
 private:
-    typedef scTreeNode<scTimer*> TimerNode;
+    typedef TreeNode<Timer*> TimerNode;
 
 public:
-    static void BeginScope(scTimer* timer)
+    static void BeginScope(Timer* timer)
     {
         TimerNode* node;
 
@@ -64,49 +64,49 @@ public:
         m_node = m_node->parent;
     }
 
-    static void TraverseDepth(void* context, scTree<scTimer*, 64>::scTreeCb cb)
+    static void TraverseDepth(void* context, Tree<Timer*, 64>::TreeCb cb)
     {
         m_tree.TraverseDepth(context, cb);
     }
 
-    static void TraverseBreadth(void* context, scTree<scTimer*, 64>::scTreeCb cb)
+    static void TraverseBreadth(void* context, Tree<Timer*, 64>::TreeCb cb)
     {
         m_tree.TraverseBreadth(context, cb);
     }
 
-    static scTimer* GetTimer(const char* name) { scTimer* t = &m_timers[name]; t->name = name; return t; }
+    static Timer* GetTimer(const char* name) { Timer* t = &m_timers[name]; t->name = name; return t; }
 
     static void Clear() { m_tree.Clear(); }
 
 private:
-    static scHashTable<const char*, scTimer, TimerCount> m_timers;
-    static scTree<scTimer*, TimerCount> m_tree;
+    static HashTable<const char*, Timer, TimerCount> m_timers;
+    static Tree<Timer*, TimerCount> m_tree;
     static TimerNode* m_node;
 };
 
-class scTimerScope
+class TimerScope
 {
 public:
-    scTimerScope(const char* scope)
+    TimerScope(const char* scope)
     {
-        m_timer = scTimerTree::GetTimer(scope);
-        scTimerTree::BeginScope(m_timer);
+        m_timer = TimerTree::GetTimer(scope);
+        TimerTree::BeginScope(m_timer);
     }
 
-    ~scTimerScope()
+    ~TimerScope()
     {
-        scTimerTree::EndScope();
+        TimerTree::EndScope();
     }
 
 private:
-    scTimer* m_timer;
+    Timer* m_timer;
 };
 
 #define SHOCK_PROFILE_SCOPE(scope) \
-    scTimerScope scope(#scope)
+    TimerScope scope(#scope)
 
 #define SHOCK_PROFILE \
-    scTimerScope scope(__FUNCTION__)
+    TimerScope scope(__FUNCTION__)
 
 #define BURN_SCOPE SHOCK_PROFLE
 
@@ -114,4 +114,4 @@ private:
 #define BURN_SCOPE(scope) 0
 #endif
 
-#endif // SCTIMER_H_
+#endif // TIMER_H_

@@ -1,6 +1,6 @@
 
 template <class K, class T, UINT32 C>
-scHashTableIterator<K, T, C>& scHashTableIterator<K, T, C>::operator++()
+HashTableIterator<K, T, C>& HashTableIterator<K, T, C>::operator++()
 {
     if (entry)
     {
@@ -14,13 +14,13 @@ scHashTableIterator<K, T, C>& scHashTableIterator<K, T, C>::operator++()
 }
 
 template <class K, class T, UINT32 C>
-scHashTableIterator<K, T, C>::operator bool()
+HashTableIterator<K, T, C>::operator bool()
 {
     return !!entry;
 }
 
 template <class K, class T, UINT32 C>
-scHashTableIterator<K, T, C>::scHashTableIterator(scHashTable<K, T, C>& hashTable)
+HashTableIterator<K, T, C>::HashTableIterator(HashTable<K, T, C>& hashTable)
     : table(hashTable)
 {
     bucket = 0;
@@ -30,7 +30,7 @@ scHashTableIterator<K, T, C>::scHashTableIterator(scHashTable<K, T, C>& hashTabl
 }
 
 template <class K, class T, UINT32 C>
-void scHashTableIterator<K, T, C>::FindNext(UINT32 start)
+void HashTableIterator<K, T, C>::FindNext(UINT32 start)
 {
     UINT32 i;
     for (i = start; i < table.m_buckets.Size(); i++)
@@ -45,7 +45,7 @@ void scHashTableIterator<K, T, C>::FindNext(UINT32 start)
 }
 
 template <class K, class T, UINT32 C>
-typename scHashTable<K, T, C>::Entry *scHashTable<K, T, C>::AddEntry( K key, NUINT hash )
+typename HashTable<K, T, C>::Entry *HashTable<K, T, C>::AddEntry( K key, NUINT hash )
 {
     Entry *entry = m_entries.Grow( );
     entry->hash = hash;
@@ -56,9 +56,9 @@ typename scHashTable<K, T, C>::Entry *scHashTable<K, T, C>::AddEntry( K key, NUI
 };
 
 template <class K, class T, UINT32 C>
-T& scHashTable<K, T, C>::operator[](K key)
+T& HashTable<K, T, C>::operator[](K key)
 {
-    NUINT hash = scHash(key);
+    NUINT hash = Hash(key);
     UINT32 bucket = GetBucket(hash);
 
     Entry*& start = m_buckets[bucket];
@@ -81,13 +81,13 @@ T& scHashTable<K, T, C>::operator[](K key)
 }
 
 template <class K, class T, UINT32 C>
-scHashTableIterator<K, T, C> scHashTable<K, T, C>::Iterator()
+HashTableIterator<K, T, C> HashTable<K, T, C>::Iterator()
 {
-    return scHashTableIterator<K, T, C>(*this);
+    return HashTableIterator<K, T, C>(*this);
 }
 
 template <class K, class T, UINT32 C>
-UINT32 scHashTable<K, T, C>::GetBucket(NUINT hash) const
+UINT32 HashTable<K, T, C>::GetBucket(NUINT hash) const
 {
     return hash % m_buckets.Capacity();
 }

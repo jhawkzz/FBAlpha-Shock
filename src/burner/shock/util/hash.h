@@ -1,11 +1,11 @@
-#ifndef SCHASH_H_
-#define SCHASH_H_
+#ifndef HASH_H_
+#define HASH_H_
 
 #include "shock/shock.h"
 
-const NUINT scHashDefault = 0;
+const NUINT HashDefault = 0;
 
-inline NUINT scHash(NUINT value, NUINT seed)
+inline NUINT Hash(NUINT value, NUINT seed)
 {
     // https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
 
@@ -42,19 +42,19 @@ inline NUINT scHash(NUINT value, NUINT seed)
     return hash;
 }
 
-inline NUINT scHash(NUINT value)
+inline NUINT Hash(NUINT value)
 {
-    return scHash(value, scHashDefault);
+    return Hash(value, HashDefault);
 }
 
-inline NUINT scHash(const char* c)
+inline NUINT Hash(const char* c)
 {
-    return scHash((NUINT)c);
+    return Hash((NUINT)c);
 }
 
-inline NUINT scHash(const void* v)
+inline NUINT Hash(const void* v)
 {
-    return scHash((NUINT)v);
+    return Hash((NUINT)v);
 }
 
-#endif // SCHASH_H_
+#endif // HASH_H_

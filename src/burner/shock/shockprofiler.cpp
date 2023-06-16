@@ -1,5 +1,5 @@
 #include "shock/shockprofiler.h"
 
-scHashTable<const char*, scTimer, TimerCount> scTimerTree::m_timers;
-scTree<scTimer*, TimerCount> scTimerTree::m_tree;
-scTimerTree::TimerNode* scTimerTree::m_node;
+HashTable<const char*, Timer, TimerCount> TimerTree::m_timers;
+Tree<Timer*, TimerCount> TimerTree::m_tree;
+TimerTree::TimerNode* TimerTree::m_node;

@@ -1,31 +1,31 @@
-#ifndef SCARRAY_H_
-#define SCARRAY_H_
+#ifndef ARRAY_H_
+#define ARRAY_H_
 
 #include "shock/shock.h"
 #include "shock/util/span.h"
 
 template <class T, UINT32 C>
-class scArray : public scSpan<T>
+class Array : public Span<T>
 {
 public:
-   scArray()
-   : scSpan<T>(m_buffer, 0, C)
+   Array()
+   : Span<T>(m_buffer, 0, C)
    {}   
 
 public:
-   operator scSpan<const byte>() { return scSpan<const byte>((const byte*)Data(), Size() * sizeof(T), Capacity() * sizeof(T)); }
-   operator scSpan<const char>() { return scSpan<const char>((const char*)Data(), Size() * sizeof(T), Capacity() * sizeof(T)); }
+   operator Span<const byte>() { return Span<const byte>((const byte*)Data(), Size() * sizeof(T), Capacity() * sizeof(T)); }
+   operator Span<const char>() { return Span<const char>((const char*)Data(), Size() * sizeof(T), Capacity() * sizeof(T)); }
 
-   using scSpan<T>::Data;
-   using scSpan<T>::Size;
-   using scSpan<T>::Capacity;
-   using scSpan<T>::Read;
-   using scSpan<T>::Write;
+   using Span<T>::Data;
+   using Span<T>::Size;
+   using Span<T>::Capacity;
+   using Span<T>::Read;
+   using Span<T>::Write;
 
 private:
-    using scSpan<T>::Grow; // arrays can't grow
+    using Span<T>::Grow; // arrays can't grow
     
     T m_buffer[C];
 };
 
-#endif // SCARRAY_H_
+#endif // ARRAY_H_

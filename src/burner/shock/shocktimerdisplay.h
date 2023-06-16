@@ -34,22 +34,22 @@ public:
     {
         Node()
             : dest(NULL)
-            , parent(scHashDefault)
+            , parent(HashDefault)
         {}
 
         Value value;
-        scTreeNode<Value*>* dest;
+        TreeNode<Value*>* dest;
         NUINT parent;
         UINT32 frame;
     };
 
 private:
-    static void CaptureNode(void* data, scTreeNode<scTimer *> *node);
+    static void CaptureNode(void* data, TreeNode<Timer *> *node);
 
 private:
-    static scHashTable<NUINT, Node, TimerCount> m_hash;
-    static scTree<Value*, TimerCount> m_tree;
-    static scArray<ShockTimerDisplay::Node*, TimerCount> m_added;
+    static HashTable<NUINT, Node, TimerCount> m_hash;
+    static Tree<Value*, TimerCount> m_tree;
+    static Array<ShockTimerDisplay::Node*, TimerCount> m_added;
     static UINT32 m_frame;
 };
 

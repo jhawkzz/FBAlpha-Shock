@@ -1,14 +1,14 @@
-#ifndef SCTREE_H_
-#define SCTREE_H_
+#ifndef TREE_H_
+#define TREE_H_
 
 #include "shock/shock.h"
 #include "shock/util/array.h"
 
 template <class T>
-struct scTreeNode
+struct TreeNode
 {
 public:
-    scTreeNode( )
+    TreeNode( )
     {
         firstChild = NULL;
         sibling = NULL;
@@ -16,7 +16,7 @@ public:
         depth = 0;
     }
 
-    scTreeNode<T>* AddChild(scTreeNode<T>* child)
+    TreeNode<T>* AddChild(TreeNode<T>* child)
     {
         child->depth = depth + 1;
         child->parent = this;
@@ -31,21 +31,21 @@ public:
     T val;
 
 public:
-    scTreeNode* firstChild;
-    scTreeNode* sibling;
-    scTreeNode* parent;
+    TreeNode* firstChild;
+    TreeNode* sibling;
+    TreeNode* parent;
     UINT32 depth;
 };
 
 template <class T, UINT32 C>
-class scTree
+class Tree
 {
 public:
-    typedef scTreeNode<T> Node;
-    typedef void(*scTreeCb)(void* context, scTreeNode<T>*);
+    typedef TreeNode<T> Node;
+    typedef void(*TreeCb)(void* context, TreeNode<T>*);
 
 public:
-    scTree()
+    Tree()
         : memory(buffer, 1, C)
         , head(NULL)
     {}
@@ -57,12 +57,12 @@ public:
         return node->AddChild(Alloc());
     }
 
-    void TraverseDepth(void* context, scTreeCb cb)
+    void TraverseDepth(void* context, TreeCb cb)
     {
         TraverseDepth(head, context, cb);
     }
 
-    void TraverseBreadth(void* context, scTreeCb cb)
+    void TraverseBreadth(void* context, TreeCb cb)
     {
         TraverseBreadth(head, context, cb);
     }
@@ -84,7 +84,7 @@ public:
     }
 
 private:
-    void TraverseDepth(Node* node, void* context, scTreeCb cb)
+    void TraverseDepth(Node* node, void* context, TreeCb cb)
     {
         if (!node)
             return;
@@ -95,7 +95,7 @@ private:
         TraverseDepth(node->sibling, context, cb);
     }
 
-    void TraverseBreadth(Node* node, void* context, scTreeCb cb)
+    void TraverseBreadth(Node* node, void* context, TreeCb cb)
     {
         if (!node)
             return;
@@ -109,7 +109,7 @@ private:
 private:
     Node* head;
     Node buffer[C];
-    scSpan<Node> memory;
+    Span<Node> memory;
 };
 
-#endif // SCTREE_H_
+#endif // TREE_H_

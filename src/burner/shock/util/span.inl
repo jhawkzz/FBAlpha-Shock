@@ -1,18 +1,18 @@
 
 template <class T>
-bool scSpan<T>::Append(T t)
+bool Span<T>::Append(T t)
 {
-   return Write(Size(), scSpan<T>(&t, 1, 1)) ? true : false;
+   return Write(Size(), Span<T>(&t, 1, 1)) ? true : false;
 }
 
 template <class T>
-UINT32 scSpan<T>::Append(const scSpan<const T>& t)
+UINT32 Span<T>::Append(const Span<const T>& t)
 {
    return Write(Size(), t);
 }
 
 template <class T>
-UINT32 scSpan<T>::Fill(UINT32 start, T data, UINT32 size)
+UINT32 Span<T>::Fill(UINT32 start, T data, UINT32 size)
 {
    if (start > Capacity())
       return 0;
@@ -30,7 +30,7 @@ UINT32 scSpan<T>::Fill(UINT32 start, T data, UINT32 size)
 }
 
 template <class T>
-UINT32 scSpan<T>::Write(UINT32 start, const scSpan<const T> &t)
+UINT32 Span<T>::Write(UINT32 start, const Span<const T> &t)
 {
    if (start > Capacity())
       return 0;
@@ -47,7 +47,7 @@ UINT32 scSpan<T>::Write(UINT32 start, const scSpan<const T> &t)
 }
 
 template <class T>
-UINT32 scSpan<T>::Read(UINT32 start, scSpan<T> &t)
+UINT32 Span<T>::Read(UINT32 start, Span<T> &t)
 {
    if (start > Size())
       return 0;
@@ -64,7 +64,7 @@ UINT32 scSpan<T>::Read(UINT32 start, scSpan<T> &t)
 }
 
 template <class T>
-void scSpan<T>::Size(UINT32 size) 
+void Span<T>::Size(UINT32 size) 
 { 
    SC_ASSERT(size <= Capacity());
    m_size = size; 

@@ -15,7 +15,7 @@ namespace
         char str[256];
     };
 
-    void PrintNode(void* data, scTreeNode<ShockTimerDisplay::Value*>* node)
+    void PrintNode(void* data, TreeNode<ShockTimerDisplay::Value*>* node)
     {
         PrintContext* c = (PrintContext*) data;
 
@@ -25,33 +25,33 @@ namespace
         c->y += c->fontHeight;
     }
 
-    NUINT Hash(scTreeNode<scTimer*>* node, NUINT seed)
+    NUINT RecurseHash(TreeNode<Timer*>* node, NUINT seed)
     {
-        return node ? Hash(node->parent, scHash((NUINT)node->val->Name(), seed)) : seed;
+        return node ? RecurseHash(node->parent, Hash((NUINT)node->val->Name(), seed)) : seed;
     }
 
-    NUINT Hash(scTreeNode<scTimer*>* node)
+    NUINT RecurseHash(TreeNode<Timer*>* node)
     {
-        return node ? Hash(node->parent, scHash((NUINT)node->val->Name(), scHashDefault)) : scHashDefault;
+        return node ? RecurseHash(node->parent, Hash((NUINT)node->val->Name(), HashDefault)) : HashDefault;
     }
 };
 
-scHashTable<NUINT, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::m_hash;
-scTree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::m_tree;
-scArray<ShockTimerDisplay::Node*, TimerCount> ShockTimerDisplay::m_added;
+HashTable<NUINT, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::m_hash;
+Tree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::m_tree;
+Array<ShockTimerDisplay::Node*, TimerCount> ShockTimerDisplay::m_added;
 UINT32 ShockTimerDisplay::m_frame;
 
 void ShockTimerDisplay::Capture()
 {
-    scTimerTree::TraverseDepth(NULL, CaptureNode);
+    TimerTree::TraverseDepth(NULL, CaptureNode);
 
     // associate all the tree nodes with each other
     for (UINT32 i = 0; i < m_added.Size(); i++)
     {
         Node& node = *m_added[i];
 
-        scTreeNode<Value*>* d = node.dest;
-        scTreeNode<Value*>* parent = (node.parent != scHashDefault) ? m_hash[node.parent].dest : NULL;
+        TreeNode<Value*>* d = node.dest;
+        TreeNode<Value*>* parent = (node.parent != HashDefault) ? m_hash[node.parent].dest : NULL;
         if (!parent)
             continue;
 
@@ -85,15 +85,15 @@ void ShockTimerDisplay::Render()
     m_tree.TraverseDepth(&c, PrintNode);
 }
 
-void ShockTimerDisplay::CaptureNode(void*, scTreeNode<scTimer *> *source)
+void ShockTimerDisplay::CaptureNode(void*, TreeNode<Timer *> *source)
 {
-    NUINT hash = Hash(source);
+    NUINT hash = RecurseHash(source);
 
     Node& node = m_hash[hash];
-    node.parent = Hash(source->parent);
+    node.parent = RecurseHash(source->parent);
     node.frame = m_frame;
 
-    scTimer* timer = source->val;
+    Timer* timer = source->val;
 
     Value& value = node.value;
     value.name = timer->Name();
