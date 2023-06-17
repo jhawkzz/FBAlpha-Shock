@@ -9,7 +9,7 @@ class Array : public Span<T>
 {
 public:
    Array()
-   : Span<T>(m_buffer, 0, C)
+   : Span<T>(mbuffer, 0, C)
    {}   
 
 public:
@@ -21,11 +21,9 @@ public:
    using Span<T>::Capacity;
    using Span<T>::Read;
    using Span<T>::Write;
-
-private:
-    using Span<T>::Grow; // arrays can't grow
+   using Span<T>::Grow;
     
-    T m_buffer[C];
+    T mbuffer[C];
 };
 
 #endif // ARRAY_H_

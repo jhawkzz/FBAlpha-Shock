@@ -46,11 +46,10 @@ public:
 
 public:
     Tree()
-        : memory(buffer, 1, C)
-        , head(NULL)
+        : head(NULL)
     {}
 
-    Node* Head() { head = &memory[0]; return head; }
+    Node* Head() { head = (!memory.Size() ? memory.Grow() : &memory[0]); return head; }
 
     Node* AddChild(Node* node)
     {
@@ -108,8 +107,7 @@ private:
 
 private:
     Node* head;
-    Node buffer[C];
-    Span<Node> memory;
+    Array<Node, C> memory;
 };
 
 #endif // TREE_H_

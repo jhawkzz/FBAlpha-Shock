@@ -67,5 +67,5 @@ template <class T>
 void Span<T>::Size(UINT32 size) 
 { 
    SC_ASSERT(size <= Capacity());
-   m_size = size; 
+   mSize = size; 
 }

@@ -9,9 +9,9 @@ class Span
 {
 public:
    Span(T* data, UINT32 size, UINT32 capacity)
-   : m_data(data)
-   , m_size(size)
-   , m_capacity(capacity)
+   : mData(data)
+   , mSize(size)
+   , mCapacity(capacity)
    {}
    
    bool Append(T t); // returns true if appended, false if it was at capacity
@@ -22,22 +22,22 @@ public:
    UINT32 Read(UINT32 start, Span<T> &); // reads up to Capacity(), return s actual amount read
 
    void Size(UINT32 size);
-   T* Grow() { UINT32 s = Size(); Size(s + 1); return &m_data[s]; }
+   T* Grow() { UINT32 s = Size(); Size(s + 1); return &mData[s]; }
 
-   UINT32 Size() const { return m_size; }
-   UINT32 Capacity() const { return m_capacity; }
-   T* Data() const { return m_data; }
+   UINT32 Size() const { return mSize; }
+   UINT32 Capacity() const { return mCapacity; }
+   T* Data() const { return mData; }
 
-   void Clear() { m_size = 0; }
+   void Clear() { mSize = 0; }
 
-   T& operator[](UINT32 i) const { SC_ASSERT(i < Size()); return m_data[i]; }
+   T& operator[](UINT32 i) const { SC_ASSERT(i < Size()); return mData[i]; }
 
    operator Span<const T>() { return Span<const T>((const T*)Data(), Size(), Capacity()); }
 
 public:
-   T* m_data;
-   UINT32 m_size;
-   UINT32 m_capacity;
+   T* mData;
+   UINT32 mSize;
+   UINT32 mCapacity;
 };
 
 #include "span.inl"

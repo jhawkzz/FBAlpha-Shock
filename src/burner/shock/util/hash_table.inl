@@ -33,9 +33,9 @@ template <class K, class T, UINT32 C>
 void HashTableIterator<K, T, C>::FindNext(UINT32 start)
 {
     UINT32 i;
-    for (i = start; i < table.m_buckets.Size(); i++)
+    for (i = start; i < table.mBuckets.Size(); i++)
     {
-        auto* e = table.m_buckets[i];
+        auto* e = table.mBuckets[i];
         if (!e) continue;
 
         bucket = i;
@@ -47,7 +47,7 @@ void HashTableIterator<K, T, C>::FindNext(UINT32 start)
 template <class K, class T, UINT32 C>
 typename HashTable<K, T, C>::Entry *HashTable<K, T, C>::AddEntry( K key, NUINT hash )
 {
-    Entry *entry = m_entries.Grow( );
+    Entry *entry = mEntries.Grow( );
     entry->hash = hash;
     entry->assoc.key = key;
     entry->assoc.val = T();
@@ -61,7 +61,7 @@ T& HashTable<K, T, C>::operator[](K key)
     NUINT hash = Hash(key);
     UINT32 bucket = GetBucket(hash);
 
-    Entry*& start = m_buckets[bucket];
+    Entry*& start = mBuckets[bucket];
 
     if (!start)
         start = AddEntry(key, hash);
@@ -89,5 +89,5 @@ HashTableIterator<K, T, C> HashTable<K, T, C>::Iterator()
 template <class K, class T, UINT32 C>
 UINT32 HashTable<K, T, C>::GetBucket(NUINT hash) const
 {
-    return hash % m_buckets.Capacity();
+    return hash % mBuckets.Capacity();
 }

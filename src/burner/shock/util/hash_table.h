@@ -62,9 +62,8 @@ private:
 
 public:
     HashTable()
-        : m_entries(m_buffer, 0, C)
     {
-        m_buckets.Fill(0, 0, m_buckets.Capacity());
+        mBuckets.Fill(0, 0, mBuckets.Capacity());
     }
 
     Entry* AddEntry(K key, NUINT hash);
@@ -77,10 +76,8 @@ private:
     UINT32 GetBucket(NUINT hash) const;
 
 private:
-    Entry m_buffer[C];
-
-    Array<Entry*, C / 16 + 1> m_buckets;
-    Span<Entry> m_entries;
+    Array<Entry, C> mEntries;
+    Array<Entry*, C / 16 + 1> mBuckets;
 
     template <class K, class T, UINT32 C>
     friend struct HashTableIterator;

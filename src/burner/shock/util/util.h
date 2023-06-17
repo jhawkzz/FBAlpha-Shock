@@ -22,7 +22,7 @@ int   getExeDirectory( char *pFilePath, int size );
 #elif defined _WIN32
     #define ShockSleep(us) Sleep((us) / 1000)
     #define ShockCreateDir(path) CreateDirectory( (path), NULL )
-    #define SC_ASSERT(c) assert(c)
+    #define SC_ASSERT(c) _ASSERTE(c)
 #endif
 
 #endif
