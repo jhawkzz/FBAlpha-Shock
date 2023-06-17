@@ -35,10 +35,10 @@ private:
     UINT32 time;
     const char* name;
 
-    friend class ShockProfilerTree;
+    friend class ShockProfilers;
 };
 
-class ShockProfilerTree
+class ShockProfilers
 {
 private:
     typedef TreeNode<ShockProfiler*> ShockProfilerNode;
@@ -89,13 +89,13 @@ class ShockProfilerScope
 public:
     ShockProfilerScope(const char* scope)
     {
-        mShockProfiler = ShockProfilerTree::GetShockProfiler(scope);
-        ShockProfilerTree::BeginScope(mShockProfiler);
+        mShockProfiler = ShockProfilers::GetShockProfiler(scope);
+        ShockProfilers::BeginScope(mShockProfiler);
     }
 
     ~ShockProfilerScope()
     {
-        ShockProfilerTree::EndScope();
+        ShockProfilers::EndScope();
     }
 
 private:
@@ -109,7 +109,7 @@ private:
     #define SHOCK_PROFILE \
         ShockProfilerScope scope(__FUNCTION__)
 
-    #define BURN_PROFILE_SCOPE(s) SHOCK_PROFLE_SCOPE(s)
+#define BURN_PROFILE_SCOPE(s) SHOCK_PROFLE_SCOPE(s)
     #define BURN_PROFILE SHOCK_PROFLE
 #else
     #define SHOCK_PROFILE_SCOPE(scope)

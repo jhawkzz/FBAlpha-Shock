@@ -36,6 +36,15 @@ const unsigned int VOIDPTR_SIZE = sizeof(void*);
 
 #define SHOCK_PROFILERS
 
+#ifdef SHOCK_PROFILERS
+    #define SHOCK_PROFILERS_NEWFRAME\
+            ShockProfilersDisplay::Capture();\
+            ShockProfilers::Clear()
+#else
+    #define SHOCK_PROFILERS_NEWFRAME
+#endif
+
+
 // Although games could theoretically support more, we'll only ever support 2
 #define MAX_SHOCK_PLAYERS (2)
 

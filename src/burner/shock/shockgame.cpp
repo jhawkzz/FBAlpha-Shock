@@ -8,8 +8,8 @@
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
 #include "shock/shockgame.h"
-#include "shock/shockprofiler.h"
-#include "shock/shockprofilerdisplay.h"
+#include "shock/shockprofilers.h"
+#include "shock/shockprofilersdisplay.h"
 #include "shock/shockrenderer.h"
 #include "shock/shockromloader.h"
 #include "shock/util/util.h"
@@ -283,7 +283,7 @@ void ShockGame::Update( )
 
         if ( ShockConfig::GetShowTimers( ) )
         {
-             ShockProfilerDisplay::Render();
+             ShockProfilersDisplay::Render();
         }
 
         {

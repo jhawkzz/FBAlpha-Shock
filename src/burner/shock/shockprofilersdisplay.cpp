@@ -1,7 +1,7 @@
 #include "shock/core/framebuffer.h"
 #include "shock/font/font.h"
 #include "shock/input/shockinput.h"
-#include "shock/shockprofilerdisplay.h"
+#include "shock/shockprofilersdisplay.h"
 #include "shock/util/hash.h"
 
 namespace
@@ -27,15 +27,15 @@ namespace
     }
 };
 
-HashTable<NUINT, ShockProfilerDisplay::Node, ShockProfilerCount> ShockProfilerDisplay::mHash;
-Tree<ShockProfilerDisplay::Value*, ShockProfilerCount> ShockProfilerDisplay::mTree;
-Array<ShockProfilerDisplay::Node*, ShockProfilerCount> ShockProfilerDisplay::mAdded;
-TreeNode<ShockProfilerDisplay::Value*>* ShockProfilerDisplay::mSelected;
-UINT32 ShockProfilerDisplay::mFrame;
+HashTable<NUINT, ShockProfilersDisplay::Node, ShockProfilerCount> ShockProfilersDisplay::mHash;
+Tree<ShockProfilersDisplay::Value*, ShockProfilerCount> ShockProfilersDisplay::mTree;
+Array<ShockProfilersDisplay::Node*, ShockProfilerCount> ShockProfilersDisplay::mAdded;
+TreeNode<ShockProfilersDisplay::Value*>* ShockProfilersDisplay::mSelected;
+UINT32 ShockProfilersDisplay::mFrame;
 
-void ShockProfilerDisplay::Capture()
+void ShockProfilersDisplay::Capture()
 {
-    ShockProfilerTree::TraverseDepth(NULL, CaptureNode);
+    ShockProfilers::TraverseDepth(NULL, CaptureNode);
 
     // associate all the tree nodes with each other
     for (UINT32 i = 0; i < mAdded.Size(); i++)
@@ -89,7 +89,7 @@ void ShockProfilerDisplay::Capture()
     ++mFrame;
 }
 
-void ShockProfilerDisplay::Render()
+void ShockProfilersDisplay::Render()
 {
     PrintContext c;
     c.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
@@ -100,7 +100,7 @@ void ShockProfilerDisplay::Render()
     mTree.TraverseDepth(&c, PrintNode);
 }
 
-bool ShockProfilerDisplay::CaptureNode(void*, TreeNode<ShockProfiler *> *source)
+bool ShockProfilersDisplay::CaptureNode(void*, TreeNode<ShockProfiler *> *source)
 {
     NUINT hash = RecurseHash(source);
 
@@ -124,9 +124,9 @@ bool ShockProfilerDisplay::CaptureNode(void*, TreeNode<ShockProfiler *> *source)
     return true;
 }
 
-bool ShockProfilerDisplay::PrintNode(void* data, TreeNode<ShockProfilerDisplay::Value*>* node)
+bool ShockProfilersDisplay::PrintNode(void* data, TreeNode<ShockProfilersDisplay::Value*>* node)
 {
-    TreeNode<ShockProfilerDisplay::Value*>* parent = node->parent;
+    TreeNode<ShockProfilersDisplay::Value*>* parent = node->parent;
         
     if (node->parent && !node->parent->val->expanded)
         return false;

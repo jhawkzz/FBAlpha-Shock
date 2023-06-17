@@ -1,14 +1,14 @@
 
 // See License.md for license
 
-#ifndef SHOCKPROFILERDISPLAY_H_
-#define SHOCKPROFILERDISPLAY_H_
+#ifndef SHOCKPROFILERSDISPLAY_H_
+#define SHOCKPROFILERSDISPLAY_H_
 
 #include "shock/shock.h"
-#include "shock/shockprofiler.h"
+#include "shock/shockprofilers.h"
 #include "shock/util/hash_table.h"
 
-class ShockProfilerDisplay
+class ShockProfilersDisplay
 {
 public:
     static void Capture( );
@@ -45,13 +45,13 @@ public:
 
 private:
     static bool CaptureNode(void* data, TreeNode<ShockProfiler *> *node);
-    static bool PrintNode(void* data, TreeNode<ShockProfilerDisplay::Value*>* node);
+    static bool PrintNode(void* data, TreeNode<Value*>* node);
 
 private:
-    typedef HashTableIterator<NUINT, ShockProfilerDisplay::Node, ShockProfilerCount> HashIterator;
+    typedef HashTableIterator<NUINT, ShockProfilersDisplay::Node, ShockProfilerCount> HashIterator;
     static HashTable<NUINT, Node, ShockProfilerCount> mHash;
     static Tree<Value*, ShockProfilerCount> mTree;
-    static Array<ShockProfilerDisplay::Node*, ShockProfilerCount> mAdded;
+    static Array<ShockProfilersDisplay::Node*, ShockProfilerCount> mAdded;
     static TreeNode<Value*>* mSelected;
     static UINT32 mFrame;
 };
