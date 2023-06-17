@@ -47,10 +47,11 @@ private:
     static void CaptureNode(void* data, TreeNode<Timer *> *node);
 
 private:
-    static HashTable<NUINT, Node, TimerCount> m_hash;
-    static Tree<Value*, TimerCount> m_tree;
-    static Array<ShockTimerDisplay::Node*, TimerCount> m_added;
-    static UINT32 m_frame;
+    typedef HashTableIterator<NUINT, ShockTimerDisplay::Node, TimerCount> HashIterator;
+    static HashTable<NUINT, Node, TimerCount> mHash;
+    static Tree<Value*, TimerCount> mTree;
+    static Array<ShockTimerDisplay::Node*, TimerCount> mAdded;
+    static UINT32 mFrame;
 };
 
 #endif

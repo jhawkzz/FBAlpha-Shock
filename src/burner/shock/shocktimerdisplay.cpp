@@ -36,42 +36,42 @@ namespace
     }
 };
 
-HashTable<NUINT, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::m_hash;
-Tree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::m_tree;
-Array<ShockTimerDisplay::Node*, TimerCount> ShockTimerDisplay::m_added;
-UINT32 ShockTimerDisplay::m_frame;
+HashTable<NUINT, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::mHash;
+Tree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::mTree;
+Array<ShockTimerDisplay::Node*, TimerCount> ShockTimerDisplay::mAdded;
+UINT32 ShockTimerDisplay::mFrame;
 
 void ShockTimerDisplay::Capture()
 {
     TimerTree::TraverseDepth(NULL, CaptureNode);
 
     // associate all the tree nodes with each other
-    for (UINT32 i = 0; i < m_added.Size(); i++)
+    for (UINT32 i = 0; i < mAdded.Size(); i++)
     {
-        Node& node = *m_added[i];
+        Node& node = *mAdded[i];
 
         TreeNode<Value*>* d = node.dest;
-        TreeNode<Value*>* parent = (node.parent != HashDefault) ? m_hash[node.parent].dest : NULL;
+        TreeNode<Value*>* parent = (node.parent != HashDefault) ? mHash[node.parent].dest : NULL;
         if (!parent)
             continue;
 
         parent->AddChild(d);
     }
 
-    m_added.Clear();
+    mAdded.Clear();
 
-    for (auto& iterator = m_hash.Iterator(); iterator; ++iterator)
+    for (HashIterator iterator = mHash.Iterator(); iterator; ++iterator)
     {
         Node& node = iterator.Val();
         Value& value = node.value;
         
-        UINT32 curNs = node.frame == m_frame ? value.ns : 0;
+        UINT32 curNs = node.frame == mFrame ? value.ns : 0;
 
         static const float k = .1f;
-        value.filteredNs = UINT(value.filteredNs * (1 - k) + (curNs * k));
+        value.filteredNs = UINT32(value.filteredNs * (1 - k) + (curNs * k));
     }
 
-    ++m_frame;
+    ++mFrame;
 }
 
 void ShockTimerDisplay::Render()
@@ -82,16 +82,16 @@ void ShockTimerDisplay::Render()
     c.x = 16;
     c.y = 16;
 
-    m_tree.TraverseDepth(&c, PrintNode);
+    mTree.TraverseDepth(&c, PrintNode);
 }
 
 void ShockTimerDisplay::CaptureNode(void*, TreeNode<Timer *> *source)
 {
     NUINT hash = RecurseHash(source);
 
-    Node& node = m_hash[hash];
+    Node& node = mHash[hash];
     node.parent = RecurseHash(source->parent);
-    node.frame = m_frame;
+    node.frame = mFrame;
 
     Timer* timer = source->val;
 
@@ -101,9 +101,9 @@ void ShockTimerDisplay::CaptureNode(void*, TreeNode<Timer *> *source)
 
     if (!node.dest)
     {
-        node.dest = !source->parent ? m_tree.Head() : m_tree.Alloc();
+        node.dest = !source->parent ? mTree.Head() : mTree.Alloc();
         node.dest->val = &value;
 
-        m_added.Append(&node);
+        mAdded.Append(&node);
     }
 }

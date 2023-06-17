@@ -71,7 +71,7 @@ public:
         memory[0] = Node();
         memory.Size(1);
 
-        head = nullptr;
+        head = NULL;
     }
 
     Node* Alloc()

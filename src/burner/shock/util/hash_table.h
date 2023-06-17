@@ -49,7 +49,7 @@ private:
     HashTableEntry<K, T> *entry;
     UINT32 bucket;
 
-    template <class K, class T, UINT32 C>
+    template <class K1, class T1, UINT32 C1>
     friend class HashTable;
 };
 
@@ -79,7 +79,7 @@ private:
     Array<Entry, C> mEntries;
     Array<Entry*, C / 16 + 1> mBuckets;
 
-    template <class K, class T, UINT32 C>
+    template <class K1, class T1, UINT32 C1>
     friend struct HashTableIterator;
 };
 

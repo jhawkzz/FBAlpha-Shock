@@ -13,8 +13,8 @@ inline NUINT Hash(NUINT value, NUINT seed)
     const NUINT offset_basis = 14695981039346656037;
     const NUINT prime = 1099511628211;
 #else
-    const NUINT offset_basis = 2166136261;
-    const NUINT prime = 16777619;
+    const NUINT offset_basis = 2166136261u;
+    const NUINT prime = 16777619u;
 #endif
 
     NUINT hash = offset_basis;

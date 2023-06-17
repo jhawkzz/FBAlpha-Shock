@@ -35,7 +35,7 @@ void HashTableIterator<K, T, C>::FindNext(UINT32 start)
     UINT32 i;
     for (i = start; i < table.mBuckets.Size(); i++)
     {
-        auto* e = table.mBuckets[i];
+        HashTableEntry<K, T>* e = table.mBuckets[i];
         if (!e) continue;
 
         bucket = i;

@@ -29,6 +29,8 @@ typedef unsigned char byte;
 // with an FPS to start with. Use 60.
 #define DEFAULT_FPS (6000)
 
+#define SHOCK_TIMERS
+
 // Although games could theoretically support more, we'll only ever support 2
 #define MAX_SHOCK_PLAYERS (2)
 

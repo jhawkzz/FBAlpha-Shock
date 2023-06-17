@@ -13,15 +13,15 @@ void StateEmulatorSettings::Create( )
     
     int xPos = UI_X_POS_MENU;
     int yPos = UI_Y_POS_MENU;
-    mMenuItemList[ (UINT32) MenuIndex::Fps ].Create( "Display FPS Counter: ", xPos, yPos, 0xFFFFu );
+    mMenuItemList[ (UINT32) MenuIdFps ].Create( "Display FPS Counter: ", xPos, yPos, 0xFFFFu );
     
     yPos += UI_ROW_HEIGHT;
-    mMenuItemList[ (UINT32) MenuIndex::LoadWarnings ].Create( "Display Load Warnings: ", xPos, yPos, 0xFFFFu );
+    mMenuItemList[ (UINT32) MenuIdLoadWarnings ].Create( "Display Load Warnings: ", xPos, yPos, 0xFFFFu );
     
     yPos += UI_ROW_HEIGHT;
-    mMenuItemList[ (UINT32) MenuIndex::Timers ].Create( "Display Timers: ", xPos, yPos, 0xFFFFU );
+    mMenuItemList[ (UINT32) MenuIdTimers ].Create( "Display Timers: ", xPos, yPos, 0xFFFFU );
 
-    mMenuSelection = MenuIndex::Fps;
+    mMenuSelection = MenuIdFps;
 }
 
 void StateEmulatorSettings::Destroy( )
@@ -48,29 +48,29 @@ UIState StateEmulatorSettings::Update( )
     // check for menu navigation
     if( ShockInput::GetInput( P1_Joy_Down )->WasReleased() )
     {
-        mMenuSelection = (MenuIndex)(((UINT32)mMenuSelection + 1) % (UINT32)MenuIndex::Count);
+        mMenuSelection = (MenuId)(((UINT32)mMenuSelection + 1) % (UINT32)MenuIdCount);
     }
     else if( ShockInput::GetInput( P1_Joy_Up )->WasReleased() )
     {
-        mMenuSelection = (MenuIndex)((UINT32)mMenuSelection - 1);
-        if( mMenuSelection < MenuIndex::Start )
+        mMenuSelection = (MenuId)((UINT32)mMenuSelection - 1);
+        if( mMenuSelection < MenuIdStart )
         {
-            mMenuSelection = (MenuIndex)(((UINT32)MenuIndex::Count) - 1);
+            mMenuSelection = (MenuId)(((UINT32)MenuIdCount) - 1);
         }
     }
         
     // check for entering a gamestate menu item
     if( ShockInput::GetInput( P1_Button_1 )->WasReleased() )
     {   
-        if( mMenuSelection == MenuIndex::Fps )
+        if( mMenuSelection == MenuIdFps )
         {
             ShockConfig::SetShowFPS( !ShockConfig::GetShowFPS( ) );
         }
-        else if ( mMenuSelection == MenuIndex::LoadWarnings )
+        else if ( mMenuSelection == MenuIdLoadWarnings )
         {
             ShockConfig::SetShowLoadWarnings( !ShockConfig::GetShowLoadWarnings( ) );
         }
-        else if ( mMenuSelection == MenuIndex::Timers )
+        else if ( mMenuSelection == MenuIdTimers )
         {
             ShockConfig::SetShowTimers( !ShockConfig::GetShowTimers( ) );
         }
@@ -90,7 +90,7 @@ void StateEmulatorSettings::DrawMenu( )
     
     // FPS
     {
-        mMenuItemList[ (UINT32)MenuIndex::Fps ].Draw( );
+        mMenuItemList[ (UINT32)MenuIdFps ].Draw( );
         if ( ShockConfig::GetShowFPS( ) == 1 )
         {
             strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
@@ -102,13 +102,13 @@ void StateEmulatorSettings::DrawMenu( )
             textColor = 0xFFFFu;
         }
     
-        menuItemLen = Font::MeasureStringWidth( mMenuItemList[ (UINT32)MenuIndex::Fps ].GetText( ) );
-        UIRenderer::DrawText( settingStr, mMenuItemList[ (UINT32)MenuIndex::Fps ].GetXPos( ) + menuItemLen, mMenuItemList[ (UINT32)MenuIndex::Fps ].GetYPos( ), textColor );
+        menuItemLen = Font::MeasureStringWidth( mMenuItemList[ (UINT32)MenuIdFps ].GetText( ) );
+        UIRenderer::DrawText( settingStr, mMenuItemList[ (UINT32)MenuIdFps ].GetXPos( ) + menuItemLen, mMenuItemList[ (UINT32)MenuIdFps ].GetYPos( ), textColor );
     }
 
     // Load Warnings
     {
-        mMenuItemList[ (UINT32)MenuIndex::LoadWarnings ].Draw( );
+        mMenuItemList[ (UINT32)MenuIdLoadWarnings ].Draw( );
         if ( ShockConfig::GetShowLoadWarnings( ) == 1 )
         {
             strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
@@ -120,13 +120,13 @@ void StateEmulatorSettings::DrawMenu( )
             textColor = 0xFFFFu;
         }
     
-        menuItemLen = Font::MeasureStringWidth( mMenuItemList[ (UINT32)MenuIndex::LoadWarnings ].GetText( ) );
-        UIRenderer::DrawText( settingStr, mMenuItemList[ (UINT32)MenuIndex::LoadWarnings ].GetXPos( ) + menuItemLen, mMenuItemList[ (UINT32)MenuIndex::LoadWarnings ].GetYPos( ), textColor );
+        menuItemLen = Font::MeasureStringWidth( mMenuItemList[ (UINT32)MenuIdLoadWarnings ].GetText( ) );
+        UIRenderer::DrawText( settingStr, mMenuItemList[ (UINT32)MenuIdLoadWarnings ].GetXPos( ) + menuItemLen, mMenuItemList[ (UINT32)MenuIdLoadWarnings ].GetYPos( ), textColor );
     }
 
     // Timers
     {
-        mMenuItemList[ (UINT32)MenuIndex::Timers ].Draw( );
+        mMenuItemList[ (UINT32)MenuIdTimers ].Draw( );
         if ( ShockConfig::GetShowTimers( ) == 1 )
         {
             strncpy( settingStr, "On", sizeof( settingStr ) - 1 );
@@ -138,8 +138,8 @@ void StateEmulatorSettings::DrawMenu( )
             textColor = 0xFFFFu;
         }
 
-        menuItemLen = Font::MeasureStringWidth( mMenuItemList[ (UINT32)MenuIndex::Timers ].GetText( ) );
-        UIRenderer::DrawText( settingStr, mMenuItemList[ (UINT32)MenuIndex::Timers ].GetXPos( ) + menuItemLen, mMenuItemList[ (UINT32)MenuIndex::Timers ].GetYPos( ), textColor );
+        menuItemLen = Font::MeasureStringWidth( mMenuItemList[ (UINT32)MenuIdTimers ].GetText( ) );
+        UIRenderer::DrawText( settingStr, mMenuItemList[ (UINT32)MenuIdTimers ].GetXPos( ) + menuItemLen, mMenuItemList[ (UINT32)MenuIdTimers ].GetYPos( ), textColor );
     }
 
     UIRenderer::DrawText( "X", 

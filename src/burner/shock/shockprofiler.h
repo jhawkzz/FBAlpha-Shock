@@ -48,40 +48,40 @@ public:
     {
         TimerNode* node;
 
-        if (!m_node)
-            node = m_tree.Head();
+        if (!mNode)
+            node = mTree.Head();
         else
-            node = m_tree.AddChild(m_node);
+            node = mTree.AddChild(mNode);
 
         node->val = timer;
-        m_node = node;
-        m_node->val->Start();
+        mNode = node;
+        mNode->val->Start();
     }
 
     static void EndScope()
     {
-        m_node->val->Stop();
-        m_node = m_node->parent;
+        mNode->val->Stop();
+        mNode = mNode->parent;
     }
 
     static void TraverseDepth(void* context, Tree<Timer*, 64>::TreeCb cb)
     {
-        m_tree.TraverseDepth(context, cb);
+        mTree.TraverseDepth(context, cb);
     }
 
     static void TraverseBreadth(void* context, Tree<Timer*, 64>::TreeCb cb)
     {
-        m_tree.TraverseBreadth(context, cb);
+        mTree.TraverseBreadth(context, cb);
     }
 
-    static Timer* GetTimer(const char* name) { Timer* t = &m_timers[name]; t->name = name; return t; }
+    static Timer* GetTimer(const char* name) { Timer* t = &mTimers[name]; t->name = name; return t; }
 
-    static void Clear() { m_tree.Clear(); }
+    static void Clear() { mTree.Clear(); }
 
 private:
-    static HashTable<const char*, Timer, TimerCount> m_timers;
-    static Tree<Timer*, TimerCount> m_tree;
-    static TimerNode* m_node;
+    static HashTable<const char*, Timer, TimerCount> mTimers;
+    static Tree<Timer*, TimerCount> mTree;
+    static TimerNode* mNode;
 };
 
 class TimerScope
@@ -89,8 +89,8 @@ class TimerScope
 public:
     TimerScope(const char* scope)
     {
-        m_timer = TimerTree::GetTimer(scope);
-        TimerTree::BeginScope(m_timer);
+        mTimer = TimerTree::GetTimer(scope);
+        TimerTree::BeginScope(mTimer);
     }
 
     ~TimerScope()
@@ -99,19 +99,27 @@ public:
     }
 
 private:
-    Timer* m_timer;
+    Timer* mTimer;
 };
 
-#define SHOCK_PROFILE_SCOPE(scope) \
-    TimerScope scope(#scope)
+#ifdef SHOCK_TIMERS
+    #define SHOCK_PROFILE_SCOPE(scope) \
+        TimerScope scope(#scope)
 
-#define SHOCK_PROFILE \
-    TimerScope scope(__FUNCTION__)
+    #define SHOCK_PROFILE \
+        TimerScope scope(__FUNCTION__)
 
-#define BURN_SCOPE SHOCK_PROFLE
+    #define BURN_PROFILE_SCOPE(s) SHOCK_PROFLE_SCOPE(s)
+    #define BURN_PROFILE SHOCK_PROFLE
+#else
+    #define SHOCK_PROFILE_SCOPE(scope)
+    #define SHOCK_PROFILE
+    #define BURN_PROFILE_SCOPE(s)
+    #define BURN_PROFILE SHOCK_PROFLE
+#endif
 
 #ifndef BURN_SCOPE
-#define BURN_SCOPE(scope) 0
+    #define BURN_SCOPE(scope) 0
 #endif
 
 #endif // TIMER_H_
