@@ -23,7 +23,12 @@ typedef unsigned char byte;
     typedef unsigned int NUINT;
 #endif
 
-//static_assert(sizeof(NUINT) == sizeof(void*));
+const unsigned int NUINT_SIZE = sizeof(NUINT);
+const unsigned int VOIDPTR_SIZE = sizeof(void*);
+
+#if (NUINT_SIZE != VOIDPTR_SIZE)
+    #error Size Mismatch
+#endif
 
 // Before a game is loaded, we sometimes need to provide certain systems
 // with an FPS to start with. Use 60.
