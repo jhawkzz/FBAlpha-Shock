@@ -56,7 +56,10 @@ enum ASPInput
     ASPInput_P1_Joy_Left  = 105,
     ASPInput_P1_Joy_Right = 106,
     ASPInput_P1_Joy_Down  = 108,
-    
+
+    ASPInput_Options      = 278,
+    ASPInput_Turbo        = 279,
+
     ASPInput_RedA         = 304,
     ASPInput_YellowB      = 305,
     ASPInput_GreenC       = 306,
@@ -68,10 +71,8 @@ enum ASPInput
     
     ASPInput_Select       = 314,
     ASPInput_Start        = 315,
-    ASPInput_Options      = 278,
-    ASPInput_Turbo        = 379,
     
-    ASPInput_Count        = 380
+    ASPInput_Count        = 316
 };
 
 struct InputCoreState

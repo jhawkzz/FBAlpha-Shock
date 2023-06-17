@@ -31,6 +31,7 @@ public:
 private:
     static int 		      mDrawListCount;
     static DrawListObject mDrawList[ MAX_DRAWLIST_OBJECTS ];
+    static UINT16         mUIBackBuffer[ UI_WIDTH * UI_HEIGHT ];
 };
 
 #endif

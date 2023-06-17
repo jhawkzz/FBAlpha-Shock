@@ -39,8 +39,7 @@ const unsigned int VOIDPTR_SIZE = sizeof(void*);
 // Although games could theoretically support more, we'll only ever support 2
 #define MAX_SHOCK_PLAYERS (2)
 
-#define MVSX_ASSET_ROOT_PATH "/mnt/hdisk/fbashock"
-#define ASP_ASSET_ROOT_PATH  "/mnt/usb/fbashock"
+#define MVSX_ASP_ASSET_ROOT_PATH "/mnt/hdisk/fbashock"
 
 // IO for FBA to write game files
 #define EEPROM_PATH          "eeprom/" 

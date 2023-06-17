@@ -8,6 +8,7 @@
 
 int            UIRenderer::mDrawListCount;
 DrawListObject UIRenderer::mDrawList[ MAX_DRAWLIST_OBJECTS ];
+UINT16         UIRenderer::mUIBackBuffer[ UI_WIDTH * UI_HEIGHT ];
 
 void UIRenderer::Create( )
 {
@@ -134,15 +135,17 @@ void UIRenderer::ResetForFrame( )
 
 void UIRenderer::Render( )
 {
-    UINT16 *pBackBuffer = (UINT16 *)ShockRenderer::GetBackBuffer( );
-    Font::SetRenderBuffer( pBackBuffer, UI_WIDTH, UI_HEIGHT );
-
-    if( pBackBuffer != NULL )
+    UINT8 *pBackBuffer = (UINT8 *)ShockRenderer::GetBackBuffer( );
+    if ( pBackBuffer != NULL )
     {
-        for( int i = 0; i < mDrawListCount; i++ )
+        Font::SetRenderBuffer( mUIBackBuffer, UI_WIDTH, UI_HEIGHT );
+
+        for ( int i = 0; i < mDrawListCount; i++ )
         {
-            mDrawList[ i ].RenderToBackBuffer( pBackBuffer );
+            mDrawList[ i ].RenderToBackBuffer( mUIBackBuffer );
         }
+
+        memcpy( pBackBuffer, mUIBackBuffer, UI_WIDTH * UI_HEIGHT * FRAMEBUFFER_BYTES_PP );
     }
 }
 

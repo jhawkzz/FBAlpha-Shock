@@ -42,7 +42,9 @@ enum ShockButton
     P2_Button_7 = 26, 
     P2_Button_8 = 27,
 
-    ShockButton_Count = 28
+    OptionsMenu = 28, //On MVSX this will be bound to P1_InsertCoin, on ASP, the Options button
+
+    ShockButton_Count = 29
 };
 
 #endif

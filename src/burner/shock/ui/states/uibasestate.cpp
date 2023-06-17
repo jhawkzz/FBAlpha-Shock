@@ -29,20 +29,42 @@ UIState UIBaseState::Update( )
 
 UIState UIBaseState::HandleBackButton( )
 {
-    if( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
+    if ( ActivePlatform_MVSX == gActivePlatform )
     {
-        return mLastState;
+        if ( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
+        {
+            return mLastState;
+        }
+        else
+        {
+            return UIState_Count;
+        }
     }
     else
     {
-        return UIState_Count;
+        if ( ShockInput::GetInput( OptionsMenu )->WasReleased( ) )
+        {
+            return mLastState;
+        }
+        else
+        {
+            return UIState_Count;
+        }
     }
 }
 
 void UIBaseState::RenderBackOption( const char *pNavVerb)
 {
     char textStr[ MAX_PATH ] = { 0 };
-    snprintf( textStr, sizeof( textStr ), "Press Options/Back to %s", pNavVerb );
+    if ( ActivePlatform_MVSX == gActivePlatform )
+    {
+        snprintf( textStr, sizeof( textStr ), "Press Options/Back to %s", pNavVerb );
+    }
+    else
+    {
+        snprintf( textStr, sizeof( textStr ), "Press Options to %s", pNavVerb );
+    }
+
     int xPos = GetCenteredXPos( textStr );
     UIRenderer::DrawText( textStr, xPos, UI_HEIGHT - 50, 0xFFFF );
 }

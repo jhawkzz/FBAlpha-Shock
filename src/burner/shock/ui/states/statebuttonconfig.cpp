@@ -28,11 +28,11 @@ void StateButtonConfig::Create( )
         mpButtonImageMap[ P1_Button_1 ] = (UINT16 *)gRedButtonBytes;
         mpButtonImageMap[ P1_Button_2 ] = (UINT16 *)gYellowButtonBytes;
         mpButtonImageMap[ P1_Button_3 ] = (UINT16 *)gGreenButtonBytes;
-        mpButtonImageMap[ P1_Button_4 ] = (UINT16 *)gBlueButtonBytes;
-        mpButtonImageMap[ P1_Button_5 ] = (UINT16 *)gWhiteTButtonASPBytes;
-        mpButtonImageMap[ P1_Button_6 ] = (UINT16 *)gWhiteBButtonASPBytes;
-        mpButtonImageMap[ P1_Button_7 ] = (UINT16 *)gGrayTButtonASPBytes;
-        mpButtonImageMap[ P1_Button_8 ] = (UINT16 *)gGrayBButtonASPBytes;
+        mpButtonImageMap[ P1_Button_4 ] = (UINT16 *)gGrayTButtonASPBytes;
+        mpButtonImageMap[ P1_Button_5 ] = (UINT16 *)gBlueButtonBytes;
+        mpButtonImageMap[ P1_Button_6 ] = (UINT16 *)gGrayBButtonASPBytes;
+        mpButtonImageMap[ P1_Button_7 ] = (UINT16 *)gWhiteTButtonASPBytes;
+        mpButtonImageMap[ P1_Button_8 ] = (UINT16 *)gWhiteBButtonASPBytes;
     }
     else
     {
@@ -166,9 +166,20 @@ UIState StateButtonConfig::Update( )
         }
     }
     
-    if( ShockInput::GetInput( P2_InsertCoin )->WasReleased( ) )
+    if ( ActivePlatform_MVSX == gActivePlatform )
     {
-        ShockPlayerInput::SetGameDefaults( );
+        if ( ShockInput::GetInput( P2_InsertCoin )->WasReleased( ) )
+        {
+            ShockPlayerInput::SetGameDefaults( );
+        }
+    }
+    else
+    {
+        // on ASP this is "Select"
+        if ( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
+        {
+            ShockPlayerInput::SetGameDefaults( );
+        }
     }
     
     // should we exit?

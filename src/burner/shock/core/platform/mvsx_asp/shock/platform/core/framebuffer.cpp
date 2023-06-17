@@ -119,7 +119,7 @@ int FrameBuffer::Create( int width, int height )
     }
     
     // and setup our back buffer for the "bottom" half
-    mpBackBuffer = mpFrameBuffer + (mVScreenInfo.xres * mVScreenInfo.yres * FRAMEBUFFER_BYTES_PP);
+	mpBackBuffer = mpFrameBuffer + (mVScreenInfo.xres * mVScreenInfo.yres * FRAMEBUFFER_BYTES_PP);
 	
 	return 0;
 }
@@ -170,41 +170,44 @@ void FrameBuffer::GetSize( int *pWidth, int *pHeight )
 
 void FrameBuffer::Flip( )
 {
-    // This treats the frame buffer as a double buffer.
-    // The hardware screen is panned to one half of the buffer.
-    // We render to the "other" half, and then pan the screen to it.
-    // So if the buffer is
-    // [ ]
-    // [ ]
-    // Then frame one goes:
-    // [ ] <--This is being displayed
-    // [X] <--we render here, then call ioctl PAN
-    // Next frame:
-    // [X] <--we now render here, then call ioctl PAN
-    // [ ] <--This one is being displayed.
-    
-    // if we're _currently_ presenting the "top" half of the buffer,
-    // make the "top" half the new back buffer and
-    // pan to bottom
-    if ( mVScreenInfo.yoffset == 0 )
-    {
-        mpBackBuffer = mpFrameBuffer;
-        mVScreenInfo.yoffset = mVScreenInfo.yres;
-    }
-    // if we're _currently_ presenting the "bottom" half of the buffer,
-    // make the "bottom" half the new back buffer and
-    // pan to the top
-    else
-    {
-        mpBackBuffer = mpFrameBuffer + (mVScreenInfo.xres * mVScreenInfo.yres * FRAMEBUFFER_BYTES_PP);
-        mVScreenInfo.yoffset = 0;
-    }
-    
-    int result = ioctl( mFrameBufferHandle, FBIOPAN_DISPLAY, &mVScreenInfo );
-    if ( result < 0 )
-    {
-        flushPrintf( "FrameBuffer::Flip() Pan error: %d errno: %d\r\n", result, errno );
-    }
+	// This treats the frame buffer as a double buffer.
+	// The hardware screen is panned to one half of the buffer.
+	// We render to the "other" half, and then pan the screen to it.
+	// So if the buffer is
+	// [ ]
+	// [ ]
+	// Then frame one goes:
+	// [ ] <--This is being displayed
+	// [X] <--we render here, then call ioctl PAN
+	// Next frame:
+	// [X] <--we now render here, then call ioctl PAN
+	// [ ] <--This one is being displayed.
+	
+	// if we're _currently_ presenting the "top" half of the buffer,
+	// make the "top" half the new back buffer and
+	// pan to bottom
+	if ( mVScreenInfo.yoffset == 0 )
+	{
+		mpBackBuffer = mpFrameBuffer;
+		mVScreenInfo.yoffset = mVScreenInfo.yres;
+	}
+	// if we're _currently_ presenting the "bottom" half of the buffer,
+	// make the "bottom" half the new back buffer and
+	// pan to the top
+	else
+	{
+		mpBackBuffer = mpFrameBuffer + (mVScreenInfo.xres * mVScreenInfo.yres * FRAMEBUFFER_BYTES_PP);
+		mVScreenInfo.yoffset = 0;
+	}
+	
+	if( ActivePlatform_MVSX == gActivePlatform )
+	{
+		int result = ioctl( mFrameBufferHandle, FBIOPAN_DISPLAY, &mVScreenInfo );
+		if ( result < 0 )
+		{
+			flushPrintf( "FrameBuffer::Flip() Pan error: %d errno: %d\r\n", result, errno );
+		}
+	}
 }
 
 int FrameBufferCore::MVSXEnableHCD( )
