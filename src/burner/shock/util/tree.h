@@ -94,13 +94,13 @@ private:
         if (!node)
             return true;
 
-        if (!cb(context, node))
-            return false;
+        bool continueDepth = cb(context, node);
 
-        if (!TraverseDepth(node->firstChild, context, cb))
-            return false;
+        if (continueDepth)
+            continueDepth = TraverseDepth(node->firstChild, context, cb);
 
-        return TraverseDepth(node->nextSibling, context, cb);
+        TraverseDepth(node->nextSibling, context, cb);
+        return continueDepth;
     }
 
     bool TraverseBreadth(Node* node, void* context, TreeCb cb)
@@ -108,13 +108,13 @@ private:
         if (!node)
             return true;
 
-        if (!cb(context, node))
-            return false;
+        bool continueBreadth = cb(context, node);
 
-        if (!TraverseBreadth(node->nextSibling, context, cb))
-            return false;
+        if (continueBreadth)
+            continueBreadth = TraverseBreadth(node->nextSibling, context, cb);
         
-        return TraverseBreadth(node->firstChild, context, cb);
+        TraverseBreadth(node->firstChild, context, cb);
+        return continueBreadth;
     }
 
 private:

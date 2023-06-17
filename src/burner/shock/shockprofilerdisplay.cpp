@@ -127,17 +127,9 @@ bool ShockProfilerDisplay::CaptureNode(void*, TreeNode<ShockProfiler *> *source)
 bool ShockProfilerDisplay::PrintNode(void* data, TreeNode<ShockProfilerDisplay::Value*>* node)
 {
     TreeNode<ShockProfilerDisplay::Value*>* parent = node->parent;
-
-    while (parent) // find a faster way to do this before merging
-    {
-        if (!parent->val->expanded)
-            return true;
-
-        parent = parent->parent;
-    }
         
     if (node->parent && !node->parent->val->expanded)
-        return true;
+        return false;
 
     Value& value = *node->val;
 
@@ -150,7 +142,7 @@ bool ShockProfilerDisplay::PrintNode(void* data, TreeNode<ShockProfilerDisplay::
     Font::Print( c->str, c->x + node->depth * MET_FONT_LETTER_WIDTH, c->y, 0xFFFFu );
 
     if (mSelected == node)
-        Font::Print( "-", c->x + node->depth * MET_FONT_LETTER_WIDTH, c->y, 0XFFEAu );
+        Font::Print( "X", c->x + node->depth * MET_FONT_LETTER_WIDTH, c->y, 0XFFEAu );
 
     c->y += c->fontHeight;
 
