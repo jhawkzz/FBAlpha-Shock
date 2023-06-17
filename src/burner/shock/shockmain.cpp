@@ -10,9 +10,9 @@
 #include "shock/shockconfig.h"
 #include "shock/shockgame.h"
 #include "shock/shockmain.h"
-#include "shock/shockromloader.h"
+#include "shock/shockprofilerdisplay.h"
 #include "shock/shockrenderer.h"
-#include "shock/shocktimerdisplay.h"
+#include "shock/shockromloader.h"
 #include "shock/ui/shockui.h"
 #include "shock/util/util.h"
 

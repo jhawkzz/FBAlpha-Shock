@@ -11,7 +11,8 @@ public:
     TreeNode( )
     {
         firstChild = NULL;
-        sibling = NULL;
+        prevSibling = NULL;
+        nextSibling = NULL;
         parent = NULL;
         depth = 0;
     }
@@ -20,10 +21,14 @@ public:
     {
         child->depth = depth + 1;
         child->parent = this;
-        child->sibling = firstChild;
+        child->nextSibling = firstChild;
+        child->prevSibling = NULL;
         child->firstChild = NULL;
-        firstChild = child;
 
+        if (firstChild)
+            firstChild->prevSibling = child;
+
+        firstChild = child;
         return child;
     }
 
@@ -32,7 +37,8 @@ public:
 
 public:
     TreeNode* firstChild;
-    TreeNode* sibling;
+    TreeNode* prevSibling;
+    TreeNode* nextSibling;
     TreeNode* parent;
     UINT32 depth;
 };
@@ -42,7 +48,7 @@ class Tree
 {
 public:
     typedef TreeNode<T> Node;
-    typedef void(*TreeCb)(void* context, TreeNode<T>*);
+    typedef bool(*TreeCb)(void* context, TreeNode<T>*);
 
 public:
     Tree()
@@ -83,26 +89,32 @@ public:
     }
 
 private:
-    void TraverseDepth(Node* node, void* context, TreeCb cb)
+    bool TraverseDepth(Node* node, void* context, TreeCb cb)
     {
         if (!node)
-            return;
+            return true;
 
-        cb(context, node);
+        if (!cb(context, node))
+            return false;
 
-        TraverseDepth(node->firstChild, context, cb);
-        TraverseDepth(node->sibling, context, cb);
+        if (!TraverseDepth(node->firstChild, context, cb))
+            return false;
+
+        return TraverseDepth(node->nextSibling, context, cb);
     }
 
-    void TraverseBreadth(Node* node, void* context, TreeCb cb)
+    bool TraverseBreadth(Node* node, void* context, TreeCb cb)
     {
         if (!node)
-            return;
+            return true;
 
-        cb(context, node);
+        if (!cb(context, node))
+            return false;
 
-        TraverseBreadth(node->sibling, context, cb);
-        TraverseBreadth(node->firstChild, context, cb);
+        if (!TraverseBreadth(node->nextSibling, context, cb))
+            return false;
+        
+        return TraverseBreadth(node->firstChild, context, cb);
     }
 
 private:

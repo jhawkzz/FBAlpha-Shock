@@ -44,13 +44,15 @@ public:
     };
 
 private:
-    static void CaptureNode(void* data, TreeNode<ShockProfiler *> *node);
+    static bool CaptureNode(void* data, TreeNode<ShockProfiler *> *node);
+    static bool PrintNode(void* data, TreeNode<ShockProfilerDisplay::Value*>* node);
 
 private:
     typedef HashTableIterator<NUINT, ShockProfilerDisplay::Node, ShockProfilerCount> HashIterator;
     static HashTable<NUINT, Node, ShockProfilerCount> mHash;
     static Tree<Value*, ShockProfilerCount> mTree;
     static Array<ShockProfilerDisplay::Node*, ShockProfilerCount> mAdded;
+    static TreeNode<Value*>* mSelected;
     static UINT32 mFrame;
 };
 

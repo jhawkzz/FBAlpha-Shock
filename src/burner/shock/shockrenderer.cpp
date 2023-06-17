@@ -5,8 +5,8 @@
 #include "shock/font/font.h"
 #include "shock/shockconfig.h"
 #include "shock/shockprofiler.h"
+#include "shock/shockprofilerdisplay.h"
 #include "shock/shockrenderer.h"
-#include "shock/shocktimerdisplay.h"
 #include "shock/util/util.h"
 #include "shock/shockgame.h"
 
