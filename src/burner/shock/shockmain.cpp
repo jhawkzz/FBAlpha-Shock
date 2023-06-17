@@ -177,8 +177,8 @@ void ShockMain::Run( const char *pRomset )
 
     do
     {
-        ShockTimerDisplay::Capture();
-        TimerTree::Clear();
+        ShockProfilerDisplay::Capture();
+        ShockProfilerTree::Clear();
 
         ShockMain::Update( );
 

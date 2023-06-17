@@ -133,7 +133,7 @@ void ShockConfig::SetShowFPS( int enabled )
 
 int ShockConfig::GetShowTimers( )
 {
-#ifdef SHOCK_TIMERS
+#ifdef SHOCK_PROFILERS
     return mConfigSettings.showTimers;
 #else
     return 0;

@@ -34,7 +34,7 @@ const unsigned int VOIDPTR_SIZE = sizeof(void*);
 // with an FPS to start with. Use 60.
 #define DEFAULT_FPS (6000)
 
-#define SHOCK_TIMERS
+#define SHOCK_PROFILERS
 
 // Although games could theoretically support more, we'll only ever support 2
 #define MAX_SHOCK_PLAYERS (2)

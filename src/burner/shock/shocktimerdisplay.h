@@ -1,14 +1,14 @@
 
 // See License.md for license
 
-#ifndef SHOCKTIMERDISPLAY_H_
-#define SHOCKTIMERDISPLAY_H_
+#ifndef SHOCKPROFILERDISPLAY_H_
+#define SHOCKPROFILERDISPLAY_H_
 
 #include "shock/shock.h"
 #include "shock/shockprofiler.h"
 #include "shock/util/hash_table.h"
 
-class ShockTimerDisplay
+class ShockProfilerDisplay
 {
 public:
     static void Capture( );
@@ -44,13 +44,13 @@ public:
     };
 
 private:
-    static void CaptureNode(void* data, TreeNode<Timer *> *node);
+    static void CaptureNode(void* data, TreeNode<ShockProfiler *> *node);
 
 private:
-    typedef HashTableIterator<NUINT, ShockTimerDisplay::Node, TimerCount> HashIterator;
-    static HashTable<NUINT, Node, TimerCount> mHash;
-    static Tree<Value*, TimerCount> mTree;
-    static Array<ShockTimerDisplay::Node*, TimerCount> mAdded;
+    typedef HashTableIterator<NUINT, ShockProfilerDisplay::Node, ShockProfilerCount> HashIterator;
+    static HashTable<NUINT, Node, ShockProfilerCount> mHash;
+    static Tree<Value*, ShockProfilerCount> mTree;
+    static Array<ShockProfilerDisplay::Node*, ShockProfilerCount> mAdded;
     static UINT32 mFrame;
 };
 

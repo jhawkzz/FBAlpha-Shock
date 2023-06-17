@@ -15,7 +15,7 @@ namespace
         char str[256];
     };
 
-    void PrintNode(void* data, TreeNode<ShockTimerDisplay::Value*>* node)
+    void PrintNode(void* data, TreeNode<ShockProfilerDisplay::Value*>* node)
     {
         PrintContext* c = (PrintContext*) data;
 
@@ -25,25 +25,25 @@ namespace
         c->y += c->fontHeight;
     }
 
-    NUINT RecurseHash(TreeNode<Timer*>* node, NUINT seed)
+    NUINT RecurseHash(TreeNode<ShockProfiler*>* node, NUINT seed)
     {
         return node ? RecurseHash(node->parent, Hash((NUINT)node->val->Name(), seed)) : seed;
     }
 
-    NUINT RecurseHash(TreeNode<Timer*>* node)
+    NUINT RecurseHash(TreeNode<ShockProfiler*>* node)
     {
         return node ? RecurseHash(node->parent, Hash((NUINT)node->val->Name(), HashDefault)) : HashDefault;
     }
 };
 
-HashTable<NUINT, ShockTimerDisplay::Node, TimerCount> ShockTimerDisplay::mHash;
-Tree<ShockTimerDisplay::Value*, TimerCount> ShockTimerDisplay::mTree;
-Array<ShockTimerDisplay::Node*, TimerCount> ShockTimerDisplay::mAdded;
-UINT32 ShockTimerDisplay::mFrame;
+HashTable<NUINT, ShockProfilerDisplay::Node, ShockProfilerCount> ShockProfilerDisplay::mHash;
+Tree<ShockProfilerDisplay::Value*, ShockProfilerCount> ShockProfilerDisplay::mTree;
+Array<ShockProfilerDisplay::Node*, ShockProfilerCount> ShockProfilerDisplay::mAdded;
+UINT32 ShockProfilerDisplay::mFrame;
 
-void ShockTimerDisplay::Capture()
+void ShockProfilerDisplay::Capture()
 {
-    TimerTree::TraverseDepth(NULL, CaptureNode);
+    ShockProfilerTree::TraverseDepth(NULL, CaptureNode);
 
     // associate all the tree nodes with each other
     for (UINT32 i = 0; i < mAdded.Size(); i++)
@@ -74,7 +74,7 @@ void ShockTimerDisplay::Capture()
     ++mFrame;
 }
 
-void ShockTimerDisplay::Render()
+void ShockProfilerDisplay::Render()
 {
     PrintContext c;
     c.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
@@ -85,7 +85,7 @@ void ShockTimerDisplay::Render()
     mTree.TraverseDepth(&c, PrintNode);
 }
 
-void ShockTimerDisplay::CaptureNode(void*, TreeNode<Timer *> *source)
+void ShockProfilerDisplay::CaptureNode(void*, TreeNode<ShockProfiler *> *source)
 {
     NUINT hash = RecurseHash(source);
 
@@ -93,11 +93,11 @@ void ShockTimerDisplay::CaptureNode(void*, TreeNode<Timer *> *source)
     node.parent = RecurseHash(source->parent);
     node.frame = mFrame;
 
-    Timer* timer = source->val;
+    ShockProfiler* profiler = source->val;
 
     Value& value = node.value;
-    value.name = timer->Name();
-    value.ns = timer->Time();
+    value.name = profiler->Name();
+    value.ns = profiler->Time();
 
     if (!node.dest)
     {
