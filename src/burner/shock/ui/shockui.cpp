@@ -1,8 +1,8 @@
-
 // See License.md for license
 
 #include "shock/core/ostimer.h"
 #include "shock/input/shockinput.h"
+#include "shock/shockprofiler.h"
 #include "shock/ui/shockui.h"
 #include "shock/ui/render/uirenderer.h"
 

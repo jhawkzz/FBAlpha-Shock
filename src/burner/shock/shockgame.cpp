@@ -8,8 +8,10 @@
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
 #include "shock/shockgame.h"
+#include "shock/shockprofiler.h"
 #include "shock/shockrenderer.h"
 #include "shock/shockromloader.h"
+#include "shock/shocktimerdisplay.h"
 #include "shock/util/util.h"
 
 #ifdef MVSX_ASP
@@ -185,6 +187,8 @@ void ShockGame::ResetFBATimer( )
 
 void ShockGame::Update( )
 {
+    SHOCK_PROFILE;
+
     //todo - this isnt great, obviously, but works well enough
     if ( mPaused == 1 )
     {
@@ -241,7 +245,10 @@ void ShockGame::Update( )
     {
         pBurnDraw = NULL;
 
-        BurnDrvFrame( );
+        {
+            SHOCK_PROFILE_SCOPE(BurnDrvFrame_Bypass);
+            BurnDrvFrame( );
+        }
 
         if ( pBurnSoundOut )
         {
@@ -258,7 +265,10 @@ void ShockGame::Update( )
 
         pBurnDraw = (uint8_t *)ShockGame::mGameBackBuffer;
 
-        BurnDrvFrame( );
+        {
+            SHOCK_PROFILE_SCOPE(BurnDrvFrame_Draw);
+            BurnDrvFrame( );
+        }
 
         if ( pBurnSoundOut )
         {
@@ -271,7 +281,15 @@ void ShockGame::Update( )
             mGameDriverFlags,
             mFBA_FPS_Current );
 
-        ShockRenderer::Flip( );
+        if ( ShockConfig::GetShowTimers( ) )
+        {
+            ShockTimerDisplay::Render();
+        }
+
+        {
+            SHOCK_PROFILE_SCOPE(Flip);
+            ShockRenderer::Flip( );
+        }
 
         mFBA_FPS_FramesDrawn++;
 

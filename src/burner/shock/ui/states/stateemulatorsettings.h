@@ -19,11 +19,20 @@ public:
     virtual UIState Update( );
     
 private:
+    enum MenuId
+    {
+        MenuIdStart,
+        MenuIdFps = MenuIdStart,
+        MenuIdLoadWarnings,
+        MenuIdTimers,
+
+        MenuIdCount
+    };
+
     void      DrawMenu( );
     
-    int       mNumMenuItems;
-    MenuItem  mMenuItemList[ MAX_MENU_ITEMS ];
-    int       mMenuSelection;
+    MenuItem  mMenuItemList[ MenuIdCount ];
+    MenuId mMenuSelection;
 };
 
 #endif

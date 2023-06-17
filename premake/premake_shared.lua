@@ -55,7 +55,7 @@ project "FBAlpha-Shock"
 
    local sources = {}
    for _, sourceDir in ipairs(sourceDirs) do
-      files { sourceDir .. "/**.cpp", sourceDir .. "/**.c", sourceDir .. "/**.h" }
+      files { sourceDir .. "/**.cpp", sourceDir .. "/**.c", sourceDir .. "/**.h", sourceDir .. "/**.inl" }
    end
 
    set_buildoptions()
@@ -98,6 +98,8 @@ project "FBAlpha-Shock"
          local dirFiles = os.matchfiles(sourceDir .. "/**.cpp") -- Collect all cpp files
          table.insert(allFiles, dirFiles)
          dirFiles = os.matchfiles(sourceDir .. "/**.h") -- Collect all header files
+         table.insert(allFiles, dirFiles)
+         dirFiles = os.matchfiles(sourceDir .. "/**.inl") -- Collect all inline files
          table.insert(allFiles, dirFiles)
       end
 

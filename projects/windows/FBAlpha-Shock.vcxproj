@@ -58,7 +58,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>INLINE static inline;SH2_INLINE static inline;LSB_FIRST;BUILD_WIN32;USE_SPEEDHACKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>INLINE static inline;SH2_INLINE static inline;LSB_FIRST;BUILD_WIN32;_CRT_SECURE_NO_WARNINGS;USE_SPEEDHACKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\src\burn;..\..\src\burn\devices;..\..\src\burn\drv\capcom;..\..\src\burn\drv\cave;..\..\src\burn\drv\dataeast;..\..\src\burn\drv\konami;..\..\src\burn\drv\neogeo;..\..\src\burn\drv\psikyo;..\..\src\burn\drv\sega;..\..\src\burn\drv\taito;..\..\src\burn\drv\toaplan;..\..\src\burner;..\..\src\burn\snd;..\..\src\cpu;..\..\src\cpu\i8039;..\..\src\cpu\i8051;..\..\src\cpu\i8x41;..\..\src\cpu\m6805;..\..\src\cpu\tms32010;..\..\src\cpu\upd7725;..\..\src\cpu\upd7810;..\..\src\cpu\v60;..\..\src\cpu\z180;..\..\src\cpu\z80;..\..\src\dep\generated;..\..\src\dep\libs\zlib;..\..\src\intf;..\..\src\intf\audio;..\..\src\intf\cd;..\..\src\burner\shock\core\platform\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -71,7 +71,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>INLINE static inline;SH2_INLINE static inline;LSB_FIRST;BUILD_WIN32;USE_SPEEDHACKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>INLINE static inline;SH2_INLINE static inline;LSB_FIRST;BUILD_WIN32;_CRT_SECURE_NO_WARNINGS;USE_SPEEDHACKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\src\burn;..\..\src\burn\devices;..\..\src\burn\drv\capcom;..\..\src\burn\drv\cave;..\..\src\burn\drv\dataeast;..\..\src\burn\drv\konami;..\..\src\burn\drv\neogeo;..\..\src\burn\drv\psikyo;..\..\src\burn\drv\sega;..\..\src\burn\drv\taito;..\..\src\burn\drv\toaplan;..\..\src\burner;..\..\src\burn\snd;..\..\src\cpu;..\..\src\cpu\i8039;..\..\src\cpu\i8051;..\..\src\cpu\i8x41;..\..\src\cpu\m6805;..\..\src\cpu\tms32010;..\..\src\cpu\upd7725;..\..\src\cpu\upd7810;..\..\src\cpu\v60;..\..\src\cpu\z180;..\..\src\cpu\z80;..\..\src\dep\generated;..\..\src\dep\libs\zlib;..\..\src\intf;..\..\src\intf\audio;..\..\src\intf\cd;..\..\src\burner\shock\core\platform\windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -275,8 +275,10 @@
     <ClInclude Include="..\..\src\burner\shock\shockconfig.h" />
     <ClInclude Include="..\..\src\burner\shock\shockgame.h" />
     <ClInclude Include="..\..\src\burner\shock\shockmain.h" />
+    <ClInclude Include="..\..\src\burner\shock\shockprofiler.h" />
     <ClInclude Include="..\..\src\burner\shock\shockrenderer.h" />
     <ClInclude Include="..\..\src\burner\shock\shockromloader.h" />
+    <ClInclude Include="..\..\src\burner\shock\shocktimerdisplay.h" />
     <ClInclude Include="..\..\src\burner\shock\systems.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\imagebinaries.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\render\drawlistobject.h" />
@@ -295,7 +297,14 @@
     <ClInclude Include="..\..\src\burner\shock\ui\states\statemainmenu.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\statesavestate.h" />
     <ClInclude Include="..\..\src\burner\shock\ui\states\uibasestate.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\array.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\hash.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\hash_table.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\hash_table.inl" />
     <ClInclude Include="..\..\src\burner\shock\util\ringbuffer.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\span.h" />
+    <ClInclude Include="..\..\src\burner\shock\util\span.inl" />
+    <ClInclude Include="..\..\src\burner\shock\util\tree.h" />
     <ClInclude Include="..\..\src\burner\shock\util\util.h" />
     <ClInclude Include="..\..\src\burner\tchar.h" />
     <ClInclude Include="..\..\src\burner\unzip.h" />
@@ -1132,8 +1141,10 @@
     <ClCompile Include="..\..\src\burner\shock\shockconfig.cpp" />
     <ClCompile Include="..\..\src\burner\shock\shockgame.cpp" />
     <ClCompile Include="..\..\src\burner\shock\shockmain.cpp" />
+    <ClCompile Include="..\..\src\burner\shock\shockprofiler.cpp" />
     <ClCompile Include="..\..\src\burner\shock\shockrenderer.cpp" />
     <ClCompile Include="..\..\src\burner\shock\shockromloader.cpp" />
+    <ClCompile Include="..\..\src\burner\shock\shocktimerdisplay.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\imagebinaries.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\render\drawlistobject.cpp" />
     <ClCompile Include="..\..\src\burner\shock\ui\render\menuitem.cpp" />

@@ -5,12 +5,14 @@
 #include "shock/core/ostimer.h"
 #include "shock/input/shockinput.h"
 #include "shock/font/font.h"
+#include "shock/shockprofiler.h"
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
 #include "shock/shockgame.h"
 #include "shock/shockmain.h"
 #include "shock/shockromloader.h"
 #include "shock/shockrenderer.h"
+#include "shock/shocktimerdisplay.h"
 #include "shock/ui/shockui.h"
 #include "shock/util/util.h"
 
@@ -175,7 +177,11 @@ void ShockMain::Run( const char *pRomset )
 
     do
     {
+        ShockTimerDisplay::Capture();
+        TimerTree::Clear();
+
         ShockMain::Update( );
+
     } while ( mState != ShockState_Quit );
 
     ShockMain::Destroy( );
@@ -326,7 +332,9 @@ void ShockMain::UpdateState_Emulator( )
 
 void ShockMain::Update( )
 {
-    int result = Core::Update( );
+    SHOCK_PROFILE;
+
+    int result = Core::Update();
 
     if ( result == -1 )
     {

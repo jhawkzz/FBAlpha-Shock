@@ -27,7 +27,7 @@ ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
 LIBS += -lm -lpthread -lrt
 LDDEPS +=
 ALL_LDFLAGS += $(LDFLAGS) -s -static
-LINKCMD = @$(file > $@.in, $(filter %.o, $^)) $(CXX) -o $@ $(filter-out %.o, $^) @$@.in $(ALL_LDFLAGS) $(LIBS)
+LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 BINPATH  := ../../../fba-toolchains/windows-host/win-linaro-arm-linux-gnueabi/bin
 CC       := ${BINPATH}/arm-linux-gnueabi-gcc
 CXX      := ${BINPATH}/arm-linux-gnueabi-g++
@@ -768,8 +768,10 @@ GENERATED += $(OBJDIR)/shockgame.o
 GENERATED += $(OBJDIR)/shockinput.o
 GENERATED += $(OBJDIR)/shockmain.o
 GENERATED += $(OBJDIR)/shockplayerinput.o
+GENERATED += $(OBJDIR)/shockprofiler.o
 GENERATED += $(OBJDIR)/shockrenderer.o
 GENERATED += $(OBJDIR)/shockromloader.o
+GENERATED += $(OBJDIR)/shocktimerdisplay.o
 GENERATED += $(OBJDIR)/shockui.o
 GENERATED += $(OBJDIR)/sknsspr.o
 GENERATED += $(OBJDIR)/slapstic.o
@@ -1578,8 +1580,10 @@ OBJECTS += $(OBJDIR)/shockgame.o
 OBJECTS += $(OBJDIR)/shockinput.o
 OBJECTS += $(OBJDIR)/shockmain.o
 OBJECTS += $(OBJDIR)/shockplayerinput.o
+OBJECTS += $(OBJDIR)/shockprofiler.o
 OBJECTS += $(OBJDIR)/shockrenderer.o
 OBJECTS += $(OBJDIR)/shockromloader.o
+OBJECTS += $(OBJDIR)/shocktimerdisplay.o
 OBJECTS += $(OBJDIR)/shockui.o
 OBJECTS += $(OBJDIR)/sknsspr.o
 OBJECTS += $(OBJDIR)/slapstic.o
@@ -3896,10 +3900,16 @@ $(OBJDIR)/shockgame.o: ../../src/burner/shock/shockgame.cpp
 $(OBJDIR)/shockmain.o: ../../src/burner/shock/shockmain.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/shockprofiler.o: ../../src/burner/shock/shockprofiler.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/shockrenderer.o: ../../src/burner/shock/shockrenderer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/shockromloader.o: ../../src/burner/shock/shockromloader.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/shocktimerdisplay.o: ../../src/burner/shock/shocktimerdisplay.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/imagebinaries.o: ../../src/burner/shock/ui/imagebinaries.cpp

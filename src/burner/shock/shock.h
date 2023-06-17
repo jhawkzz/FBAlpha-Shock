@@ -9,9 +9,32 @@
 
 #define SHOCK_VERSION "1.0.2"
 
+typedef unsigned char byte;
+
+#ifdef _WIN64
+    #define SHOCK_64BIT
+#else
+    #define SHOCK_32BIT
+#endif
+
+#ifdef SHOCK_64BIT
+    typedef unsigned long long NUINT;
+#else
+    typedef unsigned int NUINT;
+#endif
+
+const unsigned int NUINT_SIZE = sizeof(NUINT);
+const unsigned int VOIDPTR_SIZE = sizeof(void*);
+
+#if (NUINT_SIZE != VOIDPTR_SIZE)
+    #error Size Mismatch
+#endif
+
 // Before a game is loaded, we sometimes need to provide certain systems
 // with an FPS to start with. Use 60.
 #define DEFAULT_FPS (6000)
+
+#define SHOCK_TIMERS
 
 // Although games could theoretically support more, we'll only ever support 2
 #define MAX_SHOCK_PLAYERS (2)

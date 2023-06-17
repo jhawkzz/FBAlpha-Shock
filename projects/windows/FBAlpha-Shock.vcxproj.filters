@@ -813,10 +813,16 @@
     <ClInclude Include="..\..\src\burner\shock\shockmain.h">
       <Filter>burner\shock</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\shockprofiler.h">
+      <Filter>burner\shock</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\shockrenderer.h">
       <Filter>burner\shock</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\shockromloader.h">
+      <Filter>burner\shock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\shocktimerdisplay.h">
       <Filter>burner\shock</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\systems.h">
@@ -873,7 +879,28 @@
     <ClInclude Include="..\..\src\burner\shock\ui\states\uibasestate.h">
       <Filter>burner\shock\ui\states</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\array.h">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\hash.h">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\hash_table.h">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\hash_table.inl">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\util\ringbuffer.h">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\span.h">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\span.inl">
+      <Filter>burner\shock\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burner\shock\util\tree.h">
       <Filter>burner\shock\util</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\burner\shock\util\util.h">
@@ -3380,10 +3407,16 @@
     <ClCompile Include="..\..\src\burner\shock\shockmain.cpp">
       <Filter>burner\shock</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\burner\shock\shockprofiler.cpp">
+      <Filter>burner\shock</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\shockrenderer.cpp">
       <Filter>burner\shock</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\shockromloader.cpp">
+      <Filter>burner\shock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burner\shock\shocktimerdisplay.cpp">
       <Filter>burner\shock</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\burner\shock\ui\imagebinaries.cpp">
