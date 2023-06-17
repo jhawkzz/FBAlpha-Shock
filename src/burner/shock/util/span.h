@@ -30,7 +30,7 @@ public:
 
    void Clear() { mSize = 0; }
 
-   T& operator[](UINT32 i) const { SC_ASSERT(i < Size()); return mData[i]; }
+   T& operator[](UINT32 i) const { SHOCK_ASSERT(i < Size()); return mData[i]; }
 
    operator Span<const T>() { return Span<const T>((const T*)Data(), Size(), Capacity()); }
 
