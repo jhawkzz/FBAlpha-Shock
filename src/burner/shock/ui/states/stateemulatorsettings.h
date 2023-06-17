@@ -19,11 +19,20 @@ public:
     virtual UIState Update( );
     
 private:
+    enum class MenuIndex : UINT32
+    {
+        Start,
+        Fps = Start,
+        LoadWarnings,
+        Timers,
+
+        Count
+    };
+
     void      DrawMenu( );
     
-    int       mNumMenuItems;
-    MenuItem  mMenuItemList[ MAX_MENU_ITEMS ];
-    int       mMenuSelection;
+    MenuItem  mMenuItemList[ MenuIndex::Count ];
+    MenuIndex mMenuSelection;
 };
 
 #endif

@@ -34,7 +34,7 @@ enum UIState
 #define UI_CURSOR_X_OFFSET (52)  //The amount of pixels to decrement by when rendering the selection cursor
 #define MAX_MENU_ITEMS     (15)
 #define UI_COLOR_DISABLED  (0x4A49)
-#define UI_COLOR_ENABLED   (0XFFEA)
+#define UI_COLOR_ENABLED   (0XFFEAu)
 
 class UIBaseState
 {
