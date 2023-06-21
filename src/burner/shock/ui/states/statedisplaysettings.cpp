@@ -16,9 +16,6 @@ void StateDisplaySettings::Create( )
     
     int xPos = UI_X_POS_MENU;
     int yPos = UI_Y_POS_MENU;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Original (2x Scaled)", xPos, yPos, 0xFFFF );
-
-    yPos += UI_ROW_HEIGHT;
     mMenuItemList[ mNumMenuItems++ ].Create( "Aspect Ratio (Full Screen)", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT;
@@ -82,17 +79,13 @@ UIState StateDisplaySettings::Update( )
     {   
         if ( mMenuSelection == 0 )
         {
-            ShockConfig::SetDisplayMode( ShockDisplayMode_Original2x );
+            ShockConfig::SetDisplayMode( ShockDisplayMode_AspectRatio );
         }
         else if ( mMenuSelection == 1 )
         {
-            ShockConfig::SetDisplayMode( ShockDisplayMode_AspectRatio );
-        }
-        else if ( mMenuSelection == 2 )
-        {
             ShockConfig::SetDisplayMode( ShockDisplayMode_FullScreen );
         }
-        else if ( mMenuSelection == 3 )
+        else if ( mMenuSelection == 2 )
         {
             int displayFilter = ShockConfig::GetDisplayFilter( );
             displayFilter = (displayFilter + 1) % ShockDisplayFilter_Count;
@@ -116,10 +109,6 @@ void StateDisplaySettings::DrawMenu( )
     mMenuItemList[1].SetColor( textColor );
     mMenuItemList[1].Draw( );
     
-    textColor = ShockConfig::GetDisplayMode() == 2 ? textColor = UI_COLOR_ENABLED : 0xFFFF;
-    mMenuItemList[2].SetColor( textColor );
-    mMenuItemList[2].Draw( );
-    
     // seperator
     int lineWidth = 200;
     int xPos = ( UI_WIDTH - lineWidth ) / 2;
@@ -130,9 +119,10 @@ void StateDisplaySettings::DrawMenu( )
     char displayStr[ MAX_PATH ] = { 0 };
     char explanationOneStr[ MAX_PATH ] = { 0 };
     char explanationTwoStr[ MAX_PATH ] = { 0 };
+    char explanationThreeStr[ MAX_PATH ] = { 0 };
     int menuItemLen = 0;
     
-    mMenuItemList[ 3 ].Draw( );
+    mMenuItemList[ 2 ].Draw( );
     switch ( ShockConfig::GetDisplayFilter( ) )
     {
         case ShockDisplayFilter_Pixel:
@@ -156,6 +146,7 @@ void StateDisplaySettings::DrawMenu( )
             strncpy( displayStr, "Pixel Smoothing", sizeof( displayStr ) - 1 );
             strncpy( explanationOneStr, "Smooths the pixel art to simulate a crt look", sizeof( explanationOneStr ) - 1 );
             strncpy( explanationTwoStr, "Most games run at 60 fps. Some will run slower", sizeof( explanationTwoStr ) - 1 );
+            strncpy( explanationThreeStr, "You may need to adjust your tv display setting to 4:3", sizeof( explanationThreeStr ) - 1 );
             break;
         }
 
@@ -164,15 +155,23 @@ void StateDisplaySettings::DrawMenu( )
             strncpy( displayStr, "Performance", sizeof( displayStr ) - 1 );
             strncpy( explanationOneStr, "Extremely high fps but a slightly soft image", sizeof( explanationOneStr ) - 1 );
             strncpy( explanationTwoStr, "All games run at or near 60 fps", sizeof( explanationTwoStr ) - 1 );
+            strncpy( explanationThreeStr, "You may need to adjust your tv display setting to 4:3", sizeof( explanationThreeStr ) - 1 );
             break;
         }
     }
-    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 3 ].GetText( ) );
-    UIRenderer::DrawText( displayStr, mMenuItemList[ 3 ].GetXPos( ) + menuItemLen, mMenuItemList[ 3 ].GetYPos( ), UI_COLOR_ENABLED );
+    menuItemLen = Font::MeasureStringWidth( mMenuItemList[ 2 ].GetText( ) );
+    UIRenderer::DrawText( displayStr, mMenuItemList[ 2 ].GetXPos( ) + menuItemLen, mMenuItemList[ 2 ].GetYPos( ), UI_COLOR_ENABLED );
 
-    yPos = mMenuItemList[ 3 ].GetYPos( ) + UI_ROW_HEIGHT * 2;
-    UIRenderer::DrawText( explanationOneStr, mMenuItemList[ 3 ].GetXPos( ), yPos, 0xFFFF );
-    UIRenderer::DrawText( explanationTwoStr, mMenuItemList[ 3 ].GetXPos( ), yPos + UI_ROW_HEIGHT / 2, 0xFFFF );
+    yPos = mMenuItemList[ 2 ].GetYPos( ) + UI_ROW_HEIGHT * 2;
+    UIRenderer::DrawText( explanationOneStr, mMenuItemList[ 2 ].GetXPos( ), yPos, 0xFFFF );
+    yPos += UI_ROW_HEIGHT / 2;
+    UIRenderer::DrawText( explanationTwoStr, mMenuItemList[ 2 ].GetXPos( ), yPos, 0xFFFF );
+
+    if ( ActivePlatform_ASP == gActivePlatform )
+    {
+        yPos += UI_ROW_HEIGHT / 2;
+        UIRenderer::DrawText( explanationThreeStr, mMenuItemList[ 2 ].GetXPos( ), yPos + UI_ROW_HEIGHT / 2, 0xFFFF );
+    }
     
     // Cursor
     UIBaseState::RenderMenuCursor( mMenuItemList[ mMenuSelection ].GetXPos( ), 
