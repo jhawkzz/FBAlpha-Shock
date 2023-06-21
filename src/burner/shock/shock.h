@@ -53,6 +53,7 @@ const unsigned int VOIDPTR_SIZE = sizeof(void*);
 
 // Graphics
 #define RESOLUTION_1280_WIDTH   (1280) //The highest resolution we'll use for rendering the game. Based on the MVSX's display (1280x1024)
+#define RESOLUTION_960_WIDTH    (960) // asp's game width
 #define RESOLUTION_1024_HEIGHT  (1024)
 #define RESOLUTION_720_HEIGHT   (720) // Used when rendering to fullscreen (with stretch). Results in the best balance between visual quality and fps
 #define FRAMEBUFFER_BPP	        (16)

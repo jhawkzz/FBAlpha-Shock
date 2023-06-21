@@ -4,9 +4,7 @@
 #include "shock/core/framebuffer.h"
 #include "shock/font/font.h"
 #include "shock/shockconfig.h"
-#include "shock/shockprofiler.h"
 #include "shock/shockrenderer.h"
-#include "shock/shocktimerdisplay.h"
 #include "shock/util/util.h"
 #include "shock/shockgame.h"
 
@@ -46,13 +44,23 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
         case ShockDisplayFilter_Pixel:
         case ShockDisplayFilter_Pixel_Scanline:
         {
-            if ( ShockDisplayMode_AspectRatio == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
+            if ( ActivePlatform_ASP == gActivePlatform )
             {
-                FrameBuffer::SetSize( RESOLUTION_1280_WIDTH / 2, RESOLUTION_1024_HEIGHT / 2 );
+                FrameBuffer::SetSize( RESOLUTION_1280_WIDTH / 2, RESOLUTION_720_HEIGHT / 2 );   
             }
             else
             {
-                FrameBuffer::SetSize( RESOLUTION_1280_WIDTH, RESOLUTION_720_HEIGHT );
+                // for aspect, create a framebuffer with the same aspect ratio as the screen,
+                // so we can render letter boxed into that
+                if ( ShockDisplayMode_AspectRatio == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
+                {
+                    FrameBuffer::SetSize( RESOLUTION_1280_WIDTH / 2, RESOLUTION_1024_HEIGHT / 2 );
+                }
+                else
+                {
+                    // for "full screen", actually do 720p and let the driver stretch it up
+                    FrameBuffer::SetSize( RESOLUTION_1280_WIDTH, RESOLUTION_720_HEIGHT );
+                }
             }
             break;
         }
@@ -73,13 +81,20 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
             int frameBufferHeight = 0;
 
             // for smoothing and performance, the framebuffer
-            // should be the size of the game, or a bounding box around it
-            // if the display MODE is aspect ratio.
-            if ( ShockDisplayMode_AspectRatio == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
+            // should be the size of the game, or a bounding box around it if the display MODE is aspect ratio
+            if ( ShockDisplayMode_AspectRatio == (ShockDisplayMode)ShockConfig::GetDisplayMode( )  )
             {
                 // here we want to create a frame buffer that's the aspect ratio of the display
                 float srcAspect = (float)gameWidth / gameHeight;
-                float destAspect = (float)RESOLUTION_1280_WIDTH / RESOLUTION_1024_HEIGHT;
+                float destAspect;
+                if ( ActivePlatform_ASP == gActivePlatform )
+                {
+                    destAspect = (float)RESOLUTION_960_WIDTH / RESOLUTION_720_HEIGHT;
+                }
+                else
+                {
+                    destAspect = (float)RESOLUTION_1280_WIDTH / RESOLUTION_1024_HEIGHT;
+                }
 
                 // if the game is wider than the device, let it be width dominant
                 // and scale height down.
@@ -88,7 +103,7 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
                     // sf3 is a good example
                     frameBufferWidth = gameWidth;
 
-                    float aspectRatio = (float)RESOLUTION_1024_HEIGHT / (float)RESOLUTION_1280_WIDTH;
+                    float aspectRatio = 1 / destAspect;
                     frameBufferHeight = (int)( (float)frameBufferWidth * aspectRatio );
                 }
                 // if the game is narrower than the device, let it be height dominant
@@ -123,11 +138,6 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
 
                 frameBufferWidth = (int) ((float)gameWidth * widthScalar);
                 frameBufferHeight = gameHeight;
-            }
-            else if ( ShockDisplayMode_Original2x == (ShockDisplayMode)ShockConfig::GetDisplayMode( ) )
-            {
-                frameBufferWidth = RESOLUTION_1280_WIDTH / 2;
-                frameBufferHeight = RESOLUTION_1024_HEIGHT / 2;
             }
 
             // finally, if smoothing is on, double the res, since the smoothing algorithm itself
@@ -168,8 +178,6 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
     int driverFlags,
     int framesPerSec )
 {
-    SHOCK_PROFILE;
-
     int fbWidth;
     int fbHeight;
     FrameBuffer::GetSize( &fbWidth, &fbHeight );
@@ -199,8 +207,6 @@ void ShockRenderer::Flip( )
 
 void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
 {
-    SHOCK_PROFILE;
-
     int fbWidth;
     int fbHeight;
     FrameBuffer::GetSize( &fbWidth, &fbHeight );
@@ -259,8 +265,6 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
     ShockDisplayFilter shockDisplayFilter
     )
 {
-    SHOCK_PROFILE;
-
     // these will get set based on driver flags below
     int widthAdjustment = 0;
     UINT16 *pSourceBuffer = NULL;
@@ -325,7 +329,7 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
 
         case ShockDisplayFilter_Smoothing:
         {
-            TwoxSaI_ToDest( pSourceBuffer,
+             TwoxSaI_ToDest( pSourceBuffer,
                 width,
                 height,
                 width, //we're passing UINT16, so our pitch is width
@@ -338,6 +342,12 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
 
         case ShockDisplayFilter_Pixel:
         {
+            int scaledPlatformWidth = platformWidth;
+            if ( ActivePlatform_ASP == gActivePlatform )
+            {
+                scaledPlatformWidth = platformHeight * 1.333f;
+            }
+
             if ( ShockDisplayMode_FullScreen == shockDisplayMode )
             {
                 ScaleToSize( (UINT16 *)pSourceBuffer,
@@ -345,28 +355,44 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
                     height,
                     width,
                     pPlatformBackBuffer,
-                    platformWidth - widthAdjustment,
+                    scaledPlatformWidth - widthAdjustment,
                     platformHeight,
                     platformWidth,
                     platformHeight );
             }
             else if ( ShockDisplayMode_AspectRatio == shockDisplayMode )
             {
-                ScaleKeepAspectRatio( (UINT16 *)pSourceBuffer,
+                // given a source, scale and center it and maintain aspect ratio.
+                int destWidthScaled = scaledPlatformWidth;
+                int destHeightScaled = platformHeight;
+
+                float srcAspect = (float)width / height;
+                float destAspect = (float)scaledPlatformWidth / platformHeight;
+
+                // if the game is wider than the device, let it be width dominant
+                // and scale height down.
+                if ( srcAspect > destAspect )
+                {
+                    // sf3 is a good example
+                    destWidthScaled = scaledPlatformWidth;
+                    destHeightScaled = scaledPlatformWidth * (1 / srcAspect);
+                }
+                // if the game is narrower than the device, let it be height dominant
+                // and scale the width UP.
+                else
+                {
+                    // robocop is a good example
+                    destHeightScaled = platformHeight;
+                    destWidthScaled = platformHeight * srcAspect;
+                }
+
+                ScaleToSize( (UINT16 *)pSourceBuffer,
                     width,
                     height,
                     width,
                     pPlatformBackBuffer,
-                    platformWidth,
-                    platformHeight );
-            }
-            else if ( ShockDisplayMode_Original2x == shockDisplayMode )
-            {
-                NoScale( (UINT16 *)pSourceBuffer,
-                    width,
-                    height,
-                    width,
-                    pPlatformBackBuffer,
+                    destWidthScaled,
+                    destHeightScaled,
                     platformWidth,
                     platformHeight );
             }
@@ -375,6 +401,12 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
 
         case ShockDisplayFilter_Pixel_Scanline:
         {
+            int scaledPlatformWidth = platformWidth;
+            if ( ActivePlatform_ASP == gActivePlatform )
+            {
+                scaledPlatformWidth = platformHeight * 1.333f;
+            }
+
             if ( ShockDisplayMode_FullScreen == shockDisplayMode )
             {
                 ScaleToSize_ScanLine( (UINT16 *)pSourceBuffer,
@@ -382,28 +414,44 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
                     height,
                     width,
                     pPlatformBackBuffer,
-                    platformWidth - widthAdjustment,
+                    scaledPlatformWidth - widthAdjustment,
                     platformHeight,
                     platformWidth,
                     platformHeight );
             }
             else if ( ShockDisplayMode_AspectRatio == shockDisplayMode )
             {
-                ScaleKeepAspectRatio_ScanLine( (UINT16 *)pSourceBuffer,
+                // given a source, scale and center it and maintain aspect ratio.
+                int destWidthScaled = scaledPlatformWidth;
+                int destHeightScaled = platformHeight;
+
+                float srcAspect = (float)width / height;
+                float destAspect = (float)scaledPlatformWidth / platformHeight;
+
+                // if the game is wider than the device, let it be width dominant
+                // and scale height down.
+                if ( srcAspect > destAspect )
+                {
+                    // sf3 is a good example
+                    destWidthScaled = scaledPlatformWidth;
+                    destHeightScaled = scaledPlatformWidth * ( 1 / srcAspect );
+                }
+                // if the game is narrower than the device, let it be height dominant
+                // and scale the width UP.
+                else
+                {
+                    // robocop is a good example
+                    destHeightScaled = platformHeight;
+                    destWidthScaled = platformHeight * srcAspect;
+                }
+
+                ScaleToSize_ScanLine( (UINT16 *)pSourceBuffer,
                     width,
                     height,
                     width,
                     pPlatformBackBuffer,
-                    platformWidth,
-                    platformHeight );
-            }
-            else if ( ShockDisplayMode_Original2x == shockDisplayMode )
-            {
-                NoScale_ScanLine( (UINT16 *)pSourceBuffer,
-                    width,
-                    height,
-                    width,
-                    pPlatformBackBuffer,
+                    destWidthScaled,
+                    destHeightScaled,
                     platformWidth,
                     platformHeight );
             }
@@ -417,8 +465,6 @@ void ShockRenderer::RotateCounterClockwise( UINT16 *pSource,
     int srcHeight,
     UINT16 *pDest )
 {
-    SHOCK_PROFILE;
-
     int destWidth = srcHeight;
     int destHeight = srcWidth;
 
@@ -449,8 +495,6 @@ void ShockRenderer::RotateClockwise( UINT16 *pSource,
     int srcHeight,
     UINT16 *pDest )
 {
-    SHOCK_PROFILE;
-
     int destWidth = srcHeight;
     int destHeight = srcWidth;
 
@@ -480,8 +524,6 @@ void ShockRenderer::Rotate180( UINT16 *pSource,
     int srcHeight,
     UINT16 *pDest )
 {
-    SHOCK_PROFILE;
-
     int destWidth = srcWidth;
     int destHeight = srcHeight;
 
@@ -519,8 +561,6 @@ void ShockRenderer::TwoxSaI_ToDest( UINT16 * pSource,
     int destHeight,
     int destPitch )
 {
-    SHOCK_PROFILE;
-
     // 2xsai by nature will scale the image by a factor of 2 (2x in each dimension)
     // so make sure your buffer fits.
 
@@ -548,8 +588,6 @@ void ShockRenderer::ScaleToSize( UINT16 *pSource,
     int destRealWidth,
     int destRealHeight )
 {
-    SHOCK_PROFILE;
-
     // given a source, scale it to dest width/height with no regard for aspect ratio.
     // it will be centered on screen
 
@@ -591,8 +629,6 @@ void ShockRenderer::ScaleToSize_ScanLine( UINT16 *pSource,
     int destRealWidth,
     int destRealHeight )
 {
-    SHOCK_PROFILE;
-
     // given a source, scale it to dest width/height with no regard for aspect ratio.
     // it will be centered on screen
 
@@ -631,139 +667,6 @@ void ShockRenderer::ScaleToSize_ScanLine( UINT16 *pSource,
     }
 }
 
-void ShockRenderer::ScaleKeepAspectRatio( UINT16 *pSource,
-    int srcWidth,
-    int srcHeight,
-    int srcPitch,
-    UINT16 *pDest,
-    int destWidth,
-    int destHeight )
-{
-    SHOCK_PROFILE;
-
-    // given a source, scale and center it and maintain aspect ratio.
-    int destWidthScaled = destWidth;
-    int destHeightScaled = destHeight;
-
-    float srcAspect = (float)srcWidth / srcHeight;
-    float destAspect = (float)destWidth / destHeight;
-
-    // if the game is wider than the device, let it be width dominant
-    // and scale height down.
-    if ( srcAspect > destAspect )
-    {
-        // sf3 is a good example
-        float heightAspect = (float)srcHeight / srcWidth;
-
-        destWidthScaled = destWidth;
-        destHeightScaled = destWidth * heightAspect;
-    }
-    // if the game is narrower than the device, let it be height dominant
-    // and scale the width UP.
-    else
-    {
-        // robocop is a good example
-        destHeightScaled = destHeight;
-        destWidthScaled = destHeight * srcAspect;
-    }
-
-    int startX = ( destWidth - destWidthScaled ) / 2;
-    int startY = ( destHeight - destHeightScaled ) / 2;
-
-    int xRatio = ( srcWidth << 16 ) / destWidthScaled;
-    int yRatio = ( srcHeight << 16 ) / destHeightScaled;
-
-    pDest += ( startY * destWidth ) + startX;
-
-    UINT16 *pCurrSource = pSource;
-
-    int sourceY = 0;
-    for ( int destY = 0; destY < destHeightScaled; destY++ )
-    {
-        int sourceX = 0;
-        for ( int destX = 0; destX < destWidthScaled; destX++ )
-        {
-            pDest[ destX ] = pCurrSource[ (int)sourceX >> 16 ];
-            sourceX += xRatio;
-        }
-
-        pDest += destWidth;
-
-        sourceY += yRatio;
-        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcPitch );
-    }
-}
-
-void ShockRenderer::ScaleKeepAspectRatio_ScanLine( UINT16 *pSource,
-    int srcWidth,
-    int srcHeight,
-    int srcPitch,
-    UINT16 *pDest,
-    int destWidth,
-    int destHeight )
-{
-    SHOCK_PROFILE;
-
-    // given a source, scale and center it and maintain aspect ratio.
-    int destWidthScaled = destWidth;
-    int destHeightScaled = destHeight;
-
-    float srcAspect = (float)srcWidth / srcHeight;
-    float destAspect = (float)destWidth / destHeight;
-
-    // if the game is wider than the device, let it be width dominant
-    // and scale height down.
-    if ( srcAspect > destAspect )
-    {
-        // sf3 is a good example
-        float heightAspect = (float)srcHeight / srcWidth;
-
-        destWidthScaled = destWidth;
-        destHeightScaled = destWidth * heightAspect;
-    }
-    // if the game is narrower than the device, let it be height dominant
-    // and scale the width UP.
-    else
-    {
-        // robocop is a good example
-        destHeightScaled = destHeight;
-        destWidthScaled = destHeight * srcAspect;
-    }
-
-    int startX = ( destWidth - destWidthScaled ) / 2;
-    int startY = ( destHeight - destHeightScaled ) / 2;
-
-    int xRatio = ( srcWidth << 16 ) / destWidthScaled;
-    int yRatio = ( srcHeight << 16 ) / destHeightScaled;
-
-    pDest += ( startY * destWidth ) + startX;
-
-    UINT16 *pCurrSource = pSource;
-
-    int sourceY = 0;
-    for ( int destY = 0; destY < destHeightScaled; destY++ )
-    {
-        int sourceX = 0;
-        for ( int destX = 0; destX < destWidthScaled; destX++ )
-        {
-            if ( ( destY % 3 ) == 0 )
-            {
-                pDest[ destX ] = 0;
-            }
-            else
-            {
-                pDest[ destX ] = pCurrSource[ (int)sourceX >> 16 ];
-            }
-            sourceX += xRatio;
-        }
-
-        pDest += destWidth;
-
-        sourceY += yRatio;
-        pCurrSource = pSource + ( ( sourceY >> 16 ) * srcPitch );
-    }
-}
-
 void ShockRenderer::NoScale( UINT16 *pSource,
     int srcWidth,
     int srcHeight,
@@ -772,7 +675,6 @@ void ShockRenderer::NoScale( UINT16 *pSource,
     int destWidth,
     int destHeight )
 {
-    SHOCK_PROFILE;
     // just a simple copy
 
     int startX = ( destWidth - srcWidth ) / 2;
@@ -792,37 +694,3 @@ void ShockRenderer::NoScale( UINT16 *pSource,
     }
 }
 
-void ShockRenderer::NoScale_ScanLine( UINT16 *pSource,
-    int srcWidth,
-    int srcHeight,
-    int srcPitch,
-    UINT16 *pDest,
-    int destWidth,
-    int destHeight )
-{
-    SHOCK_PROFILE;
-    // just a simple copy
-
-    int startX = ( destWidth - srcWidth ) / 2;
-    int startY = ( destHeight - srcHeight ) / 2;
-
-    pDest += ( startY * destWidth ) + startX;
-
-    for ( int y = 0; y < srcHeight; y++ )
-    {
-        for ( int x = 0; x < srcWidth; x++ )
-        {
-            if ( ( y % 3 ) == 0 )
-            {
-                pDest[ x ] = 0;
-            }
-            else
-            {
-                pDest[ x ] = pSource[ x ];
-            }
-        }
-
-        pDest += destWidth;
-        pSource += srcPitch;
-    }
-}
