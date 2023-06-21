@@ -4,11 +4,11 @@
 #include "shock/core/framebuffer.h"
 #include "shock/font/font.h"
 #include "shock/shockconfig.h"
+#include "shock/shockprofiler.h"
 #include "shock/shockrenderer.h"
+#include "shock/shocktimerdisplay.h"
 #include "shock/util/util.h"
 #include "shock/shockgame.h"
-
-#include "shock/input/shockinput.h"
 
 UINT16 ShockRenderer::mRotateBuffer[ 512 * 512 ];
 
@@ -178,6 +178,8 @@ void ShockRenderer::RenderFBA( UINT16 *pBuffer,
     int driverFlags,
     int framesPerSec )
 {
+    SHOCK_PROFILE;
+
     int fbWidth;
     int fbHeight;
     FrameBuffer::GetSize( &fbWidth, &fbHeight );
@@ -207,6 +209,8 @@ void ShockRenderer::Flip( )
 
 void ShockRenderer::RenderFPS( UINT16 *pBackBuffer, int framesPerSec )
 {
+    SHOCK_PROFILE;
+
     int fbWidth;
     int fbHeight;
     FrameBuffer::GetSize( &fbWidth, &fbHeight );
@@ -265,6 +269,8 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
     ShockDisplayFilter shockDisplayFilter
     )
 {
+    SHOCK_PROFILE;
+
     // these will get set based on driver flags below
     int widthAdjustment = 0;
     UINT16 *pSourceBuffer = NULL;
@@ -465,6 +471,8 @@ void ShockRenderer::RotateCounterClockwise( UINT16 *pSource,
     int srcHeight,
     UINT16 *pDest )
 {
+    SHOCK_PROFILE;
+
     int destWidth = srcHeight;
     int destHeight = srcWidth;
 
@@ -495,6 +503,8 @@ void ShockRenderer::RotateClockwise( UINT16 *pSource,
     int srcHeight,
     UINT16 *pDest )
 {
+    SHOCK_PROFILE;
+
     int destWidth = srcHeight;
     int destHeight = srcWidth;
 
@@ -524,6 +534,8 @@ void ShockRenderer::Rotate180( UINT16 *pSource,
     int srcHeight,
     UINT16 *pDest )
 {
+    SHOCK_PROFILE;
+
     int destWidth = srcWidth;
     int destHeight = srcHeight;
 
@@ -561,6 +573,8 @@ void ShockRenderer::TwoxSaI_ToDest( UINT16 * pSource,
     int destHeight,
     int destPitch )
 {
+    SHOCK_PROFILE;
+
     // 2xsai by nature will scale the image by a factor of 2 (2x in each dimension)
     // so make sure your buffer fits.
 
@@ -588,6 +602,8 @@ void ShockRenderer::ScaleToSize( UINT16 *pSource,
     int destRealWidth,
     int destRealHeight )
 {
+    SHOCK_PROFILE;
+
     // given a source, scale it to dest width/height with no regard for aspect ratio.
     // it will be centered on screen
 
@@ -629,6 +645,8 @@ void ShockRenderer::ScaleToSize_ScanLine( UINT16 *pSource,
     int destRealWidth,
     int destRealHeight )
 {
+    SHOCK_PROFILE;
+
     // given a source, scale it to dest width/height with no regard for aspect ratio.
     // it will be centered on screen
 
@@ -675,6 +693,8 @@ void ShockRenderer::NoScale( UINT16 *pSource,
     int destWidth,
     int destHeight )
 {
+    SHOCK_PROFILE;
+
     // just a simple copy
 
     int startX = ( destWidth - srcWidth ) / 2;
