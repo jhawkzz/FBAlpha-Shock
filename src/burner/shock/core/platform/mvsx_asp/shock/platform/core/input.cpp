@@ -32,15 +32,20 @@ int Input::Create( )
                 return -1;
             }
 
-            // setup all our inputs
-            for ( int i = 0; i < MVSXInput_Count; i++ )
-            {
-                mMVSXInputState[ i ].value = 0;
-                pthread_mutex_init( &mMVSXInputState[ i ].mutexLock, NULL );
-                mMVSXInputState[ i ].mutexCreated = 1;
-            }
-
             CreateLookup_MVSX( );
+
+            // setup all our inputs
+            for ( int i = 0; i < ShockButton_Count; i++ )
+            {
+                int codeIndex = mMVSXInputLookup[ i ];
+
+                if ( codeIndex > 0 )
+                {
+                    mMVSXInputState[ codeIndex ].value = 0;
+                    pthread_mutex_init( &mMVSXInputState[ codeIndex ].mutexLock, NULL );
+                    mMVSXInputState[ codeIndex ].mutexCreated = 1;
+                }
+            }
 
             ReadInputs_Platform        = ReadInputs_MVSX;
             GetValueForButton_Platform = GetValueForButton_MVSX;
@@ -58,15 +63,20 @@ int Input::Create( )
                 return -1;
             }
 
-            // setup all our inputs
-            for ( int i = 0; i < ASPInput_Count; i++ )
-            {
-                mASPInputState[ i ].value = 0;
-                pthread_mutex_init( &mASPInputState[ i ].mutexLock, NULL );
-                mASPInputState[ i ].mutexCreated = 1;
-            }
-
             CreateLookup_ASP( );
+
+            // setup all our inputs
+            for ( int i = 0; i < ShockButton_Count; i++ )
+            {
+                int codeIndex = mASPInputLookup[ i ];
+
+                if ( codeIndex > 0 )
+                {
+                    mASPInputState[ codeIndex ].value = 0;
+                    pthread_mutex_init( &mASPInputState[ codeIndex ].mutexLock, NULL );
+                    mASPInputState[ codeIndex ].mutexCreated = 1;
+                }
+            }
 
             ReadInputs_Platform        = ReadInputs_ASP;
             GetValueForButton_Platform = GetValueForButton_ASP;
@@ -103,7 +113,7 @@ void Input::Destroy( )
     {
         case ActivePlatform_MVSX:
         {
-            for ( int i = 0; i < MVSXInput_Count; i++ )
+            for ( int i = MVSXInput_P1_Green; i < MVSXInput_Count; i++ )
             {
                 if ( mMVSXInputState[ i ].mutexCreated == 1 )
                 {
@@ -119,7 +129,7 @@ void Input::Destroy( )
 
         case ActivePlatform_ASP:
         {
-            for ( int i = 0; i < ASPInput_Count; i++ )
+            for ( int i = ASPInput_P1_Joy_Up; i < ASPInput_Count; i++ )
             {
                 if ( mASPInputState[ i ].mutexCreated == 1 )
                 {
@@ -175,6 +185,8 @@ void InputCore::CreateLookup_MVSX( )
     
     mMVSXInputLookup[ P2_InsertCoin ] = MVSXInput_SelectGame;
     mMVSXInputLookup[ P2_Start      ] = MVSXInput_P2_Start;
+	
+	mMVSXInputLookup[ OptionsMenu   ] = MVSXInput_P1_Start;
 }
 
 void InputCore::CreateLookup_ASP( )
@@ -184,15 +196,19 @@ void InputCore::CreateLookup_ASP( )
     mASPInputLookup[ P1_Joy_Right  ] = ASPInput_P1_Joy_Right;
     mASPInputLookup[ P1_Joy_Down   ] = ASPInput_P1_Joy_Down;
     
-    mASPInputLookup[ P1_Button_1   ] = ASPInput_YellowB;
-    mASPInputLookup[ P1_Button_2   ] = ASPInput_RedA;
+    mASPInputLookup[ P1_Button_1   ] = ASPInput_RedA;
+    mASPInputLookup[ P1_Button_2   ] = ASPInput_YellowB;
     mASPInputLookup[ P1_Button_3   ] = ASPInput_GreenC;
     mASPInputLookup[ P1_Button_4   ] = ASPInput_TopGray;
     mASPInputLookup[ P1_Button_5   ] = ASPInput_BlueD;
     mASPInputLookup[ P1_Button_6   ] = ASPInput_BotGray;
+    mASPInputLookup[ P1_Button_7   ] = ASPInput_TopWhite;
+    mASPInputLookup[ P1_Button_8   ] = ASPInput_BotWhite;
     
-    mASPInputLookup[ P1_InsertCoin ] = ASPInput_Options;
+    mASPInputLookup[ P1_InsertCoin ] = ASPInput_Select;
     mASPInputLookup[ P1_Start      ] = ASPInput_Start;
+	
+    mASPInputLookup[ OptionsMenu ] = ASPInput_Options;
 }
 
 void *InputCore::PollInput_ThreadProc(void *data)

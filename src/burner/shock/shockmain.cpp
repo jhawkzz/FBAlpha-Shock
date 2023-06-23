@@ -46,13 +46,13 @@ int ShockMain::Create( )
     if ( MVSXLed::DoesExist( ) )
     {
         gActivePlatform = ActivePlatform_MVSX;
-        strncpy( gAssetPath, MVSX_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
     }
     else
     {
         gActivePlatform = ActivePlatform_ASP;
-        strncpy( gAssetPath, ASP_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
     }
+
+    strncpy( gAssetPath, MVSX_ASP_ASSET_ROOT_PATH, sizeof( gAssetPath ) - 1 );
 
     // Create / ensure our assets root exists,
     struct stat st = { 0 };
@@ -320,13 +320,28 @@ void ShockMain::UpdateState_Emulator( )
     ShockGame::Update( );
 
     // Check for switching to the frontend
-    if ( ShockInput::GetInput( P1_Start )->GetState( ) == 1 &&
-        ShockInput::GetInput( P1_Start )->GetTimeHeldMS( ) >= HOLD_TIME_FOR_FRONTEND_MILLI * MILLI_TO_MICROSECONDS )
+    if ( ActivePlatform_MVSX == gActivePlatform )
     {
-        mState = ShockState_FrontEnd;
+        // for mvsx, we need to make sure it was held, since there's no
+        // standalone button for it
+        if ( ShockInput::GetInput( OptionsMenu )->GetState( ) == 1 &&
+            ShockInput::GetInput( OptionsMenu )->GetTimeHeldMS( ) >= HOLD_TIME_FOR_FRONTEND_MILLI * MILLI_TO_MICROSECONDS )
+        {
+            mState = ShockState_FrontEnd;
 
-        ShockUI::SetState_MainMenu( );
-        ShockGame::Pause( 1 );
+            ShockUI::SetState_MainMenu( );
+            ShockGame::Pause( 1 );
+        }
+    }
+    else
+    {
+        if ( ShockInput::GetInput( OptionsMenu )->WasReleased( ) )
+        {
+            mState = ShockState_FrontEnd;
+
+            ShockUI::SetState_MainMenu( );
+            ShockGame::Pause( 1 );
+        }
     }
 }
 

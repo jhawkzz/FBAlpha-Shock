@@ -125,11 +125,21 @@ UIState StateMainMenu::Update( )
     }
     
     // returning is different vs normal ui states, so don't use the base method
-    if( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
+    if ( ActivePlatform_MVSX == gActivePlatform )
     {
-        mExitUI = 1;
+        if ( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
+        {
+            mExitUI = 1;
+        }
     }
-    
+    else
+    {
+        if ( ShockInput::GetInput( OptionsMenu )->WasReleased( ) )
+        {
+            mExitUI = 1;
+        }
+    }
+
     return UIState_Count;
 }
 

@@ -41,6 +41,8 @@ namespace
         /*P2_Button_6   = */0x4b, // Keyboard K
         /*P2_Button_7   = */0x00, // Not Mapped
         /*P2_Button_8   = */0x00, // Not Mapped
+
+        /*OptionsMenu   = */0x37, //Keyboard 7
     };
 };
 

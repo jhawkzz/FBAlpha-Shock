@@ -8,7 +8,6 @@
 
 enum ShockDisplayMode
 {
-    ShockDisplayMode_Original2x,
     ShockDisplayMode_AspectRatio,
     ShockDisplayMode_FullScreen,
     ShockDisplayMode_Count
@@ -100,31 +99,7 @@ private:
         int destRealWidth,
         int destRealHeight );
 
-    static void ScaleKeepAspectRatio( UINT16 *pSource,
-        int srcWidth,
-        int srcHeight,
-        int srcPitch,
-        UINT16 *pDest,
-        int destWidth,
-        int destHeight );
-
-    static void ScaleKeepAspectRatio_ScanLine( UINT16 *pSource,
-        int srcWidth,
-        int srcHeight,
-        int srcPitch,
-        UINT16 *pDest,
-        int destWidth,
-        int destHeight );
-
     static void NoScale( UINT16 *pSource,
-        int srcWidth,
-        int srcHeight,
-        int srcPitch,
-        UINT16 *pDest,
-        int destWidth,
-        int destHeight );
-
-    static void NoScale_ScanLine( UINT16 *pSource,
         int srcWidth,
         int srcHeight,
         int srcPitch,

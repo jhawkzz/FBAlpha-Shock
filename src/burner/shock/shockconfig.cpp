@@ -38,6 +38,7 @@ void ShockConfig::LoadConfigFile( )
         if ( bytesRead != sizeof( mConfigSettings ) )
         {
             RestoreDefaults( );
+
             flushPrintf( "ShockConfig::LoadConfigFile() - Error, bytes read of %d did not match expected %d\r\n",
                 bytesRead,
                 sizeof( mConfigSettings ) );

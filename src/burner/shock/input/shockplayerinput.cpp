@@ -184,15 +184,15 @@ ShockButtonToBurnInput *ShockPlayerInput::GetInputMapForPlayer( int index )
 
 void ShockPlayerInput::SetGameDefaults_SNKNeoGeo( )
 {
-    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = P1_Button_1;
-    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 1 ] = P1_Button_2;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = gActivePlatform == ActivePlatform_ASP ? P1_Button_2 : P1_Button_1;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 1 ] = gActivePlatform == ActivePlatform_ASP ? P1_Button_1 : P1_Button_2;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 2 ] = P1_Button_3;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 3 ] = P1_Button_4;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 4 ] = P1_Button_5;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 5 ] = P1_Button_6;
 
-    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = P2_Button_1;
-    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 1 ] = P2_Button_2;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = gActivePlatform == ActivePlatform_ASP ? P2_Button_2 : P2_Button_1;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 1 ] = gActivePlatform == ActivePlatform_ASP ? P2_Button_1 : P2_Button_2;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 2 ] = P2_Button_3;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 3 ] = P2_Button_4;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 4 ] = P2_Button_5;
@@ -201,51 +201,52 @@ void ShockPlayerInput::SetGameDefaults_SNKNeoGeo( )
 
 void ShockPlayerInput::SetGameDefaults_MegaDrive( )
 {
-    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = P1_Button_1;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = gActivePlatform == ActivePlatform_ASP ? P1_Button_2 : P1_Button_1;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 1 ] = P1_Button_5;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 2 ] = P1_Button_6;
-    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 3 ] = P1_Button_2;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 3 ] = gActivePlatform == ActivePlatform_ASP ? P1_Button_1 : P1_Button_2;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 4 ] = P1_Button_3;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 5 ] = P1_Button_4;
 
-    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = P2_Button_1;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = gActivePlatform == ActivePlatform_ASP ? P2_Button_2 : P2_Button_1;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 1 ] = P2_Button_5;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 2 ] = P2_Button_6;
-    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 3 ] = P2_Button_2;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 3 ] = gActivePlatform == ActivePlatform_ASP ? P2_Button_1 : P2_Button_2;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 4 ] = P2_Button_3;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 5 ] = P2_Button_4;
+    
 }
 
 void ShockPlayerInput::SetGameDefaults_Capcom( )
 {
-    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = P1_Button_2;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = gActivePlatform == ActivePlatform_ASP ? P1_Button_1 : P1_Button_2;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 1 ] = P1_Button_3;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 2 ] = P1_Button_4;
-    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 3 ] = P1_Button_1;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 3 ] = gActivePlatform == ActivePlatform_ASP ? P1_Button_2 : P1_Button_1;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 4 ] = P1_Button_5;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 5 ] = P1_Button_6;
 
-    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = P2_Button_2;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = gActivePlatform == ActivePlatform_ASP ? P2_Button_1 : P2_Button_2;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 1 ] = P2_Button_3;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 2 ] = P2_Button_4;
-    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 3 ] = P2_Button_1;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 3 ] = gActivePlatform == ActivePlatform_ASP ? P2_Button_2 : P2_Button_1;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 4 ] = P2_Button_5;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 5 ] = P2_Button_6;
 }
 
 void ShockPlayerInput::SetGameDefaults_GeneralArcade( )
 {
-    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = P1_Button_1;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 0 ] = gActivePlatform == ActivePlatform_ASP ? P1_Button_2 : P1_Button_1;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 1 ] = P1_Button_5;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 2 ] = P1_Button_6;
-    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 3 ] = P1_Button_2;
+    mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 3 ] = gActivePlatform == ActivePlatform_ASP ? P1_Button_1 : P1_Button_2;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 4 ] = P1_Button_3;
     mShockButtonToBurnInput[ 0 ].fireButtonLookup[ 5 ] = P1_Button_4;
 
-    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = P2_Button_1;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 0 ] = gActivePlatform == ActivePlatform_ASP ? P2_Button_2 : P2_Button_1;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 1 ] = P2_Button_5;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 2 ] = P2_Button_6;
-    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 3 ] = P2_Button_2;
+    mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 3 ] = gActivePlatform == ActivePlatform_ASP ? P2_Button_1 : P2_Button_2;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 4 ] = P2_Button_3;
     mShockButtonToBurnInput[ 1 ].fireButtonLookup[ 5 ] = P2_Button_4;
 }
