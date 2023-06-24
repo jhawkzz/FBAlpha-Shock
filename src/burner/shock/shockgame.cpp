@@ -19,7 +19,6 @@
 #endif
 
 int  ShockGame::mGameLoaded;
-char ShockGame::mGameAssetFolder[ MAX_PATH ];
 char ShockGame::mBurnAudioBuffer[ MAX_AUDIO_BUFFER_BYTES ];
 char ShockGame::mGameBackBuffer[ GAME_BUFFER_WIDTH * GAME_BUFFER_HEIGHT * GAME_BUFFER_BPP ];
 char ShockGame::mThumbImageBuffer[ STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT * GAME_BUFFER_BPP ];
@@ -65,7 +64,7 @@ LoadGameResult ShockGame::LoadGame( const char *pRomset )
 {
     // Grab the config file (we need it early, it controls CRC enforcement)
     ShockConfig::Create( );
-    ShockConfig::LoadConfigFile( );
+    ShockConfig::LoadSystemConfig( );
 
     // Provide FBA with the paths for file i/o
     ConfigurePaths( );
@@ -83,7 +82,9 @@ LoadGameResult ShockGame::LoadGame( const char *pRomset )
         return LoadGameResult_Failed_Load;
     }
 
-    CreateGameAssetFolder( );
+    // now configure the game specific settings
+    ShockConfig::CreateGameAssetFolder( ShockRomLoader::GetRomsetName( ) );
+    ShockConfig::LoadGameConfig( ShockRomLoader::GetRomsetName( ) );
 
     // FBA needs  a few things set PRIOR to initializing the driver,
     // and then some of them set AGAIN after initialization.
@@ -157,12 +158,14 @@ void ShockGame::UnloadGame( )
     {
         //flushPrintf( "BurnDrvExit\r\n" );
         BurnDrvExit( );
-
-        ShockPlayerInput::SaveFireInputs( ShockRomLoader::GetRomsetName( ) );
-
-        //flushPrintf( "SaveConfigFile::Destroy\r\n" );
-        ShockConfig::SaveConfigFile( );
     }
+}
+
+void ShockGame::SaveGameConfig( )
+{
+    // There is no LoadGameConfig() - These two functions are called directly in LoadGame()
+    ShockPlayerInput::SaveFireInputs( ShockRomLoader::GetRomsetName( ) );
+    ShockConfig::SaveGameConfig( ShockRomLoader::GetRomsetName( ) );
 }
 
 void ShockGame::ResetFBATimer( )
@@ -557,7 +560,7 @@ void ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage, void ( *OnCom
 int ShockGame::LoadGameStateThumbnail( int stateSlot, UINT16 *pThumbImage )
 {
     char filename[ MAX_PATH ] = { 0 };
-    snprintf( filename, MAX_PATH, "%s/%s%d.thumb", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), stateSlot );
+    snprintf( filename, MAX_PATH, "%s/%s%d.thumb", ShockConfig::GetGameAssetFolder( ), ShockRomLoader::GetRomsetName( ), stateSlot );
 
     FILE *pFile = fopen( filename, "rb" );
     if ( pFile != NULL )
@@ -627,22 +630,6 @@ void ShockGame::ConfigurePaths( )
     }
 }
 
-void ShockGame::CreateGameAssetFolder( )
-{
-    struct stat st = { 0 };
-
-    // Game Folder
-    snprintf( mGameAssetFolder, sizeof( mGameAssetFolder ), "%s/%s", gAssetPath, ShockRomLoader::GetRomsetName( ) );
-    if ( stat( mGameAssetFolder, &st ) == -1 )
-    {
-        int result = ShockCreateDir( mGameAssetFolder );
-        if ( result == -1 )
-        {
-            flushPrintf( "ShockGame::ConfigurePaths() - WARNING, Unable to create Game Folder: %s\r\n", mGameAssetFolder );
-        }
-    }
-}
-
 void ShockGame::InitHiscoreSupport( )
 {
     // FBA depends on a file called "hiscore.dat", a text file that
@@ -675,11 +662,10 @@ void ShockGame::InitHiscoreSupport( )
     EnableHiscores = 1;
 }
 
-
 void *ShockGame::LoadGameStateThread( void *pArg )
 {
     char stateFilename[ MAX_PATH ] = { 0 };
-    snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
+    snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", ShockConfig::GetGameAssetFolder( ), ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
     int result = BurnStateLoad( stateFilename, 1, NULL );
 
     mGameStateThreadArgs.OnComplete( result == 0 ? 1 : 0, mGameStateThreadArgs.pCallbackInstance);
@@ -692,7 +678,7 @@ void *ShockGame::SaveGameStateThread( void *pArg )
     int success = 0;
 
     char stateFilename[ MAX_PATH ] = { 0 };
-    snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
+    snprintf( stateFilename, MAX_PATH, "%s/%s%d.state", ShockConfig::GetGameAssetFolder( ), ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
     int result = BurnStateSave( stateFilename, 1 );
 
     // 0 means it worked or didn't create one at all
@@ -707,7 +693,7 @@ void *ShockGame::SaveGameStateThread( void *pArg )
             pFile = NULL;
 
             char thumbFilename[ MAX_PATH ] = { 0 };
-            snprintf( thumbFilename, MAX_PATH, "%s/%s%d.thumb", mGameAssetFolder, ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
+            snprintf( thumbFilename, MAX_PATH, "%s/%s%d.thumb", ShockConfig::GetGameAssetFolder( ), ShockRomLoader::GetRomsetName( ), mGameStateThreadArgs.stateSlot );
             FILE *pFile = fopen( thumbFilename, "wb" );
             if ( pFile != NULL )
             {

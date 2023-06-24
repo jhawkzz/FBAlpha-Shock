@@ -16,10 +16,10 @@ void StateDisplaySettings::Create( )
     
     int xPos = UI_X_POS_MENU;
     int yPos = UI_Y_POS_MENU;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Aspect Ratio (Full Screen)", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Full Screen", xPos, yPos, 0xFFFF );
     
     yPos += UI_ROW_HEIGHT;
-    mMenuItemList[ mNumMenuItems++ ].Create( "Full Screen", xPos, yPos, 0xFFFF );
+    mMenuItemList[ mNumMenuItems++ ].Create( "Aspect Ratio (Full Screen)", xPos, yPos, 0xFFFF ); 
     
     yPos += UI_ROW_HEIGHT * 3;
     mMenuItemList[ mNumMenuItems++ ].Create( "Display Filter: ", xPos, yPos, 0xFFFF );
@@ -77,13 +77,9 @@ UIState StateDisplaySettings::Update( )
     // check for entering a gamestate menu item
     if( ShockInput::GetInput( P1_Button_1 )->WasReleased() )
     {   
-        if ( mMenuSelection == 0 )
+        if ( mMenuSelection < 2 )
         {
-            ShockConfig::SetDisplayMode( ShockDisplayMode_AspectRatio );
-        }
-        else if ( mMenuSelection == 1 )
-        {
-            ShockConfig::SetDisplayMode( ShockDisplayMode_FullScreen );
+            ShockConfig::SetDisplayMode( (ShockDisplayMode)mMenuSelection );
         }
         else if ( mMenuSelection == 2 )
         {

@@ -4,29 +4,30 @@
 #ifndef SHOCKCONFIG_H_
 #define SHOCKCONFIG_H_
 
-#define MAX_GAMES   (9000)
-#define CONFIG_FILE "fbaconfig.dat"
+#define CONFIG_FILE "fba.config"
 
 #include "shock/input/shockplayerinput.h"
 
-// we'll store settings, and MAX_GAMES worth of input configs (2 players per game)
-
 struct SavedFireInput
 {
-    char romsetName[ MAX_PATH ];
+    int         isConfigured;
     ShockButton fireButtonLookup[ MAX_SHOCK_PLAYERS ][ GameInp_Fire_Count ];
 };
 
-struct ConfigSettings
+struct SystemConfig
 {
-    int displayMode;
-    int displayFilter;
     int showFPS;
     int showLoadWarnings;
     int showTimers;
-    int reserved[ 1015 ]; //for future use
+    int reserved[ 1024 ]; //for future use
+};
 
-    SavedFireInput savedConfigInputs[ MAX_GAMES ];
+struct GameConfig
+{
+    SavedFireInput savedConfigInputs;
+    int displayMode;
+    int displayFilter;
+    int reserved[ 1024 ]; //for future use
 };
 
 class ShockConfig
@@ -35,8 +36,12 @@ public:
     static void Create( );
     static void Destroy( );
 
-    static void LoadConfigFile( );
-    static int  SaveConfigFile( );
+    static void LoadSystemConfig( );
+    static void SaveSystemConfig( );
+
+    static void CreateGameAssetFolder( const char *pRomset );
+    static void LoadGameConfig( const char *pRomset );
+    static void SaveGameConfig( const char *pRomset );
 
     static int  GetDisplayMode( );
     static void SetDisplayMode( int displayMode );
@@ -53,15 +58,20 @@ public:
     static int  GetShowTimers( );
     static void SetShowTimers( int enabled );
 
-    static SavedFireInput *LoadFireInputs( const char *pRomsetName );
-    static void            SaveFireInputs( const char *pRomsetName, SavedFireInput *pFireInputs );
+    static SavedFireInput *GetFireInputs( );
+    static void            SetFireInputs( SavedFireInput *pFireInputs );
+
+    static const char *GetGameAssetFolder( );
 
 private:
-    static void RestoreDefaults( );
+    static void RestoreSystemDefaults( );
+    static void RestoreGameDefaults( );
     static int  GetConfigFilePath( char *pFilePath, int size );
 
 private:
-    static ConfigSettings mConfigSettings;
+    static char         mGameAssetFolder[ MAX_PATH ];
+    static SystemConfig mSystemConfig;
+    static GameConfig   mGameConfig;
 };
 
 #endif

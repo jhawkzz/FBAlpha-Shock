@@ -5,11 +5,14 @@
 #include "shock/shockrenderer.h"
 #include "shock/util/util.h"
 
-ConfigSettings ShockConfig::mConfigSettings;
+SystemConfig ShockConfig::mSystemConfig;
+char         ShockConfig::mGameAssetFolder[ MAX_PATH ];
+GameConfig   ShockConfig::mGameConfig;
 
 void ShockConfig::Create( )
 {
-    RestoreDefaults( );
+    RestoreSystemDefaults( );
+    RestoreGameDefaults( );
 }
 
 void ShockConfig::Destroy( )
@@ -22,26 +25,26 @@ int ShockConfig::GetConfigFilePath( char *pFilePath, int size )
     return 0;
 }
 
-void ShockConfig::LoadConfigFile( )
+void ShockConfig::LoadSystemConfig( )
 {
     char filePath[ MAX_PATH ] = { 0 };
     int result = GetConfigFilePath( filePath, MAX_PATH );
     if ( result == -1 )
     {
-        flushPrintf( "ShockConfig::LoadConfigFile() - Could not get Config File Path!\r\n" );
+        flushPrintf( "ShockConfig::LoadSystemConfig() - Could not get Config File Path!\r\n" );
     }
 
     FILE *pFile = fopen( filePath, "rb" );
     if ( pFile != NULL )
     {
-        int bytesRead = fread( &mConfigSettings, 1, sizeof( mConfigSettings ), pFile );
-        if ( bytesRead != sizeof( mConfigSettings ) )
+        int bytesRead = fread( &mSystemConfig, 1, sizeof( mSystemConfig ), pFile );
+        if ( bytesRead != sizeof( mSystemConfig ) )
         {
-            RestoreDefaults( );
+            RestoreSystemDefaults( );
 
-            flushPrintf( "ShockConfig::LoadConfigFile() - Error, bytes read of %d did not match expected %d\r\n",
+            flushPrintf( "ShockConfig::LoadSystemConfig() - Error, bytes read of %d did not match expected %d\r\n",
                 bytesRead,
-                sizeof( mConfigSettings ) );
+                sizeof( mSystemConfig ) );
         }
 
         fclose( pFile );
@@ -49,87 +52,131 @@ void ShockConfig::LoadConfigFile( )
     }
     else
     {
-        flushPrintf( "ShockConfig::LoadConfigFile() - Warning, config file doesn't exist at: %s\r\n", filePath );
+        flushPrintf( "ShockConfig::LoadSystemConfig() - Warning, config file doesn't exist at: %s\r\n", filePath );
         flushPrintf( "This might just be the first time we've been run.\r\n", filePath );
     }
 }
 
-int ShockConfig::SaveConfigFile( )
+void ShockConfig::SaveSystemConfig( )
 {
     char filePath[ MAX_PATH ] = { 0 };
     int result = GetConfigFilePath( filePath, MAX_PATH );
     if ( result == -1 )
     {
-        flushPrintf( "ShockConfig::SaveConfigFile() - Could not get Config File Path!\r\n" );
-        return -1;
+        flushPrintf( "ShockConfig::SaveSystemConfig() - Could not get Config File Path!\r\n" );
+        return;
     }
 
     FILE *pFile = fopen( filePath, "wb" );
     if ( pFile != NULL )
     {
-        int bytesWritten = fwrite( &mConfigSettings, 1, sizeof( mConfigSettings ), pFile );
-        if ( bytesWritten != sizeof( mConfigSettings ) )
+        int bytesWritten = fwrite( &mSystemConfig, 1, sizeof( mSystemConfig ), pFile );
+        if ( bytesWritten != sizeof( mSystemConfig ) )
         {
-            flushPrintf( "ShockConfig::SaveConfigFile() - Error! Wrote %d bytes, but expected to write: %d\r\n",
+            flushPrintf( "ShockConfig::SaveSystemConfig() - Error! Wrote %d bytes, but expected to write: %d\r\n",
                 bytesWritten,
-                sizeof( mConfigSettings ) );
+                sizeof( mSystemConfig ) );
         }
 
         fflush( pFile );
         fclose( pFile );
         pFile = NULL;
-
-        result = 0;
     }
     else
     {
-        flushPrintf( "ShockConfig::SaveConfigFile() - Error! Could not open config file at: %s\r\n", filePath );
-        result = -1;
+        flushPrintf( "ShockConfig::SaveSystemConfig() - Error! Could not open config file at: %s\r\n", filePath );
     }
-
-    return result;
 }
 
-void ShockConfig::RestoreDefaults( )
+void ShockConfig::LoadGameConfig( const char *pRomset )
+{
+    char filePath[ MAX_PATH ] = { 0 };
+    snprintf( filePath, sizeof( filePath ) - 1, "%s/%s.config", mGameAssetFolder, pRomset );
+
+    FILE *pFile = fopen( filePath, "rb" );
+    if ( pFile != NULL )
+    {
+        int bytesRead = fread( &mGameConfig, 1, sizeof( mGameConfig ), pFile );
+        if ( bytesRead != sizeof( mGameConfig ) )
+        {
+            RestoreGameDefaults( );
+
+            flushPrintf( "ShockConfig::LoadGameConfig() - Error, bytes read of %d did not match expected %d\r\n",
+                bytesRead,
+                sizeof( mGameConfig ) );
+        }
+
+        fclose( pFile );
+        pFile = NULL;
+    }
+}
+
+void ShockConfig::SaveGameConfig( const char *pRomset )
+{
+    char filePath[ MAX_PATH ] = { 0 };
+    snprintf( filePath, sizeof( filePath ) - 1, "%s/%s.config", mGameAssetFolder, pRomset );
+
+    FILE *pFile = fopen( filePath, "wb" );
+    if ( pFile != NULL )
+    {
+        int bytesWritten = fwrite( &mGameConfig, 1, sizeof( mGameConfig ), pFile );
+        if ( bytesWritten != sizeof( mGameConfig ) )
+        {
+            flushPrintf( "ShockConfig::SaveGameConfig() - Error! Wrote %d bytes, but expected to write: %d\r\n",
+                bytesWritten,
+                sizeof( mGameConfig ) );
+        }
+
+        fflush( pFile );
+        fclose( pFile );
+        pFile = NULL;
+    }
+    else
+    {
+        flushPrintf( "ShockConfig::SaveGameConfig() - Error! Could not open config file at: %s\r\n", filePath );
+    }
+}
+
+void ShockConfig::RestoreSystemDefaults( )
 {
     // set defaults - used on initial create and if the file fails to load
     // due to corruption
-    memset( &mConfigSettings, 0, sizeof( mConfigSettings ) );
+    memset( &mSystemConfig, 0, sizeof( mSystemConfig ) );
+}
 
-    mConfigSettings.displayMode = ShockDisplayMode_FullScreen;
-    mConfigSettings.displayFilter = ShockDisplayFilter_Pixel;
-    mConfigSettings.showFPS = 0;
-    mConfigSettings.showLoadWarnings = 0;
+void ShockConfig::RestoreGameDefaults( )
+{
+    memset( &mGameConfig, 0, sizeof( mGameConfig ) );
 }
 
 int ShockConfig::GetDisplayMode( )
 {
-    return mConfigSettings.displayMode;
+    return mGameConfig.displayMode;
 }
 
 void ShockConfig::SetDisplayMode( int displayMode )
 {
-    mConfigSettings.displayMode = displayMode;
+    mGameConfig.displayMode = displayMode;
 }
 
 int ShockConfig::GetDisplayFilter( )
 {
-    return mConfigSettings.displayFilter;
+    return mGameConfig.displayFilter;
 }
 
 void ShockConfig::SetDisplayFilter( int displayFilter )
 {
-    mConfigSettings.displayFilter = displayFilter;
+    mGameConfig.displayFilter = displayFilter;
 }
 
 int ShockConfig::GetShowFPS( )
 {
-    return mConfigSettings.showFPS;
+    return mSystemConfig.showFPS;
 }
 
 void ShockConfig::SetShowFPS( int enabled )
 {
-    mConfigSettings.showFPS = enabled;
+    mSystemConfig.showFPS = enabled;
 }
 
 int ShockConfig::GetShowTimers( )
@@ -143,66 +190,56 @@ int ShockConfig::GetShowTimers( )
 
 void ShockConfig::SetShowTimers( int enabled )
 {
-    mConfigSettings.showTimers = enabled;
+    mSystemConfig.showTimers = enabled;
 }
 
 int ShockConfig::GetShowLoadWarnings( )
 {
-    return mConfigSettings.showLoadWarnings;
+    return mSystemConfig.showLoadWarnings;
 }
 
 void ShockConfig::SetShowLoadWarnings( int enabled )
 {
-    mConfigSettings.showLoadWarnings = enabled;
+    mSystemConfig.showLoadWarnings = enabled;
 }
 
-SavedFireInput *ShockConfig::LoadFireInputs( const char *pRomsetName )
+SavedFireInput *ShockConfig::GetFireInputs( )
 {
-    SavedFireInput *pResult = NULL;
-
-    // look for the game
-    for ( int i = 0; i < MAX_GAMES; i++ )
+    //if this is the first time we've run this game, we dont have any settings to offer
+    if ( mGameConfig.savedConfigInputs.isConfigured ) 
     {
-        if ( !strcmp( mConfigSettings.savedConfigInputs[ i ].romsetName, pRomsetName ) )
-        {
-            pResult = &mConfigSettings.savedConfigInputs[ i ];
-            break;
-        }
+        return &mGameConfig.savedConfigInputs;
     }
 
-    return pResult;
+    return NULL;
 }
 
-void ShockConfig::SaveFireInputs( const char *pRomsetName, SavedFireInput *pFireInputs )
+void ShockConfig::SetFireInputs( SavedFireInput *pFireInputs )
 {
-    SavedFireInput *pInputForWrite = NULL;
+    memcpy( mGameConfig.savedConfigInputs.fireButtonLookup,
+        pFireInputs->fireButtonLookup,
+        sizeof( mGameConfig.savedConfigInputs.fireButtonLookup ) );
 
-    // look for the game or a blank entry we can use
-    for ( int i = 0; i < MAX_GAMES; i++ )
+    mGameConfig.savedConfigInputs.isConfigured = 1;
+}
+
+void ShockConfig::CreateGameAssetFolder( const char *pRomset )
+{
+    struct stat st = { 0 };
+
+    // Game Folder
+    snprintf( mGameAssetFolder, sizeof( mGameAssetFolder ), "%s/%s", gAssetPath, pRomset );
+    if ( stat( mGameAssetFolder, &st ) == -1 )
     {
-        if ( !strcmp( mConfigSettings.savedConfigInputs[ i ].romsetName, pRomsetName ) )
+        int result = ShockCreateDir( mGameAssetFolder );
+        if ( result == -1 )
         {
-            pInputForWrite = &mConfigSettings.savedConfigInputs[ i ];
-            break;
-        }
-        // if we haven't yet found a blank entry, take the first one we find
-        else if ( pInputForWrite == NULL && mConfigSettings.savedConfigInputs[ i ].romsetName[ 0 ] == 0 )
-        {
-            pInputForWrite = &mConfigSettings.savedConfigInputs[ i ];
+            flushPrintf( "ShockConfig::CreateGameAssetFolder() - WARNING, Unable to create Game Folder: %s\r\n", mGameAssetFolder );
         }
     }
+}
 
-    // it should never be null, but just in case
-    if ( pInputForWrite != NULL )
-    {
-        strcpy( pInputForWrite->romsetName, pRomsetName );
-
-        memcpy( pInputForWrite->fireButtonLookup,
-            pFireInputs->fireButtonLookup,
-            sizeof( pInputForWrite->fireButtonLookup ) );
-    }
-    else
-    {
-        flushPrintf( "ShockConfig::SaveFireInputs - Error, could not find slot to write for %s\r\n", pRomsetName );
-    }
+const char *ShockConfig::GetGameAssetFolder( )
+{
+    return mGameAssetFolder;
 }
