@@ -24,13 +24,11 @@ public:
             : name(NULL)
             , ns(0)
             , filteredNs(0)
-            , expanded(false)
         {}
            
         const char* name;
         UINT32 ns;
         UINT32 filteredNs;
-        bool expanded;
     };
 
     struct Node
@@ -38,24 +36,34 @@ public:
         Node()
             : dest(NULL)
             , parent(HashDefault)
+            , frame(0)
+            , display(0)
+            , expanded(false)
         {}
 
         Value value;
-        TreeNode<Value*>* dest;
+        TreeNode<Node*>* dest;
         NUINT parent;
         UINT32 frame;
+        UINT32 display;
+        bool expanded;
     };
 
-private:
-    static bool CaptureNode(void* data, TreeNode<ShockProfiler *> *node);
-    static bool PrintNode(void* data, TreeNode<Value*>* node);
+    typedef TreeNode<ShockProfiler*> ProfilerNode;
+    typedef TreeNode<Node*> TreeNode;
+    typedef HashTableIterator<NUINT, Node, ShockProfilerCount> HashIterator;
 
 private:
-    typedef HashTableIterator<NUINT, ShockProfilersDisplay::Node, ShockProfilerCount> HashIterator;
+    static bool CaptureNode(void* data, ProfilerNode *node);
+    static bool PrintNode(void* data, TreeNode *node);
+    static bool BuildDisplay(void* data, TreeNode* treeNode);
+
+private:
     static HashTable<NUINT, Node, ShockProfilerCount> mHash;
-    static Tree<Value*, ShockProfilerCount> mTree;
-    static Array<ShockProfilersDisplay::Node*, ShockProfilerCount> mAdded;
-    static TreeNode<Value*>* mSelected;
+    static Tree<Node*, ShockProfilerCount> mTree;
+    static Array<Node*, ShockProfilerCount> mAdded;
+    static Array<Node*, ShockProfilerCount> mDisplay;
+    static Node* mSelected;
     static UINT32 mFrame;
 };
 
