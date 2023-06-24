@@ -28,33 +28,23 @@ namespace
     {
         return node ? RecurseHash(node->parent, Hash((NUINT)node->val->Name(), HashDefault)) : HashDefault;
     }
-
-    //TreeNode<ShockProfiler*>* FindLastParentSibling(TreeNode<ShockProfiler*>* node)
-    //{
-    //    if (node->parent)
-
-    //    if (!node->parent)
-    //        return node;
-
-    //}
-
 };
 
 HashTable<NUINT, ShockProfilersDisplay::Node, ShockProfilerCount> ShockProfilersDisplay::mHash;
 Tree<ShockProfilersDisplay::Node*, ShockProfilerCount> ShockProfilersDisplay::mTree;
-Array<ShockProfilersDisplay::Node*, ShockProfilerCount> ShockProfilersDisplay::mAdded;
 ShockProfilersDisplay::Node* ShockProfilersDisplay::mSelected;
 Array<ShockProfilersDisplay::Node*, ShockProfilerCount> ShockProfilersDisplay::mDisplay;
 UINT32 ShockProfilersDisplay::mFrame;
 
 void ShockProfilersDisplay::Capture()
 {
-    ShockProfilers::TraverseDepth(NULL, CaptureNode);
+    Array<Node*, ShockProfilerCount> added;
+    ShockProfilers::TraverseDepth(&added, CaptureNode);
 
     // associate all the tree nodes with each other
-    for (UINT32 i = 0; i < mAdded.Size(); i++)
+    for (UINT32 i = 0; i < added.Size(); i++)
     {
-        Node& node = *mAdded[i];
+        Node& node = *added[i];
 
         TreeNode* d = node.dest;
         TreeNode* parent = (node.parent != HashDefault) ? mHash[node.parent].dest : NULL;
@@ -62,8 +52,6 @@ void ShockProfilersDisplay::Capture()
         if (parent)
             parent->AddChild(d);
     }
-
-    mAdded.Clear();
 
     mDisplay.Clear();
     mTree.TraverseDepth(NULL, BuildDisplay);
@@ -112,7 +100,7 @@ void ShockProfilersDisplay::Render()
         PrintNode(&c, mDisplay[i]->dest);
 }
 
-bool ShockProfilersDisplay::CaptureNode(void*, ProfilerNode *source)
+bool ShockProfilersDisplay::CaptureNode(void* data, ProfilerNode *source)
 {
     NUINT hash = RecurseHash(source);
 
@@ -128,9 +116,11 @@ bool ShockProfilersDisplay::CaptureNode(void*, ProfilerNode *source)
 
     if (!node.dest)
     {
+        Array<Node*, ShockProfilerCount>* added = (Array<Node*, ShockProfilerCount>*) data;
+
         node.dest = !source->parent ? mTree.Head() : mTree.Alloc();
         node.dest->val = &node;
-        mAdded.Append(&node);
+        added->Append(&node);
     }
 
     return true;

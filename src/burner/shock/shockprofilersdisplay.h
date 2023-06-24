@@ -61,7 +61,6 @@ private:
 private:
     static HashTable<NUINT, Node, ShockProfilerCount> mHash;
     static Tree<Node*, ShockProfilerCount> mTree;
-    static Array<Node*, ShockProfilerCount> mAdded;
     static Array<Node*, ShockProfilerCount> mDisplay;
     static Node* mSelected;
     static UINT32 mFrame;
