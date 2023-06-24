@@ -6,6 +6,8 @@
 #include "shock/util/hash_table.h"
 #include "shock/util/tree.h"
 
+#ifdef SHOCK_PROFILERS
+
 static const UINT32 ShockProfilerCount = 64;
 
 class ShockProfiler
@@ -102,16 +104,15 @@ private:
     ShockProfiler* mShockProfiler;
 };
 
-#ifdef SHOCK_PROFILERS
-    #define SHOCK_PROFILE_SCOPE(scope) \
-        ShockProfilerScope scope(#scope)
+#define SHOCK_PROFILE_SCOPE(scope) \
+    ShockProfilerScope scope(#scope)
 
-    #define SHOCK_PROFILE \
-        ShockProfilerScope scope(__FUNCTION__)
+#define SHOCK_PROFILE \
+    ShockProfilerScope scope(__FUNCTION__)
 
 #define BURN_PROFILE_SCOPE(s) SHOCK_PROFLE_SCOPE(s)
     #define BURN_PROFILE SHOCK_PROFLE
-#else
+#else // SHOCK_PROFILERS
     #define SHOCK_PROFILE_SCOPE(scope)
     #define SHOCK_PROFILE
     #define BURN_PROFILE_SCOPE(s)

@@ -1,3 +1,5 @@
+#ifdef SHOCK_PROFILERS
+
 #include "shock/core/framebuffer.h"
 #include "shock/font/font.h"
 #include "shock/input/shockinput.h"
@@ -148,3 +150,5 @@ bool ShockProfilersDisplay::PrintNode(void* data, TreeNode<ShockProfilersDisplay
 
     return true;
 }
+
+#endif // SHOCK_PROFILERS

@@ -5,6 +5,9 @@
 #define SHOCKPROFILERSDISPLAY_H_
 
 #include "shock/shock.h"
+
+#ifdef SHOCK_PROFILERS
+
 #include "shock/shockprofilers.h"
 #include "shock/util/hash_table.h"
 
@@ -56,4 +59,11 @@ private:
     static UINT32 mFrame;
 };
 
-#endif
+#define SHOCK_PROFILE_RENDER \
+    ShockProfilersDisplay::Render()
+
+#else // SHOCK_PROFILERS
+    #define SHOCK_PROFILE_RENDER
+
+#endif // SHOCK_PROFILERS
+#endif // SHOCKPROFILERSDISPLAY_H_

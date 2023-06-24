@@ -283,7 +283,7 @@ void ShockGame::Update( )
 
         if ( ShockConfig::GetShowTimers( ) )
         {
-             ShockProfilersDisplay::Render();
+            SHOCK_PROFILE_RENDER;
         }
 
         {
