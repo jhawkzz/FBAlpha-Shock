@@ -4,9 +4,9 @@
 #include "shock/core/framebuffer.h"
 #include "shock/font/font.h"
 #include "shock/shockconfig.h"
-#include "shock/shockprofiler.h"
+#include "shock/shockprofilers.h"
+#include "shock/shockprofilersdisplay.h"
 #include "shock/shockrenderer.h"
-#include "shock/shocktimerdisplay.h"
 #include "shock/util/util.h"
 #include "shock/shockgame.h"
 

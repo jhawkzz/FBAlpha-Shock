@@ -36,6 +36,12 @@ LRESULT CALLBACK WndProc(
         FrameBuffer::Blit();
         return 0; 
 
+    case WM_KEYDOWN: 
+        if (wParam == VK_ESCAPE)
+            PostQuitMessage(0);
+
+        return 0;
+
     case WM_SIZE: 
         // Set the size and position of the window. 
         return 0; 

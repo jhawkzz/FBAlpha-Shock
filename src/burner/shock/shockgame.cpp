@@ -8,10 +8,10 @@
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
 #include "shock/shockgame.h"
-#include "shock/shockprofiler.h"
+#include "shock/shockprofilers.h"
+#include "shock/shockprofilersdisplay.h"
 #include "shock/shockrenderer.h"
 #include "shock/shockromloader.h"
-#include "shock/shocktimerdisplay.h"
 #include "shock/util/util.h"
 
 #ifdef MVSX_ASP
@@ -283,7 +283,7 @@ void ShockGame::Update( )
 
         if ( ShockConfig::GetShowTimers( ) )
         {
-            ShockTimerDisplay::Render();
+            SHOCK_PROFILE_RENDER;
         }
 
         {
@@ -540,7 +540,7 @@ void ShockGame::LoadGameState( int stateSlot, void ( *OnComplete )( int, void * 
     mGameStateThreadArgs.OnComplete = OnComplete;
     mGameStateThreadArgs.pCallbackInstance = pArg;
     mGameStateThreadArgs.stateSlot = stateSlot;
-    mGameStateThread.Create( ShockGame::LoadGameStateThread, (void *)stateSlot );
+    mGameStateThread.Create( ShockGame::LoadGameStateThread, (void *)(NUINT)stateSlot );
 }
 
 void ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage, void ( *OnComplete )( int, void * ), void *pArg )
@@ -551,7 +551,7 @@ void ShockGame::SaveGameState( int stateSlot, UINT16 *pThumbImage, void ( *OnCom
     mGameStateThreadArgs.pCallbackInstance = pArg;
     mGameStateThreadArgs.stateSlot = stateSlot;
     mGameStateThreadArgs.pThumbImage = pThumbImage;
-    mGameStateThread.Create( ShockGame::SaveGameStateThread, (void *)stateSlot );
+    mGameStateThread.Create( ShockGame::SaveGameStateThread, (void *)(NUINT)stateSlot );
 }
 
 int ShockGame::LoadGameStateThumbnail( int stateSlot, UINT16 *pThumbImage )
@@ -563,7 +563,7 @@ int ShockGame::LoadGameStateThumbnail( int stateSlot, UINT16 *pThumbImage )
     if ( pFile != NULL )
     {
         int thumbSizeBytes = STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT * GAME_BUFFER_BPP;
-        int bytesRead = fread( pThumbImage, 1, thumbSizeBytes, pFile );
+        int bytesRead = (int)fread( pThumbImage, 1, thumbSizeBytes, pFile );
         fclose( pFile );
         if ( bytesRead == thumbSizeBytes )
         {
