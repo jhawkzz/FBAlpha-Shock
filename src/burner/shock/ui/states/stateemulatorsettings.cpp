@@ -18,8 +18,10 @@ void StateEmulatorSettings::Create( )
     yPos += UI_ROW_HEIGHT;
     mMenuItemList[ (UINT32) MenuIdLoadWarnings ].Create( "Display Load Warnings: ", xPos, yPos, 0xFFFFu );
     
+#ifdef SHOCK_PROFILERS
     yPos += UI_ROW_HEIGHT;
     mMenuItemList[ (UINT32) MenuIdTimers ].Create( "Display Timers: ", xPos, yPos, 0xFFFFU );
+#endif
 
     mMenuSelection = MenuIdFps;
 }
@@ -70,10 +72,12 @@ UIState StateEmulatorSettings::Update( )
         {
             ShockConfig::SetShowLoadWarnings( !ShockConfig::GetShowLoadWarnings( ) );
         }
+#ifdef SHOCK_PROFILERS
         else if ( mMenuSelection == MenuIdTimers )
         {
             ShockConfig::SetShowTimers( !ShockConfig::GetShowTimers( ) );
         }
+#endif
     }    
     
     // should we exit?
@@ -125,6 +129,7 @@ void StateEmulatorSettings::DrawMenu( )
     }
 
     // Timers
+#ifdef SHOCK_PROFILERS
     {
         mMenuItemList[ (UINT32)MenuIdTimers ].Draw( );
         if ( ShockConfig::GetShowTimers( ) == 1 )
@@ -141,6 +146,7 @@ void StateEmulatorSettings::DrawMenu( )
         menuItemLen = Font::MeasureStringWidth( mMenuItemList[ (UINT32)MenuIdTimers ].GetText( ) );
         UIRenderer::DrawText( settingStr, mMenuItemList[ (UINT32)MenuIdTimers ].GetXPos( ) + menuItemLen, mMenuItemList[ (UINT32)MenuIdTimers ].GetYPos( ), textColor );
     }
+#endif
 
     UIRenderer::DrawText( "X", 
                         mMenuItemList[ (UINT32)mMenuSelection ].GetXPos( ) - UI_CURSOR_X_OFFSET, 
