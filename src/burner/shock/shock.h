@@ -7,7 +7,7 @@
 #include "shock/systems.h"
 #include "burner.h"
 
-#define SHOCK_VERSION "1.0.2"
+#define SHOCK_VERSION "1.0.2 (Build 1)"
 
 typedef unsigned char byte;
 
@@ -34,7 +34,7 @@ const unsigned int VOIDPTR_SIZE = sizeof(void*);
 // with an FPS to start with. Use 60.
 #define DEFAULT_FPS (6000)
 
-#define SHOCK_PROFILERS
+//#define SHOCK_PROFILERS
 
 #ifdef SHOCK_PROFILERS
     #define SHOCK_PROFILERS_NEWFRAME\

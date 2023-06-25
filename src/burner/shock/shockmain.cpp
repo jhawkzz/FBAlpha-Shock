@@ -302,6 +302,10 @@ void ShockMain::UpdateState_FrontEnd( )
 
     if ( result == 0 )
     {
+        // save before returning (so if they power off in the middle of the game its saved)
+        ShockGame::SaveGameConfig( );
+        ShockConfig::SaveSystemConfig( );
+
         ShockGame::Enable( );
         ShockRenderer::ClearBackBuffer( );
         ShockGame::Pause( 0 );
@@ -310,6 +314,10 @@ void ShockMain::UpdateState_FrontEnd( )
     }
     else if ( result == -1 )
     {
+        // save before quitting
+        ShockGame::SaveGameConfig( );
+        ShockConfig::SaveSystemConfig( );
+
         mState = ShockState_Quit;
     }
 }
@@ -357,28 +365,28 @@ void ShockMain::Update( )
 
     switch ( mState )
     {
-    case ShockState_Loading:
-    {
-        UpdateState_Loading( );
-        break;
-    }
+        case ShockState_Loading:
+        {
+            UpdateState_Loading( );
+            break;
+        }
 
-    case ShockState_LoadError:
-    {
-        UpdateState_LoadError( );
-        break;
-    }
+        case ShockState_LoadError:
+        {
+            UpdateState_LoadError( );
+            break;
+        }
 
-    case ShockState_FrontEnd:
-    {
-        UpdateState_FrontEnd( );
-        break;
-    }
+        case ShockState_FrontEnd:
+        {
+            UpdateState_FrontEnd( );
+            break;
+        }
 
-    case ShockState_Emulator:
-    {
-        UpdateState_Emulator( );
-        break;
-    }
+        case ShockState_Emulator:
+        {
+            UpdateState_Emulator( );
+            break;
+        }
     }
 }

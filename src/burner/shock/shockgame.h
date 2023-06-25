@@ -42,6 +42,7 @@ class ShockGame
 public:
     static LoadGameResult LoadGame( const char *pRomset );
     static void           UnloadGame( );
+    static void           SaveGameConfig( );
 
     static void ResetFBATimer( );
     static void Update( );
@@ -71,14 +72,12 @@ private:
     static void UpdateResetMode( );
     static void ResetFBATickTime( );
     static void ConfigurePaths( );
-    static void CreateGameAssetFolder( );
     static void InitHiscoreSupport( );
     static void *LoadGameStateThread( void *pArg );
     static void *SaveGameStateThread( void *pArg );
 
 private:
     static int  mGameLoaded;
-    static char mGameAssetFolder[ MAX_PATH ];
     static char mBurnAudioBuffer[ MAX_AUDIO_BUFFER_BYTES ];
     static char mGameBackBuffer[ GAME_BUFFER_WIDTH * GAME_BUFFER_HEIGHT * GAME_BUFFER_BPP ];
     static char mThumbImageBuffer[ STATE_THUMBNAIL_WIDTH * STATE_THUMBNAIL_HEIGHT * GAME_BUFFER_BPP ];

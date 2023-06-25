@@ -85,7 +85,7 @@ void ShockPlayerInput::SetGameDefaults( )
 
 void ShockPlayerInput::LoadFireInputs( const char *pRomsetName )
 {
-    SavedFireInput *pFireInput = ShockConfig::LoadFireInputs( pRomsetName );
+    SavedFireInput *pFireInput = ShockConfig::GetFireInputs( );
     if ( pFireInput != NULL )
     {
         for ( int i = 0; i < MAX_SHOCK_PLAYERS; i++ )
@@ -113,7 +113,7 @@ void ShockPlayerInput::SaveFireInputs( const char *pRomsetName )
             sizeof( fireInput.fireButtonLookup[ i ] ) );
     }
 
-    ShockConfig::SaveFireInputs( pRomsetName, &fireInput );
+    ShockConfig::SetFireInputs( &fireInput );
 }
 
 void ShockPlayerInput::Update( )
