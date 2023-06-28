@@ -20,23 +20,23 @@ public:
     void       Create( );
     int        WasPressed( );
     int        WasReleased( );
-    long       GetTimeHeldMS( );
-    long       GetTimePressedMS( );
-    long       GetTimeReleasedMS( );
+    UINT64     GetTimeHeldMS( );
+    UINT64     GetTimePressedMS( );
+    UINT64     GetTimeReleasedMS( );
     InputState GetState( );
     void       Update( int newState );
     
 private:
     InputState mPrevState;
     InputState mState;
-    long       mTimeHeldMS;
+    UINT64     mTimeHeldMS;
     
     // store this seperate from timeHeld. Otherwise
     // when holding the button, timeHeld will be
     // the timestamp of when the button was pressed, which
     // isn't accurate at all.
-    long       mTimeHeldStartMS;
-    long       mTimeHeldEndMS;
+    UINT64     mTimeHeldStartMS;
+    UINT64     mTimeHeldEndMS;
 };
 
 class ShockInput

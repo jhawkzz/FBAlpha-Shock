@@ -18,13 +18,13 @@ void OSTimer::Reset( )
     QueryPerformanceCounter( (LARGE_INTEGER *) &mZero64 );
 }
 
-UINT32 OSTimer::GetElapsedTimeMicroseconds( )
+UINT64 OSTimer::GetElapsedTimeMicroseconds( )
 {
     __int64 current64;
 
     QueryPerformanceCounter( (LARGE_INTEGER *) &current64 );
 
-    return UINT32((current64 - mZero64) / float(mMicrosecond64));
+    return UINT64((current64 - mZero64) / float(mMicrosecond64));
 }
 
 

@@ -48,8 +48,8 @@ protected:
     SaveLoadThreadState mSaveLoadThreadState;
     
     int                 mAnimationColorLetterIndex;
-    int                 mAnimationTimerMS;
-    int                 mProcessingUITimerMS;
+    UINT64              mAnimationTimerMS;
+    UINT64              mProcessingUITimerMS;
 };
 
 #endif

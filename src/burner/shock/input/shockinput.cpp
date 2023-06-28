@@ -26,17 +26,17 @@ int InputControl::WasReleased( )
     return mPrevState == 1 && mState == 0;
 }
 
-long InputControl::GetTimeHeldMS( )
+UINT64 InputControl::GetTimeHeldMS( )
 {
     return mTimeHeldMS;
 }
 
-long InputControl::GetTimePressedMS( )
+UINT64 InputControl::GetTimePressedMS( )
 {
     return mTimeHeldStartMS;
 }
 
-long InputControl::GetTimeReleasedMS( )
+UINT64 InputControl::GetTimeReleasedMS( )
 {
     return mTimeHeldEndMS;
 }

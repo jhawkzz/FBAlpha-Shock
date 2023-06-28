@@ -22,8 +22,8 @@ private:
     void      DrawMenu( );
     
 private:
-    int       mLoadingColorLetterIndex;
-    int       mLoadingTimerMS;
+    int    mLoadingColorLetterIndex;
+    UINT64 mLoadingTimerMS;
 };
 
 #endif

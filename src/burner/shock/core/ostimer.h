@@ -13,7 +13,7 @@ public:
     OSTimer( );
     
     void   Reset( );
-    UINT32 GetElapsedTimeMicroseconds( );
+    UINT64 GetElapsedTimeMicroseconds( );
 };
 
 #endif

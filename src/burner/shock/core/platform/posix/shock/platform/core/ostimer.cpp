@@ -13,7 +13,7 @@ void OSTimer::Reset( )
     clock_gettime( CLOCK_MONOTONIC, &mZeroTime );
 }
 
-UINT32 OSTimer::GetElapsedTimeMicroseconds( )
+UINT64 OSTimer::GetElapsedTimeMicroseconds( )
 {
     timespec currTime;
     clock_gettime( CLOCK_MONOTONIC, &currTime );

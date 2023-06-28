@@ -19,7 +19,7 @@ StateLoading          ShockUI::mState_Loading;
 StateLoadError        ShockUI::mState_LoadError;
 UIBaseState          *ShockUI::mpStateList[ UIState_Count ];
 UINT16                ShockUI::mBackgroundImage[ UI_WIDTH * UI_HEIGHT ];
-long                  ShockUI::mFrameTimeMS;
+UINT64                ShockUI::mFrameTimeMS;
 
 void ShockUI::Create( )
 {
@@ -114,12 +114,12 @@ void ShockUI::SetState_MainMenu( )
 
 int ShockUI::Update( )
 {
-    int totalTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds();
-    int tickRateMS  = SEC_TO_MICROSECONDS / 60;
+    UINT64 totalTimeMS = gGlobalTimer.GetElapsedTimeMicroseconds();
+    UINT64 tickRateMS  = SEC_TO_MICROSECONDS / 60;
     
     int uiActive = 1;
     
-    int oldFrameTimeMS = mFrameTimeMS;
+    UINT64 oldFrameTimeMS = mFrameTimeMS;
         
     while( mFrameTimeMS <= totalTimeMS )
     {
