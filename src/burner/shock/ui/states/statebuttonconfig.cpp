@@ -137,30 +137,19 @@ UIState StateButtonConfig::Update( )
         }
         else
         {
-            // cycle the button for this input
-            if( ShockInput::GetInput( P1_Joy_Left )->WasReleased() )
+            int buttonIndex = CheckButtonReleased( );
+            if ( buttonIndex > -1 )
             {
-                // get the index to the OS input currently mapped to this game input
+                // get the input they're configuring
                 ShockButtonToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
-                int buttonIndex = pInputMap->fireButtonLookup[ mButtonSelection ];
-                
-                // go back to the prior input
-                int prevIndex = GetPrevButtonInput( (ShockButton)buttonIndex );
-                pInputMap->fireButtonLookup[ mButtonSelection ] = (ShockButton)prevIndex;
-            }
-            else if( ShockInput::GetInput( P1_Joy_Right )->WasReleased() )
-            {
-                // get the index to the OS input currently mapped to this game input
-                ShockButtonToBurnInput *pInputMap = ShockPlayerInput::GetInputMapForPlayer( mPlayerSelection );
-                int buttonIndex = pInputMap->fireButtonLookup[ mButtonSelection ];
-                
-                // advance to the next input
-                int nextIndex = GetNextButtonInput( (ShockButton)buttonIndex );
-                pInputMap->fireButtonLookup[ mButtonSelection ] = (ShockButton)nextIndex;
+                pInputMap->fireButtonLookup[ mButtonSelection ] = (ShockButton)buttonIndex;
+
+                // be done configuring that button
+                mConfiguringButton = 0;
             }
         }
 
-        if( ShockInput::GetInput( P1_Button_1 )->WasReleased() )
+        if( ShockInput::GetInput( P1_Start )->WasReleased() )
         {
             mConfiguringButton = !mConfiguringButton;
         }
@@ -226,8 +215,15 @@ void StateButtonConfig::DrawMenu( )
             }
         }
         
+        if ( mConfiguringButton == 1 )
+        {
+            UIRenderer::DrawText( "Press the button you want to use for this input.", UI_X_POS_MENU, 600, 0xFFFF );
+        }
+        else
+        {
+            UIRenderer::DrawText( "Select input and press P1 Start to configure.", UI_X_POS_MENU, 600, 0xFFFF );
+        }
 
-        UIRenderer::DrawText( "Select input and press left/right to cycle thru buttons", UI_X_POS_MENU, 600, 0xFFFF );
         UIRenderer::DrawText( "Press Select to Restore Defaults", UI_X_POS_MENU, 600 + UI_ROW_HEIGHT, 0xFFFF );
         
         UIBaseState::RenderMenuCursor( mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetXPos( ), 
@@ -246,44 +242,23 @@ void StateButtonConfig::DrawMenu( )
     UIBaseState::RenderBackOption( "Return" );
 }
 
-int StateButtonConfig::GetPrevButtonInput( ShockButton buttonIndex )
+int StateButtonConfig::CheckButtonReleased( )
 {
-    int prevIndex = buttonIndex - 1;
-
-    // only ASP should be able to access the 7th & 8th buttons (mvsx doesn't have them)
-    ShockButton p1HighButton = ActivePlatform_ASP == gActivePlatform ? P1_Button_8 : P1_Button_6;
-    ShockButton p2HighButton = ActivePlatform_ASP == gActivePlatform ? P2_Button_8 : P2_Button_6;
-
-    // are we in P1 range or P2?
-    if ( buttonIndex >= P1_Button_1 && buttonIndex <= p1HighButton )
+    for ( int i = P1_Button_1; i <= P1_Button_8; i++ )
     {
-        if ( prevIndex < P1_Button_1 ) prevIndex = p1HighButton;
-    }
-    else if ( buttonIndex >= P2_Button_1 && buttonIndex <= p2HighButton )
-    {
-        if ( prevIndex < P2_Button_1 ) prevIndex = p2HighButton;
-    }
-    
-    return prevIndex;
-}
-
-int StateButtonConfig::GetNextButtonInput( ShockButton buttonIndex )
-{
-    int nextIndex = buttonIndex + 1;
-
-    // only ASP should be able to access the 7th & 8th buttons (mvsx doesn't have them)
-    ShockButton p1HighButton = ActivePlatform_ASP == gActivePlatform ? P1_Button_8 : P1_Button_6;
-    ShockButton p2HighButton = ActivePlatform_ASP == gActivePlatform ? P2_Button_8 : P2_Button_6;
-
-    // are we in P1 range or P2?
-    if ( buttonIndex >= P1_Button_1 && buttonIndex <= p1HighButton )
-    {
-        if ( nextIndex > p1HighButton ) nextIndex = P1_Button_1;
-    }
-    else if ( buttonIndex >= P2_Button_1 && buttonIndex <= p2HighButton )
-    {
-        if ( nextIndex > p2HighButton ) nextIndex = P2_Button_1;
+        if ( ShockInput::GetInput( (ShockButton)i )->WasReleased( ) )
+        {
+            return i;
+        }
     }
 
-    return nextIndex;
+    for ( int i = P1_Button_2; i <= P1_Button_2; i++ )
+    {
+        if ( ShockInput::GetInput( (ShockButton)i )->WasReleased( ) )
+        {
+            return i;
+        }
+    }
+
+    return -1;
 }

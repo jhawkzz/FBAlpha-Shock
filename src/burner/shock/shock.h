@@ -7,7 +7,7 @@
 #include "shock/systems.h"
 #include "burner.h"
 
-#define SHOCK_VERSION "1.0.2 (Build 1)"
+#define SHOCK_VERSION "1.0.2 (Build 2)"
 
 typedef unsigned char byte;
 

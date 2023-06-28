@@ -24,8 +24,7 @@ public:
     
 private:
     void      DrawMenu( );
-    int       GetPrevButtonInput( ShockButton buttonIndex );
-    int       GetNextButtonInput( ShockButton buttonIndex );
+    int       CheckButtonReleased( );
 
 private:
     int       mConfiguringButton;
