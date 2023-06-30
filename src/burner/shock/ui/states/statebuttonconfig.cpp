@@ -134,7 +134,33 @@ UIState StateButtonConfig::Update( )
             {
                 mPlayerSelection = 0;
             }
+            else if ( ShockInput::GetInput( P1_Button_1 )->WasReleased( ) )
+            {
+                mConfiguringButton = 1;
+            }
+
+            // watch for reset defaults
+            if ( ActivePlatform_MVSX == gActivePlatform )
+            {
+                if ( ShockInput::GetInput( P2_InsertCoin )->WasReleased( ) )
+                {
+                    ShockPlayerInput::SetGameDefaults( );
+                }
+            }
+            else
+            {
+                // on ASP this is "Select"
+                if ( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
+                {
+                    ShockPlayerInput::SetGameDefaults( );
+                }
+            }
+
+            // should we exit?
+            return UIBaseState::HandleBackButton( );
         }
+        // if they're configuring buttons, don't let them leave
+        // until they decide or cancel
         else
         {
             int buttonIndex = CheckButtonReleased( );
@@ -147,32 +173,25 @@ UIState StateButtonConfig::Update( )
                 // be done configuring that button
                 mConfiguringButton = 0;
             }
+
+            if ( ActivePlatform_MVSX == gActivePlatform )
+            {
+                if ( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
+                {
+                    mConfiguringButton = 0;
+                }
+            }
+            else
+            {
+                if ( ShockInput::GetInput( OptionsMenu )->WasReleased( ) )
+                {
+                    mConfiguringButton = 0;
+                }
+            }
         }
 
-        if( ShockInput::GetInput( P1_Start )->WasReleased() )
-        {
-            mConfiguringButton = !mConfiguringButton;
-        }
+        return UIState_Count;
     }
-    
-    if ( ActivePlatform_MVSX == gActivePlatform )
-    {
-        if ( ShockInput::GetInput( P2_InsertCoin )->WasReleased( ) )
-        {
-            ShockPlayerInput::SetGameDefaults( );
-        }
-    }
-    else
-    {
-        // on ASP this is "Select"
-        if ( ShockInput::GetInput( P1_InsertCoin )->WasReleased( ) )
-        {
-            ShockPlayerInput::SetGameDefaults( );
-        }
-    }
-    
-    // should we exit?
-    return UIBaseState::HandleBackButton( );
 }
 
 void StateButtonConfig::DrawMenu( )
@@ -217,14 +236,22 @@ void StateButtonConfig::DrawMenu( )
         
         if ( mConfiguringButton == 1 )
         {
-            UIRenderer::DrawText( "Press the button you want to use for this input.", UI_X_POS_MENU, 600, 0xFFFF );
+            UIRenderer::DrawText( "Press the desired button for this input", UI_X_POS_MENU, 700, 0xFFFF );
+
+            if ( gActivePlatform == ActivePlatform_MVSX )
+            {
+                UIRenderer::DrawText( "Press Options/Back to cancel", UI_X_POS_MENU, 700 + UI_ROW_HEIGHT, 0xFFFF );
+            }
+            else
+            {
+                UIRenderer::DrawText( "Press Options to cancel", UI_X_POS_MENU, 700 + UI_ROW_HEIGHT, 0xFFFF );
+            }
         }
         else
         {
-            UIRenderer::DrawText( "Select input and press P1 Start to configure.", UI_X_POS_MENU, 600, 0xFFFF );
+            UIRenderer::DrawText( "Select input to configure", UI_X_POS_MENU, 700, 0xFFFF );
+            UIRenderer::DrawText( "Press Select to Restore Defaults", UI_X_POS_MENU, 700 + UI_ROW_HEIGHT, 0xFFFF );
         }
-
-        UIRenderer::DrawText( "Press Select to Restore Defaults", UI_X_POS_MENU, 600 + UI_ROW_HEIGHT, 0xFFFF );
         
         UIBaseState::RenderMenuCursor( mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetXPos( ), 
                                        mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetYPos( ) );

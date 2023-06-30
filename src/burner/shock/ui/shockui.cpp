@@ -120,7 +120,7 @@ int ShockUI::Update( )
     int uiActive = 1;
     
     UINT64 oldFrameTimeMS = mFrameTimeMS;
-        
+
     while( mFrameTimeMS <= totalTimeMS )
     {
         // reset the renderlist each time we update
@@ -140,7 +140,7 @@ int ShockUI::Update( )
         
         mFrameTimeMS += tickRateMS;
     }
-    
+
     if( oldFrameTimeMS != mFrameTimeMS )
     {
         UIRenderer::Render( );

@@ -20,7 +20,8 @@ UINT64 OSTimer::GetElapsedTimeMicroseconds( )
     
     timespec delta = Diff( mZeroTime, currTime );
     
-    return delta.tv_sec * SEC_TO_MICROSECONDS + (delta.tv_nsec / NANO_TO_MICROSECONDS);
+    UINT64 tvSec = (UINT64)delta.tv_sec;
+    return (tvSec * SEC_TO_MICROSECONDS) + (delta.tv_nsec / NANO_TO_MICROSECONDS);
 }
 
 timespec OSTimerCore::Diff( timespec start, timespec end )
