@@ -251,6 +251,8 @@ void StateButtonConfig::DrawMenu( )
         {
             UIRenderer::DrawText( "Select input to configure", UI_X_POS_MENU, 700, 0xFFFF );
             UIRenderer::DrawText( "Press Select to Restore Defaults", UI_X_POS_MENU, 700 + UI_ROW_HEIGHT, 0xFFFF );
+            
+            UIBaseState::RenderBackOption( "Return" );
         }
         
         UIBaseState::RenderMenuCursor( mButtonInputList[ mPlayerSelection ][ mButtonSelection ].GetXPos( ), 
@@ -264,9 +266,9 @@ void StateButtonConfig::DrawMenu( )
         int xPos = UIBaseState::GetCenteredXPos( noConfigStr );
         
         UIRenderer::DrawText( noConfigStr, xPos, UI_Y_POS_MENU, UI_COLOR_DISABLED );
+
+        UIBaseState::RenderBackOption( "Return" );
     }
-    
-    UIBaseState::RenderBackOption( "Return" );
 }
 
 int StateButtonConfig::CheckButtonReleased( )
