@@ -348,10 +348,21 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
 
         case ShockDisplayFilter_Pixel:
         {
+            // we always want to render a to a close-to-square buffer, even if
+            // the actual display is larger.
             int scaledPlatformWidth = platformWidth;
+
+            // hack for ASP - since its display is 1.7:1, we need to keep it square.
+            // this will go away once driver performance improves enough to allow a fixed frame buffer size
+            // that doesn't depend on hardware scaling
             if ( ActivePlatform_ASP == gActivePlatform )
             {
-                scaledPlatformWidth = platformHeight * 1.333f;
+                float platformAspectRatio = (float)platformWidth / platformHeight;
+
+                if ( platformAspectRatio > 1.333f )
+                {
+                    scaledPlatformWidth = platformHeight * 1.333f;
+                }
             }
 
             if ( ShockDisplayMode_FullScreen == shockDisplayMode )
@@ -408,9 +419,18 @@ void ShockRenderer::RenderImage( UINT16 *pBackBuffer,
         case ShockDisplayFilter_Pixel_Scanline:
         {
             int scaledPlatformWidth = platformWidth;
+
+            // hack for ASP - since its display is 1.7:1, we need to keep it square.
+            // this will go away once driver performance improves enough to allow a fixed frame buffer size
+            // that doesn't depend on hardware scaling
             if ( ActivePlatform_ASP == gActivePlatform )
             {
-                scaledPlatformWidth = platformHeight * 1.333f;
+                float platformAspectRatio = (float)platformWidth / platformHeight;
+
+                if ( platformAspectRatio > 1.333f )
+                {
+                    scaledPlatformWidth = platformHeight * 1.333f;
+                }
             }
 
             if ( ShockDisplayMode_FullScreen == shockDisplayMode )
