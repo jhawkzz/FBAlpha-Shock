@@ -34,7 +34,7 @@ const unsigned int VOIDPTR_SIZE = sizeof(void*);
 // with an FPS to start with. Use 60.
 #define DEFAULT_FPS (6000)
 
-//#define SHOCK_PROFILERS
+#define SHOCK_PROFILERS
 
 #ifdef SHOCK_PROFILERS
     #define SHOCK_PROFILERS_NEWFRAME\

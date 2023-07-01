@@ -53,9 +53,11 @@ public:
 public:
     Tree()
         : head(NULL)
-    {}
+    {
+        Clear();
+    }
 
-    Node* Head() { head = (!memory.Size() ? memory.Grow() : &memory[0]); return head; }
+    Node* Head() { return head; }
 
     Node* AddChild(Node* node)
     {
@@ -74,10 +76,9 @@ public:
 
     void Clear()
     {
-        memory[0] = Node();
         memory.Size(1);
-
-        head = NULL;
+        memory[0] = Node();
+        head = &memory[0];
     }
 
     Node* Alloc()
