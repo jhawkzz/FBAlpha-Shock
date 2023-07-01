@@ -189,9 +189,9 @@ UIState StateButtonConfig::Update( )
                 }
             }
         }
-
-        return UIState_Count;
     }
+
+    return UIState_Count;
 }
 
 void StateButtonConfig::DrawMenu( )

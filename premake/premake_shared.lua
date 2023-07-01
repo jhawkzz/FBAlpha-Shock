@@ -1,19 +1,40 @@
 workspace "FBAlpha-Shock"
+   configurations { "Debug", "Release" }
+
+   filter { "configurations:Debug" }
+      symbols "On"
+      optimize "Off"
+      defines { "_DEBUG", "DEBUG" }
+   filter { "configurations:Release" }
+      symbols "Off"
+      optimize "On"
+      defines { "NDEBUG" }    
+   filter {}
+
    systemversion "latest"
-   set_configurations()
    set_location()
    set_architecture()
    set_system()
    
 project "FBAlpha-Shock"
+   configurations { "Debug", "Release" }
    language "C++"
    targetname "fba029743"
    characterset ("MBCS")
+--[[
+   filter { "configurations:Debug" }
+      optimize "Off"
+      defines { "_DEBUG", "DEBUG" }
+   filter { "configurations:Release" }
+      optimize "On"
+      defines { "NDEBUG" }    
+   filter {}
+]]--
    set_location()
    set_targetdir()
    set_defines()
    set_kind()
-   
+
    -- Set the directories containing source files
    local sourceDirs = {
       "../src",
