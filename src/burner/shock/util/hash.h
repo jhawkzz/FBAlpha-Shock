@@ -22,7 +22,7 @@ inline NUINT Hash(NUINT value, NUINT seed)
     union _input
     {
         NUINT v;
-        byte b[sizeof(NUINT)];
+        UINT8 b[sizeof(NUINT)];
     };
 
     _input input;

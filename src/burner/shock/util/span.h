@@ -22,7 +22,7 @@ public:
    UINT32 Read(UINT32 start, Span<T> &); // reads up to Capacity(), return s actual amount read
 
    void Size(UINT32 size);
-   T* Grow() { UINT32 s = Size(); Size(s + 1); return &mData[s]; }
+   T& Grow() { UINT32 s = Size(); Size(s + 1); return mData[s]; }
 
    UINT32 Size() const { return mSize; }
    UINT32 Capacity() const { return mCapacity; }

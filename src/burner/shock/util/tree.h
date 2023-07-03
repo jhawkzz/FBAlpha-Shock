@@ -57,7 +57,14 @@ public:
         Clear();
     }
 
-    Node* Head() { return head; }
+    Node* Head() 
+    { 
+        if (memory.Size())
+            return head; 
+
+        head = Alloc();
+        return head;
+    }
 
     Node* AddChild(Node* node)
     {
@@ -76,9 +83,7 @@ public:
 
     void Clear()
     {
-        memory.Size(1);
-        memory[0] = Node();
-        head = &memory[0];
+        memory.Size(0);
     }
 
     Node* Alloc()
@@ -86,7 +91,10 @@ public:
         if (memory.Size() == memory.Capacity())
             return NULL;
 
-        return memory.Grow();
+        Node* n = &memory.Grow();
+        *n = Node{};
+
+        return n;
     }
 
 private:

@@ -8,6 +8,7 @@
 #include "shock/shockprofilers.h"
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
+#include "shock/shockfocus.h"
 #include "shock/shockgame.h"
 #include "shock/shockmain.h"
 #include "shock/shockprofilersdisplay.h"
@@ -113,6 +114,8 @@ int ShockMain::Create( )
 
     // Setup UI
     ShockUI::Create( );
+
+    ShockFocus::Push(ShockFocusPlayerInputId);
 
     return 0;
 }

@@ -2,6 +2,7 @@
 #include "shock/core/framebuffer.h"
 #include "shock/font/font.h"
 #include "shock/input/shockinput.h"
+#include "shock/shockfocus.h"
 #include "shock/shockprofilersdisplay.h"
 #include "shock/util/hash.h"
 
@@ -70,26 +71,45 @@ void ShockProfilersDisplay::Capture()
     if (!mDisplay.Size()) // no timers
         return;
 
-    if ( ShockInput::GetInput( P1_Joy_Down )->WasReleased() )
+    if ( ShockInput::GetInput( P1_Start )->WasReleased() )
     {
-        UINT32 next = mSelected->display + 1;
-        mSelected = next < mDisplay.Size() ? mDisplay[next] : mSelected;
+        if ( ShockFocus::Top() == ShockFocusProfilerDisplayId )
+        {
+            ShockFocus::Pop();
+        }
+        else
+        {
+            ShockFocus::Push(ShockFocusProfilerDisplayId);
+        }
     }
-    else if ( ShockInput::GetInput( P1_Joy_Up )->WasReleased() )
+
+    if ( ShockFocus::Top() == ShockFocusProfilerDisplayId )
     {
-        UINT32 prev = mSelected->display - 1;
-        mSelected = prev < mDisplay.Size() ? mDisplay[prev] : mSelected;
+        if ( ShockInput::GetInput( P1_Joy_Down )->WasReleased() )
+        {
+            UINT32 next = mSelected->display + 1;
+            mSelected = next < mDisplay.Size() ? mDisplay[next] : mSelected;
+        }
+        else if ( ShockInput::GetInput( P1_Joy_Up )->WasReleased() )
+        {
+            UINT32 prev = mSelected->display - 1;
+            mSelected = prev < mDisplay.Size() ? mDisplay[prev] : mSelected;
+        }
+        else if ( ShockInput::GetInput( P1_Joy_Right )->WasPressed() )
+            mSelected->expanded = true;
+        else if ( ShockInput::GetInput( P1_Joy_Left )->WasPressed() )
+            mSelected->expanded = false;
     }
-    else if ( ShockInput::GetInput( P1_Joy_Right )->WasPressed() )
-        mSelected->expanded = true;
-    else if ( ShockInput::GetInput( P1_Joy_Left )->WasPressed() )
-        mSelected->expanded = false;
-    
+
     ++mFrame;
 }
 
 void ShockProfilersDisplay::Render()
 {
+    int w, h;
+    FrameBuffer::GetSize(&w, &h);
+    Font::SetRenderBuffer( FrameBuffer::GetBackBuffer( ), w, h );
+
     PrintContext c;
     c.fontWidth = MET_FONT_LETTER_WIDTH * 2 + FONT_SPACING;
     c.fontHeight = MET_FONT_LETTER_HEIGHT;
@@ -143,8 +163,10 @@ bool ShockProfilersDisplay::PrintEntry(void* data, TreeEntry* treeEntry)
         entry.value.filteredNs / 1000 );
     Font::Print( c->str, c->x + treeEntry->depth * MET_FONT_LETTER_WIDTH, c->y, 0xFFFFu );
 
-    if (mSelected == &entry)
+    if (mSelected == &entry && ShockFocus::Top() == ShockFocusProfilerDisplayId )
+    {
         Font::Print( "X", c->x + treeEntry->depth * MET_FONT_LETTER_WIDTH, c->y, 0XFFEAu );
+    }
 
     c->y += c->fontHeight;
 
