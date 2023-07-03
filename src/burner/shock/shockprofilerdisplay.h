@@ -12,7 +12,7 @@
 #include "shock/shockprofiler.h"
 #include "shock/util/hash_table.h"
 
-const UINT32 ShockProfilerDisplayInputMs = 3 * MILLI_TO_MICROSECONDS;
+const UINT32 ShockProfilerDisplayInputMs = 1 * MILLI_TO_MICROSECONDS;
 
 class ShockProfilerDisplay
 {
