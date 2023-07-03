@@ -30,24 +30,24 @@ namespace
     }
 };
 
-HashTable<NUINT, ShockProfilersDisplay::Node, ShockProfilerCount> ShockProfilersDisplay::mHash;
-Tree<ShockProfilersDisplay::Node*, ShockProfilerCount> ShockProfilersDisplay::mTree;
-ShockProfilersDisplay::Node* ShockProfilersDisplay::mSelected;
-Array<ShockProfilersDisplay::Node*, ShockProfilerCount> ShockProfilersDisplay::mDisplay;
+HashTable<NUINT, ShockProfilersDisplay::Entry, ShockProfilerCount> ShockProfilersDisplay::mHash;
+Tree<ShockProfilersDisplay::Entry*, ShockProfilerCount> ShockProfilersDisplay::mTree;
+ShockProfilersDisplay::Entry* ShockProfilersDisplay::mSelected;
+Array<ShockProfilersDisplay::Entry*, ShockProfilerCount> ShockProfilersDisplay::mDisplay;
 UINT32 ShockProfilersDisplay::mFrame;
 
 void ShockProfilersDisplay::Capture()
 {
-    Array<Node*, ShockProfilerCount> added;
-    ShockProfilers::TraverseDepth(&added, CaptureNode);
+    Array<Entry*, ShockProfilerCount> added;
+    ShockProfilers::TraverseDepth(&added, CaptureEntry);
 
     // associate all the tree nodes with each other
     for (UINT32 i = 0; i < added.Size(); i++)
     {
-        Node& node = *added[i];
+        Entry& entry = *added[i];
 
-        TreeNode* d = node.dest;
-        TreeNode* parent = (node.parent != HashDefault) ? mHash[node.parent].dest : NULL;
+        TreeEntry* d = entry.dest;
+        TreeEntry* parent = (entry.parent != HashDefault) ? mHash[entry.parent].dest : NULL;
 
         if (parent)
             parent->AddChild(d);
@@ -58,10 +58,10 @@ void ShockProfilersDisplay::Capture()
 
     for (HashIterator iterator = mHash.Iterator(); iterator; ++iterator)
     {
-        Node& node = iterator.Val();
-        Value& value = node.value;
+        Entry& entry = iterator.Val();
+        Value& value = entry.value;
         
-        UINT32 curNs = node.frame == mFrame ? value.ns : 0;
+        UINT32 curNs = entry.frame == mFrame ? value.ns : 0;
 
         static const float k = .1f;
         value.filteredNs = UINT32(value.filteredNs * (1 - k) + (curNs * k));
@@ -97,74 +97,74 @@ void ShockProfilersDisplay::Render()
     c.y = 16;
 
     for (UINT32 i = 0; i < mDisplay.Size(); i++)
-        PrintNode(&c, mDisplay[i]->dest);
+        PrintEntry(&c, mDisplay[i]->dest);
 }
 
-bool ShockProfilersDisplay::CaptureNode(void* data, ProfilerNode *source)
+bool ShockProfilersDisplay::CaptureEntry(void* data, ProfilerNode *source)
 {
     NUINT hash = RecurseHash(source);
 
-    Node& node = mHash[hash];
-    node.parent = RecurseHash(source->parent);
-    node.frame = mFrame;
+    Entry& entry = mHash[hash];
+    entry.parent = RecurseHash(source->parent);
+    entry.frame = mFrame;
 
     ShockProfiler* profiler = source->val;
 
-    Value& value = node.value;
+    Value& value = entry.value;
     value.name = profiler->Name();
     value.ns = profiler->Time();
 
-    if (!node.dest)
+    if (!entry.dest)
     {
-        Array<Node*, ShockProfilerCount>* added = (Array<Node*, ShockProfilerCount>*) data;
+        Array<Entry*, ShockProfilerCount>* added = (Array<Entry*, ShockProfilerCount>*) data;
 
-        node.dest = !source->parent ? mTree.Head() : mTree.Alloc();
-        node.dest->val = &node;
-        added->Append(&node);
+        entry.dest = !source->parent ? mTree.Head() : mTree.Alloc();
+        entry.dest->val = &entry;
+        added->Append(&entry);
     }
 
     return true;
 }
 
-bool ShockProfilersDisplay::PrintNode(void* data, TreeNode* treeNode)
+bool ShockProfilersDisplay::PrintEntry(void* data, TreeEntry* treeEntry)
 {
-    TreeNode* parent = treeNode->parent;
+    TreeEntry* parent = treeEntry->parent;
         
-    if (treeNode->parent && !treeNode->parent->val->expanded)
+    if (treeEntry->parent && !treeEntry->parent->val->expanded)
         return false;
 
-    Node& node = *treeNode->val;
+    Entry& entry = *treeEntry->val;
 
     PrintContext* c = (PrintContext*) data;
 
     snprintf( c->str, sizeof( c->str ), " %c%s %dms", 
-        node.expanded ? ',' : '.', 
-        node.value.name, 
-        node.value.filteredNs / 1000 );
-    Font::Print( c->str, c->x + treeNode->depth * MET_FONT_LETTER_WIDTH, c->y, 0xFFFFu );
+        entry.expanded ? ',' : '.', 
+        entry.value.name, 
+        entry.value.filteredNs / 1000 );
+    Font::Print( c->str, c->x + treeEntry->depth * MET_FONT_LETTER_WIDTH, c->y, 0xFFFFu );
 
-    if (mSelected == &node)
-        Font::Print( "X", c->x + treeNode->depth * MET_FONT_LETTER_WIDTH, c->y, 0XFFEAu );
+    if (mSelected == &entry)
+        Font::Print( "X", c->x + treeEntry->depth * MET_FONT_LETTER_WIDTH, c->y, 0XFFEAu );
 
     c->y += c->fontHeight;
 
     return true;
 }
 
-bool ShockProfilersDisplay::BuildDisplay(void* data, TreeNode* treeNode)
+bool ShockProfilersDisplay::BuildDisplay(void* data, TreeEntry* treeEntry)
 {
-    TreeNode* parent = treeNode->parent;
+    TreeEntry* parent = treeEntry->parent;
 
-    if (treeNode->parent && !treeNode->parent->val->expanded)
+    if (treeEntry->parent && !treeEntry->parent->val->expanded)
         return false;
 
-    Node& node = *treeNode->val;
+    Entry& entry = *treeEntry->val;
 
-    node.display = mDisplay.Size();
-    mDisplay.Append(&node);
+    entry.display = mDisplay.Size();
+    mDisplay.Append(&entry);
 
     if (!mSelected)
-        mSelected = &node;
+        mSelected = &entry;
 
     return true;
 }

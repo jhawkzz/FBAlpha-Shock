@@ -31,9 +31,9 @@ public:
         UINT32 filteredNs;
     };
 
-    struct Node
+    struct Entry
     {
-        Node()
+        Entry()
             : dest(NULL)
             , parent(HashDefault)
             , frame(0)
@@ -42,7 +42,7 @@ public:
         {}
 
         Value value;
-        TreeNode<Node*>* dest;
+        TreeNode<Entry*>* dest;
         NUINT parent;
         UINT32 frame;
         UINT32 display;
@@ -50,19 +50,19 @@ public:
     };
 
     typedef TreeNode<ShockProfiler*> ProfilerNode;
-    typedef TreeNode<Node*> TreeNode;
-    typedef HashTableIterator<NUINT, Node, ShockProfilerCount> HashIterator;
+    typedef TreeNode<Entry*> TreeEntry;
+    typedef HashTableIterator<NUINT, Entry, ShockProfilerCount> HashIterator;
 
 private:
-    static bool CaptureNode(void* data, ProfilerNode *node);
-    static bool PrintNode(void* data, TreeNode *node);
-    static bool BuildDisplay(void* data, TreeNode* treeNode);
+    static bool CaptureEntry(void* data, ProfilerNode *node);
+    static bool PrintEntry(void* data, TreeEntry* node);
+    static bool BuildDisplay(void* data, TreeEntry* treeNode);
 
 private:
-    static HashTable<NUINT, Node, ShockProfilerCount> mHash;
-    static Tree<Node*, ShockProfilerCount> mTree;
-    static Array<Node*, ShockProfilerCount> mDisplay;
-    static Node* mSelected;
+    static HashTable<NUINT, Entry, ShockProfilerCount> mHash;
+    static Tree<Entry*, ShockProfilerCount> mTree;
+    static Array<Entry*, ShockProfilerCount> mDisplay;
+    static Entry* mSelected;
     static UINT32 mFrame;
 };
 

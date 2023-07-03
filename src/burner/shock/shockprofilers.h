@@ -26,7 +26,7 @@ public:
 
     void Stop()
     {
-        time = timer.GetElapsedTimeMicroseconds();
+        time = (UINT32) timer.GetElapsedTimeMicroseconds();
     }
 
     UINT32 Time() const { return time; }
