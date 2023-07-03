@@ -18,7 +18,7 @@ void StateEmulatorSettings::Create( )
     yPos += UI_ROW_HEIGHT;
     mMenuItemList[ (UINT32) MenuIdLoadWarnings ].Create( "Display Load Warnings: ", xPos, yPos, 0xFFFFu );
     
-#ifdef SHOCK_PROFILERS
+#ifdef SHOCK_PROFILER
     yPos += UI_ROW_HEIGHT;
     mMenuItemList[ (UINT32) MenuIdTimers ].Create( "Display Timers: ", xPos, yPos, 0xFFFFU );
 #endif
@@ -72,7 +72,7 @@ UIState StateEmulatorSettings::Update( )
         {
             ShockConfig::SetShowLoadWarnings( !ShockConfig::GetShowLoadWarnings( ) );
         }
-#ifdef SHOCK_PROFILERS
+#ifdef SHOCK_PROFILER
         else if ( mMenuSelection == MenuIdTimers )
         {
             ShockConfig::SetShowTimers( !ShockConfig::GetShowTimers( ) );
@@ -129,7 +129,7 @@ void StateEmulatorSettings::DrawMenu( )
     }
 
     // Timers
-#ifdef SHOCK_PROFILERS
+#ifdef SHOCK_PROFILER
     {
         mMenuItemList[ (UINT32)MenuIdTimers ].Draw( );
         if ( ShockConfig::GetShowTimers( ) == 1 )

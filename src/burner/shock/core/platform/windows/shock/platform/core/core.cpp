@@ -3,7 +3,7 @@
 
 #include "shock/core/core.h"
 #include "shock/core/framebuffer.h"
-#include "shock/shockprofilers.h"
+#include "shock/shockprofiler.h"
 
 Core::~Core()
 {}

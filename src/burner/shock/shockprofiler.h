@@ -6,14 +6,14 @@
 #include "shock/util/hash_table.h"
 #include "shock/util/tree.h"
 
-#ifdef SHOCK_PROFILERS
+#ifdef SHOCK_PROFILER
 
-static const UINT32 ShockProfilerCount = 64;
+static const UINT32 ShockProfilerNodeCount = 64;
 
-class ShockProfiler
+class ShockProfilerNode
 {
 public:
-    ShockProfiler( )
+    ShockProfilerNode( )
     {
         time = 0;
         name = NULL;
@@ -37,53 +37,53 @@ private:
     UINT32 time;
     const char* name;
 
-    friend class ShockProfilers;
+    friend class ShockProfiler;
 };
 
-class ShockProfilers
+class ShockProfiler
 {
 private:
-    typedef TreeNode<ShockProfiler*> ShockProfilerNode;
+    typedef TreeNode<ShockProfilerNode*> ShockProfilerTreeNode;
 
 public:
-    static void BeginScope(ShockProfiler* timer)
+    static void BeginScope(ShockProfilerNode* node)
     {
-        ShockProfilerNode* node;
+        ShockProfilerTreeNode* treeNode;
 
-        if (!mNode)
-            node = mTree.Head();
+        if (!mTreeNode)
+            treeNode = mTree.Head();
         else
-            node = mTree.AddChild(mNode);
+            treeNode = mTree.AddChild(mTreeNode);
 
-        node->val = timer;
-        mNode = node;
-        mNode->val->Start();
+        treeNode->val = node;
+        mTreeNode = treeNode;
+        mTreeNode->val->Start();
     }
 
     static void EndScope()
     {
-        mNode->val->Stop();
-        mNode = mNode->parent;
+        mTreeNode->val->Stop();
+        mTreeNode = mTreeNode->parent;
     }
 
-    static void TraverseDepth(void* context, Tree<ShockProfiler*, ShockProfilerCount>::TreeCb cb)
+    static void TraverseDepth(void* context, Tree<ShockProfilerNode*, ShockProfilerNodeCount>::TreeCb cb)
     {
         mTree.TraverseDepth(context, cb);
     }
 
-    static void TraverseBreadth(void* context, Tree<ShockProfiler*, ShockProfilerCount>::TreeCb cb)
+    static void TraverseBreadth(void* context, Tree<ShockProfilerNode*, ShockProfilerNodeCount>::TreeCb cb)
     {
         mTree.TraverseBreadth(context, cb);
     }
 
-    static ShockProfiler* GetShockProfiler(const char* name) { ShockProfiler* t = &mProfilers[name]; t->name = name; return t; }
+    static ShockProfilerNode* GetShockProfilerNode(const char* name) { ShockProfilerNode* t = &mNodes[name]; t->name = name; return t; }
 
     static void Clear() { mTree.Clear(); }
 
 private:
-    static HashTable<const char*, ShockProfiler, ShockProfilerCount> mProfilers;
-    static Tree<ShockProfiler*, ShockProfilerCount> mTree;
-    static ShockProfilerNode* mNode;
+    static HashTable<const char*, ShockProfilerNode, ShockProfilerNodeCount> mNodes;
+    static Tree<ShockProfilerNode*, ShockProfilerNodeCount> mTree;
+    static ShockProfilerTreeNode* mTreeNode;
 };
 
 class ShockProfilerScope
@@ -91,17 +91,17 @@ class ShockProfilerScope
 public:
     ShockProfilerScope(const char* scope)
     {
-        mShockProfiler = ShockProfilers::GetShockProfiler(scope);
-        ShockProfilers::BeginScope(mShockProfiler);
+        mNode = ShockProfiler::GetShockProfilerNode(scope);
+        ShockProfiler::BeginScope(mNode);
     }
 
     ~ShockProfilerScope()
     {
-        ShockProfilers::EndScope();
+        ShockProfiler::EndScope();
     }
 
 private:
-    ShockProfiler* mShockProfiler;
+    ShockProfilerNode* mNode;
 };
 
 #define SHOCK_PROFILE_SCOPE(scope) \
@@ -112,7 +112,7 @@ private:
 
 #define BURN_PROFILE_SCOPE(s) SHOCK_PROFLE_SCOPE(s)
     #define BURN_PROFILE SHOCK_PROFLE
-#else // SHOCK_PROFILERS
+#else // SHOCK_PROFILER
     #define SHOCK_PROFILE_SCOPE(scope)
     #define SHOCK_PROFILE
     #define BURN_PROFILE_SCOPE(s)

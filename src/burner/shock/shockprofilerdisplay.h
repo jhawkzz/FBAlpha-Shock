@@ -1,17 +1,20 @@
 
 // See License.md for license
 
-#ifndef SHOCKPROFILERSDISPLAY_H_
-#define SHOCKPROFILERSDISPLAY_H_
+#ifndef SHOCKPROFILERDISPLAY_H_
+#define SHOCKPROFILERDISPLAY_H_
 
 #include "shock/shock.h"
 
-#ifdef SHOCK_PROFILERS
+#ifdef SHOCK_PROFILER
 
-#include "shock/shockprofilers.h"
+#include "shock/core/ostimer.h"
+#include "shock/shockprofiler.h"
 #include "shock/util/hash_table.h"
 
-class ShockProfilersDisplay
+const UINT32 ShockProfilerDisplayInputMs = 3 * MILLI_TO_MICROSECONDS;
+
+class ShockProfilerDisplay
 {
 public:
     static void Capture( );
@@ -49,9 +52,9 @@ public:
         bool expanded;
     };
 
-    typedef TreeNode<ShockProfiler*> ProfilerNode;
+    typedef TreeNode<ShockProfilerNode*> ProfilerNode;
     typedef TreeNode<Entry*> TreeEntry;
-    typedef HashTableIterator<NUINT, Entry, ShockProfilerCount> HashIterator;
+    typedef HashTableIterator<NUINT, Entry, ShockProfilerNodeCount> HashIterator;
 
 private:
     static bool CaptureEntry(void* data, ProfilerNode *node);
@@ -59,18 +62,19 @@ private:
     static bool BuildDisplay(void* data, TreeEntry* treeNode);
 
 private:
-    static HashTable<NUINT, Entry, ShockProfilerCount> mHash;
-    static Tree<Entry*, ShockProfilerCount> mTree;
-    static Array<Entry*, ShockProfilerCount> mDisplay;
+    static HashTable<NUINT, Entry, ShockProfilerNodeCount> mHash;
+    static Tree<Entry*, ShockProfilerNodeCount> mTree;
+    static Array<Entry*, ShockProfilerNodeCount> mDisplay;
+    static OSTimer mFocusTimer;
     static Entry* mSelected;
     static UINT32 mFrame;
 };
 
 #define SHOCK_PROFILE_RENDER \
-    ShockProfilersDisplay::Render()
+    ShockProfilerDisplay::Render()
 
-#else // SHOCK_PROFILERS
+#else // SHOCK_PROFILER
     #define SHOCK_PROFILE_RENDER
 
-#endif // SHOCK_PROFILERS
+#endif // SHOCK_PROFILER
 #endif // SHOCKPROFILERSDISPLAY_H_

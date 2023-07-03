@@ -3,7 +3,7 @@
 
 #include "shock/core/audio.h"
 #include "shock/shockaudio.h"
-#include "shock/shockprofilers.h"
+#include "shock/shockprofiler.h"
 
 int ShockAudio::Create( )
 {   

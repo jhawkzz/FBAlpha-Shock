@@ -5,7 +5,7 @@
 #include "shock/input/shockplayerinput.h"
 #include "shock/shockconfig.h"
 #include "shock/Shockfocus.h"
-#include "shock/shockprofilers.h"
+#include "shock/shockprofiler.h"
 #include "shock/util/util.h"
 
 #ifdef MVSX_ASP

@@ -3,10 +3,10 @@
 #include "shock/font/font.h"
 #include "shock/input/shockinput.h"
 #include "shock/shockfocus.h"
-#include "shock/shockprofilersdisplay.h"
+#include "shock/shockprofilerdisplay.h"
 #include "shock/util/hash.h"
 
-#ifdef SHOCK_PROFILERS
+#ifdef SHOCK_PROFILER
 
 namespace
 {
@@ -20,27 +20,28 @@ namespace
         char str[256];
     };
 
-    NUINT RecurseHash(TreeNode<ShockProfiler*>* node, NUINT seed)
+    NUINT RecurseHash(TreeNode<ShockProfilerNode*>* node, NUINT seed)
     {
         return node ? RecurseHash(node->parent, Hash((NUINT)node->val->Name(), seed)) : seed;
     }
 
-    NUINT RecurseHash(TreeNode<ShockProfiler*>* node)
+    NUINT RecurseHash(TreeNode<ShockProfilerNode*>* node)
     {
         return node ? RecurseHash(node->parent, Hash((NUINT)node->val->Name(), HashDefault)) : HashDefault;
     }
 };
 
-HashTable<NUINT, ShockProfilersDisplay::Entry, ShockProfilerCount> ShockProfilersDisplay::mHash;
-Tree<ShockProfilersDisplay::Entry*, ShockProfilerCount> ShockProfilersDisplay::mTree;
-ShockProfilersDisplay::Entry* ShockProfilersDisplay::mSelected;
-Array<ShockProfilersDisplay::Entry*, ShockProfilerCount> ShockProfilersDisplay::mDisplay;
-UINT32 ShockProfilersDisplay::mFrame;
+HashTable<NUINT, ShockProfilerDisplay::Entry, ShockProfilerNodeCount> ShockProfilerDisplay::mHash;
+Tree<ShockProfilerDisplay::Entry*, ShockProfilerNodeCount> ShockProfilerDisplay::mTree;
+OSTimer ShockProfilerDisplay::mFocusTimer;
+ShockProfilerDisplay::Entry* ShockProfilerDisplay::mSelected;
+Array<ShockProfilerDisplay::Entry*, ShockProfilerNodeCount> ShockProfilerDisplay::mDisplay;
+UINT32 ShockProfilerDisplay::mFrame;
 
-void ShockProfilersDisplay::Capture()
+void ShockProfilerDisplay::Capture()
 {
-    Array<Entry*, ShockProfilerCount> added;
-    ShockProfilers::TraverseDepth(&added, CaptureEntry);
+    Array<Entry*, ShockProfilerNodeCount> added;
+    ShockProfiler::TraverseDepth(&added, CaptureEntry);
 
     // associate all the tree nodes with each other
     for (UINT32 i = 0; i < added.Size(); i++)
@@ -68,16 +69,22 @@ void ShockProfilersDisplay::Capture()
         value.filteredNs = UINT32(value.filteredNs * (1 - k) + (curNs * k));
     }
 
-    if (!mDisplay.Size()) // no timers
+    if (!mDisplay.Size()) // no profiler nodes
         return;
 
+    if ( ShockInput::GetInput( P1_Start )->WasPressed() )
+    {
+        mFocusTimer.Reset();
+    }
     if ( ShockInput::GetInput( P1_Start )->WasReleased() )
     {
+        // pop if P1_Start is released
         if ( ShockFocus::Top() == ShockFocusProfilerDisplayId )
         {
             ShockFocus::Pop();
         }
-        else
+        // go to focus if P1_Start is held down for N seconds
+        else if (mFocusTimer.GetElapsedTimeMilliseconds() >= ShockProfilerDisplayInputMs)
         {
             ShockFocus::Push(ShockFocusProfilerDisplayId);
         }
@@ -104,7 +111,7 @@ void ShockProfilersDisplay::Capture()
     ++mFrame;
 }
 
-void ShockProfilersDisplay::Render()
+void ShockProfilerDisplay::Render()
 {
     int w, h;
     FrameBuffer::GetSize(&w, &h);
@@ -120,7 +127,7 @@ void ShockProfilersDisplay::Render()
         PrintEntry(&c, mDisplay[i]->dest);
 }
 
-bool ShockProfilersDisplay::CaptureEntry(void* data, ProfilerNode *source)
+bool ShockProfilerDisplay::CaptureEntry(void* data, ProfilerNode *source)
 {
     NUINT hash = RecurseHash(source);
 
@@ -128,7 +135,7 @@ bool ShockProfilersDisplay::CaptureEntry(void* data, ProfilerNode *source)
     entry.parent = RecurseHash(source->parent);
     entry.frame = mFrame;
 
-    ShockProfiler* profiler = source->val;
+    ShockProfilerNode* profiler = source->val;
 
     Value& value = entry.value;
     value.name = profiler->Name();
@@ -136,7 +143,7 @@ bool ShockProfilersDisplay::CaptureEntry(void* data, ProfilerNode *source)
 
     if (!entry.dest)
     {
-        Array<Entry*, ShockProfilerCount>* added = (Array<Entry*, ShockProfilerCount>*) data;
+        Array<Entry*, ShockProfilerNodeCount>* added = (Array<Entry*, ShockProfilerNodeCount>*) data;
 
         entry.dest = !source->parent ? mTree.Head() : mTree.Alloc();
         entry.dest->val = &entry;
@@ -146,7 +153,7 @@ bool ShockProfilersDisplay::CaptureEntry(void* data, ProfilerNode *source)
     return true;
 }
 
-bool ShockProfilersDisplay::PrintEntry(void* data, TreeEntry* treeEntry)
+bool ShockProfilerDisplay::PrintEntry(void* data, TreeEntry* treeEntry)
 {
     TreeEntry* parent = treeEntry->parent;
         
@@ -173,7 +180,7 @@ bool ShockProfilersDisplay::PrintEntry(void* data, TreeEntry* treeEntry)
     return true;
 }
 
-bool ShockProfilersDisplay::BuildDisplay(void* data, TreeEntry* treeEntry)
+bool ShockProfilerDisplay::BuildDisplay(void* data, TreeEntry* treeEntry)
 {
     TreeEntry* parent = treeEntry->parent;
 
@@ -191,4 +198,4 @@ bool ShockProfilersDisplay::BuildDisplay(void* data, TreeEntry* treeEntry)
     return true;
 }
 
-#endif // SHOCK_PROFILERS
+#endif // SHOCK_PROFILER
