@@ -92,7 +92,7 @@ public:
             return NULL;
 
         Node* n = &memory.Grow();
-        *n = Node{};
+        *n = Node();
 
         return n;
     }

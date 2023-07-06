@@ -21,15 +21,6 @@ project "FBAlpha-Shock"
    language "C++"
    targetname "fba029743"
    characterset ("MBCS")
---[[
-   filter { "configurations:Debug" }
-      optimize "Off"
-      defines { "_DEBUG", "DEBUG" }
-   filter { "configurations:Release" }
-      optimize "On"
-      defines { "NDEBUG" }    
-   filter {}
-]]--
    set_location()
    set_targetdir()
    set_defines()
