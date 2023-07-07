@@ -68,6 +68,7 @@ private:
     static OSTimer mFocusTimer;
     static Entry* mSelected;
     static UINT32 mFrame;
+    static bool mPopFocusOnRelease;
 };
 
 #define SHOCK_PROFILE_RENDER \

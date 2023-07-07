@@ -37,6 +37,7 @@ OSTimer ShockProfilerDisplay::mFocusTimer;
 ShockProfilerDisplay::Entry* ShockProfilerDisplay::mSelected;
 Array<ShockProfilerDisplay::Entry*, ShockProfilerNodeCount> ShockProfilerDisplay::mDisplay;
 UINT32 ShockProfilerDisplay::mFrame;
+bool ShockProfilerDisplay::mPopFocusOnRelease;
 
 void ShockProfilerDisplay::Capture()
 {
@@ -76,18 +77,25 @@ void ShockProfilerDisplay::Capture()
     {
         mFocusTimer.Reset();
     }
-    if ( ShockInput::GetInput( P1_Start )->WasReleased() )
+    else if ( ShockInput::GetInput( P1_Start )->GetState() == InputState_Pressed)
     {
-        // pop if P1_Start is released
-        if ( ShockFocus::Top() == ShockFocusProfilerDisplayId )
-        {
-            ShockFocus::Pop();
-        }
         // go to focus if P1_Start is held down for N seconds
-        else if (mFocusTimer.GetElapsedTimeMilliseconds() >= ShockProfilerDisplayInputMs)
+        if (mFocusTimer.GetElapsedTimeMilliseconds() >= ShockProfilerDisplayInputMs &&
+            ShockFocus::Top() != ShockFocusProfilerDisplayId)
         {
             ShockFocus::Push(ShockFocusProfilerDisplayId);
         }
+    }
+    else if ( ShockInput::GetInput( P1_Start )->WasReleased() )
+    {
+        if (mPopFocusOnRelease && ShockFocus::Top() == ShockFocusProfilerDisplayId)
+        {
+            ShockFocus::Pop();
+        }
+
+        // First released will set this to true so next release
+        // will pop the focus in the conditional above
+        mPopFocusOnRelease = !mPopFocusOnRelease;
     }
 
     if ( ShockFocus::Top() == ShockFocusProfilerDisplayId )

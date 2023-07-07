@@ -18,12 +18,12 @@ void InputControl::Create( )
 
 int InputControl::WasPressed( )
 {
-    return mPrevState == 0 && mState == 1;
+    return mPrevState == 0 && mState == InputState_Pressed;
 }
 
 int InputControl::WasReleased( )
 {
-    return mPrevState == 1 && mState == 0;
+    return mPrevState == InputState_Pressed && mState == 0;
 }
 
 UINT64 InputControl::GetTimeHeldMS( )
