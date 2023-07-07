@@ -6,10 +6,15 @@ if not exist "bin" (mkdir bin)
 if not exist "obj" (mkdir obj)
 
 if "%~1"=="debug"	goto debug
+if "%~1"=="profile" goto profile
 goto release
 
 :release
 	make.exe config=release
+	goto eof
+
+:profile
+	make.exe config=profile
 	goto eof
 
 :debug

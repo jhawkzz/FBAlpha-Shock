@@ -22,8 +22,6 @@ typedef uintptr_t NUINT;
 // with an FPS to start with. Use 60.
 #define DEFAULT_FPS (6000)
 
-//#define SHOCK_PROFILER
-
 #ifdef SHOCK_PROFILER
     #define SHOCK_PROFILER_NEWFRAME\
             ShockProfilerDisplay::Capture();\

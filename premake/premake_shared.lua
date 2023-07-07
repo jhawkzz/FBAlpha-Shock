@@ -1,6 +1,5 @@
 workspace "FBAlpha-Shock"
-   configurations { "Debug", "Release" }
-
+   configurations { "Debug", "Release", "Profile" }
    filter { "configurations:Debug" }
       symbols "On"
       optimize "Off"
@@ -9,6 +8,10 @@ workspace "FBAlpha-Shock"
       symbols "Off"
       optimize "On"
       defines { "NDEBUG" }    
+   filter { "configurations:Profile" }
+      symbols "Off"
+      optimize "On"
+      defines { "NDEBUG", "SHOCK_PROFILER" }    
    filter {}
 
    systemversion "latest"
@@ -17,7 +20,7 @@ workspace "FBAlpha-Shock"
    set_system()
    
 project "FBAlpha-Shock"
-   configurations { "Debug", "Release" }
+   configurations { "Debug", "Release", "Profile" }
    language "C++"
    targetname "fba029743"
    characterset ("MBCS")
