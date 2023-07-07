@@ -70,20 +70,20 @@ void ShockProfilerDisplay::Capture()
         value.filteredNs = UINT32(value.filteredNs * (1 - k) + (curNs * k));
     }
 
-    if (!mDisplay.Size()) // no profiler nodes
+    if ( !mDisplay.Size( ) ) // no profiler nodes
         return;
 
     if ( ShockInput::GetInput( P1_Start )->WasPressed() )
     {
-        mFocusTimer.Reset();
+        mFocusTimer.Reset( );
     }
-    else if ( ShockInput::GetInput( P1_Start )->GetState() == InputState_Pressed)
+    else if ( ShockInput::GetInput( P1_Start )->GetState() == InputState_Pressed )
     {
         // go to focus if P1_Start is held down for N seconds
-        if (mFocusTimer.GetElapsedTimeMilliseconds() >= ShockProfilerDisplayInputMs &&
-            ShockFocus::Top() != ShockFocusProfilerDisplayId)
+        if ( mFocusTimer.GetElapsedTimeMilliseconds() >= ShockProfilerDisplayInputMs &&
+             ShockFocus::Top() != ShockFocusProfilerDisplayId )
         {
-            ShockFocus::Push(ShockFocusProfilerDisplayId);
+            ShockFocus::Push( ShockFocusProfilerDisplayId );
         }
     }
     else if ( ShockInput::GetInput( P1_Start )->WasReleased() )
