@@ -58,7 +58,7 @@ public:
 
 private:
     static bool CaptureEntry(void* data, ProfilerNode *node);
-    static bool PrintEntry(void* data, TreeEntry* node);
+    static void PrintEntry(void* data, TreeEntry* node);
     static bool BuildDisplay(void* data, TreeEntry* treeNode);
 
 private:

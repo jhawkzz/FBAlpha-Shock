@@ -161,13 +161,8 @@ bool ShockProfilerDisplay::CaptureEntry(void* data, ProfilerNode *source)
     return true;
 }
 
-bool ShockProfilerDisplay::PrintEntry(void* data, TreeEntry* treeEntry)
+void ShockProfilerDisplay::PrintEntry(void* data, TreeEntry* treeEntry)
 {
-    TreeEntry* parent = treeEntry->parent;
-        
-    if (treeEntry->parent && !treeEntry->parent->val->expanded)
-        return false;
-
     Entry& entry = *treeEntry->val;
 
     PrintContext* c = (PrintContext*) data;
@@ -184,8 +179,6 @@ bool ShockProfilerDisplay::PrintEntry(void* data, TreeEntry* treeEntry)
     }
 
     c->y += c->fontHeight;
-
-    return true;
 }
 
 bool ShockProfilerDisplay::BuildDisplay(void* data, TreeEntry* treeEntry)
@@ -193,7 +186,9 @@ bool ShockProfilerDisplay::BuildDisplay(void* data, TreeEntry* treeEntry)
     TreeEntry* parent = treeEntry->parent;
 
     if (treeEntry->parent && !treeEntry->parent->val->expanded)
+    {
         return false;
+    }
 
     Entry& entry = *treeEntry->val;
 
@@ -201,7 +196,9 @@ bool ShockProfilerDisplay::BuildDisplay(void* data, TreeEntry* treeEntry)
     mDisplay.Append(&entry);
 
     if (!mSelected)
+    {
         mSelected = &entry;
+    }
 
     return true;
 }
