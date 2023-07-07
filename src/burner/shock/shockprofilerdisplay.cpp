@@ -93,8 +93,8 @@ void ShockProfilerDisplay::Capture()
             ShockFocus::Pop();
         }
 
-        // First released will set this to true so next release
-        // will pop the focus in the conditional above
+        // Initial press activates focus, first release will set this to true and keep focus,
+        // next release will pop the focus in the conditional above
         mPopFocusOnRelease = !mPopFocusOnRelease;
     }
 
