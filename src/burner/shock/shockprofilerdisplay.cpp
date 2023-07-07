@@ -88,14 +88,17 @@ void ShockProfilerDisplay::Capture()
     }
     else if ( ShockInput::GetInput( P1_Start )->WasReleased() )
     {
-        if (mPopFocusOnRelease && ShockFocus::Top() == ShockFocusProfilerDisplayId)
+        if ( ShockFocus::Top() == ShockFocusProfilerDisplayId )
         {
-            ShockFocus::Pop();
-        }
+            if ( mPopFocusOnRelease )
+            {
+                ShockFocus::Pop();
+            }
 
-        // Initial press activates focus, first release will set this to true and keep focus,
-        // next release will pop the focus in the conditional above
-        mPopFocusOnRelease = !mPopFocusOnRelease;
+            // Initial press activates focus, first release will set this to true and keep focus,
+            // next release will pop the focus in the conditional above
+            mPopFocusOnRelease = !mPopFocusOnRelease;
+        }
     }
 
     if ( ShockFocus::Top() == ShockFocusProfilerDisplayId )
