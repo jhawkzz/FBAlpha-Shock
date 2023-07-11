@@ -42,7 +42,6 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
     switch ( (ShockDisplayFilter)ShockConfig::GetDisplayFilter( ) )
     {
         case ShockDisplayFilter_Pixel:
-        case ShockDisplayFilter_Pixel_Scanline:
         {
             if ( ActivePlatform_ASP == gActivePlatform )
             {
@@ -61,6 +60,19 @@ void ShockRenderer::SetModeFBA( int gameWidth, int gameHeight, int driverFlags )
                     // for "full screen", actually do 720p and let the driver stretch it up
                     FrameBuffer::SetSize( RESOLUTION_1280_WIDTH, RESOLUTION_720_HEIGHT );
                 }
+            }
+            break;
+        }
+
+        case ShockDisplayFilter_Pixel_Scanline:
+        {
+            if ( ActivePlatform_ASP == gActivePlatform )
+            {
+                FrameBuffer::SetSize( RESOLUTION_1280_WIDTH / 2, RESOLUTION_720_HEIGHT / 2 );
+            }
+            else
+            {
+                FrameBuffer::SetSize( RESOLUTION_1280_WIDTH, RESOLUTION_1024_HEIGHT );
             }
             break;
         }
