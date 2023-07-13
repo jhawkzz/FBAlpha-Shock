@@ -4,7 +4,8 @@
 #include "shock/input/shockinput.h"
 #include "shock/input/shockplayerinput.h"
 #include "shock/shockconfig.h"
-#include "shock/shockprofilers.h"
+#include "shock/Shockfocus.h"
+#include "shock/shockprofiler.h"
 #include "shock/util/util.h"
 
 #ifdef MVSX_ASP
@@ -120,6 +121,11 @@ void ShockPlayerInput::Update( )
 {
     ShockInput::Update( );
 
+    if ( ShockFocus::Top() != ShockFocusPlayerInputId )
+    {
+        return;
+    }
+
     for ( int i = 0; i < min( MAX_SHOCK_PLAYERS, ShockBurnInput::mNumPlayers ); i++ )
     {
         // Coin and Start
@@ -161,7 +167,7 @@ void ShockPlayerInput::Update( )
             if ( ShockBurnInput::mPlayerInputList[ i ].joyInput[ c ].pGameInp != NULL )
             {
                 *ShockBurnInput::mPlayerInputList[ i ].joyInput[ c ].pGameInp->pVal =
-                    (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].joyLookup[ c ] )->GetState( );
+                    (UINT8)ShockInput::GetInput( mShockButtonToBurnInput[ i ].joyLookup[ c ] )->GetState( );
             }
         }
 
@@ -171,7 +177,7 @@ void ShockPlayerInput::Update( )
             if ( ShockBurnInput::mPlayerInputList[ i ].fireInput[ k ].pGameInp != NULL )
             {
                 *ShockBurnInput::mPlayerInputList[ i ].fireInput[ k ].pGameInp->pVal =
-                    (UINT16)ShockInput::GetInput( mShockButtonToBurnInput[ i ].fireButtonLookup[ k ] )->GetState( );
+                    (UINT8)ShockInput::GetInput( mShockButtonToBurnInput[ i ].fireButtonLookup[ k ] )->GetState( );
             }
         }
     }

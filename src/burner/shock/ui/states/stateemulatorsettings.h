@@ -24,7 +24,7 @@ private:
         MenuIdStart,
         MenuIdFps = MenuIdStart,
         MenuIdLoadWarnings,
-#ifdef SHOCK_PROFILERS
+#ifdef SHOCK_PROFILER
         MenuIdTimers,
 #endif
         MenuIdCount

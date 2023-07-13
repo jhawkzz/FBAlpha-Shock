@@ -5,12 +5,13 @@
 #include "shock/core/ostimer.h"
 #include "shock/input/shockinput.h"
 #include "shock/font/font.h"
-#include "shock/shockprofilers.h"
 #include "shock/shockaudio.h"
 #include "shock/shockconfig.h"
+#include "shock/shockfocus.h"
 #include "shock/shockgame.h"
 #include "shock/shockmain.h"
-#include "shock/shockprofilersdisplay.h"
+#include "shock/shockprofiler.h"
+#include "shock/shockprofilerdisplay.h"
 #include "shock/shockrenderer.h"
 #include "shock/shockromloader.h"
 #include "shock/ui/shockui.h"
@@ -114,6 +115,8 @@ int ShockMain::Create( )
     // Setup UI
     ShockUI::Create( );
 
+    ShockFocus::Push(ShockFocusPlayerInputId);
+
     return 0;
 }
 
@@ -177,7 +180,7 @@ void ShockMain::Run( const char *pRomset )
 
     do
     {
-        SHOCK_PROFILERS_NEWFRAME;
+        SHOCK_PROFILER_NEWFRAME;
 
         ShockMain::Update( );
 

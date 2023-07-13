@@ -23,10 +23,6 @@ function set_system()
    system "linux"
 end
 
-function set_configurations()
-   configurations { "Debug", "Release" }
-end
-
 function set_links()
    links {
       "m",

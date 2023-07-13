@@ -9,39 +9,27 @@
 
 #define SHOCK_VERSION "1.0.3 (Build 0)"
 
-typedef unsigned char byte;
-
 #ifdef _WIN64
     #define SHOCK_64BIT
 #else
     #define SHOCK_32BIT
 #endif
 
-#ifdef SHOCK_64BIT
-    typedef unsigned long long NUINT;
-#else
-    typedef unsigned int NUINT;
-#endif
+typedef uintptr_t NUINT;
 
-const unsigned int NUINT_SIZE = sizeof(NUINT);
-const unsigned int VOIDPTR_SIZE = sizeof(void*);
-
-#if (NUINT_SIZE != VOIDPTR_SIZE)
-    #error Size Mismatch
-#endif
 
 // Before a game is loaded, we sometimes need to provide certain systems
 // with an FPS to start with. Use 60.
 #define DEFAULT_FPS (6000)
 
-//#define SHOCK_PROFILERS
+//#define SHOCK_PROFILER
 
-#ifdef SHOCK_PROFILERS
-    #define SHOCK_PROFILERS_NEWFRAME\
-            ShockProfilersDisplay::Capture();\
-            ShockProfilers::Clear()
+#ifdef SHOCK_PROFILER
+    #define SHOCK_PROFILER_NEWFRAME\
+            ShockProfilerDisplay::Capture();\
+            ShockProfiler::Clear()
 #else
-    #define SHOCK_PROFILERS_NEWFRAME
+    #define SHOCK_PROFILER_NEWFRAME
 #endif
 
 

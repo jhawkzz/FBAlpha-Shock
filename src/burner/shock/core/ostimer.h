@@ -14,6 +14,11 @@ public:
     
     void   Reset( );
     UINT64 GetElapsedTimeMicroseconds( );
+
+    UINT64 GetElapsedTimeMilliseconds( )
+    {
+        return GetElapsedTimeMicroseconds() / MILLI_TO_MICROSECONDS;
+    }
 };
 
 #endif

@@ -47,12 +47,12 @@ void HashTableIterator<K, T, C>::FindNext(UINT32 start)
 template <class K, class T, UINT32 C>
 typename HashTable<K, T, C>::Entry *HashTable<K, T, C>::AddEntry( K key, NUINT hash )
 {
-    Entry *entry = mEntries.Grow( );
-    entry->hash = hash;
-    entry->assoc.key = key;
-    entry->assoc.val = T();
+    Entry& entry = mEntries.Grow( );
+    entry.hash = hash;
+    entry.assoc.key = key;
+    entry.assoc.val = T();
 
-    return entry;
+    return &entry;
 };
 
 template <class K, class T, UINT32 C>

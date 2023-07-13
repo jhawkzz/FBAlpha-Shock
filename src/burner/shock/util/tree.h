@@ -53,9 +53,18 @@ public:
 public:
     Tree()
         : head(NULL)
-    {}
+    {
+        Clear();
+    }
 
-    Node* Head() { head = (!memory.Size() ? memory.Grow() : &memory[0]); return head; }
+    Node* Head() 
+    { 
+        if (memory.Size())
+            return head; 
+
+        head = Alloc();
+        return head;
+    }
 
     Node* AddChild(Node* node)
     {
@@ -74,10 +83,7 @@ public:
 
     void Clear()
     {
-        memory[0] = Node();
-        memory.Size(1);
-
-        head = NULL;
+        memory.Size(0);
     }
 
     Node* Alloc()
@@ -85,7 +91,10 @@ public:
         if (memory.Size() == memory.Capacity())
             return NULL;
 
-        return memory.Grow();
+        Node* n = &memory.Grow();
+        *n = Node();
+
+        return n;
     }
 
 private:
